@@ -6,4 +6,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\SiAP.Abstracciones\SiAP.Abstracciones.csproj" />
+    <ProjectReference Include="..\SiAP.BE\SiAP.BE.csproj" />
+    <ProjectReference Include="..\SiAP.DAL\SiAP.DAL.csproj" />
+  </ItemGroup>
+
 </Project>

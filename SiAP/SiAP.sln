@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SiAP.MPP", "SiAP.MPP\SiAP.M
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SiAP.Servicios", "SiAP.Servicios\SiAP.Servicios.csproj", "{AACCAE01-9BE5-47B9-A33A-33221C03D52D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SiAP.Vistas", "SiAP.Vistas\SiAP.Vistas.csproj", "{835C2CD1-D0DD-4EE9-8AB9-CA93F1D09F3D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SiAP.BE_Vistas", "SiAP.Vistas\SiAP.BE_Vistas.csproj", "{835C2CD1-D0DD-4EE9-8AB9-CA93F1D09F3D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
