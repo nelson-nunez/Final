@@ -8,16 +8,18 @@ namespace SiAP.BE.Seguridad
 {
     public class PermisoCompuesto : Permiso
     {
-        List<Permiso> _permisos;
+        protected List<Permiso> _permisos;
 
-        public PermisoCompuesto(string pCodigo) : base(pCodigo)
+        public PermisoCompuesto(string codigo) : base(codigo)
         {
             _permisos = new List<Permiso>();
         }
-        public override void AgregarPermiso(Permiso Ppermiso)
+
+        public override void AgregarPermiso(Permiso permiso)
         {
-            _permisos.Add(Ppermiso);
+            _permisos.Add(permiso);
         }
+
         public override List<Permiso> ObtenerPermisos()
         {
             return _permisos;

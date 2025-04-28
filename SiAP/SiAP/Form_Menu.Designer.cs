@@ -28,68 +28,133 @@
         /// </summary>
         private void InitializeComponent()
         {
-            materialButton1 = new MaterialSkin.Controls.MaterialButton();
-            materialButton2 = new MaterialSkin.Controls.MaterialButton();
+            menuStrip1 = new MenuStrip();
+            administradorToolStripMenuItem = new ToolStripMenuItem();
+            cToolStripMenuItem = new ToolStripMenuItem();
+            miCuentaToolStripMenuItem = new ToolStripMenuItem();
+            usuariosToolStripMenuItem = new ToolStripMenuItem();
+            rolesToolStripMenuItem = new ToolStripMenuItem();
+            permisosToolStripMenuItem = new ToolStripMenuItem();
+            turnosToolStripMenuItem = new ToolStripMenuItem();
+            historialMédicoToolStripMenuItem = new ToolStripMenuItem();
+            reportesToolStripMenuItem = new ToolStripMenuItem();
+            salirToolStripMenuItem = new ToolStripMenuItem();
+            menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
-            // materialButton1
+            // menuStrip1
             // 
-            materialButton1.AutoSize = false;
-            materialButton1.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            materialButton1.BackColor = SystemColors.Control;
-            materialButton1.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
-            materialButton1.Depth = 0;
-            materialButton1.HighEmphasis = true;
-            materialButton1.Icon = null;
-            materialButton1.Location = new Point(217, 257);
-            materialButton1.Margin = new Padding(4, 6, 4, 6);
-            materialButton1.MouseState = MaterialSkin.MouseState.HOVER;
-            materialButton1.Name = "materialButton1";
-            materialButton1.NoAccentTextColor = Color.Empty;
-            materialButton1.Size = new Size(158, 36);
-            materialButton1.TabIndex = 1;
-            materialButton1.Text = "Turnos";
-            materialButton1.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
-            materialButton1.UseAccentColor = false;
-            materialButton1.UseVisualStyleBackColor = false;
-            materialButton1.Click += AbrirForm_Turnos;
+            menuStrip1.Font = new Font("Calibri", 11.25F, FontStyle.Italic, GraphicsUnit.Point, 0);
+            menuStrip1.Items.AddRange(new ToolStripItem[] { administradorToolStripMenuItem, turnosToolStripMenuItem, historialMédicoToolStripMenuItem, reportesToolStripMenuItem, salirToolStripMenuItem });
+            menuStrip1.Location = new Point(0, 0);
+            menuStrip1.Name = "menuStrip1";
+            menuStrip1.Size = new Size(984, 26);
+            menuStrip1.TabIndex = 0;
+            menuStrip1.Text = "menuStrip1";
             // 
-            // materialButton2
+            // administradorToolStripMenuItem
             // 
-            materialButton2.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            materialButton2.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
-            materialButton2.Depth = 0;
-            materialButton2.HighEmphasis = true;
-            materialButton2.Icon = null;
-            materialButton2.Location = new Point(414, 257);
-            materialButton2.Margin = new Padding(4, 6, 4, 6);
-            materialButton2.MouseState = MaterialSkin.MouseState.HOVER;
-            materialButton2.Name = "materialButton2";
-            materialButton2.NoAccentTextColor = Color.Empty;
-            materialButton2.Size = new Size(147, 36);
-            materialButton2.TabIndex = 2;
-            materialButton2.Text = "Historia Clínica";
-            materialButton2.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
-            materialButton2.UseAccentColor = false;
-            materialButton2.UseVisualStyleBackColor = true;
-            materialButton2.Click += AbrirForm_Historia;
+            administradorToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { cToolStripMenuItem, miCuentaToolStripMenuItem, usuariosToolStripMenuItem, rolesToolStripMenuItem, permisosToolStripMenuItem });
+            administradorToolStripMenuItem.Image = Properties.Resources.hogar;
+            administradorToolStripMenuItem.Name = "administradorToolStripMenuItem";
+            administradorToolStripMenuItem.Size = new Size(68, 22);
+            administradorToolStripMenuItem.Text = "Inicio";
+            // 
+            // cToolStripMenuItem
+            // 
+            cToolStripMenuItem.Image = Properties.Resources.contrasena;
+            cToolStripMenuItem.Name = "cToolStripMenuItem";
+            cToolStripMenuItem.Size = new Size(171, 22);
+            cToolStripMenuItem.Text = "Modificar Clave";
+            // 
+            // miCuentaToolStripMenuItem
+            // 
+            miCuentaToolStripMenuItem.Image = Properties.Resources.usuario;
+            miCuentaToolStripMenuItem.Name = "miCuentaToolStripMenuItem";
+            miCuentaToolStripMenuItem.Size = new Size(171, 22);
+            miCuentaToolStripMenuItem.Text = "Mi Cuenta";
+            // 
+            // usuariosToolStripMenuItem
+            // 
+            usuariosToolStripMenuItem.Image = Properties.Resources.nueva_cuenta;
+            usuariosToolStripMenuItem.Name = "usuariosToolStripMenuItem";
+            usuariosToolStripMenuItem.Size = new Size(171, 22);
+            usuariosToolStripMenuItem.Text = "Usuarios";
+            // 
+            // rolesToolStripMenuItem
+            // 
+            rolesToolStripMenuItem.Image = Properties.Resources.configuracion_del_usuario;
+            rolesToolStripMenuItem.Name = "rolesToolStripMenuItem";
+            rolesToolStripMenuItem.Size = new Size(171, 22);
+            rolesToolStripMenuItem.Text = "Roles";
+            // 
+            // permisosToolStripMenuItem
+            // 
+            permisosToolStripMenuItem.Image = Properties.Resources.proteger;
+            permisosToolStripMenuItem.Name = "permisosToolStripMenuItem";
+            permisosToolStripMenuItem.Size = new Size(171, 22);
+            permisosToolStripMenuItem.Text = "Permisos";
+            // 
+            // turnosToolStripMenuItem
+            // 
+            turnosToolStripMenuItem.Image = Properties.Resources.calendario;
+            turnosToolStripMenuItem.Name = "turnosToolStripMenuItem";
+            turnosToolStripMenuItem.Size = new Size(77, 22);
+            turnosToolStripMenuItem.Text = "Turnos";
+            // 
+            // historialMédicoToolStripMenuItem
+            // 
+            historialMédicoToolStripMenuItem.Image = Properties.Resources.reporte;
+            historialMédicoToolStripMenuItem.Name = "historialMédicoToolStripMenuItem";
+            historialMédicoToolStripMenuItem.Size = new Size(134, 22);
+            historialMédicoToolStripMenuItem.Text = "Historial Médico";
+            // 
+            // reportesToolStripMenuItem
+            // 
+            reportesToolStripMenuItem.Image = Properties.Resources.analitica;
+            reportesToolStripMenuItem.Name = "reportesToolStripMenuItem";
+            reportesToolStripMenuItem.Size = new Size(90, 22);
+            reportesToolStripMenuItem.Text = "Reportes";
+            // 
+            // salirToolStripMenuItem
+            // 
+            salirToolStripMenuItem.Image = Properties.Resources.cerrar;
+            salirToolStripMenuItem.Name = "salirToolStripMenuItem";
+            salirToolStripMenuItem.Size = new Size(62, 22);
+            salirToolStripMenuItem.Text = "Salir";
+            salirToolStripMenuItem.Click += CerrarTodosLosFormulariosHijos;
             // 
             // Form_Menu
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
-            Controls.Add(materialButton2);
-            Controls.Add(materialButton1);
+            BackColor = Color.WhiteSmoke;
+            BackgroundImage = Properties.Resources.logo;
+            BackgroundImageLayout = ImageLayout.Center;
+            ClientSize = new Size(984, 561);
+            Controls.Add(menuStrip1);
+            DoubleBuffered = true;
+            MainMenuStrip = menuStrip1;
             Name = "Form_Menu";
             Text = "Form_Menu";
+            menuStrip1.ResumeLayout(false);
+            menuStrip1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
 
-        private MaterialSkin.Controls.MaterialButton materialButton1;
-        private MaterialSkin.Controls.MaterialButton materialButton2;
+        private MenuStrip menuStrip1;
+        private ToolStripMenuItem administradorToolStripMenuItem;
+        private ToolStripMenuItem cToolStripMenuItem;
+        private ToolStripMenuItem miCuentaToolStripMenuItem;
+        private ToolStripMenuItem usuariosToolStripMenuItem;
+        private ToolStripMenuItem permisosToolStripMenuItem;
+        private ToolStripMenuItem rolesToolStripMenuItem;
+        private ToolStripMenuItem turnosToolStripMenuItem;
+        private ToolStripMenuItem historialMédicoToolStripMenuItem;
+        private ToolStripMenuItem reportesToolStripMenuItem;
+        private ToolStripMenuItem salirToolStripMenuItem;
     }
 }

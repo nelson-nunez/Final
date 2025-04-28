@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,15 +8,14 @@ using SiAP.Abstracciones;
 
 namespace SiAP.BE.Seguridad
 {
-    // Usuario del sistema
     public class Usuario : IComparable, IAuditable
     {
         public Usuario()
         {
-
+            Roles = new List<Rol>();
         }
 
-        public Usuario(int legajo, string logon, string nombre, string apellido, string email, string password)
+        public Usuario(int legajo, string logon, string nombre, string apellido, string email, string password) : this()
         {
             Legajo = legajo;
             Logon = logon;
@@ -23,11 +23,6 @@ namespace SiAP.BE.Seguridad
             Apellido = apellido;
             Email = email;
             Password = password;
-        }
-
-        public Usuario(int legajo, string logon, string nombre, string apellido, string email, string password, PermisoCompuesto perfil) : this(legajo, logon, nombre, apellido, email, password)
-        {
-            Permiso = perfil;
         }
 
         public int? Legajo { get; set; }
@@ -41,13 +36,24 @@ namespace SiAP.BE.Seguridad
         public string PalabraClave { get; set; }
         public string RespuestaClave { get; set; }
         public string Email { get; set; }
-        public Permiso Permiso { get; set; }
 
+        public List<Rol> Roles { get; set; }
+
+        public bool TienePermiso(string codigoPermiso)
+        {
+            foreach (var rol in Roles)
+            {
+                if (rol.ObtenerPermisos().Exists(p => p.Codigo == codigoPermiso))
+                    return true;
+            }
+            return false;
+        }
 
         public override string ToString()
         {
             return Logon;
         }
+
         public override bool Equals(object obj)
         {
             if (this.Legajo == null)
@@ -56,10 +62,12 @@ namespace SiAP.BE.Seguridad
                 return false;
             return this.Legajo == ((Usuario)obj).Legajo;
         }
+
         public override int GetHashCode()
         {
             return Legajo != null ? Legajo.GetHashCode() : base.GetHashCode();
         }
+
         public int CompareTo(object obj)
         {
             return this.ToString().CompareTo(((Usuario)obj).ToString());
