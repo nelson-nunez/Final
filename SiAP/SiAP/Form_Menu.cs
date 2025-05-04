@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using SiAP.BE.Seguridad;
+using SiAP.Mocks;
 using SiAP.UI.Controles;
 
 namespace SiAP.UI
@@ -34,6 +36,7 @@ namespace SiAP.UI
             MostrarLogin();
         }
 
+        #region Login
         private void MostrarLogin()
         {
             // Crear y centrar el UC_Login
@@ -49,8 +52,53 @@ namespace SiAP.UI
         {
             MessageBox.Show($"Bienvenido", "Atención");
             menuStrip1.Visible = true;
+            //Prueba
+            var useractual= MockUsuarios.ObtenerUsuario();
+            CambiarVisibilidadMenu(menuStrip1.Items, useractual.ObtenerPermisos());
             uc_login.Visible = false;
         }
+
+        #endregion
+
+        #region MenuStrip en base a permisos
+
+        public void CambiarVisibilidadMenu(ToolStripItemCollection dropDownItems, IList<Permiso> permisosHabilitados)
+        {
+            //Variable utilizada para mostrar/ocultar items del menu que no tienen hijos visibles
+            bool tieneVisibles = false;
+            CambiarVisibilidadMenu(dropDownItems, ref tieneVisibles, permisosHabilitados);
+        }
+        public void CambiarVisibilidadMenu(ToolStripItemCollection dropDownItems, ref bool tieneVisibles, IList<Permiso> permisosHabilitados)
+        {
+            foreach (object obj in dropDownItems)
+            {
+                ToolStripMenuItem subMenu = obj as ToolStripMenuItem;
+                if (subMenu != null)
+                {
+                    if (subMenu.HasDropDown)
+                    {
+                        tieneVisibles = false;
+                        CambiarVisibilidadMenu(subMenu.DropDownItems, ref tieneVisibles, permisosHabilitados);
+                    }
+                    bool visible = false;
+                    string tag = subMenu.Tag as string;
+                    if (!string.IsNullOrEmpty(tag) && (tag.Equals("TAG") || permisosHabilitados.Any(p => p.Codigo.Equals(tag))))
+                    {
+                        visible = true;
+                        tieneVisibles = true;
+                    }
+
+                    if (string.IsNullOrWhiteSpace(tag) && tieneVisibles)
+                        subMenu.Visible = true;
+                    else
+                        subMenu.Visible = visible;
+                }
+            }
+        }
+
+        #endregion
+
+        #region Abrir y Cerrar TODO
 
         private void AbrirFormGeneral<T>(ref T formulario) where T : Form, new()
         {
@@ -71,6 +119,7 @@ namespace SiAP.UI
             formulario.Show();
             formulario.BringToFront();
         }
+
         private void CerrarTodosLosFormulariosHijos(object sender, EventArgs e)
         {
             foreach (Form childForm in this.MdiChildren)
@@ -80,14 +129,20 @@ namespace SiAP.UI
             MostrarLogin();
         }
 
+        #endregion
+
+        #region Abrir Item Menu
         private void AbrirForm_Turnos(object sender, EventArgs e)
         {
             AbrirFormGeneral(ref form_turnos);
         }
+        
         private void AbrirForm_Historia(object sender, EventArgs e)
         {
             AbrirFormGeneral(ref form_historia);
         }
+
+        #endregion
 
     }
 }

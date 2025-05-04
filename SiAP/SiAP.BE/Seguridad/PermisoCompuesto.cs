@@ -10,7 +10,7 @@ namespace SiAP.BE.Seguridad
     {
         protected List<Permiso> _permisos;
 
-        public PermisoCompuesto(string codigo) : base(codigo)
+        public PermisoCompuesto(string codigo, string descripcion) : base(codigo, descripcion)
         {
             _permisos = new List<Permiso>();
         }

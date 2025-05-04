@@ -49,6 +49,15 @@ namespace SiAP.BE.Seguridad
             return false;
         }
 
+        public List<Permiso> ObtenerPermisos()
+        {
+            return Roles
+                .SelectMany(r => r.ObtenerPermisos())
+                .GroupBy(p => p.Codigo)
+                .Select(g => g.First())
+                .ToList();
+        }
+
         public override string ToString()
         {
             return Logon;

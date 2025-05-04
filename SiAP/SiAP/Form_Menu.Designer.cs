@@ -44,7 +44,7 @@
             // 
             // menuStrip1
             // 
-            menuStrip1.Font = new Font("Calibri", 11.25F, FontStyle.Italic, GraphicsUnit.Point, 0);
+            menuStrip1.Font = new Font("Calibri", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             menuStrip1.Items.AddRange(new ToolStripItem[] { administradorToolStripMenuItem, turnosToolStripMenuItem, historialMédicoToolStripMenuItem, reportesToolStripMenuItem, salirToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
@@ -58,6 +58,7 @@
             administradorToolStripMenuItem.Image = Properties.Resources.hogar;
             administradorToolStripMenuItem.Name = "administradorToolStripMenuItem";
             administradorToolStripMenuItem.Size = new Size(68, 22);
+            administradorToolStripMenuItem.Tag = "TAG001";
             administradorToolStripMenuItem.Text = "Inicio";
             // 
             // cToolStripMenuItem
@@ -65,6 +66,7 @@
             cToolStripMenuItem.Image = Properties.Resources.contrasena;
             cToolStripMenuItem.Name = "cToolStripMenuItem";
             cToolStripMenuItem.Size = new Size(171, 22);
+            cToolStripMenuItem.Tag = "TAG002";
             cToolStripMenuItem.Text = "Modificar Clave";
             // 
             // miCuentaToolStripMenuItem
@@ -72,6 +74,7 @@
             miCuentaToolStripMenuItem.Image = Properties.Resources.usuario;
             miCuentaToolStripMenuItem.Name = "miCuentaToolStripMenuItem";
             miCuentaToolStripMenuItem.Size = new Size(171, 22);
+            miCuentaToolStripMenuItem.Tag = "TAG003";
             miCuentaToolStripMenuItem.Text = "Mi Cuenta";
             // 
             // usuariosToolStripMenuItem
@@ -86,6 +89,7 @@
             rolesToolStripMenuItem.Image = Properties.Resources.configuracion_del_usuario;
             rolesToolStripMenuItem.Name = "rolesToolStripMenuItem";
             rolesToolStripMenuItem.Size = new Size(171, 22);
+            rolesToolStripMenuItem.Tag = "TAG004";
             rolesToolStripMenuItem.Text = "Roles";
             // 
             // permisosToolStripMenuItem
@@ -93,6 +97,7 @@
             permisosToolStripMenuItem.Image = Properties.Resources.proteger;
             permisosToolStripMenuItem.Name = "permisosToolStripMenuItem";
             permisosToolStripMenuItem.Size = new Size(171, 22);
+            permisosToolStripMenuItem.Tag = "TAG005";
             permisosToolStripMenuItem.Text = "Permisos";
             // 
             // turnosToolStripMenuItem
@@ -100,6 +105,7 @@
             turnosToolStripMenuItem.Image = Properties.Resources.calendario;
             turnosToolStripMenuItem.Name = "turnosToolStripMenuItem";
             turnosToolStripMenuItem.Size = new Size(77, 22);
+            turnosToolStripMenuItem.Tag = "TAG006";
             turnosToolStripMenuItem.Text = "Turnos";
             // 
             // historialMédicoToolStripMenuItem
@@ -107,6 +113,7 @@
             historialMédicoToolStripMenuItem.Image = Properties.Resources.reporte;
             historialMédicoToolStripMenuItem.Name = "historialMédicoToolStripMenuItem";
             historialMédicoToolStripMenuItem.Size = new Size(134, 22);
+            historialMédicoToolStripMenuItem.Tag = "TAG007";
             historialMédicoToolStripMenuItem.Text = "Historial Médico";
             // 
             // reportesToolStripMenuItem
@@ -114,13 +121,16 @@
             reportesToolStripMenuItem.Image = Properties.Resources.analitica;
             reportesToolStripMenuItem.Name = "reportesToolStripMenuItem";
             reportesToolStripMenuItem.Size = new Size(90, 22);
+            reportesToolStripMenuItem.Tag = "TAG008";
             reportesToolStripMenuItem.Text = "Reportes";
             // 
             // salirToolStripMenuItem
             // 
+            salirToolStripMenuItem.Alignment = ToolStripItemAlignment.Right;
+            salirToolStripMenuItem.Font = new Font("Calibri", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             salirToolStripMenuItem.Image = Properties.Resources.cerrar;
             salirToolStripMenuItem.Name = "salirToolStripMenuItem";
-            salirToolStripMenuItem.Size = new Size(62, 22);
+            salirToolStripMenuItem.Size = new Size(63, 22);
             salirToolStripMenuItem.Text = "Salir";
             salirToolStripMenuItem.Click += CerrarTodosLosFormulariosHijos;
             // 

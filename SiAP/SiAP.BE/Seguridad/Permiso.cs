@@ -9,11 +9,11 @@ namespace SiAP.BE.Seguridad
 {
     public abstract class Permiso : IAuditable
     {
-        public Permiso(string codigo)
+        public Permiso(string codigo, string descripcion)
         {
             Codigo = codigo;
+            Descripcion = descripcion;
         }
-
 
         public string Codigo { get; set; }
         public string Descripcion { get; set; }
@@ -24,19 +24,18 @@ namespace SiAP.BE.Seguridad
 
         public override string ToString()
         {
-            return $"{Codigo ?? "[Sin Codigo]"}-{Descripcion ?? "[Sin Descripcion]"}";
+            return $"{Codigo ?? "[Sin Codigo]"} - {Descripcion ?? "[Sin Descripcion]"}";
         }
+
         public override bool Equals(object obj)
         {
-            if (this.Codigo == null)
-                return false;
-            else if (obj == null || !(obj is Permiso))
-                return false;
-            return this.Codigo.Equals(((Permiso)obj).Codigo);
+            return obj is Permiso other && Codigo != null && Codigo.Equals(other.Codigo);
         }
+
         public override int GetHashCode()
         {
             return Codigo != null ? Codigo.GetHashCode() : base.GetHashCode();
         }
     }
+
 }
