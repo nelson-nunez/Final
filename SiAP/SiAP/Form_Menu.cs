@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using SiAP.BE.Seguridad;
 using SiAP.Mocks;
 using SiAP.UI.Controles;
+using SiAP.UI.Forms_Seguridad;
 
 namespace SiAP.UI
 {
@@ -18,6 +19,7 @@ namespace SiAP.UI
         //Formularios
         private Form_Turnos form_turnos;
         private Form_HistoriaClinica form_historia;
+        private Form_Roles form_Roles;
         //Componentes
         private uc_Login uc_login;
 
@@ -26,13 +28,16 @@ namespace SiAP.UI
             InitializeComponent();
             // Hacer que esta ventana sea un contenedor MDI
             this.IsMdiContainer = true;
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimizeBox = true; // Opcional: dejar como true si querés permitir minimizar
+            this.StartPosition = FormStartPosition.CenterScreen; // Opcional: centrar al abrir
 
             // Cambiar el color de fondo del formulario
             Controls.OfType<MdiClient>().FirstOrDefault()!.BackColor = BackColor = Color.WhiteSmoke;
 
             // Ocultar el menú hasta que se inicie sesión correctamente
             menuStrip1.Visible = false;
-
             MostrarLogin();
         }
 
@@ -53,7 +58,7 @@ namespace SiAP.UI
             MessageBox.Show($"Bienvenido", "Atención");
             menuStrip1.Visible = true;
             //Prueba
-            var useractual= MockUsuarios.ObtenerUsuario();
+            var useractual = MockUsuarios.ObtenerUsuario();
             CambiarVisibilidadMenu(menuStrip1.Items, useractual.ObtenerPermisos());
             uc_login.Visible = false;
         }
@@ -136,12 +141,17 @@ namespace SiAP.UI
         {
             AbrirFormGeneral(ref form_turnos);
         }
-        
+
         private void AbrirForm_Historia(object sender, EventArgs e)
         {
             AbrirFormGeneral(ref form_historia);
         }
 
+        private void rolesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AbrirFormGeneral(ref form_Roles);
+
+        }
         #endregion
 
     }

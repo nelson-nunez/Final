@@ -15,8 +15,7 @@ namespace SiAP.Mocks
         {
             // Crear instancia de servicios BLL
             var bllUsuario = new BLL_Usuario();
-            var rol_Bll = new RolBLL();
-            var permiso_Bll = new RolBLL();
+            var rol_Bll = BLL_Rol.ObtenerInstancia();
 
             // Crear el Rol de Administrador
             var rolAdministrador = new Rol("ADMIN", "Rol de Administrador del sistema");

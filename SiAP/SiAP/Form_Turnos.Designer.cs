@@ -65,7 +65,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(980, 531);
             Controls.Add(dataGridView1);
             Controls.Add(materialButton1);
             Name = "Form_Turnos";

@@ -4,6 +4,9 @@
     <Compile Update="Controles\uc_Login.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Update="Forms_Seguridad\Form_Roles.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Form_HistoriaClinica.cs">
       <SubType>Form</SubType>
     </Compile>

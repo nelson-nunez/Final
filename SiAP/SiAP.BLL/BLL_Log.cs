@@ -11,7 +11,7 @@ using SiAP.MPP;
 
 namespace SiAP.BLL
 {
-    public class BLLLog
+    public class BLLLog: ILogger
     {
         private BLLLog(){ }
 
@@ -28,7 +28,7 @@ namespace SiAP.BLL
         {
             return ConstruirVista(MPPLog.ObtenerInstancia().ObtenerLog(desde, hasta, propiedad, texto));
         }
-       //sacar
+        //sacar
         public List<VistaLog> ObtenerLogs()
         {
             return (List<VistaLog>)ConstruirVista(MPPLog.ObtenerInstancia().ObtenerLog());
