@@ -22,6 +22,23 @@ namespace SiAP.UI.Extensiones
             return grid.SelectedRows[0].DataBoundItem as T;
         }
 
+        public static void ConfigurarTodosLosGrids(this Control.ControlCollection controles)
+        {
+            foreach (Control control in controles)
+            {
+                if (control is DataGridView dgv)
+                {
+                    // Método de extensión o método estático
+                    dgv.ConfigurarGrids(); 
+                }
+                else if (control.HasChildren)
+                {
+                    // Recursividad para layouts anidados
+                    ConfigurarTodosLosGrids(control.Controls); 
+                }
+            }
+        }
+        
         public static void ConfigurarGrids(this DataGridView dataGridView)
         {
             dataGridView.MultiSelect = false;

@@ -20,7 +20,7 @@ namespace SiAP.UI.Controles
         public uc_Login()
         {
             InitializeComponent();
-            bllusuario = new BLL_Usuario();
+            bllusuario = BLL_Usuario.ObtenerInstancia();
             //Prueba borrar
             email.Text = "prueba";
             password.Text = "prueba";

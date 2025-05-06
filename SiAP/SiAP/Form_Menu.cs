@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using SiAP.BE.Seguridad;
-using SiAP.Mocks;
+using SiAP.BLL.Seguridad;
 using SiAP.UI.Controles;
 using SiAP.UI.Forms_Seguridad;
 
@@ -58,7 +58,7 @@ namespace SiAP.UI
             MessageBox.Show($"Bienvenido", "Atención");
             menuStrip1.Visible = true;
             //Prueba
-            var useractual = MockUsuarios.ObtenerUsuario();
+            var useractual = BLL_Usuario.ObtenerUsuario();
             CambiarVisibilidadMenu(menuStrip1.Items, useractual.ObtenerPermisos());
             uc_login.Visible = false;
         }

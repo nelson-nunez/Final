@@ -37,5 +37,4 @@ namespace SiAP.BE.Seguridad
             return Codigo != null ? Codigo.GetHashCode() : base.GetHashCode();
         }
     }
-
 }

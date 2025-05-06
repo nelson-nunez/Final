@@ -94,7 +94,6 @@ namespace SiAP.MPP.Seguridad
             return rows.Select(HidratarObjeto).ToList();
         }
 
-
         public Rol LeerPorId(object id)
         {
             var ds = _datos.Obtener_Datos();
