@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using SiAP.BLL;
+using SiAP.BLL.Logs;
 using SiAP.UI.Extensiones;
 
 namespace SiAP.UI
@@ -26,8 +26,8 @@ namespace SiAP.UI
         private void materialButton1_Click(object sender, EventArgs e)
         {
             _logger.GenerarLog($"Backup del día {DateTime.Now:dd/MM/yyyy HH:mm:ss} generado.");
-
-            dataGridView1.CargarGrid(new List<string> { "Fecha", "Usuario", "Operacion"}, _logger.ObtenerLogs());
+            var listalogs = _logger.ObtenerLogs().ToList();
+            dataGridView1.CargarGrid(new List<string> { "Fecha", "Usuario", "Operacion"}, listalogs);
         }
     }
 }

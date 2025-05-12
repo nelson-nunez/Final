@@ -7,6 +7,8 @@ using SiAP.BE.Seguridad;
 using SiAP.Abstracciones;
 using SiAP.BE.Seguridad;
 using SiAP.MPP.Seguridad;
+using SiAP.BLL.Logs;
+using System.Net.Sockets;
 
 namespace SiAP.BLL.Seguridad
 {
@@ -15,6 +17,7 @@ namespace SiAP.BLL.Seguridad
         private readonly MPP_Usuario _mppUsuario;
         private static BLL_Usuario _instancia;
         private readonly ILogger _logger;
+        private IEncriptacion _encriptacion;
 
         private string _mensajeError;
         public string MensajeError => _mensajeError;
@@ -23,6 +26,8 @@ namespace SiAP.BLL.Seguridad
         {
             _mppUsuario = MPP_Usuario.ObtenerInstancia();
             _logger = BLLLog.ObtenerInstancia();
+            _encriptacion = new Encriptador();
+
         }
 
         public static BLL_Usuario ObtenerInstancia()
@@ -38,17 +43,19 @@ namespace SiAP.BLL.Seguridad
             if (_mppUsuario.Existe(usuario))
                 throw new InvalidOperationException("El usuario ya existe.");
 
+            usuario.Password = _encriptacion.EncriptarSHA(usuario.Password);
             _mppUsuario.Agregar(usuario);
-            _logger.GenerarLog($"Usuario agregado: {usuario.Logon}");
+            _logger.GenerarLog($"Usuario agregado: {usuario.Username}");
         }
 
         public void Modificar(Usuario usuario, string legajoAnterior = null)
         {
             if (!EsValido(usuario))
                 throw new ArgumentException(MensajeError);
-
+            //Verificar si puedo usar para cambiar pass
+            usuario.Password = _encriptacion.EncriptarSHA(usuario.Password);
             _mppUsuario.Modificar(usuario, legajoAnterior);
-            _logger.GenerarLog($"Usuario modificado: {usuario.Logon}");
+            _logger.GenerarLog($"Usuario modificado: {usuario.Username}");
         }
 
         public void Eliminar(Usuario usuario)
@@ -57,7 +64,7 @@ namespace SiAP.BLL.Seguridad
                 throw new InvalidOperationException("El usuario tiene dependencias y no puede eliminarse.");
 
             _mppUsuario.Eliminar(usuario);
-            _logger.GenerarLog($"Usuario eliminado: {usuario.Logon}");
+            _logger.GenerarLog($"Usuario eliminado: {usuario.Username}");
         }
 
         public IList<Usuario> ObtenerTodos()
@@ -77,8 +84,8 @@ namespace SiAP.BLL.Seguridad
             if (usuario.Legajo == null || usuario.Legajo <= 0)
                 _mensajeError += "El legajo debe ser un número válido. ";
 
-            if (string.IsNullOrWhiteSpace(usuario.Logon))
-                _mensajeError += "El logon es obligatorio. ";
+            if (string.IsNullOrWhiteSpace(usuario.Username))
+                _mensajeError += "El username es obligatorio. ";
 
             if (string.IsNullOrWhiteSpace(usuario.Nombre))
                 _mensajeError += "El nombre es obligatorio. ";
@@ -95,80 +102,32 @@ namespace SiAP.BLL.Seguridad
             return string.IsNullOrEmpty(_mensajeError);
         }
 
-        public void AsignarRol(Usuario usuario, Rol rol)
+        public bool Ingresar(string username, string password)
         {
-            if (usuario == null || rol == null)
-                throw new ArgumentNullException("Usuario o Rol no pueden ser nulos.");
+            Usuario usr = _mppUsuario.LeerPorUsername(username);
+            //Busco Usuario
+            if (usr == null)
+                throw new Exception("Nombre de Usuario o Contraseña incorrectos");
+            //Verifico Password 
+            //TODO: Sacar lo de admin de pruebas porque lo guarde sin encriptar
+            string passEncripted = _encriptacion.EncriptarSHA(password);
+            if (!passEncripted.Equals(usr.Password) & password != "admin")
+                throw new Exception("Nombre de Usuario o Contraseña incorrectos");
+            //Activo
+            if (!usr.Activo)
+                throw new Exception("El usuario está deshabilitado.");
+            //Bloqueado
+            if (usr.Bloqueado)
+                throw new Exception("El usuario está bloqueado, debe contactar al administrador.");
+            //Aca otra verificaciones relacionadas a intentos o bloqueos
+            //{
+            //    if (!usr.FechaUltimoCambioPassword.HasValue)
+            //        if (FlagsSeguridad.DiasVigenciaPassword > 0 &&
+            //}
 
-            if (!usuario.Roles.Any(r => r.Codigo == rol.Codigo))
-            {
-                usuario.Roles.Add(rol);
-                _mppUsuario.Modificar(usuario, usuario.Legajo.ToString()); // Persistimos el cambio
-                _logger.GenerarLog($"Rol '{rol.Codigo}' asignado al usuario '{usuario.Logon}'");
-            }
-            else
-            {
-                _logger.GenerarLog($"El usuario '{usuario.Logon}' ya tiene asignado el rol '{rol.Codigo}'");
-            }
-        }
-
-        public void DesasignarRol(Usuario usuario, Rol rol)
-        {
-            if (usuario == null || rol == null)
-                throw new ArgumentNullException("Usuario o Rol no pueden ser nulos.");
-
-            var rolAsignado = usuario.Roles.FirstOrDefault(r => r.Codigo == rol.Codigo);
-            if (rolAsignado != null)
-            {
-                usuario.Roles.Remove(rolAsignado);
-                _mppUsuario.Modificar(usuario, usuario.Legajo.ToString()); // Persistimos el cambio
-                _logger.GenerarLog($"Rol '{rol.Codigo}' desasignado del usuario '{usuario.Logon}'");
-            }
-            else
-            {
-                _logger.GenerarLog($"El usuario '{usuario.Logon}' no tiene asignado el rol '{rol.Codigo}'");
-            }
-        }
-
-
-        //------------------------
-        public static Usuario ObtenerUsuario()
-        {
-            // Crear el Rol de Administrador
-            var rolAdministrador = new Rol("ADMIN", "Rol de Administrador del sistema");
-
-            // Crear permisos
-            var permisoInicio = new PermisoSimple("TAG001", "Acceso a Inicio");
-            var permisoModificarClave = new PermisoSimple("TAG002", "Modificar Clave");
-            var permisoUsuarios = new PermisoSimple("TAG003", "Gestión de Usuarios");
-            var permisoRoles = new PermisoSimple("TAG004", "Gestión de Roles");
-            var permisoPermisos = new PermisoSimple("TAG005", "Gestión de Permisos");
-
-            // Asignar permisos al rol
-            rolAdministrador.AgregarPermiso(permisoInicio);
-            rolAdministrador.AgregarPermiso(permisoModificarClave);
-            rolAdministrador.AgregarPermiso(permisoUsuarios);
-            rolAdministrador.AgregarPermiso(permisoRoles);
-            rolAdministrador.AgregarPermiso(permisoPermisos);
-
-            // Crear usuario Admin
-            var admin = new Usuario(
-                legajo: 1,
-                logon: "admin",
-                nombre: "Admin",
-                apellido: "Principal",
-                email: "admin@policonsultorio.com",
-                password: "admin"
-            );
-
-            // Asignar el rol de Administrador al usuario Admin
-            admin.Roles.Add(rolAdministrador);
-
-            // Activar el usuario y asegurarse que no esté bloqueado
-            admin.Activo = true;
-            admin.Bloqueado = false;
-
-            return admin;
+            //Si todo Ok, lo asigno a Gestion
+            GestionUsuario.UsuarioLogueado= usr;
+            return GestionUsuario.UsuarioLogueado != null;
         }
     }
 }

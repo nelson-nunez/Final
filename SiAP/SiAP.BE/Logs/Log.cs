@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SiAP.BE.Base;
 
-namespace SiAP.BE
+namespace SiAP.BE.Logs
 {
-    public class Log
+    public class Log: ClaseBase
     {
         public Log()
         {

@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SiAP.Abstracciones;
+using SiAP.BE.Base;
 
 namespace SiAP.BE.Seguridad
 {
-    public abstract class Permiso : IAuditable
+    public abstract class Permiso : ClaseBase, IAuditable
     {
         public Permiso(string codigo, string descripcion)
         {

@@ -1,26 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SiAP.Abstracciones;
-using SiAP.BE.Seguridad;
 using System.Data;
 using System.Linq;
-using SiAP.MPP.Base;
+using SiAP.Abstracciones;
+using SiAP.BE.Seguridad;
+using SiAP.DAL;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using SiAP.BE.Seguridad;
+using SiAP.DAL;
 
 namespace SiAP.MPP.Seguridad
 {
     public class MPP_Usuario : IMapper<Usuario>
     {
-        private readonly IGestorDatos _datos;
+        private readonly IAccesoDatos _datos;
         private static MPP_Usuario _instancia;
-        private readonly MPP_Rol _mppRol;
+        private static MPP_Permiso _instanciaPermiso;
 
         private MPP_Usuario()
         {
-            _datos = GestorDatos.ObtenerInstancia();
-            _mppRol = MPP_Rol.ObtenerInstancia();
+            _datos = AccesoXML.ObtenerInstancia();
+            _instanciaPermiso = MPP_Permiso.ObtenerInstancia();
         }
 
         public static MPP_Usuario ObtenerInstancia()
@@ -30,201 +33,187 @@ namespace SiAP.MPP.Seguridad
 
         public void Agregar(Usuario entidad)
         {
+            if (entidad == null)
+                throw new ArgumentNullException(nameof(entidad));
+
             var ds = _datos.Obtener_Datos();
             var dt = ds.Tables["Usuario"];
+
+            if (Existe(entidad)) return;
+
             var dr = dt.NewRow();
-
-            dr["Legajo"] = entidad.Legajo;
-            dr["Logon"] = entidad.Logon;
-            dr["Nombre"] = entidad.Nombre;
-            dr["Apellido"] = entidad.Apellido;
-            dr["Email"] = entidad.Email;
-            dr["Password"] = entidad.Password;
-            dr["Bloqueado"] = entidad.Bloqueado;
-            dr["Activo"] = entidad.Activo;
-
+            MapearDataRow(dr, entidad);
             dt.Rows.Add(dr);
-            _datos.Guardar_Datos(ds);
 
-            // Asignación de roles
-            foreach (var rol in entidad.Roles)
-            {
-                Asignar(entidad, rol);
-            }
+            GuardarPermisosUsuario(entidad, ds);
+            _datos.Actualizar_BD(ds);
         }
 
         public void Modificar(Usuario entidad, string idAnterior = null)
         {
+            if (entidad == null || string.IsNullOrWhiteSpace(idAnterior))
+                throw new ArgumentException("Usuario o ID anterior inválido.");
+
             var ds = _datos.Obtener_Datos();
             var dt = ds.Tables["Usuario"];
+            var dr = dt.AsEnumerable().FirstOrDefault(r => r["Id"].ToString() == idAnterior);
 
-            var dr = dt.AsEnumerable()
-                       .FirstOrDefault(r => r["Legajo"].ToString() == idAnterior);
+            if (dr == null)
+                throw new Exception("Usuario no encontrado.");
 
-            if (dr == null) throw new Exception("Usuario no encontrado");
+            MapearDataRow(dr, entidad);
 
-            dr["Legajo"] = entidad.Legajo;
-            dr["Logon"] = entidad.Logon;
-            dr["Nombre"] = entidad.Nombre;
-            dr["Apellido"] = entidad.Apellido;
-            dr["Email"] = entidad.Email;
-            dr["Password"] = entidad.Password;
-            dr["Bloqueado"] = entidad.Bloqueado;
-            dr["Activo"] = entidad.Activo;
+            // Actualizar permisos
+            var dtUsuarioPermiso = ds.Tables["UsuarioPermiso"];
+            var relaciones = dtUsuarioPermiso.Select($"UsuarioId = '{idAnterior}'");
+            foreach (var rel in relaciones) rel.Delete();
 
-            _datos.Guardar_Datos(ds);
+            GuardarPermisosUsuario(entidad, ds);
+            _datos.Actualizar_BD(ds);
         }
 
         public void Eliminar(Usuario entidad)
         {
+            if (entidad == null) throw new ArgumentNullException(nameof(entidad));
+
             var ds = _datos.Obtener_Datos();
             var dt = ds.Tables["Usuario"];
-            var row = dt.AsEnumerable()
-                        .FirstOrDefault(r => r["Legajo"].ToString() == entidad.Legajo.ToString());
+            var dr = dt.AsEnumerable().FirstOrDefault(r => Convert.ToInt64(r["Id"]) == entidad.Id);
+            dr?.Delete();
 
-            if (row != null)
-                row.Delete();
+            var dtUsuarioPermiso = ds.Tables["UsuarioPermiso"];
+            var relaciones = dtUsuarioPermiso.Select($"UsuarioId = '{entidad.Id}'");
+            foreach (var rel in relaciones) rel.Delete();
 
-            // Eliminar asignaciones de roles
-            var dtRelacion = ds.Tables["UsuarioRol"];
-            var relaciones = dtRelacion.Select($"UsuarioLegajo = '{entidad.Legajo}'");
-            foreach (var rel in relaciones)
-                rel.Delete();
-
-            _datos.Guardar_Datos(ds);
+            _datos.Actualizar_BD(ds);
         }
 
         public bool Existe(Usuario entidad)
         {
+            if (entidad == null) return false;
+
             var ds = _datos.Obtener_Datos();
-            return ds.Tables["Usuario"]
-                     .AsEnumerable()
-                     .Any(r => r["Legajo"].ToString() == entidad.Legajo.ToString());
+            return ds.Tables["Usuario"].AsEnumerable()
+                     .Any(r => Convert.ToInt64(r["Id"]) == entidad.Id);
         }
 
         public bool TieneDependencias(Usuario entidad)
         {
+            if (entidad == null) return false;
+
             var ds = _datos.Obtener_Datos();
-            var dtRelacion = ds.Tables["UsuarioRol"];
-            return dtRelacion.Select($"UsuarioLegajo = '{entidad.Legajo}'").Any();
+            var dtUsuarioPermiso = ds.Tables["UsuarioPermiso"];
+            var relaciones = dtUsuarioPermiso.Select($"UsuarioId = '{entidad.Id}'");
+
+            return relaciones.Any();
         }
 
         public IList<Usuario> ObtenerTodos()
         {
             var ds = _datos.Obtener_Datos();
-            var dtUsuarios = ds.Tables["Usuario"];
-            var dtRelacion = ds.Tables["UsuarioRol"];
-            var roles = _mppRol.ObtenerTodos();
-
-            var usuarios = dtUsuarios.AsEnumerable()
-                                     .Select(r => HidratarUsuario(r))
-                                     .ToList();
-
-            foreach (var usuario in usuarios)
-            {
-                var relaciones = dtRelacion.AsEnumerable()
-                                           .Where(r => r["UsuarioLegajo"].ToString() == usuario.Legajo.ToString())
-                                           .Select(r => r["RolCodigo"].ToString());
-
-                foreach (var codRol in relaciones)
-                {
-                    var rol = roles.FirstOrDefault(r => r.Codigo == codRol);
-                    if (rol != null)
-                        usuario.Roles.Add(rol);
-                }
-            }
-
-            return usuarios;
+            var dt = ds.Tables["Usuario"];
+            return dt.AsEnumerable()
+                     .Select(r => HidratarObjeto(r, ds))
+                     .ToList();
         }
 
         public IList<Usuario> Buscar(string campo = "", string valor = "", bool incluirInactivos = true)
         {
-            var todos = ObtenerTodos();
+            var usuarios = ObtenerTodos();
 
             if (!incluirInactivos)
-                todos = todos.Where(u => u.Activo).ToList();
+                usuarios = usuarios.Where(u => u.Activo).ToList();
+
+            if (string.IsNullOrWhiteSpace(campo) || string.IsNullOrWhiteSpace(valor))
+                return usuarios;
 
             return campo.ToLower() switch
             {
-                "logon" => todos.Where(u => u.Logon.Contains(valor)).ToList(),
-                "nombre" => todos.Where(u => u.Nombre.Contains(valor)).ToList(),
-                "apellido" => todos.Where(u => u.Apellido.Contains(valor)).ToList(),
-                _ => todos
+                "id" => usuarios.Where(u => u.Id == Convert.ToInt64(valor)).ToList(),
+                "username" => usuarios.Where(u => u.Username.Contains(valor)).ToList(),
+                "nombre" => usuarios.Where(u => u.Nombre.Contains(valor)).ToList(),
+                "apellido" => usuarios.Where(u => u.Apellido.Contains(valor)).ToList(),
+                "email" => usuarios.Where(u => u.Email.Contains(valor)).ToList(),
+                _ => throw new ArgumentException($"Campo '{campo}' inválido.")
             };
         }
 
         public Usuario LeerPorId(object id)
         {
-            return ObtenerTodos().FirstOrDefault(u => u.Legajo.ToString() == id.ToString());
+            return ObtenerTodos().FirstOrDefault(u => u.Id == Convert.ToInt64(id.ToString()));
         }
 
-        public void Asignar(Usuario usuario, Usuario rolAsUsuario)
-        {
-            // Ignorar - solo aplica para Permiso como IMapperAsignar<Permiso>
-            throw new NotImplementedException();
-        }
-
-        public void Asignar(Usuario usuario, Rol rol)
+        public Usuario LeerPorUsername(string username)
         {
             var ds = _datos.Obtener_Datos();
-            var dt = ds.Tables["UsuarioRol"];
+            var row = ds.Tables["Usuario"]
+                        .AsEnumerable()
+                        .FirstOrDefault(dr => dr["Username"].ToString() == username);
 
-            if (ExisteAsignacion(usuario, rol)) return;
-
-            var dr = dt.NewRow();
-            dr["UsuarioLegajo"] = usuario.Legajo;
-            dr["RolCodigo"] = rol.Codigo;
-
-            dt.Rows.Add(dr);
-            _datos.Guardar_Datos(ds);
+            return row != null ? HidratarObjeto(row, ds) : null;
         }
 
-        public void Desasignar(Usuario usuario, Rol rol)
+        private Usuario HidratarObjeto(DataRow r, DataSet ds)
         {
-            var ds = _datos.Obtener_Datos();
-            var dt = ds.Tables["UsuarioRol"];
-
-            var row = dt.AsEnumerable()
-                        .FirstOrDefault(r => r["UsuarioLegajo"].ToString() == usuario.Legajo.ToString() &&
-                                             r["RolCodigo"].ToString() == rol.Codigo);
-
-            if (row != null)
+            var usuario = new Usuario
             {
-                row.Delete();
-                _datos.Guardar_Datos(ds);
-            }
-        }
-
-        public void ActualizarAsignacion(Usuario usuario, Rol rol)
-        {
-            Desasignar(usuario, rol);
-            Asignar(usuario, rol);
-        }
-
-        public bool ExisteAsignacion(Usuario usuario, Rol rol)
-        {
-            var ds = _datos.Obtener_Datos();
-            var dt = ds.Tables["UsuarioRol"];
-
-            return dt.AsEnumerable()
-                     .Any(r => r["UsuarioLegajo"].ToString() == usuario.Legajo.ToString() &&
-                               r["RolCodigo"].ToString() == rol.Codigo);
-        }
-
-        private Usuario HidratarUsuario(DataRow row)
-        {
-            return new Usuario
-            {
-                Legajo = int.Parse(row["Legajo"].ToString()),
-                Logon = row["Logon"].ToString(),
-                Nombre = row["Nombre"].ToString(),
-                Apellido = row["Apellido"].ToString(),
-                Email = row["Email"].ToString(),
-                Password = row["Password"].ToString(),
-                Bloqueado = Convert.ToBoolean(row["Bloqueado"]),
-                Activo = Convert.ToBoolean(row["Activo"]),
-                Roles = new List<Rol>()
+                Id = Convert.ToInt64(r["Id"]),
+                Legajo = r["Legajo"] != DBNull.Value ? Convert.ToInt32(r["Legajo"]) : (int?)null,
+                Username = r["Username"].ToString(),
+                Nombre = r["Nombre"].ToString(),
+                Apellido = r["Apellido"].ToString(),
+                Email = r["Email"].ToString(),
+                Password = r["Password"].ToString(),
+                Bloqueado = Convert.ToBoolean(r["Bloqueado"]),
+                Activo = Convert.ToBoolean(r["Activo"]),
+                FechaUltimoCambioPassword = r["FechaUltimoCambioPassword"] != DBNull.Value ? Convert.ToDateTime(r["FechaUltimoCambioPassword"]) : (DateTime?)null,
+                PalabraClave = r["PalabraClave"].ToString(),
+                RespuestaClave = r["RespuestaClave"].ToString()
             };
+
+            var permisos = _instanciaPermiso.ObtenerTodos().ToDictionary(p => p.Codigo);
+            var dtRelacion = ds.Tables["UsuarioPermiso"];
+            var relaciones = dtRelacion.Select($"UsuarioId = '{usuario.Id}'");
+
+            foreach (var rel in relaciones)
+            {
+                aca quede buscando los permissos que los trae sin id o nose como estan manbeados
+                var codigo = rel["PermisoId"].ToString();
+                if (permisos.TryGetValue(codigo, out var permiso) && permiso is PermisoCompuesto compuesto)
+                {
+                    usuario.Permiso = compuesto;
+                }
+            }
+
+            return usuario;
+        }
+
+        private void GuardarPermisosUsuario(Usuario entidad, DataSet ds)
+        {
+            if (entidad.Permiso is not PermisoCompuesto compuesto) return;
+
+            var dt = ds.Tables["UsuarioPermiso"];
+            var dr = dt.NewRow();
+            dr["UsuarioId"] = entidad.Id;
+            dr["PermisoId"] = compuesto.Codigo;
+            dt.Rows.Add(dr);
+        }
+
+        private void MapearDataRow(DataRow dr, Usuario entidad)
+        {
+            dr["Id"] = entidad.Id;
+            dr["Legajo"] = entidad.Legajo ?? (object)DBNull.Value;
+            dr["Username"] = entidad.Username;
+            dr["Nombre"] = entidad.Nombre;
+            dr["Apellido"] = entidad.Apellido;
+            dr["Email"] = entidad.Email;
+            dr["Password"] = entidad.Password;
+            dr["Bloqueado"] = entidad.Bloqueado;
+            dr["Activo"] = entidad.Activo;
+            dr["FechaUltimoCambioPassword"] = entidad.FechaUltimoCambioPassword ?? (object)DBNull.Value;
+            dr["PalabraClave"] = entidad.PalabraClave ?? string.Empty;
+            dr["RespuestaClave"] = entidad.RespuestaClave ?? string.Empty;
         }
     }
 }
+

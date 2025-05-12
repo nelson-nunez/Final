@@ -5,28 +5,32 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SiAP.Abstracciones;
+using SiAP.BE.Base;
 
 namespace SiAP.BE.Seguridad
 {
-    public class Usuario : IComparable, IAuditable
+    public class Usuario : ClaseBase, IComparable, IAuditable
     {
-        public Usuario()
-        {
-            Roles = new List<Rol>();
-        }
-
-        public Usuario(int legajo, string logon, string nombre, string apellido, string email, string password) : this()
+        //1 Vacio
+        public Usuario(){}
+        //2 Datos
+        public Usuario(int legajo, string username, string nombre, string apellido, string email, string password)
         {
             Legajo = legajo;
-            Logon = logon;
+            Username = username;
             Nombre = nombre;
             Apellido = apellido;
             Email = email;
             Password = password;
         }
+        //3 Con rol
+        public Usuario(int legajo, string username, string nombre, string apellido, string email, string password, PermisoCompuesto rol) : this(legajo, username, nombre, apellido, email, password)
+        {
+            Permiso = rol;
+        }
 
         public int? Legajo { get; set; }
-        public string Logon { get; set; }
+        public string Username { get; set; }
         public string Nombre { get; set; }
         public string Apellido { get; set; }
         public bool Bloqueado { get; set; } = false;
@@ -36,33 +40,12 @@ namespace SiAP.BE.Seguridad
         public string PalabraClave { get; set; }
         public string RespuestaClave { get; set; }
         public string Email { get; set; }
-
-        public List<Rol> Roles { get; set; }
-
-        public bool TienePermiso(string codigoPermiso)
-        {
-            foreach (var rol in Roles)
-            {
-                if (rol.ObtenerPermisos().Exists(p => p.Codigo == codigoPermiso))
-                    return true;
-            }
-            return false;
-        }
-
-        public List<Permiso> ObtenerPermisos()
-        {
-            return Roles
-                .SelectMany(r => r.ObtenerPermisos())
-                .GroupBy(p => p.Codigo)
-                .Select(g => g.First())
-                .ToList();
-        }
+        public Permiso Permiso { get; set; }
 
         public override string ToString()
         {
-            return Logon;
+            return Username;
         }
-
         public override bool Equals(object obj)
         {
             if (this.Legajo == null)
@@ -71,12 +54,10 @@ namespace SiAP.BE.Seguridad
                 return false;
             return this.Legajo == ((Usuario)obj).Legajo;
         }
-
         public override int GetHashCode()
         {
             return Legajo != null ? Legajo.GetHashCode() : base.GetHashCode();
         }
-
         public int CompareTo(object obj)
         {
             return this.ToString().CompareTo(((Usuario)obj).ToString());

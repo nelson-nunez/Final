@@ -1,5 +1,8 @@
 ﻿using System.Data;
+using System.Diagnostics;
 using System.Xml;
+using SiAP.Abstracciones;
+using SiAP.BE.Seguridad;
 
 namespace SiAP.DAL
 {
@@ -48,15 +51,7 @@ namespace SiAP.DAL
             AsegurarExistenciaArchivo(ReferenciasBD.Path_BD, "SiAP");
 
             var ds = new DataSet();
-
-            try
-            {
-                ds.ReadXml(ReferenciasBD.Path_BD, XmlReadMode.ReadSchema);
-            }
-            catch
-            {
-                // Si falla la lectura del XML (p. ej., vacío), seguimos con el DataSet vacío
-            }
+            ds.ReadXml(ReferenciasBD.Path_BD, XmlReadMode.ReadSchema);
 
             InicializarTablas(ds);
             return ds;
@@ -184,95 +179,41 @@ namespace SiAP.DAL
         private void InicializarTablas(DataSet ds)
         {
             if (!ds.Tables.Contains("Log"))
+            {
                 ds.Tables.Add(CrearTablaLog());
-            if (!ds.Tables.Contains("Rol"))
-                ds.Tables.Add(CrearTablaRol());
+                Actualizar_BD(ds);
+            }
+
             if (!ds.Tables.Contains("Permiso"))
+            {
                 ds.Tables.Add(CrearTablaPermiso());
-            if (!ds.Tables.Contains("RolPermiso"))
-                ds.Tables.Add(CrearTablaRolPermiso());
+                Actualizar_BD(ds);
+            }
             if (!ds.Tables.Contains("PermisoHijo"))
-                ds.Tables.Add(CrearTablaPermisoHijos());
+            {
+                ds.Tables.Add(CrearTablaPermisoHijo());
+                Actualizar_BD(ds);
+            }
             if (!ds.Tables.Contains("Usuario"))
+            {
                 ds.Tables.Add(CrearTablaUsuario());
-            if (!ds.Tables.Contains("UsuarioRol"))
-                ds.Tables.Add(CrearTablaUsuarioRol());
+                Actualizar_BD(ds);
+            }
+            if (!ds.Tables.Contains("UsuarioPermiso"))
+            { 
+                ds.Tables.Add(CrearTablaUsuarioPermiso());
+                Actualizar_BD(ds);
+            }
         }
 
-        private DataTable CrearTablaLog()
-        {
-            var tabla = new DataTable("Log");
-
-            tabla.Columns.Add(new DataColumn("CodigoTransaccion", typeof(Guid)));
-            tabla.Columns.Add(new DataColumn("Fecha", typeof(DateTime)));
-            tabla.Columns.Add(new DataColumn("Usuario", typeof(string)));
-            tabla.Columns.Add(new DataColumn("Operacion", typeof(string)));
-
-            tabla.PrimaryKey = new[] { tabla.Columns["CodigoTransaccion"] };
-            return tabla;
-        }
-
-        private DataTable CrearTablaRol()
-        {
-            var tabla = new DataTable("Rol");
-
-            tabla.Columns.Add(new DataColumn("Codigo", typeof(string)));
-            tabla.Columns.Add(new DataColumn("Descripcion", typeof(string)));
-
-            tabla.PrimaryKey = new[] { tabla.Columns["Codigo"] };
-            return tabla;
-        }
-
-        private DataTable CrearTablaPermiso()
-        {
-            var tabla = new DataTable("Permiso");
-
-            tabla.Columns.Add(new DataColumn("Codigo", typeof(string)));
-            tabla.Columns.Add(new DataColumn("Descripcion", typeof(string)));
-            tabla.Columns.Add(new DataColumn("EsCompuesto", typeof(bool)));
-
-            tabla.PrimaryKey = new[] { tabla.Columns["Codigo"] };
-            return tabla;
-        }
-
-        private DataTable CrearTablaRolPermiso()
-        {
-            var tabla = new DataTable("RolPermiso");
-
-            tabla.Columns.Add(new DataColumn("RolCodigo", typeof(string)));
-            tabla.Columns.Add(new DataColumn("PermisoCodigo", typeof(string)));
-
-            tabla.PrimaryKey = new[]
-            {
-                tabla.Columns["RolCodigo"],
-                tabla.Columns["PermisoCodigo"]
-            };
-
-            return tabla;
-        }
-
-        private DataTable CrearTablaPermisoHijos()
-        {
-            var tabla = new DataTable("PermisoHijo");
-
-            tabla.Columns.Add(new DataColumn("PadreCodigo", typeof(string)));
-            tabla.Columns.Add(new DataColumn("HijoCodigo", typeof(string)));
-
-            tabla.PrimaryKey = new[]
-            {
-                tabla.Columns["PadreCodigo"],
-                tabla.Columns["HijoCodigo"]
-            };
-
-            return tabla;
-        }
-
+        // Tabla Usuario
         private DataTable CrearTablaUsuario()
         {
             var tabla = new DataTable("Usuario");
 
+            tabla.Columns.Add(new DataColumn("Id", typeof(long)));
             tabla.Columns.Add(new DataColumn("Legajo", typeof(int)));
-            tabla.Columns.Add(new DataColumn("Logon", typeof(string)));
+            tabla.Columns.Add(new DataColumn("Username", typeof(string)));
             tabla.Columns.Add(new DataColumn("Nombre", typeof(string)));
             tabla.Columns.Add(new DataColumn("Apellido", typeof(string)));
             tabla.Columns.Add(new DataColumn("Email", typeof(string)));
@@ -283,22 +224,105 @@ namespace SiAP.DAL
             tabla.Columns.Add(new DataColumn("Bloqueado", typeof(bool)));
             tabla.Columns.Add(new DataColumn("Activo", typeof(bool)));
 
-            tabla.PrimaryKey = new[] { tabla.Columns["Legajo"] };
+            tabla.PrimaryKey = new[] { tabla.Columns["Id"] };
+
+            // Usuario mockup
+            var fila = tabla.NewRow();
+            fila["Id"] = 1;
+            fila["Legajo"] = 1001;
+            fila["Username"] = "admin";
+            fila["Nombre"] = "Administrador";
+            fila["Apellido"] = "Sistema";
+            fila["Email"] = "admin@empresa.com";
+            fila["Password"] = "admin";
+            fila["FechaUltimoCambioPassword"] = DateTime.Now;
+            fila["PalabraClave"] = "default";
+            fila["RespuestaClave"] = "admin";
+            fila["Bloqueado"] = false;
+            fila["Activo"] = true;
+            tabla.Rows.Add(fila);
+
             return tabla;
         }
 
-        private DataTable CrearTablaUsuarioRol()
+        // Tabla Permiso
+        private DataTable CrearTablaPermiso()
         {
-            var tabla = new DataTable("UsuarioRol");
+            var tabla = new DataTable("Permiso");
 
-            tabla.Columns.Add(new DataColumn("UsuarioLegajo", typeof(int)));
-            tabla.Columns.Add(new DataColumn("RolCodigo", typeof(string)));
+            tabla.Columns.Add(new DataColumn("Id", typeof(long)));
+            tabla.Columns.Add(new DataColumn("Codigo", typeof(string)));
+            tabla.Columns.Add(new DataColumn("Descripcion", typeof(string)));
+            tabla.Columns.Add(new DataColumn("EsCompuesto", typeof(bool)));
 
-            tabla.PrimaryKey = new[]
-            {
-                tabla.Columns["UsuarioLegajo"],
-                tabla.Columns["RolCodigo"]
+            tabla.PrimaryKey = new[] { tabla.Columns["Id"] };
+
+            // Permiso compuesto - administrador
+            tabla.Rows.Add(10, "Administrador", "Permisos administrativos", true);
+
+            // Permisos simples
+            tabla.Rows.Add(11, "TAG001", "Acceso a Inicio", false);
+            tabla.Rows.Add(12, "TAG002", "Modificar Clave", false);
+            tabla.Rows.Add(13, "TAG003", "Gestión de Usuarios", false);
+            tabla.Rows.Add(14, "TAG004", "Gestión de Roles", false);
+            tabla.Rows.Add(15, "TAG005", "Gestión de Permisos", false);
+
+            return tabla;
+        }
+
+        // Tabla PermisoHijo (para representar el Composite)
+        private DataTable CrearTablaPermisoHijo()
+        {
+            var tabla = new DataTable("PermisoHijo");
+
+            tabla.Columns.Add(new DataColumn("PadreId", typeof(long)));
+            tabla.Columns.Add(new DataColumn("HijoId", typeof(long)));
+
+            tabla.PrimaryKey = new[] {
+                tabla.Columns["PadreId"],
+                tabla.Columns["HijoId"]
             };
+
+            // Relaciones del permiso compuesto "Administrador"
+            tabla.Rows.Add(10, 11);
+            tabla.Rows.Add(10, 12);
+            tabla.Rows.Add(10, 13);
+            tabla.Rows.Add(10, 14);
+            tabla.Rows.Add(10, 15);
+
+            return tabla;
+        }
+
+        // Tabla UsuarioPermiso (relación Usuario → PermisoCompuesto)
+        private DataTable CrearTablaUsuarioPermiso()
+        {
+            var tabla = new DataTable("UsuarioPermiso");
+
+            tabla.Columns.Add(new DataColumn("UsuarioId", typeof(long)));
+            tabla.Columns.Add(new DataColumn("PermisoId", typeof(long)));
+
+            tabla.PrimaryKey = new[] {
+                tabla.Columns["UsuarioId"],
+                tabla.Columns["PermisoId"]
+            };
+
+            // Relación entre admin y el permiso compuesto
+            tabla.Rows.Add(1, 10);
+
+            return tabla;
+        }
+
+        // Tabla Log
+        private DataTable CrearTablaLog()
+        {
+            var tabla = new DataTable("Log");
+
+            tabla.Columns.Add(new DataColumn("Id", typeof(long)));
+            tabla.Columns.Add(new DataColumn("Fecha", typeof(DateTime)));
+            tabla.Columns.Add(new DataColumn("Usuario", typeof(string)));
+            tabla.Columns.Add(new DataColumn("Operacion", typeof(string)));
+
+            tabla.PrimaryKey = new[] { tabla.Columns["Id"] };
 
             return tabla;
         }

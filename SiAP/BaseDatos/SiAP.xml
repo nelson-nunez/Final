@@ -1,0 +1,161 @@
+<?xml version="1.0" standalone="yes"?>
+<NewDataSet>
+  <xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+      <xs:complexType>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="Log">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="Id" type="xs:long" />
+                <xs:element name="Fecha" type="xs:dateTime" minOccurs="0" />
+                <xs:element name="Usuario" type="xs:string" minOccurs="0" />
+                <xs:element name="Operacion" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="Permiso">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="Id" type="xs:long" />
+                <xs:element name="Codigo" type="xs:string" minOccurs="0" />
+                <xs:element name="Descripcion" type="xs:string" minOccurs="0" />
+                <xs:element name="EsCompuesto" type="xs:boolean" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="PermisoHijo">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="PadreId" type="xs:long" />
+                <xs:element name="HijoId" type="xs:long" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="Usuario">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="Id" type="xs:long" />
+                <xs:element name="Legajo" type="xs:int" minOccurs="0" />
+                <xs:element name="Username" type="xs:string" minOccurs="0" />
+                <xs:element name="Nombre" type="xs:string" minOccurs="0" />
+                <xs:element name="Apellido" type="xs:string" minOccurs="0" />
+                <xs:element name="Email" type="xs:string" minOccurs="0" />
+                <xs:element name="Password" type="xs:string" minOccurs="0" />
+                <xs:element name="FechaUltimoCambioPassword" type="xs:dateTime" minOccurs="0" />
+                <xs:element name="PalabraClave" type="xs:string" minOccurs="0" />
+                <xs:element name="RespuestaClave" type="xs:string" minOccurs="0" />
+                <xs:element name="Bloqueado" type="xs:boolean" minOccurs="0" />
+                <xs:element name="Activo" type="xs:boolean" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="UsuarioPermiso">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="UsuarioId" type="xs:long" />
+                <xs:element name="PermisoId" type="xs:long" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+      <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+        <xs:selector xpath=".//Log" />
+        <xs:field xpath="Id" />
+      </xs:unique>
+      <xs:unique name="Permiso_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+        <xs:selector xpath=".//Permiso" />
+        <xs:field xpath="Id" />
+      </xs:unique>
+      <xs:unique name="PermisoHijo_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+        <xs:selector xpath=".//PermisoHijo" />
+        <xs:field xpath="PadreId" />
+        <xs:field xpath="HijoId" />
+      </xs:unique>
+      <xs:unique name="Usuario_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+        <xs:selector xpath=".//Usuario" />
+        <xs:field xpath="Id" />
+      </xs:unique>
+      <xs:unique name="UsuarioPermiso_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+        <xs:selector xpath=".//UsuarioPermiso" />
+        <xs:field xpath="UsuarioId" />
+        <xs:field xpath="PermisoId" />
+      </xs:unique>
+    </xs:element>
+  </xs:schema>
+  <Permiso>
+    <Id>10</Id>
+    <Codigo>Administrador</Codigo>
+    <Descripcion>Permisos administrativos</Descripcion>
+    <EsCompuesto>true</EsCompuesto>
+  </Permiso>
+  <Permiso>
+    <Id>11</Id>
+    <Codigo>TAG001</Codigo>
+    <Descripcion>Acceso a Inicio</Descripcion>
+    <EsCompuesto>false</EsCompuesto>
+  </Permiso>
+  <Permiso>
+    <Id>12</Id>
+    <Codigo>TAG002</Codigo>
+    <Descripcion>Modificar Clave</Descripcion>
+    <EsCompuesto>false</EsCompuesto>
+  </Permiso>
+  <Permiso>
+    <Id>13</Id>
+    <Codigo>TAG003</Codigo>
+    <Descripcion>Gestión de Usuarios</Descripcion>
+    <EsCompuesto>false</EsCompuesto>
+  </Permiso>
+  <Permiso>
+    <Id>14</Id>
+    <Codigo>TAG004</Codigo>
+    <Descripcion>Gestión de Roles</Descripcion>
+    <EsCompuesto>false</EsCompuesto>
+  </Permiso>
+  <Permiso>
+    <Id>15</Id>
+    <Codigo>TAG005</Codigo>
+    <Descripcion>Gestión de Permisos</Descripcion>
+    <EsCompuesto>false</EsCompuesto>
+  </Permiso>
+  <PermisoHijo>
+    <PadreId>10</PadreId>
+    <HijoId>11</HijoId>
+  </PermisoHijo>
+  <PermisoHijo>
+    <PadreId>10</PadreId>
+    <HijoId>12</HijoId>
+  </PermisoHijo>
+  <PermisoHijo>
+    <PadreId>10</PadreId>
+    <HijoId>13</HijoId>
+  </PermisoHijo>
+  <PermisoHijo>
+    <PadreId>10</PadreId>
+    <HijoId>14</HijoId>
+  </PermisoHijo>
+  <PermisoHijo>
+    <PadreId>10</PadreId>
+    <HijoId>15</HijoId>
+  </PermisoHijo>
+  <Usuario>
+    <Id>1</Id>
+    <Legajo>1001</Legajo>
+    <Username>admin</Username>
+    <Nombre>Administrador</Nombre>
+    <Apellido>Sistema</Apellido>
+    <Email>admin@empresa.com</Email>
+    <Password>admin</Password>
+    <FechaUltimoCambioPassword>2025-05-11T23:46:54.7031222-03:00</FechaUltimoCambioPassword>
+    <PalabraClave>default</PalabraClave>
+    <RespuestaClave>admin</RespuestaClave>
+    <Bloqueado>false</Bloqueado>
+    <Activo>true</Activo>
+  </Usuario>
+  <UsuarioPermiso>
+    <UsuarioId>1</UsuarioId>
+    <PermisoId>10</PermisoId>
+  </UsuarioPermiso>
+</NewDataSet>

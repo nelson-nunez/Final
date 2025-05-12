@@ -55,12 +55,14 @@ namespace SiAP.UI
 
         private void Uc_Login_LoginSuccess(object sender, EventArgs e)
         {
-            MessageBox.Show($"Bienvenido", "Atención");
-            menuStrip1.Visible = true;
-            //Prueba
-            var useractual = BLL_Usuario.ObtenerUsuario();
-            CambiarVisibilidadMenu(menuStrip1.Items, useractual.ObtenerPermisos());
-            uc_login.Visible = false;
+            var useractual = GestionUsuario.UsuarioLogueado;
+            if (useractual != null)
+            {
+                MessageBox.Show($"Bienvenido", "Atención");
+                menuStrip1.Visible = true;
+                CambiarVisibilidadMenu(menuStrip1.Items, useractual.Permiso.ObtenerPermisos());
+                uc_login.Visible = false;
+            }
         }
 
         #endregion

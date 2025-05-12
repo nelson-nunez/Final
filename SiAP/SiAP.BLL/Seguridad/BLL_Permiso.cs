@@ -1,6 +1,7 @@
 ﻿using SiAP.BE.Seguridad;
 using SiAP.Abstracciones;
 using SiAP.MPP.Seguridad;
+using SiAP.BLL.Logs;
 
 namespace SiAP.BLL.Seguridad
 {

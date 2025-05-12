@@ -22,20 +22,20 @@ namespace SiAP.UI.Controles
             InitializeComponent();
             bllusuario = BLL_Usuario.ObtenerInstancia();
             //Prueba borrar
-            email.Text = "prueba";
-            password.Text = "prueba";
+            email.Text = "admin";
+            password.Text = "admin";
         }
 
         private void materialButton1_Click(object sender, EventArgs e)
         {
             try
             {
-                //VerificarDatos();
-                //var result = bllusuario.Login(email.Text, password.Text);
-                //if (result)
+                VerificarDatos();
+                var result = bllusuario.Ingresar(email.Text, password.Text);
+                if (result)
                     LoginSuccess?.Invoke(this, new EventArgs());
-                //else
-                //    MessageBox.Show("Credenciales inválidas", "Atención");
+                else
+                    MessageBox.Show("Credenciales inválidas", "Atención");
             }
             catch (Exception ex)
             {

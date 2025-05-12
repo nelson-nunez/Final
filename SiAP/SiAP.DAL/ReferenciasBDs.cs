@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using System;
+using System.IO;
 
 namespace SiAP.DAL
 {
@@ -12,6 +14,8 @@ namespace SiAP.DAL
     /// </summary>
     public static class ReferenciasBD
     {
+        private static readonly string directorioProyecto = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory)?.Parent?.Parent?.Parent?.Parent?.FullName ?? "";
+
         private static string carpeta_BaseDatos = "BaseDatos";
         private static string carpeta_Backup = "Backups";
         private static string baseDatos_SiAP = "SiAP.xml";
@@ -24,28 +28,25 @@ namespace SiAP.DAL
         {
             get
             {
-                if (!string.IsNullOrWhiteSpace(carpeta_BaseDatos))
-                {
-                    if (!Directory.Exists(carpeta_BaseDatos))
-                        Directory.CreateDirectory(carpeta_BaseDatos);
-                    return Path.Combine(carpeta_BaseDatos, baseDatos_SiAP);
-                }
-                else
-                    return baseDatos_SiAP;
+                string path = Path.Combine(directorioProyecto, carpeta_BaseDatos);
+
+                if (!Directory.Exists(path))
+                    Directory.CreateDirectory(path);
+
+                return Path.Combine(path, baseDatos_SiAP);
             }
         }
+
         public static string Path_BDLogs
         {
             get
             {
-                if (!string.IsNullOrWhiteSpace(carpeta_BaseDatos))
-                {
-                    if (!Directory.Exists(carpeta_BaseDatos))
-                        Directory.CreateDirectory(carpeta_BaseDatos);
-                    return Path.Combine(carpeta_BaseDatos, baseDatos_Logs);
-                }
-                else
-                    return baseDatos_SiAP;
+                string path = Path.Combine(directorioProyecto, carpeta_BaseDatos);
+
+                if (!Directory.Exists(path))
+                    Directory.CreateDirectory(path);
+
+                return Path.Combine(path, baseDatos_Logs);
             }
         }
 
@@ -57,24 +58,25 @@ namespace SiAP.DAL
         {
             get
             {
-                if (!string.IsNullOrWhiteSpace(carpeta_BaseDatos))
-                {
-                    if (!Directory.Exists(carpeta_BaseDatos))
-                        Directory.CreateDirectory(carpeta_BaseDatos);
-                    return Path.Combine(carpeta_BaseDatos, baseDatos_Backups);
-                }
-                else
-                    return baseDatos_SiAP;
+                string path = Path.Combine(directorioProyecto, carpeta_BaseDatos);
+
+                if (!Directory.Exists(path))
+                    Directory.CreateDirectory(path);
+
+                return Path.Combine(path, baseDatos_Backups);
             }
         }
+
         public static string NombreCarpetaBackUp
         {
             get
             {
-                if (!Directory.Exists(carpeta_Backup))
-                    Directory.CreateDirectory(carpeta_Backup);
+                string path = Path.Combine(directorioProyecto, carpeta_Backup);
 
-                return carpeta_Backup;
+                if (!Directory.Exists(path))
+                    Directory.CreateDirectory(path);
+
+                return path;
             }
         }
 

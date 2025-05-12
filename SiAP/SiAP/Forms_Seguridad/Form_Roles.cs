@@ -16,19 +16,19 @@ namespace SiAP.UI.Forms_Seguridad
 {
     public partial class Form_Roles : Form
     {
-        BLL_Rol _bllRol;
+        //BLL_Rol _bllRol;
         BLL_Permiso _bllPermiso;
-        Rol itemSeleccionado = new Rol();
+        //Rol itemSeleccionado = new Rol();
 
         public Form_Roles()
         {
             InitializeComponent();
-            _bllRol = BLL_Rol.ObtenerInstancia();
+            //_bllRol = BLL_Rol.ObtenerInstancia();
             _bllPermiso = BLL_Permiso.ObtenerInstancia();
             //Configurar Grids
             this.Controls.ConfigurarTodosLosGrids();
             //Cargar Grids
-            dataGrid_Roles.DataSource = _bllRol.ObtenerTodos();
+            //dataGrid_Roles.DataSource = _bllRol.ObtenerTodos();
             dataGrid_PermisosDisp.DataSource = _bllPermiso.ObtenerTodos();
         }
 
@@ -38,10 +38,10 @@ namespace SiAP.UI.Forms_Seguridad
         {
             try
             {
-                itemSeleccionado = dataGrid_Roles.VerificarYRetornarSeleccion<Rol>();
+                //itemSeleccionado = dataGrid_Roles.VerificarYRetornarSeleccion<Rol>();
                 //VerificarDatos();
                 InputsExtensions.PedirConfirmacion("Desea eliminar el registro?");
-                _bllRol.Eliminar(itemSeleccionado);
+                //_bllRol.Eliminar(itemSeleccionado);
                 MessageBox.Show("Se eliminó el registro con éxito");
             }
             catch (Exception ex)
