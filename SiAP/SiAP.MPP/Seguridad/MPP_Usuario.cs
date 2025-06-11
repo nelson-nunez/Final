@@ -177,9 +177,10 @@ namespace SiAP.MPP.Seguridad
 
             foreach (var rel in relaciones)
             {
-                aca quede buscando los permissos que los trae sin id o nose como estan manbeados
-                var codigo = rel["PermisoId"].ToString();
-                if (permisos.TryGetValue(codigo, out var permiso) && permiso is PermisoCompuesto compuesto)
+                //aca quede buscando los permissos que los trae sin id o nose como estan manbeados
+                var codigo = Convert.ToInt64(rel["PermisoId"].ToString());
+                var permiso = permisos.FirstOrDefault(x => x.Value.Id == codigo).Value;
+                if (permiso!=null && permiso is PermisoCompuesto compuesto)
                 {
                     usuario.Permiso = compuesto;
                 }

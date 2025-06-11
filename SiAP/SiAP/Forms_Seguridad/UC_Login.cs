@@ -12,12 +12,12 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace SiAP.UI.Controles
 {
-    public partial class uc_Login : UserControl
+    public partial class UC_Login : UserControl
     {
         BLL_Usuario bllusuario;
         public event EventHandler<EventArgs> LoginSuccess;
 
-        public uc_Login()
+        public UC_Login()
         {
             InitializeComponent();
             bllusuario = BLL_Usuario.ObtenerInstancia();

@@ -25,50 +25,15 @@ namespace SiAP.UI.Forms_Seguridad
             InitializeComponent();
             //_bllRol = BLL_Rol.ObtenerInstancia();
             _bllPermiso = BLL_Permiso.ObtenerInstancia();
-            //Configurar Grids
-            this.Controls.ConfigurarTodosLosGrids();
-            //Cargar Grids
-            //dataGrid_Roles.DataSource = _bllRol.ObtenerTodos();
-            dataGrid_PermisosDisp.DataSource = _bllPermiso.ObtenerTodos();
         }
 
         #region Buttons Actions
-
-        private void button_Borrar_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                //itemSeleccionado = dataGrid_Roles.VerificarYRetornarSeleccion<Rol>();
-                //VerificarDatos();
-                InputsExtensions.PedirConfirmacion("Desea eliminar el registro?");
-                //_bllRol.Eliminar(itemSeleccionado);
-                MessageBox.Show("Se eliminó el registro con éxito");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error");
-            }
-            finally
-            {
-                //CargarDatos(new Socio());
-            }
-
-        }
-
-        private void button_Limpiar_Click(object sender, EventArgs e)
+        private void uC_Guardar_h1_Load(object sender, EventArgs e)
         {
 
         }
 
-        private void button_Editar_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button_Guardar_Click(object sender, EventArgs e)
-        {
-
-        }
         #endregion
+
     }
 }

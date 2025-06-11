@@ -49,7 +49,7 @@
             menuStrip1.Items.AddRange(new ToolStripItem[] { administradorToolStripMenuItem, turnosToolStripMenuItem, historialMédicoToolStripMenuItem, reportesToolStripMenuItem, salirToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(984, 26);
+            menuStrip1.Size = new Size(1284, 26);
             menuStrip1.TabIndex = 0;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -146,7 +146,7 @@
             BackColor = Color.WhiteSmoke;
             BackgroundImage = Properties.Resources.logo;
             BackgroundImageLayout = ImageLayout.Center;
-            ClientSize = new Size(984, 561);
+            ClientSize = new Size(1284, 761);
             Controls.Add(menuStrip1);
             DoubleBuffered = true;
             MainMenuStrip = menuStrip1;

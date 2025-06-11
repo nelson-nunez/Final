@@ -1,6 +1,6 @@
 ﻿namespace SiAP.UI.Controles
 {
-    partial class uc_Login
+    partial class UC_Login
     {
         /// <summary> 
         /// Variable del diseñador necesaria.
@@ -117,12 +117,12 @@
             materialButton1.UseVisualStyleBackColor = true;
             materialButton1.Click += materialButton1_Click;
             // 
-            // uc_Login
+            // UC_Login
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(groupBox1);
-            Name = "uc_Login";
+            Name = "UC_Login";
             Size = new Size(329, 248);
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();

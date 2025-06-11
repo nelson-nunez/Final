@@ -21,7 +21,7 @@ namespace SiAP.UI
         private Form_HistoriaClinica form_historia;
         private Form_Roles form_Roles;
         //Componentes
-        private uc_Login uc_login;
+        private UC_Login UC_Login;
 
         public Form_Menu()
         {
@@ -45,15 +45,15 @@ namespace SiAP.UI
         private void MostrarLogin()
         {
             // Crear y centrar el UC_Login
-            uc_login = new uc_Login();
-            uc_login.Anchor = AnchorStyles.None;
-            uc_login.Left = (this.ClientSize.Width - uc_login.Width) / 2;
-            uc_login.Top = (this.ClientSize.Height - uc_login.Height) / 2;
-            this.Controls.Add(uc_login);
-            uc_login.LoginSuccess += Uc_Login_LoginSuccess;
+            UC_Login = new UC_Login();
+            UC_Login.Anchor = AnchorStyles.None;
+            UC_Login.Left = (this.ClientSize.Width - UC_Login.Width) / 2;
+            UC_Login.Top = (this.ClientSize.Height - UC_Login.Height) / 2;
+            this.Controls.Add(UC_Login);
+            UC_Login.LoginSuccess += UC_Login_LoginSuccess;
         }
 
-        private void Uc_Login_LoginSuccess(object sender, EventArgs e)
+        private void UC_Login_LoginSuccess(object sender, EventArgs e)
         {
             var useractual = GestionUsuario.UsuarioLogueado;
             if (useractual != null)
@@ -61,8 +61,17 @@ namespace SiAP.UI
                 MessageBox.Show($"Bienvenido", "Atención");
                 menuStrip1.Visible = true;
                 CambiarVisibilidadMenu(menuStrip1.Items, useractual.Permiso.ObtenerPermisos());
-                uc_login.Visible = false;
+                UC_Login.Visible = false;
             }
+
+            UC_Login.LoginSuccess -= UC_Login_LoginSuccess;
+        }
+     
+        private void Uc_Logout()
+        {
+            //deslogearlo
+            menuStrip1.Visible = false;
+            MostrarLogin();
         }
 
         #endregion
@@ -75,6 +84,7 @@ namespace SiAP.UI
             bool tieneVisibles = false;
             CambiarVisibilidadMenu(dropDownItems, ref tieneVisibles, permisosHabilitados);
         }
+
         public void CambiarVisibilidadMenu(ToolStripItemCollection dropDownItems, ref bool tieneVisibles, IList<Permiso> permisosHabilitados)
         {
             foreach (object obj in dropDownItems)
@@ -133,7 +143,7 @@ namespace SiAP.UI
             {
                 childForm.Close();
             }
-            MostrarLogin();
+            Uc_Logout();
         }
 
         #endregion
