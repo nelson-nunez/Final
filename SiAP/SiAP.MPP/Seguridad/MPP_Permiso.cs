@@ -29,7 +29,7 @@ namespace SiAP.MPP.Seguridad
             if (Existe(entidad) || ExistePorCodigo(entidad.Codigo)) return;
 
             var dr = dt.NewRow();
-            dr["Id"] = entidad.Id > 0 ? entidad.Id : GenerarNuevoId(dt);
+            dr["Id"] = DataRowHelper.ObtenerSiguienteId(dt, "Id");
             dr["Codigo"] = entidad.Codigo;
             dr["Descripcion"] = entidad.Descripcion;
             dr["EsCompuesto"] = entidad is PermisoCompuesto;
@@ -74,15 +74,13 @@ namespace SiAP.MPP.Seguridad
         public bool Existe(Permiso entidad)
         {
             var ds = _datos.Obtener_Datos();
-            return ds.Tables["Permiso"].AsEnumerable()
-                     .Any(r => Convert.ToInt64(r["Id"]) == entidad.Id);
+            return ds.Tables["Permiso"].AsEnumerable().Any(r => Convert.ToInt64(r["Id"]) == entidad.Id);
         }
 
         public bool ExistePorCodigo(string codigo)
         {
             var ds = _datos.Obtener_Datos();
-            return ds.Tables["Permiso"].AsEnumerable()
-                     .Any(r => r["Codigo"].ToString() == codigo);
+            return ds.Tables["Permiso"].AsEnumerable().Any(r => r["Codigo"].ToString() == codigo);
         }
 
         public bool TieneDependencias(Permiso entidad)
@@ -166,8 +164,7 @@ namespace SiAP.MPP.Seguridad
             var dt = ds.Tables["PermisoHijo"];
 
             var row = dt.AsEnumerable()
-                        .FirstOrDefault(r => Convert.ToInt64(r["PadreId"]) == padre.Id &&
-                                             Convert.ToInt64(r["HijoId"]) == hijo.Id);
+                        .FirstOrDefault(r => Convert.ToInt64(r["PadreId"]) == padre.Id && Convert.ToInt64(r["HijoId"]) == hijo.Id);
 
             if (row != null)
             {
@@ -204,13 +201,6 @@ namespace SiAP.MPP.Seguridad
 
             permiso.Id = id;
             return permiso;
-        }
-
-        private long GenerarNuevoId(DataTable dt)
-        {
-            return dt.Rows.Count == 0
-                ? 1
-                : dt.AsEnumerable().Max(r => Convert.ToInt64(r["Id"])) + 1;
         }
     }
 }

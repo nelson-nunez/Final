@@ -7,23 +7,27 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using SiAP.Abstracciones;
 using SiAP.BE.Seguridad;
+using SiAP.BLL.Base;
 using SiAP.BLL.Seguridad;
 using SiAP.UI.Extensiones;
 
 namespace SiAP.UI.Controles
 {
-    public partial class UC_buscarUsuario : UserControl
+    public partial class UC_BuscarUsuario : UserControl
     {
         BLL_Usuario _bllUsuario;
         public Usuario itemSeleccionado = new Usuario();
+        private IEncriptacion _encriptacion;
 
-        public UC_buscarUsuario()
+        public UC_BuscarUsuario()
         {
             InitializeComponent();
             _bllUsuario = BLL_Usuario.ObtenerInstancia();
             //Configurar Grids
             this.Controls.ConfigurarTodosLosGrids();
+            _encriptacion = new Encriptador();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -47,7 +51,6 @@ namespace SiAP.UI.Controles
 
         private void CargarDatos(Usuario item)
         {
-            itemSeleccionado = item;
             //Campos
             textBox_NombreSeleccionado.Text = item.Username;
             textBox_ConstraseñaSeleccionada.Text = item.Password;
@@ -55,7 +58,10 @@ namespace SiAP.UI.Controles
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-
+            if (checkBox1.Checked)
+                textBox_ConstraseñaSeleccionada.Text = _encriptacion.Desencriptar3DES(itemSeleccionado.Password);
+            else
+                textBox_ConstraseñaSeleccionada.Text = itemSeleccionado.Password;
         }
     }
 }

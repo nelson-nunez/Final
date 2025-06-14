@@ -1,16 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
+﻿using System.Data;
 using SiAP.Abstracciones;
 using SiAP.BE.Seguridad;
 using SiAP.DAL;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using SiAP.BE.Seguridad;
-using SiAP.DAL;
+using SiAP.MPP.Base;
 
 namespace SiAP.MPP.Seguridad
 {
@@ -39,10 +31,23 @@ namespace SiAP.MPP.Seguridad
             var ds = _datos.Obtener_Datos();
             var dt = ds.Tables["Usuario"];
 
-            if (Existe(entidad)) return;
+            if (Existe(entidad)) 
+                return;
 
             var dr = dt.NewRow();
-            MapearDataRow(dr, entidad);
+            dr["Id"] = DataRowHelper.ObtenerSiguienteId(dt, "Id");
+            dr["Legajo"] = entidad.Legajo ?? (object)DBNull.Value;
+            dr["Username"] = entidad.Username;
+            dr["Nombre"] = entidad.Nombre;
+            dr["Apellido"] = entidad.Apellido;
+            dr["Email"] = entidad.Email;
+            dr["Password"] = entidad.Password;
+            dr["Bloqueado"] = entidad.Bloqueado;
+            dr["Activo"] = entidad.Activo;
+            dr["FechaUltimoCambioPassword"] = entidad.FechaUltimoCambioPassword ?? (object)DBNull.Value;
+            dr["PalabraClave"] = entidad.PalabraClave ?? string.Empty;
+            dr["RespuestaClave"] = entidad.RespuestaClave ?? string.Empty;
+            
             dt.Rows.Add(dr);
 
             GuardarPermisosUsuario(entidad, ds);
@@ -61,7 +66,17 @@ namespace SiAP.MPP.Seguridad
             if (dr == null)
                 throw new Exception("Usuario no encontrado.");
 
-            MapearDataRow(dr, entidad);
+            dr["Legajo"] = entidad.Legajo ?? (object)DBNull.Value;
+            dr["Username"] = entidad.Username;
+            dr["Nombre"] = entidad.Nombre;
+            dr["Apellido"] = entidad.Apellido;
+            dr["Email"] = entidad.Email;
+            dr["Password"] = entidad.Password;
+            dr["Bloqueado"] = entidad.Bloqueado;
+            dr["Activo"] = entidad.Activo;
+            dr["FechaUltimoCambioPassword"] = entidad.FechaUltimoCambioPassword ?? (object)DBNull.Value;
+            dr["PalabraClave"] = entidad.PalabraClave ?? string.Empty;
+            dr["RespuestaClave"] = entidad.RespuestaClave ?? string.Empty;
 
             // Actualizar permisos
             var dtUsuarioPermiso = ds.Tables["UsuarioPermiso"];
@@ -200,21 +215,6 @@ namespace SiAP.MPP.Seguridad
             dt.Rows.Add(dr);
         }
 
-        private void MapearDataRow(DataRow dr, Usuario entidad)
-        {
-            dr["Id"] = entidad.Id;
-            dr["Legajo"] = entidad.Legajo ?? (object)DBNull.Value;
-            dr["Username"] = entidad.Username;
-            dr["Nombre"] = entidad.Nombre;
-            dr["Apellido"] = entidad.Apellido;
-            dr["Email"] = entidad.Email;
-            dr["Password"] = entidad.Password;
-            dr["Bloqueado"] = entidad.Bloqueado;
-            dr["Activo"] = entidad.Activo;
-            dr["FechaUltimoCambioPassword"] = entidad.FechaUltimoCambioPassword ?? (object)DBNull.Value;
-            dr["PalabraClave"] = entidad.PalabraClave ?? string.Empty;
-            dr["RespuestaClave"] = entidad.RespuestaClave ?? string.Empty;
-        }
     }
 }
 

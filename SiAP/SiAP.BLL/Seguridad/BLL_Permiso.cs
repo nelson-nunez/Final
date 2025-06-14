@@ -55,6 +55,25 @@ namespace SiAP.BLL.Seguridad
             _logger.GenerarLog($"Permiso eliminado: {permiso.Codigo}");
         }
 
+        public void Asignar(Permiso permisopadre, Permiso permisohijo)
+        {
+            if (!EsValido(permisohijo))
+                throw new ArgumentException(MensajeError);
+
+            _mppPermiso.Asignar(permisopadre, permisohijo);
+            _logger.GenerarLog($"Permiso asignado: {permisohijo} a {permisopadre}");
+        }
+        
+        public void Desasignar(Permiso permisopadre, Permiso permisohijo)
+        {
+            if (!EsValido(permisohijo))
+                throw new ArgumentException(MensajeError);
+
+            _mppPermiso.Desasignar(permisopadre, permisohijo);
+            _logger.GenerarLog($"Permiso desasignado: {permisohijo} a {permisopadre}");
+        }
+
+
         public IList<Permiso> ObtenerTodos()
         {
             return _mppPermiso.ObtenerTodos();

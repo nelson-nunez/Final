@@ -84,6 +84,24 @@
       </xs:unique>
     </xs:element>
   </xs:schema>
+  <Log>
+    <Id>1</Id>
+    <Fecha>2025-06-13T19:24:32.6898582-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Permiso agregado: asd</Operacion>
+  </Log>
+  <Log>
+    <Id>2</Id>
+    <Fecha>2025-06-13T19:24:40.9919047-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Permiso agregado: zxczxc</Operacion>
+  </Log>
+  <Log>
+    <Id>3</Id>
+    <Fecha>2025-06-13T19:24:51.1781396-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Permiso asignado: zxczxc - vbnbnv a asd - qwe</Operacion>
+  </Log>
   <Permiso>
     <Id>10</Id>
     <Codigo>Administrador</Codigo>
@@ -120,6 +138,24 @@
     <Descripcion>Gestión de Permisos</Descripcion>
     <EsCompuesto>false</EsCompuesto>
   </Permiso>
+  <Permiso>
+    <Id>18</Id>
+    <Codigo>Soporte</Codigo>
+    <Descripcion>Permisos soporte</Descripcion>
+    <EsCompuesto>true</EsCompuesto>
+  </Permiso>
+  <Permiso>
+    <Id>19</Id>
+    <Codigo>asd</Codigo>
+    <Descripcion>qwe</Descripcion>
+    <EsCompuesto>true</EsCompuesto>
+  </Permiso>
+  <Permiso>
+    <Id>20</Id>
+    <Codigo>aaaaaaa</Codigo>
+    <Descripcion>ddddddddd</Descripcion>
+    <EsCompuesto>true</EsCompuesto>
+  </Permiso>
   <PermisoHijo>
     <PadreId>10</PadreId>
     <HijoId>11</HijoId>
@@ -138,7 +174,15 @@
   </PermisoHijo>
   <PermisoHijo>
     <PadreId>10</PadreId>
+    <HijoId>18</HijoId>
+  </PermisoHijo>
+  <PermisoHijo>
+    <PadreId>18</PadreId>
     <HijoId>15</HijoId>
+  </PermisoHijo>
+  <PermisoHijo>
+    <PadreId>19</PadreId>
+    <HijoId>20</HijoId>
   </PermisoHijo>
   <Usuario>
     <Id>1</Id>
@@ -147,8 +191,8 @@
     <Nombre>Administrador</Nombre>
     <Apellido>Sistema</Apellido>
     <Email>admin@empresa.com</Email>
-    <Password>admin</Password>
-    <FechaUltimoCambioPassword>2025-05-11T23:46:54.7031222-03:00</FechaUltimoCambioPassword>
+    <Password>STqG+Tki2fc=</Password>
+    <FechaUltimoCambioPassword>2025-06-13T19:31:06.5006375-03:00</FechaUltimoCambioPassword>
     <PalabraClave>default</PalabraClave>
     <RespuestaClave>admin</RespuestaClave>
     <Bloqueado>false</Bloqueado>

@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SiAP.Abstracciones;
 
-namespace SiAP.BE.Seguridad
+namespace SiAP.BLL.Base
 {
     public class Encriptador : IEncriptacion
     {

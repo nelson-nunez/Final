@@ -32,6 +32,8 @@
             button_Guardar = new Button();
             button_Limpiar = new Button();
             button_Editar = new Button();
+            flowLayoutPanel1 = new FlowLayoutPanel();
+            flowLayoutPanel1.SuspendLayout();
             SuspendLayout();
             // 
             // button_Borrar
@@ -90,16 +92,25 @@
             button_Editar.TextAlign = ContentAlignment.MiddleLeft;
             button_Editar.UseVisualStyleBackColor = false;
             // 
+            // flowLayoutPanel1
+            // 
+            flowLayoutPanel1.Controls.Add(button_Borrar);
+            flowLayoutPanel1.Controls.Add(button_Limpiar);
+            flowLayoutPanel1.Controls.Add(button_Editar);
+            flowLayoutPanel1.Controls.Add(button_Guardar);
+            flowLayoutPanel1.Location = new Point(20, 71);
+            flowLayoutPanel1.Name = "flowLayoutPanel1";
+            flowLayoutPanel1.Size = new Size(320, 33);
+            flowLayoutPanel1.TabIndex = 27;
+            // 
             // UC_Guardar_H
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(button_Borrar);
-            Controls.Add(button_Guardar);
-            Controls.Add(button_Limpiar);
-            Controls.Add(button_Editar);
+            Controls.Add(flowLayoutPanel1);
             Name = "UC_Guardar_H";
-            Size = new Size(322, 33);
+            Size = new Size(439, 219);
+            flowLayoutPanel1.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -109,5 +120,6 @@
         private Button button_Guardar;
         private Button button_Limpiar;
         private Button button_Editar;
+        private FlowLayoutPanel flowLayoutPanel1;
     }
 }

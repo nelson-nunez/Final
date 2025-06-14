@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using System.Xml;
 using SiAP.Abstracciones;
-using SiAP.BE.Seguridad;
 
 namespace SiAP.DAL
 {
@@ -10,10 +9,12 @@ namespace SiAP.DAL
     {
         private static AccesoXML _acceso = null;
         private DataSet _dataSet;
+        private DataSet _dataSetLogs;
 
         private AccesoXML()
         {
             _dataSet = ObtenerODatosOInicializar();
+            _dataSetLogs = ObtenerLOGDatosOInicializar();
         }
 
         public static AccesoXML ObtenerInstancia()
@@ -44,38 +45,35 @@ namespace SiAP.DAL
 
         #endregion
 
-        #region Leer
+        #region LeerBD Comun
 
         private DataSet ObtenerODatosOInicializar()
         {
             AsegurarExistenciaArchivo(ReferenciasBD.Path_BD, "SiAP");
-
             var ds = new DataSet();
             ds.ReadXml(ReferenciasBD.Path_BD, XmlReadMode.ReadSchema);
-
             InicializarTablas(ds);
             return ds;
         }
-
         public DataSet Obtener_Datos()
         {
             return _dataSet;
         }
+        #endregion
+
+        #region LeerBD Logs
+        private DataSet ObtenerLOGDatosOInicializar()
+        {
+            AsegurarExistenciaArchivo(ReferenciasBD.Path_BDLogs, "Log");
+            var ds = new DataSet();
+            ds.ReadXml(ReferenciasBD.Path_BDLogs, XmlReadMode.ReadSchema);
+            InicializarTablasLog(ds);
+            return ds;
+        }
 
         public DataSet Obtener_Logs()
         {
-            try
-            {
-                AsegurarExistenciaArchivo(ReferenciasBD.Path_BDLogs, "Log");
-
-                DataSet ds = new DataSet();
-                ds.ReadXml(ReferenciasBD.Path_BDLogs, XmlReadMode.ReadSchema);
-                return ds;
-            }
-            catch
-            {
-                throw;
-            }
+            return _dataSetLogs;           
         }
 
         #endregion
@@ -178,31 +176,33 @@ namespace SiAP.DAL
 
         private void InicializarTablas(DataSet ds)
         {
-            if (!ds.Tables.Contains("Log"))
+            try
             {
-                ds.Tables.Add(CrearTablaLog());
-                Actualizar_BD(ds);
+                if (!ds.Tables.Contains("Permiso"))
+                {
+                    ds.Tables.Add(CrearTablaPermiso());
+                    Actualizar_BD(ds);
+                }
+                if (!ds.Tables.Contains("PermisoHijo"))
+                {
+                    ds.Tables.Add(CrearTablaPermisoHijo());
+                    Actualizar_BD(ds);
+                }
+                if (!ds.Tables.Contains("Usuario"))
+                {
+                    ds.Tables.Add(CrearTablaUsuario());
+                    Actualizar_BD(ds);
+                }
+                if (!ds.Tables.Contains("UsuarioPermiso"))
+                {
+                    ds.Tables.Add(CrearTablaUsuarioPermiso());
+                    Actualizar_BD(ds);
+                }
             }
+            catch (Exception ex)
+            {
 
-            if (!ds.Tables.Contains("Permiso"))
-            {
-                ds.Tables.Add(CrearTablaPermiso());
-                Actualizar_BD(ds);
-            }
-            if (!ds.Tables.Contains("PermisoHijo"))
-            {
-                ds.Tables.Add(CrearTablaPermisoHijo());
-                Actualizar_BD(ds);
-            }
-            if (!ds.Tables.Contains("Usuario"))
-            {
-                ds.Tables.Add(CrearTablaUsuario());
-                Actualizar_BD(ds);
-            }
-            if (!ds.Tables.Contains("UsuarioPermiso"))
-            { 
-                ds.Tables.Add(CrearTablaUsuarioPermiso());
-                Actualizar_BD(ds);
+                throw;
             }
         }
 
@@ -223,7 +223,6 @@ namespace SiAP.DAL
             tabla.Columns.Add(new DataColumn("RespuestaClave", typeof(string)));
             tabla.Columns.Add(new DataColumn("Bloqueado", typeof(bool)));
             tabla.Columns.Add(new DataColumn("Activo", typeof(bool)));
-
             tabla.PrimaryKey = new[] { tabla.Columns["Id"] };
 
             // Usuario mockup
@@ -234,7 +233,7 @@ namespace SiAP.DAL
             fila["Nombre"] = "Administrador";
             fila["Apellido"] = "Sistema";
             fila["Email"] = "admin@empresa.com";
-            fila["Password"] = "admin";
+            fila["Password"] = "STqG+Tki2fc=";
             fila["FechaUltimoCambioPassword"] = DateTime.Now;
             fila["PalabraClave"] = "default";
             fila["RespuestaClave"] = "admin";
@@ -259,13 +258,15 @@ namespace SiAP.DAL
 
             // Permiso compuesto - administrador
             tabla.Rows.Add(10, "Administrador", "Permisos administrativos", true);
-
             // Permisos simples
             tabla.Rows.Add(11, "TAG001", "Acceso a Inicio", false);
             tabla.Rows.Add(12, "TAG002", "Modificar Clave", false);
             tabla.Rows.Add(13, "TAG003", "Gestión de Usuarios", false);
             tabla.Rows.Add(14, "TAG004", "Gestión de Roles", false);
             tabla.Rows.Add(15, "TAG005", "Gestión de Permisos", false);
+
+            // Permiso compuesto - soporte
+            tabla.Rows.Add(18, "Soporte", "Permisos soporte", true);
 
             return tabla;
         }
@@ -278,17 +279,17 @@ namespace SiAP.DAL
             tabla.Columns.Add(new DataColumn("PadreId", typeof(long)));
             tabla.Columns.Add(new DataColumn("HijoId", typeof(long)));
 
-            tabla.PrimaryKey = new[] {
-                tabla.Columns["PadreId"],
-                tabla.Columns["HijoId"]
-            };
+            tabla.PrimaryKey = new[] { tabla.Columns["PadreId"], tabla.Columns["HijoId"] };
 
             // Relaciones del permiso compuesto "Administrador"
             tabla.Rows.Add(10, 11);
             tabla.Rows.Add(10, 12);
             tabla.Rows.Add(10, 13);
             tabla.Rows.Add(10, 14);
-            tabla.Rows.Add(10, 15);
+            tabla.Rows.Add(10, 18);
+
+            // Relaciones del permiso compuesto "Soporte"
+            tabla.Rows.Add(18, 15);
 
             return tabla;
         }
@@ -312,6 +313,22 @@ namespace SiAP.DAL
             return tabla;
         }
 
+        //Logssssssssssssssssssssssssssssssssssssssssssssssssssssssss
+        private void InicializarTablasLog(DataSet ds)
+        {
+            try
+            {
+                if (!ds.Tables.Contains("Log"))
+                {
+                    ds.Tables.Add(CrearTablaLog());
+                    Actualizar_BD(ds);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
         // Tabla Log
         private DataTable CrearTablaLog()
         {

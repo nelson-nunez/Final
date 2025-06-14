@@ -1,18 +1,19 @@
 ﻿using System.Data;
 using SiAP.Abstracciones;
-using SiAP.MPP.Base;
 using SiAP.BE.Logs;
+using SiAP.DAL;
+using SiAP.MPP.Base;
 
 namespace SiAP.MPP.Logs
 {
     public class MPPLog
     {
-        private readonly IGestorDatos _datos;
+        private readonly IAccesoDatos _datos;
         private static MPPLog _instancia;
 
         private MPPLog()
         {
-            _datos = GestorDatos.ObtenerInstancia();
+            _datos = AccesoXML.ObtenerInstancia();
         }
 
         public static MPPLog ObtenerInstancia()
@@ -55,13 +56,13 @@ namespace SiAP.MPP.Logs
             var dt = ds.Tables["Log"];
             var dr = dt.NewRow();
 
-            dr["CodigoTransaccion"] = Guid.NewGuid();
+            dr["Id"] = DataRowHelper.ObtenerSiguienteId(dt, "Id");
             dr["Fecha"] = log.Fecha;
             dr["Usuario"] = log.Usuario ?? string.Empty;
             dr["Operacion"] = log.Operacion ?? string.Empty;
 
             dt.Rows.Add(dr);
-            _datos.Guardar_Datos(ds);
+            _datos.Actualizar_BDLogs(ds);
         }
 
         public void ActualizarUsuarioUsername(string usernameActual, string usernameNuevo)
@@ -78,7 +79,7 @@ namespace SiAP.MPP.Logs
                 dr["Usuario"] = usernameNuevo;
             }
 
-            _datos.Guardar_Datos(ds);
+            _datos.Actualizar_BD(ds);
         }
 
         private string ConstruirFiltro(DateTime desde, DateTime hasta, string propiedad, string texto)
@@ -103,6 +104,7 @@ namespace SiAP.MPP.Logs
 
             return new Log
             {
+                Id = Convert.ToInt64(dr["Id"]),
                 Fecha = dr["Fecha"] != DBNull.Value ? Convert.ToDateTime(dr["Fecha"]) : DateTime.MinValue,
                 Usuario = dr["Usuario"]?.ToString(),
                 Operacion = dr["Operacion"]?.ToString()

@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SiAP.BE.Seguridad;
+﻿using SiAP.BE.Seguridad;
 using SiAP.Abstracciones;
-using SiAP.BE.Seguridad;
+using SiAP.BLL.Base;
 using SiAP.MPP.Seguridad;
 using SiAP.BLL.Logs;
-using System.Net.Sockets;
 
 namespace SiAP.BLL.Seguridad
 {
@@ -27,7 +21,6 @@ namespace SiAP.BLL.Seguridad
             _mppUsuario = MPP_Usuario.ObtenerInstancia();
             _logger = BLLLog.ObtenerInstancia();
             _encriptacion = new Encriptador();
-
         }
 
         public static BLL_Usuario ObtenerInstancia()
@@ -103,15 +96,15 @@ namespace SiAP.BLL.Seguridad
         }
 
         public bool Ingresar(string username, string password)
-        {
+        {                    
             Usuario usr = _mppUsuario.LeerPorUsername(username);
             //Busco Usuario
             if (usr == null)
                 throw new Exception("Nombre de Usuario o Contraseña incorrectos");
             //Verifico Password 
             //TODO: Sacar lo de admin de pruebas porque lo guarde sin encriptar
-            string passEncripted = _encriptacion.EncriptarSHA(password);
-            if (!passEncripted.Equals(usr.Password) & password != "admin")
+            string passEncripted = _encriptacion.Encriptar3DES(password);
+            if (!passEncripted.Equals(usr.Password))
                 throw new Exception("Nombre de Usuario o Contraseña incorrectos");
             //Activo
             if (!usr.Activo)

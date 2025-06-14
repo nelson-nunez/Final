@@ -1,0 +1,49 @@
+<?xml version="1.0" standalone="yes"?>
+<NewDataSet>
+  <xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+      <xs:complexType>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="Log">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="Id" type="xs:long" />
+                <xs:element name="Fecha" type="xs:dateTime" minOccurs="0" />
+                <xs:element name="Usuario" type="xs:string" minOccurs="0" />
+                <xs:element name="Operacion" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+      <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+        <xs:selector xpath=".//Log" />
+        <xs:field xpath="Id" />
+      </xs:unique>
+    </xs:element>
+  </xs:schema>
+  <Log>
+    <Id>1</Id>
+    <Fecha>2025-06-13T19:31:15.1990249-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Permiso agregado: asd</Operacion>
+  </Log>
+  <Log>
+    <Id>2</Id>
+    <Fecha>2025-06-13T19:31:23.3943842-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Permiso agregado: aaaaaaa</Operacion>
+  </Log>
+  <Log>
+    <Id>3</Id>
+    <Fecha>2025-06-13T19:31:31.9390405-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Permiso asignado: aaaaaaa - ddddddddd a asd - qwe</Operacion>
+  </Log>
+  <Log>
+    <Id>4</Id>
+    <Fecha>2025-06-13T21:45:51.047742-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Permiso agregado: TAG001</Operacion>
+  </Log>
+</NewDataSet>

@@ -1,6 +1,6 @@
 ﻿namespace SiAP.UI.Controles
 {
-    partial class UC_buscarUsuario
+    partial class UC_BuscarUsuario
     {
         /// <summary> 
         /// Variable del diseñador necesaria.
@@ -141,12 +141,12 @@
             textBox_Buscar.Size = new Size(312, 23);
             textBox_Buscar.TabIndex = 4;
             // 
-            // UC_buscarUsuario
+            // UC_BuscarUsuario
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(groupBox1);
-            Name = "UC_buscarUsuario";
+            Name = "UC_BuscarUsuario";
             Size = new Size(442, 260);
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();

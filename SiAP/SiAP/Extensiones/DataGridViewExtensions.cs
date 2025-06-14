@@ -95,4 +95,24 @@ namespace SiAP.UI.Extensiones
             dataGridView.AutoResizeColumns();
         }
     }
+
+    public static class TreeViewExtensions
+    {
+        public static T VerificarYRetornarSeleccion<T>(this TreeView tree) where T : class
+        {
+            if (tree == null)
+                throw new ArgumentNullException(nameof(tree), "El árbol no puede ser nulo.");
+
+            if (tree.Nodes.Count == 0)
+                throw new InvalidOperationException("El árbol no contiene ningún item.");
+
+            if (tree.SelectedNode == null)
+                throw new InvalidOperationException("Debe seleccionar un item para continuar.");
+
+            if (tree.SelectedNode.Tag is not T seleccionado)
+                throw new InvalidCastException($"El nodo seleccionado no contiene un objeto del tipo {typeof(T).Name}.");
+
+            return seleccionado;
+        }
+    }
 }
