@@ -1,24 +1,53 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
+using System.Collections.Generic;
+using SiAP.BE.Base;
+
 namespace SiAP.UI
 {
-    public static class Constantes
+    public class Menu: ClaseBase
     {
-        //Items del Menu
-        public const string Inicio = "TAG001";
-        public const string ModificarClave = "TAG002";
-        public const string MiCuenta = "TAG002";
-        public const string Usuarios = "TAG003";
-        public const string Roles = "TAG004";
-        public const string Permisos = "TAG005";
+        public string Nombre { get; init; }
+        public string Etiqueta { get; init; }
+
+        public string Mostrar
+        {
+            get { return $"{Nombre} - {Etiqueta}"; }
+        }
+
+        public Menu(long id, string nombre, string etiqueta)
+        {
+            Id = id;
+            Nombre = nombre;
+            Etiqueta = etiqueta;
+        }
+    }
+
+    public static class MenusConstantes
+    {
+        private static readonly List<Menu> _menus = new()
+        {
+            new Menu(1, "Inicio", "TAG001"),
+            new Menu(2, "ModificarClave", "TAG002"),
+            new Menu(3, "MiCuenta", "TAG002"),
+            new Menu(4, "Usuarios", "TAG003"),
+            new Menu(5, "Permisos", "TAG005"),
+            new Menu(6, "Turnos", "TAG006"),
+            new Menu(7, "HistorialMedico", "TAG007"),
+            new Menu(8, "Reportes", "TAG008"),
+        };
+
+        public static IReadOnlyList<Menu> ObtenerTodos() => _menus;
         
-        
-        public const string Turnos = "TAG006";
-        public const string HistorialMedico = "TAG007";
-        public const string Reportes = "TAG008";
+        public static Menu Obtener(string cod)
+        {
+            return _menus.FirstOrDefault(x => x.Etiqueta == cod);
+        }
     }
 }
+

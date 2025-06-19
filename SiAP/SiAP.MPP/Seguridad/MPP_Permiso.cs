@@ -26,13 +26,14 @@ namespace SiAP.MPP.Seguridad
             var ds = _datos.Obtener_Datos();
             var dt = ds.Tables["Permiso"];
 
-            if (Existe(entidad) || ExistePorCodigo(entidad.Codigo)) return;
-
+            //if (Existe(entidad) || ExistePorCodigo(entidad.Codigo)) throw new Exception("El permiso ya existe");
+            if (Existe(entidad)) throw new Exception("El permiso ya existe");
+            
             var dr = dt.NewRow();
             dr["Id"] = DataRowHelper.ObtenerSiguienteId(dt, "Id");
             dr["Codigo"] = entidad.Codigo;
             dr["Descripcion"] = entidad.Descripcion;
-            dr["EsCompuesto"] = entidad is PermisoCompuesto;
+            dr["EsCompuesto"] = false;
             dt.Rows.Add(dr);
 
             _datos.Actualizar_BD(ds);
@@ -145,7 +146,9 @@ namespace SiAP.MPP.Seguridad
             if (padre is not PermisoCompuesto)
                 throw new InvalidOperationException("Solo se pueden asignar permisos a un permiso compuesto.");
 
-            if (ExisteAsignacion(padre, hijo)) return;
+            if (ExisteAsignacion(padre, hijo))
+                throw new Exception("El permiso ya se encuentra asignado");
+            
 
             var ds = _datos.Obtener_Datos();
             var dt = ds.Tables["PermisoHijo"];
@@ -163,14 +166,16 @@ namespace SiAP.MPP.Seguridad
             var ds = _datos.Obtener_Datos();
             var dt = ds.Tables["PermisoHijo"];
 
-            var row = dt.AsEnumerable()
-                        .FirstOrDefault(r => Convert.ToInt64(r["PadreId"]) == padre.Id && Convert.ToInt64(r["HijoId"]) == hijo.Id);
+            var row = dt.AsEnumerable().FirstOrDefault(r => Convert.ToInt64(r["PadreId"]) == padre.Id && Convert.ToInt64(r["HijoId"]) == hijo.Id);
 
             if (row != null)
             {
                 row.Delete();
                 _datos.Actualizar_BD(ds);
             }
+            else
+                throw new Exception("El permiso no se encuentraba asignado");
+
         }
 
         public void ActualizarAsignacion(Permiso padre, Permiso hijo)

@@ -151,7 +151,7 @@
             DoubleBuffered = true;
             MainMenuStrip = menuStrip1;
             Name = "Form_Menu";
-            Text = "Form_Menu";
+            Text = "Sistema de Administración de Policonsultorios";
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
             ResumeLayout(false);

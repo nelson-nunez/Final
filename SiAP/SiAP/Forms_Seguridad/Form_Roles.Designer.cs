@@ -33,17 +33,17 @@
             uC_cruD_Permisos1 = new UC_CRUD_Permisos();
             groupBox1 = new GroupBox();
             groupBox4 = new GroupBox();
-            treeView2 = new TreeView();
+            treeView_Permisos = new TreeView();
             groupBox3 = new GroupBox();
-            button3 = new Button();
-            button4 = new Button();
-            treeView1 = new TreeView();
+            button_Quitar_Perm_Rol = new Button();
+            button_Asoc_Perm_Rol = new Button();
+            treeView_Roles = new TreeView();
             groupBox2 = new GroupBox();
             button1 = new Button();
             button2 = new Button();
             button_Borrar = new Button();
             button_Guardar = new Button();
-            treeView_Permisos = new TreeView();
+            treeView_Users = new TreeView();
             ABMs = new GroupBox();
             groupBox1.SuspendLayout();
             groupBox4.SuspendLayout();
@@ -87,7 +87,7 @@
             // 
             // groupBox4
             // 
-            groupBox4.Controls.Add(treeView2);
+            groupBox4.Controls.Add(treeView_Permisos);
             groupBox4.Location = new Point(882, 19);
             groupBox4.Name = "groupBox4";
             groupBox4.Size = new Size(332, 331);
@@ -95,18 +95,20 @@
             groupBox4.TabStop = false;
             groupBox4.Text = "Permisos";
             // 
-            // treeView2
+            // treeView_Permisos
             // 
-            treeView2.Location = new Point(6, 19);
-            treeView2.Name = "treeView2";
-            treeView2.Size = new Size(312, 306);
-            treeView2.TabIndex = 22;
+            treeView_Permisos.HideSelection = false;
+            treeView_Permisos.Location = new Point(6, 19);
+            treeView_Permisos.Name = "treeView_Permisos";
+            treeView_Permisos.Size = new Size(312, 306);
+            treeView_Permisos.TabIndex = 22;
+            treeView_Permisos.AfterSelect += treeView_Permisos_AfterSelect;
             // 
             // groupBox3
             // 
-            groupBox3.Controls.Add(button3);
-            groupBox3.Controls.Add(button4);
-            groupBox3.Controls.Add(treeView1);
+            groupBox3.Controls.Add(button_Quitar_Perm_Rol);
+            groupBox3.Controls.Add(button_Asoc_Perm_Rol);
+            groupBox3.Controls.Add(treeView_Roles);
             groupBox3.Location = new Point(457, 19);
             groupBox3.Name = "groupBox3";
             groupBox3.Size = new Size(419, 331);
@@ -114,36 +116,40 @@
             groupBox3.TabStop = false;
             groupBox3.Text = "Roles";
             // 
-            // button3
+            // button_Quitar_Perm_Rol
             // 
-            button3.BackColor = Color.IndianRed;
-            button3.Font = new Font("Calibri", 9.75F, FontStyle.Bold);
-            button3.ImageAlign = ContentAlignment.MiddleRight;
-            button3.Location = new Point(324, 83);
-            button3.Name = "button3";
-            button3.Size = new Size(65, 55);
-            button3.TabIndex = 32;
-            button3.Text = "Quitar Permiso a Rol";
-            button3.UseVisualStyleBackColor = false;
+            button_Quitar_Perm_Rol.BackColor = Color.IndianRed;
+            button_Quitar_Perm_Rol.Font = new Font("Calibri", 9.75F, FontStyle.Bold);
+            button_Quitar_Perm_Rol.ImageAlign = ContentAlignment.MiddleRight;
+            button_Quitar_Perm_Rol.Location = new Point(324, 83);
+            button_Quitar_Perm_Rol.Name = "button_Quitar_Perm_Rol";
+            button_Quitar_Perm_Rol.Size = new Size(65, 55);
+            button_Quitar_Perm_Rol.TabIndex = 32;
+            button_Quitar_Perm_Rol.Text = "Quitar Permiso a Rol";
+            button_Quitar_Perm_Rol.UseVisualStyleBackColor = false;
+            button_Quitar_Perm_Rol.Click += button_Quitar_Perm_Rol_Click;
             // 
-            // button4
+            // button_Asoc_Perm_Rol
             // 
-            button4.BackColor = SystemColors.ActiveCaption;
-            button4.Font = new Font("Calibri", 9.75F, FontStyle.Bold);
-            button4.ImageAlign = ContentAlignment.MiddleRight;
-            button4.Location = new Point(324, 22);
-            button4.Name = "button4";
-            button4.Size = new Size(65, 55);
-            button4.TabIndex = 33;
-            button4.Text = "Asociar Permiso a Rol";
-            button4.UseVisualStyleBackColor = false;
+            button_Asoc_Perm_Rol.BackColor = SystemColors.ActiveCaption;
+            button_Asoc_Perm_Rol.Font = new Font("Calibri", 9.75F, FontStyle.Bold);
+            button_Asoc_Perm_Rol.ImageAlign = ContentAlignment.MiddleRight;
+            button_Asoc_Perm_Rol.Location = new Point(324, 22);
+            button_Asoc_Perm_Rol.Name = "button_Asoc_Perm_Rol";
+            button_Asoc_Perm_Rol.Size = new Size(65, 55);
+            button_Asoc_Perm_Rol.TabIndex = 33;
+            button_Asoc_Perm_Rol.Text = "Asociar Permiso a Rol";
+            button_Asoc_Perm_Rol.UseVisualStyleBackColor = false;
+            button_Asoc_Perm_Rol.Click += button_Asoc_Perm_Rol_Click;
             // 
-            // treeView1
+            // treeView_Roles
             // 
-            treeView1.Location = new Point(6, 19);
-            treeView1.Name = "treeView1";
-            treeView1.Size = new Size(312, 306);
-            treeView1.TabIndex = 22;
+            treeView_Roles.HideSelection = false;
+            treeView_Roles.Location = new Point(6, 19);
+            treeView_Roles.Name = "treeView_Roles";
+            treeView_Roles.Size = new Size(312, 306);
+            treeView_Roles.TabIndex = 22;
+            treeView_Roles.AfterSelect += treeView_Roles_AfterSelect;
             // 
             // groupBox2
             // 
@@ -151,7 +157,7 @@
             groupBox2.Controls.Add(button2);
             groupBox2.Controls.Add(button_Borrar);
             groupBox2.Controls.Add(button_Guardar);
-            groupBox2.Controls.Add(treeView_Permisos);
+            groupBox2.Controls.Add(treeView_Users);
             groupBox2.Location = new Point(9, 19);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(442, 331);
@@ -207,12 +213,14 @@
             button_Guardar.Text = "Asociar Rol a Usuario";
             button_Guardar.UseVisualStyleBackColor = false;
             // 
-            // treeView_Permisos
+            // treeView_Users
             // 
-            treeView_Permisos.Location = new Point(6, 19);
-            treeView_Permisos.Name = "treeView_Permisos";
-            treeView_Permisos.Size = new Size(312, 306);
-            treeView_Permisos.TabIndex = 22;
+            treeView_Users.HideSelection = false;
+            treeView_Users.Location = new Point(6, 19);
+            treeView_Users.Name = "treeView_Users";
+            treeView_Users.Size = new Size(312, 306);
+            treeView_Users.TabIndex = 22;
+            treeView_Users.AfterSelect += treeView_Users_AfterSelect;
             // 
             // ABMs
             // 
@@ -249,13 +257,13 @@
         private UC_CRUD_Roles uC_cruD_Roles1;
         private UC_CRUD_Permisos uC_cruD_Permisos1;
         private GroupBox groupBox1;
-        private TreeView treeView_Permisos;
+        private TreeView treeView_Users;
         private GroupBox groupBox4;
-        private TreeView treeView2;
+        private TreeView treeView_Permisos;
         private GroupBox groupBox3;
-        private Button button3;
-        private Button button4;
-        private TreeView treeView1;
+        private Button button_Quitar_Perm_Rol;
+        private Button button_Asoc_Perm_Rol;
+        private TreeView treeView_Roles;
         private GroupBox groupBox2;
         private Button button1;
         private Button button2;

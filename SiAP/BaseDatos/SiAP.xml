@@ -135,7 +135,7 @@
   <Permiso>
     <Id>15</Id>
     <Codigo>TAG005</Codigo>
-    <Descripcion>Gestión de Permisos</Descripcion>
+    <Descripcion>Gestión de Permisos.</Descripcion>
     <EsCompuesto>false</EsCompuesto>
   </Permiso>
   <Permiso>
@@ -171,10 +171,6 @@
   <PermisoHijo>
     <PadreId>10</PadreId>
     <HijoId>14</HijoId>
-  </PermisoHijo>
-  <PermisoHijo>
-    <PadreId>10</PadreId>
-    <HijoId>18</HijoId>
   </PermisoHijo>
   <PermisoHijo>
     <PadreId>18</PadreId>

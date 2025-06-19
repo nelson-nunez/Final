@@ -186,7 +186,7 @@ namespace SiAP.MPP.Seguridad
                 RespuestaClave = r["RespuestaClave"].ToString()
             };
 
-            var permisos = _instanciaPermiso.ObtenerTodos().ToDictionary(p => p.Codigo);
+            var permisos = _instanciaPermiso.ObtenerTodos().ToDictionary(p => p.Id);
             var dtRelacion = ds.Tables["UsuarioPermiso"];
             var relaciones = dtRelacion.Select($"UsuarioId = '{usuario.Id}'");
 

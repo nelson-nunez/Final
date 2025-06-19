@@ -17,36 +17,16 @@ namespace SiAP.UI.Forms_Seguridad
     {
         BLL_Permiso _bllPermiso;
         public Permiso itemSeleccionado = new PermisoSimple("0", null);
+        public event EventHandler<EventArgs> ShouldUpdate;
 
         public UC_CRUD_Permisos()
         {
             InitializeComponent();
             _bllPermiso = BLL_Permiso.ObtenerInstancia();
-            ArmarArbolPermisosSimples(_bllPermiso.ObtenerTodos().ToList());
-            comboBox1.DataSource = _bllPermiso.ObtenerTodos().OfType<PermisoSimple>().ToList();
+            treeView_Permisos.ArmarArbolPermisosSimples(_bllPermiso.ObtenerTodos().ToList());
+            comboBox1.DataSource = MenusConstantes.ObtenerTodos();
+            comboBox1.DisplayMember = "Mostrar";
         }
-
-        private void treeView_Permisos_AfterSelect(object sender, TreeViewEventArgs e)
-        {
-            itemSeleccionado = e.Node?.Tag as Permiso;
-            CargarDatos();
-        }
-
-        #region Arbol
-        private void ArmarArbolPermisosSimples(List<Permiso> permisos)
-        {
-            HashSet<string> codigosAgregados = new(); // Para evitar duplicados
-            treeView_Permisos.Nodes.Clear();
-            foreach (var permiso in permisos)
-            {
-                if (permiso is PermisoSimple rol)
-                {
-                    TreeNode nodoRol = treeView_Permisos.Nodes.Add(rol.Codigo, $"{rol.Codigo}-{rol.Descripcion}");
-                    nodoRol.Tag = rol;
-                }
-            }
-        }
-        #endregion
 
         #region Buttons
 
@@ -55,16 +35,13 @@ namespace SiAP.UI.Forms_Seguridad
             try
             {
                 itemSeleccionado = new PermisoCompuesto("0", null);
-                InputsExtensions.PedirConfirmacion("Desea crear el Rol?");
-                var item = comboBox1.SelectedItem as Permiso;
-                InputsExtensions.OnlySelected(item, "un rol a asociar ");
-                
+                InputsExtensions.PedirConfirmacion("Desea crear el Permiso?");
+                var item = comboBox1.SelectedItem as Menu;              
                 //Valores
-                itemSeleccionado.Codigo = item.Codigo;
+                itemSeleccionado.Codigo = item.Etiqueta;
                 itemSeleccionado.Descripcion = textBox_Descripcion.Text;
-
                 _bllPermiso.Agregar(itemSeleccionado);
-                MessageBox.Show("Se creó el registro con éxito");
+                MessageBox.Show("Se creó el permiso con éxito");
             }
             catch (Exception ex)
             {
@@ -82,10 +59,10 @@ namespace SiAP.UI.Forms_Seguridad
             {
                 itemSeleccionado = treeView_Permisos.VerificarYRetornarSeleccion<Permiso>();
                 InputsExtensions.PedirConfirmacion("Desea guardar los cambios?");
-                var item = comboBox1.SelectedItem as Permiso;
+                var item = comboBox1.SelectedItem as Menu;
                 InputsExtensions.OnlySelected(item, "un menú ");
                 //Valores
-                itemSeleccionado.Codigo = item.Codigo;
+                itemSeleccionado.Codigo = item.Etiqueta;
                 itemSeleccionado.Descripcion = textBox_Descripcion.Text;
 
                 _bllPermiso.Modificar(itemSeleccionado);
@@ -134,21 +111,28 @@ namespace SiAP.UI.Forms_Seguridad
 
         #endregion
 
-        #region MyRegion
+        #region CargarDatos
 
         private void CargarDatos()
         {
             label_id.Text = itemSeleccionado.Id.ToString();
-            comboBox1.SelectedItem = itemSeleccionado;
+            comboBox1.SelectedItem = MenusConstantes.Obtener(itemSeleccionado.Codigo);
             textBox_Descripcion.Text = itemSeleccionado.Descripcion;
         }
 
         private void CargarMenus()
         {
-            ArmarArbolPermisosSimples(_bllPermiso.ObtenerTodos().ToList());
+            treeView_Permisos.ArmarArbolPermisosSimples(_bllPermiso.ObtenerTodos().ToList());
             itemSeleccionado = new PermisoSimple("0", null);
             comboBox1.SelectedItem = null;
             treeView_Permisos.SelectedNode = null;
+            CargarDatos();
+            ShouldUpdate?.Invoke(null, new EventArgs());
+        }
+        
+        private void treeView_Permisos_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            itemSeleccionado = e.Node?.Tag as Permiso;
             CargarDatos();
         }
 

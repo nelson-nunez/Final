@@ -18,17 +18,18 @@ namespace SiAP.UI.Forms_Seguridad
     {
         BLL_Permiso _bllPermiso;
         public Permiso itemSeleccionado = new PermisoCompuesto("0", null);
-
+        public event EventHandler<EventArgs> ShouldUpdate;
 
         public UC_CRUD_Roles()
         {
             InitializeComponent();
             _bllPermiso = BLL_Permiso.ObtenerInstancia();
-            ArmarArbolRoles(_bllPermiso.ObtenerTodos().ToList());
+            treeView_Roles.ArmarArbolSoloRoles(_bllPermiso.ObtenerTodos().ToList());
             comboBox_roles.DataSource = _bllPermiso.ObtenerTodos().OfType<PermisoCompuesto>().ToList();
         }
 
 
+        #region Carga de dtos
         private void CargarDatos()
         {
             label_id.Text = itemSeleccionado.Id.ToString();
@@ -36,44 +37,14 @@ namespace SiAP.UI.Forms_Seguridad
             textBox_Desc_Rol.Text = itemSeleccionado.Descripcion;
         }
 
-        private void CargarMenus()
+        public void CargarMenus()
         {
-            ArmarArbolRoles(_bllPermiso.ObtenerTodos().ToList());
+            treeView_Roles.ArmarArbolSoloRoles(_bllPermiso.ObtenerTodos().ToList());
             itemSeleccionado = new PermisoCompuesto("0", null);
             treeView_Roles.SelectedNode = null;
             comboBox_roles.DataSource = _bllPermiso.ObtenerTodos().OfType<PermisoCompuesto>().ToList();
             CargarDatos();
-        }
-
-        #region Arbol
-        private void ArmarArbolRoles(List<Permiso> permisos)
-        {
-            treeView_Roles.Nodes.Clear();
-            foreach (var permiso in permisos.OfType<PermisoCompuesto>())
-            {
-                var nodo = CrearNodoCompuesto(permiso, esRaiz: true);
-                if (nodo != null)
-                    treeView_Roles.Nodes.Add(nodo);
-            }
-        }
-
-        private TreeNode CrearNodoCompuesto(PermisoCompuesto permiso, bool esRaiz = false)
-        {
-            var nodo = new TreeNode($"{permiso.Codigo}-{permiso.Descripcion}")
-            {
-                Name = permiso.Codigo,
-                Tag = permiso,
-                ForeColor = esRaiz ? Color.Black : Color.DarkGreen
-            };
-
-            foreach (var hijo in permiso.ObtenerPermisos().OfType<PermisoCompuesto>())
-            {
-                var nodoHijo = CrearNodoCompuesto(hijo, esRaiz: false);
-                if (nodoHijo != null)
-                    nodo.Nodes.Add(nodoHijo);
-            }
-
-            return nodo;
+            ShouldUpdate?.Invoke(null, new EventArgs());
         }
 
         private void treeView_Roles_AfterSelect(object sender, TreeViewEventArgs e)
