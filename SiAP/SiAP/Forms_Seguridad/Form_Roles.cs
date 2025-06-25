@@ -28,7 +28,7 @@ namespace SiAP.UI.Forms_Seguridad
         public Permiso rol_Seleccionado = new PermisoCompuesto("0", null);
         public Permiso permiso_Seleccionado = new PermisoSimple("0", null);
 
-
+        #region Cargas
         public Form_Roles()
         {
             InitializeComponent();
@@ -45,26 +45,33 @@ namespace SiAP.UI.Forms_Seguridad
             uc_CRUD_Roles.ShouldUpdate += ShouldUpdate;
             CargarDatos();
         }
-        
+
         //Actualizar controles Hijos
         private void ShouldUpdate(object? sender, EventArgs e)
         {
-            uc_CRUD_Roles.CargarMenus();
+            //uc_CRUD_Roles.CargarMenus();
             CargarDatos();
         }
+
+        #endregion
 
         #region Asignaciones
 
         private void CargarDatos()
         {
             //Cargando trees
-            treeView_Users.ArmarArbolSimple(_bllUsuario.ObtenerTodos().ToList());
+            treeView_Users.ArmarArbolDeUsuariosConRoles(_bllUsuario.ObtenerTodos().ToList());
             treeView_Roles.ArmarArbolDeRoles(_bllPermiso.ObtenerTodos().ToList());
             treeView_Permisos.ArmarArbolPermisosSimples(_bllPermiso.ObtenerTodos().ToList());
         }
 
         private void treeView_Users_AfterSelect(object sender, TreeViewEventArgs e)
         {
+            if (e.Node.ForeColor != Color.DarkBlue)
+            {
+                treeView_Users.SelectedNode = null;
+                return;
+            }
             usuario_Seleccionado = e.Node?.Tag as Usuario;
         }
 
@@ -82,20 +89,24 @@ namespace SiAP.UI.Forms_Seguridad
         {
             permiso_Seleccionado = e.Node?.Tag as Permiso;
         }
-        
+
+        #endregion
+
+        #region Roles
+     
         private void button_Asoc_Perm_Rol_Click(object sender, EventArgs e)
         {
             try
             {
                 permiso_Seleccionado = treeView_Permisos.VerificarYRetornarSeleccion<Permiso>("permiso");
                 rol_Seleccionado = treeView_Roles.VerificarYRetornarSeleccion<Permiso>("rol");
-                InputsExtensions.PedirConfirmacion($"Desea asociar el permiso {permiso_Seleccionado.Descripcion} al rol {rol_Seleccionado.Descripcion}?");
+                InputsExtensions.PedirConfirmacion($"Desea asociar el permiso '{permiso_Seleccionado.Descripcion}' al rol '{rol_Seleccionado.Descripcion}'?");
                 _bllPermiso.Asignar(rol_Seleccionado, permiso_Seleccionado);
                 MessageBox.Show("Se guardaron los cambios con éxito");
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error");
+                MessageBox.Show(ex.Message, "⛔ Error");
             }
             finally
             {
@@ -115,7 +126,7 @@ namespace SiAP.UI.Forms_Seguridad
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error");
+                MessageBox.Show(ex.Message, "⛔ Error");
             }
             finally
             {
@@ -125,6 +136,89 @@ namespace SiAP.UI.Forms_Seguridad
 
         #endregion
 
+        #region Usuarios
+
+        private void button_Asociar_Rol_User_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                usuario_Seleccionado = treeView_Users.VerificarYRetornarSeleccion<Usuario>("usuario");
+                rol_Seleccionado = treeView_Roles.VerificarYRetornarSeleccion<Permiso>("rol");
+                InputsExtensions.PedirConfirmacion($"Desea asociar el rol '{rol_Seleccionado.Descripcion}' al usuario '{usuario_Seleccionado.Username}'?");
+                _bllUsuario.AgregarPermiso(usuario_Seleccionado, rol_Seleccionado);
+                MessageBox.Show("Se guardaron los cambios con éxito");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "⛔ Error");
+            }
+            finally
+            {
+                CargarDatos();
+            }
+        }
+
+        private void button_Quitar_Rol_User_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                usuario_Seleccionado = treeView_Users.VerificarYRetornarSeleccion<Usuario>("usuario");
+                rol_Seleccionado = treeView_Roles.VerificarYRetornarSeleccion<Permiso>("rol");
+                InputsExtensions.PedirConfirmacion($"Desea quitar el rol '{rol_Seleccionado.Descripcion}' al usuario '{usuario_Seleccionado.Username}'?");
+                _bllUsuario.QuitarPermiso(usuario_Seleccionado, rol_Seleccionado);
+                MessageBox.Show("Se guardaron los cambios con éxito");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "⛔ Error");
+            }
+            finally
+            {
+                CargarDatos();
+            }
+        }
+
+        private void button_Asociar_Permiso_User_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                usuario_Seleccionado = treeView_Users.VerificarYRetornarSeleccion<Usuario>("usuario");
+                permiso_Seleccionado = treeView_Permisos.VerificarYRetornarSeleccion<Permiso>("permiso");
+                InputsExtensions.PedirConfirmacion($"Desea asociar el permiso '{permiso_Seleccionado.Descripcion}' al usuario '{usuario_Seleccionado.Username}'?");
+                _bllUsuario.AgregarPermiso(usuario_Seleccionado, permiso_Seleccionado);
+                MessageBox.Show("Se guardaron los cambios con éxito");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "⛔ Error");
+            }
+            finally
+            {
+                CargarDatos();
+            }
+        }
+
+        private void button_Quitar_Permiso_User_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                usuario_Seleccionado = treeView_Users.VerificarYRetornarSeleccion<Usuario>("usuario");
+                permiso_Seleccionado = treeView_Permisos.VerificarYRetornarSeleccion<Permiso>("permiso");
+                InputsExtensions.PedirConfirmacion($"Desea quitar el permiso '{permiso_Seleccionado.Descripcion}' al usuario '{usuario_Seleccionado.Username}'?");
+                _bllUsuario.QuitarPermiso(usuario_Seleccionado, permiso_Seleccionado);
+                MessageBox.Show("Se guardaron los cambios con éxito");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "⛔ Error");
+            }
+            finally
+            {
+                CargarDatos();
+            }
+        }
+
+        #endregion
 
     }
 }

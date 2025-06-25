@@ -62,5 +62,43 @@ namespace SiAP.BE.Seguridad
         {
             return this.ToString().CompareTo(((Usuario)obj).ToString());
         }
+
+        #region Pemisos
+        // En la clase Usuario
+        public bool TienePermiso(Permiso permiso)
+        {
+            if (permiso == null || this.Permiso == null)
+                return false;
+
+            // Si es el mismo permiso (comparación por código/ID)
+            if (this.Permiso.Codigo == permiso.Codigo)
+                return true;
+
+            // Si el permiso del usuario es compuesto, buscar recursivamente
+            if (this.Permiso is PermisoCompuesto compuesto)
+                return BuscarPermisoEnJerarquia(compuesto, permiso);
+
+            return false;
+        }
+
+        private bool BuscarPermisoEnJerarquia(PermisoCompuesto permisoCompuesto, Permiso permisoBuscado)
+        {
+            foreach (var permisoHijo in permisoCompuesto.ObtenerPermisos())
+            {
+                // Comparar por código/ID
+                if (permisoHijo.Codigo == permisoBuscado.Codigo)
+                    return true;
+
+                // Si es compuesto, buscar recursivamente
+                if (permisoHijo is PermisoCompuesto compuestoHijo)
+                {
+                    if (BuscarPermisoEnJerarquia(compuestoHijo, permisoBuscado))
+                        return true;
+                }
+            }
+            return false;
+        }
+        
+        #endregion
     }
 }

@@ -45,7 +45,7 @@ namespace SiAP.UI.Forms_Seguridad
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error");
+                MessageBox.Show(ex.Message, "⛔ Error");
             }
             finally
             {
@@ -70,7 +70,7 @@ namespace SiAP.UI.Forms_Seguridad
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error");
+                MessageBox.Show(ex.Message, "⛔ Error");
             }
             finally
             {
@@ -86,7 +86,7 @@ namespace SiAP.UI.Forms_Seguridad
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error");
+                MessageBox.Show(ex.Message, "⛔ Error");
             }
         }
 
@@ -101,7 +101,7 @@ namespace SiAP.UI.Forms_Seguridad
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error");
+                MessageBox.Show(ex.Message, "⛔ Error");
             }
             finally
             {

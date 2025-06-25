@@ -122,5 +122,39 @@ namespace SiAP.BLL.Seguridad
             GestionUsuario.UsuarioLogueado= usr;
             return GestionUsuario.UsuarioLogueado != null;
         }
+
+        #region Permisos
+
+        public void AgregarPermiso(Usuario usuario, Permiso permiso)
+        {
+            if (!EsValido(usuario))
+                throw new ArgumentException(MensajeError);
+
+            if (permiso == null)
+                throw new ArgumentNullException(nameof(permiso));
+
+            if (usuario.TienePermiso(permiso) || usuario.Permiso != null )
+                throw new InvalidOperationException($"El usuario ya tiene asignado el permiso: {permiso.Descripcion}");
+
+            _mppUsuario.AgregarPermiso(usuario, permiso);
+            _logger.GenerarLog($"Permiso agregado al usuario {usuario.Username}: {permiso.Descripcion}");
+        }
+
+        public void QuitarPermiso(Usuario usuario, Permiso permiso)
+        {
+            if (!EsValido(usuario))
+                throw new ArgumentException(MensajeError);
+
+            if (permiso == null)
+                throw new ArgumentNullException(nameof(permiso));
+
+            if (!usuario.TienePermiso(permiso) || usuario.Permiso == null)
+                throw new InvalidOperationException($"El usuario no tiene asignado el permiso: {permiso.Descripcion}");
+
+            _mppUsuario.QuitarPermiso(usuario, permiso);
+            _logger.GenerarLog($"Permiso removido del usuario {usuario.Username}: {permiso.Descripcion}");
+        }
+        
+        #endregion
     }
 }

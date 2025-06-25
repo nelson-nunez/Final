@@ -39,10 +39,10 @@
             button_Asoc_Perm_Rol = new Button();
             treeView_Roles = new TreeView();
             groupBox2 = new GroupBox();
-            button1 = new Button();
-            button2 = new Button();
-            button_Borrar = new Button();
-            button_Guardar = new Button();
+            button_Quitar_Permiso_User = new Button();
+            button_Asociar_Permiso_User = new Button();
+            button_Quitar_Rol_User = new Button();
+            button_Asociar_Rol_User = new Button();
             treeView_Users = new TreeView();
             ABMs = new GroupBox();
             groupBox1.SuspendLayout();
@@ -153,10 +153,10 @@
             // 
             // groupBox2
             // 
-            groupBox2.Controls.Add(button1);
-            groupBox2.Controls.Add(button2);
-            groupBox2.Controls.Add(button_Borrar);
-            groupBox2.Controls.Add(button_Guardar);
+            groupBox2.Controls.Add(button_Quitar_Permiso_User);
+            groupBox2.Controls.Add(button_Asociar_Permiso_User);
+            groupBox2.Controls.Add(button_Quitar_Rol_User);
+            groupBox2.Controls.Add(button_Asociar_Rol_User);
             groupBox2.Controls.Add(treeView_Users);
             groupBox2.Location = new Point(9, 19);
             groupBox2.Name = "groupBox2";
@@ -165,53 +165,57 @@
             groupBox2.TabStop = false;
             groupBox2.Text = "Usuarios";
             // 
-            // button1
+            // button_Quitar_Permiso_User
             // 
-            button1.BackColor = Color.IndianRed;
-            button1.Font = new Font("Calibri", 9.75F, FontStyle.Bold);
-            button1.ImageAlign = ContentAlignment.MiddleRight;
-            button1.Location = new Point(324, 202);
-            button1.Name = "button1";
-            button1.Size = new Size(65, 55);
-            button1.TabIndex = 32;
-            button1.Text = "Quitar Permiso a Usuario";
-            button1.UseVisualStyleBackColor = false;
+            button_Quitar_Permiso_User.BackColor = Color.IndianRed;
+            button_Quitar_Permiso_User.Font = new Font("Calibri", 9.75F, FontStyle.Bold);
+            button_Quitar_Permiso_User.ImageAlign = ContentAlignment.MiddleRight;
+            button_Quitar_Permiso_User.Location = new Point(324, 202);
+            button_Quitar_Permiso_User.Name = "button_Quitar_Permiso_User";
+            button_Quitar_Permiso_User.Size = new Size(65, 55);
+            button_Quitar_Permiso_User.TabIndex = 32;
+            button_Quitar_Permiso_User.Text = "Quitar Permiso a Usuario";
+            button_Quitar_Permiso_User.UseVisualStyleBackColor = false;
+            button_Quitar_Permiso_User.Click += button_Quitar_Permiso_User_Click;
             // 
-            // button2
+            // button_Asociar_Permiso_User
             // 
-            button2.BackColor = SystemColors.ActiveCaption;
-            button2.Font = new Font("Calibri", 9.75F, FontStyle.Bold);
-            button2.ImageAlign = ContentAlignment.MiddleRight;
-            button2.Location = new Point(324, 141);
-            button2.Name = "button2";
-            button2.Size = new Size(65, 55);
-            button2.TabIndex = 33;
-            button2.Text = "Asociar Permiso a Usuario";
-            button2.UseVisualStyleBackColor = false;
+            button_Asociar_Permiso_User.BackColor = SystemColors.ActiveCaption;
+            button_Asociar_Permiso_User.Font = new Font("Calibri", 9.75F, FontStyle.Bold);
+            button_Asociar_Permiso_User.ImageAlign = ContentAlignment.MiddleRight;
+            button_Asociar_Permiso_User.Location = new Point(324, 141);
+            button_Asociar_Permiso_User.Name = "button_Asociar_Permiso_User";
+            button_Asociar_Permiso_User.Size = new Size(65, 55);
+            button_Asociar_Permiso_User.TabIndex = 33;
+            button_Asociar_Permiso_User.Text = "Asociar Permiso a Usuario";
+            button_Asociar_Permiso_User.UseVisualStyleBackColor = false;
+            button_Asociar_Permiso_User.Click += button_Asociar_Permiso_User_Click;
             // 
-            // button_Borrar
+            // button_Quitar_Rol_User
             // 
-            button_Borrar.BackColor = Color.IndianRed;
-            button_Borrar.Font = new Font("Calibri", 9.75F, FontStyle.Bold);
-            button_Borrar.ImageAlign = ContentAlignment.MiddleRight;
-            button_Borrar.Location = new Point(324, 80);
-            button_Borrar.Name = "button_Borrar";
-            button_Borrar.Size = new Size(65, 55);
-            button_Borrar.TabIndex = 30;
-            button_Borrar.Text = "Quitar Rol a Usuario";
-            button_Borrar.UseVisualStyleBackColor = false;
+            button_Quitar_Rol_User.BackColor = Color.IndianRed;
+            button_Quitar_Rol_User.Font = new Font("Calibri", 9.75F, FontStyle.Bold);
+            button_Quitar_Rol_User.ImageAlign = ContentAlignment.MiddleRight;
+            button_Quitar_Rol_User.Location = new Point(324, 80);
+            button_Quitar_Rol_User.Name = "button_Quitar_Rol_User";
+            button_Quitar_Rol_User.Size = new Size(65, 55);
+            button_Quitar_Rol_User.TabIndex = 30;
+            button_Quitar_Rol_User.Text = "Quitar Rol a Usuario";
+            button_Quitar_Rol_User.UseVisualStyleBackColor = false;
+            button_Quitar_Rol_User.Click += button_Quitar_Rol_User_Click;
             // 
-            // button_Guardar
+            // button_Asociar_Rol_User
             // 
-            button_Guardar.BackColor = SystemColors.ActiveCaption;
-            button_Guardar.Font = new Font("Calibri", 9.75F, FontStyle.Bold);
-            button_Guardar.ImageAlign = ContentAlignment.MiddleRight;
-            button_Guardar.Location = new Point(324, 19);
-            button_Guardar.Name = "button_Guardar";
-            button_Guardar.Size = new Size(65, 55);
-            button_Guardar.TabIndex = 31;
-            button_Guardar.Text = "Asociar Rol a Usuario";
-            button_Guardar.UseVisualStyleBackColor = false;
+            button_Asociar_Rol_User.BackColor = SystemColors.ActiveCaption;
+            button_Asociar_Rol_User.Font = new Font("Calibri", 9.75F, FontStyle.Bold);
+            button_Asociar_Rol_User.ImageAlign = ContentAlignment.MiddleRight;
+            button_Asociar_Rol_User.Location = new Point(324, 19);
+            button_Asociar_Rol_User.Name = "button_Asociar_Rol_User";
+            button_Asociar_Rol_User.Size = new Size(65, 55);
+            button_Asociar_Rol_User.TabIndex = 31;
+            button_Asociar_Rol_User.Text = "Asociar Rol a Usuario";
+            button_Asociar_Rol_User.UseVisualStyleBackColor = false;
+            button_Asociar_Rol_User.Click += button_Asociar_Rol_User_Click;
             // 
             // treeView_Users
             // 
@@ -265,10 +269,10 @@
         private Button button_Asoc_Perm_Rol;
         private TreeView treeView_Roles;
         private GroupBox groupBox2;
-        private Button button1;
-        private Button button2;
-        private Button button_Borrar;
-        private Button button_Guardar;
+        private Button button_Quitar_Permiso_User;
+        private Button button_Asociar_Permiso_User;
+        private Button button_Quitar_Rol_User;
+        private Button button_Asociar_Rol_User;
         private GroupBox ABMs;
     }
 }

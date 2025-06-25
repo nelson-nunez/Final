@@ -44,19 +44,21 @@
             // 
             // menuStrip1
             // 
-            menuStrip1.BackColor = SystemColors.ActiveCaption;
+            menuStrip1.BackColor = SystemColors.GrayText;
             menuStrip1.Font = new Font("Calibri", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             menuStrip1.Items.AddRange(new ToolStripItem[] { administradorToolStripMenuItem, turnosToolStripMenuItem, historialMédicoToolStripMenuItem, reportesToolStripMenuItem, salirToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(1284, 26);
+            menuStrip1.Size = new Size(1284, 30);
             menuStrip1.TabIndex = 0;
             menuStrip1.Text = "menuStrip1";
             // 
             // administradorToolStripMenuItem
             // 
+            administradorToolStripMenuItem.BackColor = Color.Gainsboro;
             administradorToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { cToolStripMenuItem, miCuentaToolStripMenuItem, usuariosToolStripMenuItem, rolesToolStripMenuItem, permisosToolStripMenuItem });
             administradorToolStripMenuItem.Image = Properties.Resources.hogar;
+            administradorToolStripMenuItem.Margin = new Padding(2);
             administradorToolStripMenuItem.Name = "administradorToolStripMenuItem";
             administradorToolStripMenuItem.Size = new Size(70, 22);
             administradorToolStripMenuItem.Tag = "TAG001";
@@ -66,7 +68,7 @@
             // 
             cToolStripMenuItem.Image = Properties.Resources.contrasena;
             cToolStripMenuItem.Name = "cToolStripMenuItem";
-            cToolStripMenuItem.Size = new Size(172, 22);
+            cToolStripMenuItem.Size = new Size(180, 22);
             cToolStripMenuItem.Tag = "TAG002";
             cToolStripMenuItem.Text = "Modificar Clave";
             // 
@@ -74,7 +76,7 @@
             // 
             miCuentaToolStripMenuItem.Image = Properties.Resources.usuario;
             miCuentaToolStripMenuItem.Name = "miCuentaToolStripMenuItem";
-            miCuentaToolStripMenuItem.Size = new Size(172, 22);
+            miCuentaToolStripMenuItem.Size = new Size(180, 22);
             miCuentaToolStripMenuItem.Tag = "TAG003";
             miCuentaToolStripMenuItem.Text = "Mi Cuenta";
             // 
@@ -82,14 +84,14 @@
             // 
             usuariosToolStripMenuItem.Image = Properties.Resources.nueva_cuenta;
             usuariosToolStripMenuItem.Name = "usuariosToolStripMenuItem";
-            usuariosToolStripMenuItem.Size = new Size(172, 22);
+            usuariosToolStripMenuItem.Size = new Size(180, 22);
             usuariosToolStripMenuItem.Text = "Usuarios";
             // 
             // rolesToolStripMenuItem
             // 
             rolesToolStripMenuItem.Image = Properties.Resources.configuracion_del_usuario;
             rolesToolStripMenuItem.Name = "rolesToolStripMenuItem";
-            rolesToolStripMenuItem.Size = new Size(172, 22);
+            rolesToolStripMenuItem.Size = new Size(180, 22);
             rolesToolStripMenuItem.Tag = "TAG004";
             rolesToolStripMenuItem.Text = "Roles";
             rolesToolStripMenuItem.Click += rolesToolStripMenuItem_Click;
@@ -98,13 +100,15 @@
             // 
             permisosToolStripMenuItem.Image = Properties.Resources.proteger;
             permisosToolStripMenuItem.Name = "permisosToolStripMenuItem";
-            permisosToolStripMenuItem.Size = new Size(172, 22);
+            permisosToolStripMenuItem.Size = new Size(180, 22);
             permisosToolStripMenuItem.Tag = "TAG005";
             permisosToolStripMenuItem.Text = "Permisos";
             // 
             // turnosToolStripMenuItem
             // 
+            turnosToolStripMenuItem.BackColor = Color.Gainsboro;
             turnosToolStripMenuItem.Image = Properties.Resources.calendario;
+            turnosToolStripMenuItem.Margin = new Padding(2);
             turnosToolStripMenuItem.Name = "turnosToolStripMenuItem";
             turnosToolStripMenuItem.Size = new Size(77, 22);
             turnosToolStripMenuItem.Tag = "TAG006";
@@ -113,7 +117,9 @@
             // 
             // historialMédicoToolStripMenuItem
             // 
+            historialMédicoToolStripMenuItem.BackColor = Color.Gainsboro;
             historialMédicoToolStripMenuItem.Image = Properties.Resources.reporte;
+            historialMédicoToolStripMenuItem.Margin = new Padding(2);
             historialMédicoToolStripMenuItem.Name = "historialMédicoToolStripMenuItem";
             historialMédicoToolStripMenuItem.Size = new Size(138, 22);
             historialMédicoToolStripMenuItem.Tag = "TAG007";
@@ -122,7 +128,9 @@
             // 
             // reportesToolStripMenuItem
             // 
+            reportesToolStripMenuItem.BackColor = Color.Gainsboro;
             reportesToolStripMenuItem.Image = Properties.Resources.analitica;
+            reportesToolStripMenuItem.Margin = new Padding(2);
             reportesToolStripMenuItem.Name = "reportesToolStripMenuItem";
             reportesToolStripMenuItem.Size = new Size(92, 22);
             reportesToolStripMenuItem.Tag = "TAG008";
@@ -135,7 +143,7 @@
             salirToolStripMenuItem.Image = Properties.Resources.cerrar;
             salirToolStripMenuItem.Margin = new Padding(0, 0, 10, 0);
             salirToolStripMenuItem.Name = "salirToolStripMenuItem";
-            salirToolStripMenuItem.Size = new Size(63, 22);
+            salirToolStripMenuItem.Size = new Size(63, 26);
             salirToolStripMenuItem.Text = "Salir";
             salirToolStripMenuItem.Click += CerrarTodosLosFormulariosHijos;
             // 
@@ -143,12 +151,13 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.WhiteSmoke;
+            BackColor = SystemColors.ButtonFace;
             BackgroundImage = Properties.Resources.logo;
             BackgroundImageLayout = ImageLayout.Center;
             ClientSize = new Size(1284, 761);
             Controls.Add(menuStrip1);
             DoubleBuffered = true;
+            FormBorderStyle = FormBorderStyle.Fixed3D;
             MainMenuStrip = menuStrip1;
             Name = "Form_Menu";
             Text = "Sistema de Administración de Policonsultorios";

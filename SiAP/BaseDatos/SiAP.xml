@@ -146,14 +146,26 @@
   </Permiso>
   <Permiso>
     <Id>19</Id>
-    <Codigo>asd</Codigo>
+    <Codigo>Asd</Codigo>
     <Descripcion>qwe</Descripcion>
     <EsCompuesto>true</EsCompuesto>
   </Permiso>
   <Permiso>
     <Id>20</Id>
-    <Codigo>aaaaaaa</Codigo>
-    <Descripcion>ddddddddd</Descripcion>
+    <Codigo>AAAA</Codigo>
+    <Descripcion>D2ddddddddd</Descripcion>
+    <EsCompuesto>true</EsCompuesto>
+  </Permiso>
+  <Permiso>
+    <Id>21</Id>
+    <Codigo>TAG007</Codigo>
+    <Descripcion>test2</Descripcion>
+    <EsCompuesto>false</EsCompuesto>
+  </Permiso>
+  <Permiso>
+    <Id>24</Id>
+    <Codigo>ZZZZZZZZZ</Codigo>
+    <Descripcion>zxzxzxzx</Descripcion>
     <EsCompuesto>true</EsCompuesto>
   </Permiso>
   <PermisoHijo>

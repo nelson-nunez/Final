@@ -148,4 +148,94 @@
     <Usuario>UsuarioLogueado</Usuario>
     <Operacion>Permiso desasignado: TAG001 - Acceso a Inicio a asd - qwe</Operacion>
   </Log>
+  <Log>
+    <Id>22</Id>
+    <Fecha>2025-06-22T21:56:19.8931069-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Permiso asignado: TAG004 - Gestión de Roles a aaaaaaa - ddddddddd</Operacion>
+  </Log>
+  <Log>
+    <Id>23</Id>
+    <Fecha>2025-06-25T00:16:04.4631632-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Permiso desasignado: TAG004 - Gestión de Roles a aaaaaaa - ddddddddd</Operacion>
+  </Log>
+  <Log>
+    <Id>24</Id>
+    <Fecha>2025-06-25T00:16:41.5681493-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Permiso modificado: AAAA</Operacion>
+  </Log>
+  <Log>
+    <Id>25</Id>
+    <Fecha>2025-06-25T00:18:04.5769395-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Permiso modificado: AAAA</Operacion>
+  </Log>
+  <Log>
+    <Id>26</Id>
+    <Fecha>2025-06-25T00:20:27.0598887-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Permiso modificado: AAAA</Operacion>
+  </Log>
+  <Log>
+    <Id>27</Id>
+    <Fecha>2025-06-25T00:20:41.9958613-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Permiso modificado: Asd</Operacion>
+  </Log>
+  <Log>
+    <Id>28</Id>
+    <Fecha>2025-06-25T02:53:29.2806658-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Permiso agregado: Test</Operacion>
+  </Log>
+  <Log>
+    <Id>29</Id>
+    <Fecha>2025-06-25T02:55:51.9899176-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Permiso agregado: Testrol</Operacion>
+  </Log>
+  <Log>
+    <Id>30</Id>
+    <Fecha>2025-06-25T20:31:20.5196858-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Permiso agregado: eeeeeeeee</Operacion>
+  </Log>
+  <Log>
+    <Id>31</Id>
+    <Fecha>2025-06-25T20:33:05.4019286-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Permiso agregado: ZZZZZZZZZ</Operacion>
+  </Log>
+  <Log>
+    <Id>32</Id>
+    <Fecha>2025-06-25T20:33:11.8594874-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Permiso eliminado: eeeeeeeee</Operacion>
+  </Log>
+  <Log>
+    <Id>33</Id>
+    <Fecha>2025-06-25T20:33:15.4756987-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Permiso eliminado: Testrol</Operacion>
+  </Log>
+  <Log>
+    <Id>34</Id>
+    <Fecha>2025-06-25T20:33:46.6327758-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Permiso modificado: TAG007</Operacion>
+  </Log>
+  <Log>
+    <Id>35</Id>
+    <Fecha>2025-06-25T20:34:31.1478986-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Permiso asignado: ZZZZZZZZZ - zxzxzxzx a AAAA - D2ddddddddd</Operacion>
+  </Log>
+  <Log>
+    <Id>36</Id>
+    <Fecha>2025-06-25T20:34:47.6005302-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Permiso desasignado: ZZZZZZZZZ - zxzxzxzx a AAAA - D2ddddddddd</Operacion>
+  </Log>
 </NewDataSet>

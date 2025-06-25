@@ -33,7 +33,7 @@ namespace SiAP.MPP.Seguridad
             dr["Id"] = DataRowHelper.ObtenerSiguienteId(dt, "Id");
             dr["Codigo"] = entidad.Codigo;
             dr["Descripcion"] = entidad.Descripcion;
-            dr["EsCompuesto"] = false;
+            dr["EsCompuesto"] = entidad is PermisoCompuesto;
             dt.Rows.Add(dr);
 
             _datos.Actualizar_BD(ds);

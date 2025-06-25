@@ -29,31 +29,39 @@
         private void InitializeComponent()
         {
             groupBox1 = new GroupBox();
+            button1 = new Button();
             password = new TextBox();
-            linkLabel1 = new LinkLabel();
             email = new TextBox();
             label2 = new Label();
             label1 = new Label();
-            materialButton1 = new MaterialSkin.Controls.MaterialButton();
             groupBox1.SuspendLayout();
             SuspendLayout();
             // 
             // groupBox1
             // 
             groupBox1.BackColor = SystemColors.ActiveCaption;
+            groupBox1.Controls.Add(button1);
             groupBox1.Controls.Add(password);
-            groupBox1.Controls.Add(linkLabel1);
             groupBox1.Controls.Add(email);
             groupBox1.Controls.Add(label2);
             groupBox1.Controls.Add(label1);
-            groupBox1.Controls.Add(materialButton1);
             groupBox1.Font = new Font("Calibri", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             groupBox1.Location = new Point(0, 0);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(329, 248);
+            groupBox1.Size = new Size(329, 211);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "Ingresar";
+            // 
+            // button1
+            // 
+            button1.Location = new Point(115, 159);
+            button1.Name = "button1";
+            button1.Size = new Size(92, 34);
+            button1.TabIndex = 6;
+            button1.Text = "Ingresar";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // password
             // 
@@ -61,16 +69,6 @@
             password.Name = "password";
             password.Size = new Size(271, 26);
             password.TabIndex = 5;
-            // 
-            // linkLabel1
-            // 
-            linkLabel1.AutoSize = true;
-            linkLabel1.Location = new Point(27, 210);
-            linkLabel1.Name = "linkLabel1";
-            linkLabel1.Size = new Size(139, 18);
-            linkLabel1.TabIndex = 4;
-            linkLabel1.TabStop = true;
-            linkLabel1.Text = "Olvidé mi contraseña";
             // 
             // email
             // 
@@ -97,33 +95,13 @@
             label1.TabIndex = 1;
             label1.Text = "Usuario";
             // 
-            // materialButton1
-            // 
-            materialButton1.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            materialButton1.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
-            materialButton1.Depth = 0;
-            materialButton1.HighEmphasis = true;
-            materialButton1.Icon = null;
-            materialButton1.Location = new Point(118, 148);
-            materialButton1.Margin = new Padding(4, 6, 4, 6);
-            materialButton1.MouseState = MaterialSkin.MouseState.HOVER;
-            materialButton1.Name = "materialButton1";
-            materialButton1.NoAccentTextColor = Color.Empty;
-            materialButton1.Size = new Size(91, 36);
-            materialButton1.TabIndex = 0;
-            materialButton1.Text = "Ingresar";
-            materialButton1.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
-            materialButton1.UseAccentColor = false;
-            materialButton1.UseVisualStyleBackColor = true;
-            materialButton1.Click += materialButton1_Click;
-            // 
             // UC_Login
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(groupBox1);
             Name = "UC_Login";
-            Size = new Size(329, 248);
+            Size = new Size(329, 211);
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             ResumeLayout(false);
@@ -133,10 +111,9 @@
 
         private GroupBox groupBox1;
         private TextBox password;
-        private LinkLabel linkLabel1;
         private TextBox email;
         private Label label2;
         private Label label1;
-        private MaterialSkin.Controls.MaterialButton materialButton1;
+        private Button button1;
     }
 }

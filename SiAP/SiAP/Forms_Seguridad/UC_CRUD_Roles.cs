@@ -17,7 +17,7 @@ namespace SiAP.UI.Forms_Seguridad
     public partial class UC_CRUD_Roles : UserControl
     {
         BLL_Permiso _bllPermiso;
-        public Permiso itemSeleccionado = new PermisoCompuesto("0", null);
+        public PermisoCompuesto itemSeleccionado = new PermisoCompuesto("0", null);
         public event EventHandler<EventArgs> ShouldUpdate;
 
         public UC_CRUD_Roles()
@@ -56,7 +56,7 @@ namespace SiAP.UI.Forms_Seguridad
                 return;
             }
 
-            itemSeleccionado = e.Node?.Tag as Permiso;
+            itemSeleccionado = e.Node?.Tag as PermisoCompuesto;
             CargarDatos();
         }
        
@@ -79,7 +79,7 @@ namespace SiAP.UI.Forms_Seguridad
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error");
+                MessageBox.Show(ex.Message, "⛔ Error");
             }
             finally
             {
@@ -91,7 +91,7 @@ namespace SiAP.UI.Forms_Seguridad
         {
             try
             {
-                itemSeleccionado = treeView_Roles.VerificarYRetornarSeleccion<Permiso>();
+                itemSeleccionado = treeView_Roles.VerificarYRetornarSeleccion<PermisoCompuesto>();
                 InputsExtensions.PedirConfirmacion("Desea guardar los cambios?");
                 //Valores
                 itemSeleccionado.Codigo = textBox_Cod_Rol.Text;
@@ -102,7 +102,7 @@ namespace SiAP.UI.Forms_Seguridad
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error");
+                MessageBox.Show(ex.Message, "⛔ Error");
             }
             finally
             {
@@ -118,7 +118,7 @@ namespace SiAP.UI.Forms_Seguridad
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error");
+                MessageBox.Show(ex.Message, "⛔ Error");
             }
         }
 
@@ -126,14 +126,14 @@ namespace SiAP.UI.Forms_Seguridad
         {
             try
             {
-                itemSeleccionado = treeView_Roles.VerificarYRetornarSeleccion<Permiso>();
+                itemSeleccionado = treeView_Roles.VerificarYRetornarSeleccion<PermisoCompuesto>();
                 InputsExtensions.PedirConfirmacion("Desea eliminar el registro?");
                 _bllPermiso.Eliminar(itemSeleccionado);
                 MessageBox.Show("Se eliminó el registro con éxito");
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error");
+                MessageBox.Show(ex.Message, "⛔ Error");
             }
             finally
             {
@@ -146,7 +146,7 @@ namespace SiAP.UI.Forms_Seguridad
             try
             {
                 //Validaciones
-                itemSeleccionado = treeView_Roles.VerificarYRetornarSeleccion<Permiso>();
+                itemSeleccionado = treeView_Roles.VerificarYRetornarSeleccion<PermisoCompuesto>();
                 var itemhijo = comboBox_roles.SelectedItem as Permiso;
                 InputsExtensions.OnlySelected(itemhijo, "un rol a asociar ");
                 if (itemSeleccionado.ObtenerPermisos().Any(x=>x.Codigo== itemhijo.Codigo))
@@ -164,7 +164,7 @@ namespace SiAP.UI.Forms_Seguridad
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error");
+                MessageBox.Show(ex.Message, "⛔ Error");
             }
             finally
             {

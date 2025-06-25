@@ -22,21 +22,80 @@ namespace SiAP.UI.Extensiones
             return seleccionado;
         }
 
-        #region ROLES
+        #region USUARIOS ROLES Y PERMISOS
+
+        public static void ArmarArbolDeUsuariosConRoles(this TreeView treeView, List<Usuario> usuarios)
+        {
+            ArgumentNullException.ThrowIfNull(treeView);
+            treeView.Nodes.Clear();
+
+            foreach (var usuario in usuarios)
+            {
+                var nodoUsuario = new TreeNode($"👤 {usuario.Username} - {usuario.Nombre} {usuario.Apellido}")
+                {
+                    Name = usuario.Id.ToString(),
+                    Tag = usuario,
+                    ForeColor = Color.DarkBlue
+                };
+
+                if (usuario.Permiso is PermisoCompuesto rol)
+                {
+                    // Reutilizamos el método ya implementado
+                    var nodoRol = CrearNodoCompuesto(rol, esRaiz: true);
+                    nodoUsuario.Nodes.Add(nodoRol);
+                }
+                else if (usuario.Permiso != null)
+                {
+                    var nodoPermiso = CrearNodoSimple(usuario.Permiso);
+                    nodoUsuario.Nodes.Add(nodoPermiso);
+                }
+
+                treeView.Nodes.Add(nodoUsuario);
+            }
+        }
+
+        #endregion
+
+        #region SOLO ROLES
 
         public static void ArmarArbolSoloRoles(this TreeView treeView, List<Permiso> permisos)
         {
             ArgumentNullException.ThrowIfNull(treeView);
+            var tt = permisos.OfType<PermisoCompuesto>();
+            var tr = permisos.OfType<PermisoSimple>();
 
             treeView.Nodes.Clear();
             foreach (var permiso in permisos.OfType<PermisoCompuesto>())
             {
-                var nodo = CrearNodoCompuesto(permiso, esRaiz: true);
+                var nodo = CrearNodo(permiso, esRaiz: true);
 
                 if (nodo != null)
                     treeView.Nodes.Add(nodo);
             }
         }
+
+        private static TreeNode CrearNodo(PermisoCompuesto permiso, bool esRaiz)
+        {
+            var nodo = new TreeNode($"Rol: {permiso.Codigo}-{permiso.Descripcion}")
+            {
+                Name = permiso.Codigo,
+                Tag = permiso,
+                ForeColor = esRaiz ? Color.Black : Color.DarkGreen
+            };
+
+            foreach (var hijo in permiso.ObtenerPermisos().OfType<PermisoCompuesto>())
+            {
+                var nodoHijo = CrearNodo(hijo, esRaiz: false);
+                if (nodoHijo != null)
+                    nodo.Nodes.Add(nodoHijo);
+            }
+
+            return nodo;
+        }
+
+        #endregion
+
+        #region ROLES Y PERMISOS
 
         public static void ArmarArbolDeRoles(this TreeView treeView, List<Permiso> permisos)
         {
@@ -52,7 +111,7 @@ namespace SiAP.UI.Extensiones
 
         private static TreeNode CrearNodoCompuesto(PermisoCompuesto permiso, bool esRaiz)
         {
-            var nodo = new TreeNode($"{permiso.Codigo}-{permiso.Descripcion}")
+            var nodo = new TreeNode($"Rol: {permiso.Codigo}-{permiso.Descripcion}")
             {
                 Name = permiso.Codigo,
                 Tag = permiso,
@@ -74,15 +133,17 @@ namespace SiAP.UI.Extensiones
 
         private static TreeNode CrearNodoSimple(Permiso permiso)
         {
-            return new TreeNode($"{permiso.Codigo}-{permiso.Descripcion}")
+            return new TreeNode($"Permiso: {permiso.Codigo}-{permiso.Descripcion}")
             {
                 Name = permiso.Codigo,
                 Tag = permiso,
                 ForeColor = Color.DarkRed
             };
         }
-        
+
         #endregion
+
+        #region PERMISOS
 
         public static void ArmarArbolPermisosSimples(this TreeView treeView, List<Permiso> permisos)
         {
@@ -116,5 +177,6 @@ namespace SiAP.UI.Extensiones
                 }
             }
         }
+        #endregion
     }
 }

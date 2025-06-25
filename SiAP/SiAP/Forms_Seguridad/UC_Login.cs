@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using SiAP.BLL.Seguridad;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace SiAP.UI.Controles
@@ -22,11 +23,21 @@ namespace SiAP.UI.Controles
             InitializeComponent();
             bllusuario = BLL_Usuario.ObtenerInstancia();
             //Prueba borrar
+            password.UseSystemPasswordChar = true;
             email.Text = "admin";
             password.Text = "admin";
         }
 
-        private void materialButton1_Click(object sender, EventArgs e)
+        private void VerificarDatos()
+        {
+            if (string.IsNullOrEmpty(email.Text) || string.IsNullOrEmpty(password.Text))
+            {
+                MessageBox.Show("Complete todos los campos para continuar", "Atención");
+                return;
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
         {
             try
             {
@@ -39,16 +50,7 @@ namespace SiAP.UI.Controles
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error");
-            }
-        }
-
-        private void VerificarDatos()
-        {
-            if (string.IsNullOrEmpty(email.Text) || string.IsNullOrEmpty(password.Text))
-            {
-                MessageBox.Show("Complete todos los campos para continuar", "Atención");
-                return;
+                MessageBox.Show(ex.Message, "⛔ Error");
             }
         }
     }

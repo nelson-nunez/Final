@@ -58,7 +58,7 @@ namespace SiAP.UI
             var useractual = GestionUsuario.UsuarioLogueado;
             if (useractual != null)
             {
-                MessageBox.Show($"Bienvenido", "Atención");
+                MessageBox.Show($"Bienvenido {useractual.Nombre}", "", MessageBoxButtons.OK, MessageBoxIcon.Information); 
                 menuStrip1.Visible = true;
                 CambiarVisibilidadMenu(menuStrip1.Items, useractual.Permiso.ObtenerPermisos());
                 UC_Login.Visible = false;
