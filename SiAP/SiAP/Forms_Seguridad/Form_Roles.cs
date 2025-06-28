@@ -37,9 +37,9 @@ namespace SiAP.UI.Forms_Seguridad
             _bllUsuario = BLL_Usuario.ObtenerInstancia();
 
             //asocio controles a sus instancias
-            userControl = this.FindUserControl<UC_BuscarUsuario>("UC_BuscarUsuario1");
-            uc_CRUD_Roles = this.FindUserControl<UC_CRUD_Roles>("uC_cruD_Roles1");
-            uc_CRUD_Permisos = this.FindUserControl<UC_CRUD_Permisos>("uC_cruD_Permisos1");
+            userControl = this.FindUserControl<UC_BuscarUsuario>("uC_BuscarUsuario2");
+            uc_CRUD_Roles = this.FindUserControl<UC_CRUD_Roles>("uC_cruD_Roles2");
+            uc_CRUD_Permisos = this.FindUserControl<UC_CRUD_Permisos>("uC_cruD_Permisos2");
             //Asociar eventos
             uc_CRUD_Permisos.ShouldUpdate += ShouldUpdate;
             uc_CRUD_Roles.ShouldUpdate += ShouldUpdate;

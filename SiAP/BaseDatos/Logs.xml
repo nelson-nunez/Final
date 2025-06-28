@@ -238,4 +238,82 @@
     <Usuario>UsuarioLogueado</Usuario>
     <Operacion>Permiso desasignado: ZZZZZZZZZ - zxzxzxzx a AAAA - D2ddddddddd</Operacion>
   </Log>
+  <Log>
+    <Id>37</Id>
+    <Fecha>2025-06-26T13:42:44.7448593-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Permiso modificado: ZZzzz</Operacion>
+  </Log>
+  <Log>
+    <Id>38</Id>
+    <Fecha>2025-06-26T17:35:34.1675539-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Usuario modificado: admin</Operacion>
+  </Log>
+  <Log>
+    <Id>39</Id>
+    <Fecha>2025-06-26T17:36:23.7558069-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Usuario modificado: admin</Operacion>
+  </Log>
+  <Log>
+    <Id>40</Id>
+    <Fecha>2025-06-26T17:50:44.9359086-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Permiso modificado: ZZzzz</Operacion>
+  </Log>
+  <Log>
+    <Id>41</Id>
+    <Fecha>2025-06-26T17:52:02.6572441-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Usuario agregado: asdasd</Operacion>
+  </Log>
+  <Log>
+    <Id>42</Id>
+    <Fecha>2025-06-26T17:53:28.0719873-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Usuario agregado: Qwerwer</Operacion>
+  </Log>
+  <Log>
+    <Id>43</Id>
+    <Fecha>2025-06-26T17:55:29.8916152-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Usuario eliminado: asdasd</Operacion>
+  </Log>
+  <Log>
+    <Id>44</Id>
+    <Fecha>2025-06-26T17:55:55.2734883-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Usuario modificado: Qwerwer</Operacion>
+  </Log>
+  <Log>
+    <Id>45</Id>
+    <Fecha>2025-06-26T17:58:36.4164708-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Usuario modificado: Qwerwer</Operacion>
+  </Log>
+  <Log>
+    <Id>46</Id>
+    <Fecha>2025-06-26T18:22:45.146974-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Usuario modificado: Qwerwer</Operacion>
+  </Log>
+  <Log>
+    <Id>47</Id>
+    <Fecha>2025-06-26T18:24:52.0768686-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Usuario modificado: Qwerwer</Operacion>
+  </Log>
+  <Log>
+    <Id>48</Id>
+    <Fecha>2025-06-27T23:38:16.85164-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Usuario modificado: admin</Operacion>
+  </Log>
+  <Log>
+    <Id>49</Id>
+    <Fecha>2025-06-27T23:38:41.714505-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Usuario modificado: admin</Operacion>
+  </Log>
 </NewDataSet>

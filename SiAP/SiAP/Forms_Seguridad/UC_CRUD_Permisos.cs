@@ -36,8 +36,12 @@ namespace SiAP.UI.Forms_Seguridad
             {
                 itemSeleccionado = new PermisoCompuesto("0", null);
                 InputsExtensions.PedirConfirmacion("Desea crear el Permiso?");
-                var item = comboBox1.SelectedItem as Menu;              
-                //Valores
+                //Verificar
+                var item = comboBox1.SelectedItem as Menu;
+                InputsExtensions.OnlySelected(item, "un menú ");
+                item.Etiqueta.ValidarSoloTexto("Item de Menú");
+                 textBox_Descripcion.Text.ValidarSoloTexto("Descripción");
+                //ASignar
                 itemSeleccionado.Codigo = item.Etiqueta;
                 itemSeleccionado.Descripcion = textBox_Descripcion.Text;
                 _bllPermiso.Agregar(itemSeleccionado);
@@ -59,12 +63,13 @@ namespace SiAP.UI.Forms_Seguridad
             {
                 itemSeleccionado = treeView_Permisos.VerificarYRetornarSeleccion<Permiso>();
                 InputsExtensions.PedirConfirmacion("Desea guardar los cambios?");
+                //Verificar
                 var item = comboBox1.SelectedItem as Menu;
                 InputsExtensions.OnlySelected(item, "un menú ");
-                //Valores
+                textBox_Descripcion.Text.ValidarSoloTexto("Descripción");
+                //ASignar
                 itemSeleccionado.Codigo = item.Etiqueta;
                 itemSeleccionado.Descripcion = textBox_Descripcion.Text;
-
                 _bllPermiso.Modificar(itemSeleccionado);
                 MessageBox.Show("Se guardaron los cambios con éxito");
             }

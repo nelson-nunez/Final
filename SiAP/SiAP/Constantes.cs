@@ -49,5 +49,41 @@ namespace SiAP.UI
             return _menus.FirstOrDefault(x => x.Etiqueta == cod);
         }
     }
+    
+    public static class TiposPersonas
+    {
+        private static readonly List<Menu> _tipos = new()
+        {
+            new Menu(1, "Médico", "Médico"),
+            new Menu(2, "Paciente", "Paciente"),
+        };
+
+        public static IReadOnlyList<Menu> ObtenerTodos() => _tipos;
+    }
+
+    public static class EspecialidadesMedicas
+    {
+        private static readonly List<Menu> _especialidades = new()
+        {
+            new Menu(1, "Clínica Médica", "Clínica Médica"),
+            new Menu(2, "Pediatría", "Pediatría"),
+            new Menu(3, "Ginecología", "Ginecología"),
+            new Menu(4, "Cardiología", "Cardiología"),
+            new Menu(5, "Dermatología", "Dermatología"),
+            new Menu(6, "Neurología", "Neurología"),
+            new Menu(7, "Traumatología", "Traumatología"),
+            new Menu(8, "Oftalmología", "Oftalmología"),
+            new Menu(9, "Otorrinolaringología", "Otorrinolaringología"),
+            new Menu(10, "Psiquiatría", "Psiquiatría"),
+            new Menu(11, "Endocrinología", "Endocrinología"),
+            new Menu(12, "Urología", "Urología"),
+            new Menu(13, "Neumonología", "Neumonología"),
+            new Menu(14, "Reumatología", "Reumatología"),
+            new Menu(15, "Gastroenterología", "Gastroenterología")
+        };
+
+        public static IReadOnlyList<Menu> ObtenerTodos() => _especialidades;
+    }
+
 }
 

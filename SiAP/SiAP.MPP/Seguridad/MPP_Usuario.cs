@@ -24,6 +24,7 @@ namespace SiAP.MPP.Seguridad
         }
 
         #region ABM
+   
         public void Agregar(Usuario entidad)
         {
             ArgumentNullException.ThrowIfNull(entidad);
@@ -42,18 +43,14 @@ namespace SiAP.MPP.Seguridad
             _datos.Actualizar_BD(ds);
         }
 
-        public void Modificar(Usuario entidad, string idAnterior = null)
+        public void Modificar(Usuario entidad)
         {
-            if (entidad == null || string.IsNullOrWhiteSpace(idAnterior))
-                throw new ArgumentException("Usuario o ID anterior inválido.");
-
             var ds = _datos.Obtener_Datos();
-            var dr = ds.Tables["Usuario"].AsEnumerable()
-                       .FirstOrDefault(r => r["Id"].ToString() == idAnterior)
+            var dr = ds.Tables["Usuario"].AsEnumerable().FirstOrDefault(r => r["Id"].ToString() == entidad.Id.ToString())
                     ?? throw new Exception("Usuario no encontrado.");
 
             AsignarDatosUsuario(dr, entidad);
-            ActualizarPermisos(entidad, ds, idAnterior);
+            ActualizarPermisos(entidad, ds);
             _datos.Actualizar_BD(ds);
         }
 
@@ -66,7 +63,7 @@ namespace SiAP.MPP.Seguridad
                        .FirstOrDefault(r => Convert.ToInt64(r["Id"]) == entidad.Id);
             dr?.Delete();
 
-            EliminarPermisosUsuario(entidad.Id.ToString(), ds);
+            EliminarPermisosUsuario(entidad.Id, ds);
             _datos.Actualizar_BD(ds);
         }
 
@@ -144,7 +141,7 @@ namespace SiAP.MPP.Seguridad
             var dt = ds.Tables["UsuarioPermiso"];
             var dr = dt.NewRow();
             dr["UsuarioId"] = entidad.Id;
-            dr["PermisoId"] = compuesto.Codigo;
+            dr["PermisoId"] = compuesto.Id;
             dt.Rows.Add(dr);
         }
 
@@ -205,7 +202,6 @@ namespace SiAP.MPP.Seguridad
         
         private void AsignarDatosUsuario(DataRow dr, Usuario entidad)
         {
-            dr["Legajo"] = entidad.Legajo ?? (object)DBNull.Value;
             dr["Username"] = entidad.Username;
             dr["Nombre"] = entidad.Nombre;
             dr["Apellido"] = entidad.Apellido;
@@ -257,18 +253,25 @@ namespace SiAP.MPP.Seguridad
             }
         }
 
-        private void ActualizarPermisos(Usuario entidad, DataSet ds, string idAnterior)
+        private void ActualizarPermisos(Usuario entidad, DataSet ds)
         {
-            EliminarPermisosUsuario(idAnterior, ds);
+            EliminarPermisosUsuario(entidad.Id, ds);
             GuardarPermisosUsuario(entidad, ds);
         }
 
-        private void EliminarPermisosUsuario(string usuarioId, DataSet ds)
+        private void EliminarPermisosUsuario(long usuarioId, DataSet ds)
         {
-            var relaciones = ds.Tables["UsuarioPermiso"].Select($"UsuarioId = '{usuarioId}'");
-            foreach (var rel in relaciones) rel.Delete();
-        }
+            try
+            {
+                var relaciones = ds.Tables["UsuarioPermiso"].Select($"UsuarioId = '{usuarioId}'");
+                foreach (var rel in relaciones) rel.Delete();
+            }
+            catch (Exception ex)
+            {
 
+                throw;
+            }
+        }
 
         #endregion
     }

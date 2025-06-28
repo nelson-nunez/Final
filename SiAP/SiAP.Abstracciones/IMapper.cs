@@ -9,7 +9,7 @@ namespace SiAP.Abstracciones
     public interface IMapper<T>
     {
         void Agregar(T entidad);
-        void Modificar(T entidad, string idAnterior = null);
+        void Modificar(T entidad);
         void Eliminar(T entidad);
         bool Existe(T entidad);
         bool TieneDependencias(T entidad); // 

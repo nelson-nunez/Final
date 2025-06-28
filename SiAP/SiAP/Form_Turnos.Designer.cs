@@ -44,13 +44,12 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1280, 731);
+            ClientSize = new Size(1234, 731);
             Controls.Add(dataGridView1);
             Name = "Form_Turnos";
             Text = "Form_Turnos";
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion

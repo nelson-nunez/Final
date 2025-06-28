@@ -39,7 +39,7 @@ namespace SiAP.MPP.Seguridad
             _datos.Actualizar_BD(ds);
         }
 
-        public void Modificar(Permiso entidad, string idAnterior = null)
+        public void Modificar(Permiso entidad)
         {
             var ds = _datos.Obtener_Datos();
             var dt = ds.Tables["Permiso"];

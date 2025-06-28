@@ -20,6 +20,8 @@ namespace SiAP.UI
         private Form_Turnos form_turnos;
         private Form_HistoriaClinica form_historia;
         private Form_Roles form_Roles;
+        private Form_CRUD_Usuarios form_users;
+        private Form_Config_Usuario form_config_user;
         //Componentes
         private UC_Login UC_Login;
 
@@ -30,12 +32,9 @@ namespace SiAP.UI
             this.IsMdiContainer = true;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
-            this.MinimizeBox = true; // Opcional: dejar como true si querés permitir minimizar
-            this.StartPosition = FormStartPosition.CenterScreen; // Opcional: centrar al abrir
-
-            // Cambiar el color de fondo del formulario
+            this.MinimizeBox = true;
+            this.StartPosition = FormStartPosition.CenterScreen;
             Controls.OfType<MdiClient>().FirstOrDefault()!.BackColor = BackColor = Color.WhiteSmoke;
-
             // Ocultar el menú hasta que se inicie sesión correctamente
             menuStrip1.Visible = false;
             MostrarLogin();
@@ -58,7 +57,7 @@ namespace SiAP.UI
             var useractual = GestionUsuario.UsuarioLogueado;
             if (useractual != null)
             {
-                MessageBox.Show($"Bienvenido {useractual.Nombre}", "", MessageBoxButtons.OK, MessageBoxIcon.Information); 
+                MessageBox.Show($"Bienvenido {useractual.Nombre}", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 menuStrip1.Visible = true;
                 CambiarVisibilidadMenu(menuStrip1.Items, useractual.Permiso.ObtenerPermisos());
                 UC_Login.Visible = false;
@@ -66,7 +65,7 @@ namespace SiAP.UI
 
             UC_Login.LoginSuccess -= UC_Login_LoginSuccess;
         }
-     
+
         private void Uc_Logout()
         {
             //deslogearlo
@@ -129,7 +128,7 @@ namespace SiAP.UI
                 //Sin bordes
                 nuevoFormulario.FormBorderStyle = FormBorderStyle.None;
                 // Establecer la ubicación centrada
-                nuevoFormulario.StartPosition = FormStartPosition.CenterScreen;
+                nuevoFormulario.StartPosition = FormStartPosition.Manual;
                 formulario = nuevoFormulario;
             }
 
@@ -162,9 +161,17 @@ namespace SiAP.UI
         private void rolesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AbrirFormGeneral(ref form_Roles);
+        }
 
+        private void usuariosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AbrirFormGeneral(ref form_users);
         }
         #endregion
 
+        private void miCuentaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AbrirFormGeneral(ref form_config_user);
+        }
     }
 }

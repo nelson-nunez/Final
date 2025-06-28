@@ -55,7 +55,7 @@
             groupBox1.Controls.Add(textBox_Buscar);
             groupBox1.Location = new Point(3, 0);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(437, 260);
+            groupBox1.Size = new Size(437, 342);
             groupBox1.TabIndex = 1;
             groupBox1.TabStop = false;
             groupBox1.Text = "Usuario";
@@ -63,7 +63,7 @@
             // checkBox1
             // 
             checkBox1.AutoSize = true;
-            checkBox1.Location = new Point(324, 228);
+            checkBox1.Location = new Point(324, 307);
             checkBox1.Name = "checkBox1";
             checkBox1.Size = new Size(106, 19);
             checkBox1.TabIndex = 11;
@@ -76,14 +76,14 @@
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Location = new Point(6, 69);
             dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(418, 122);
+            dataGridView1.Size = new Size(418, 201);
             dataGridView1.TabIndex = 6;
             dataGridView1.CellClick += dataGridView1_CellClick;
             // 
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(6, 228);
+            label7.Location = new Point(6, 307);
             label7.Name = "label7";
             label7.Size = new Size(70, 15);
             label7.TabIndex = 10;
@@ -92,7 +92,7 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(22, 200);
+            label6.Location = new Point(22, 279);
             label6.Name = "label6";
             label6.Size = new Size(54, 15);
             label6.TabIndex = 9;
@@ -101,7 +101,7 @@
             // textBox_ConstraseñaSeleccionada
             // 
             textBox_ConstraseñaSeleccionada.Enabled = false;
-            textBox_ConstraseñaSeleccionada.Location = new Point(82, 226);
+            textBox_ConstraseñaSeleccionada.Location = new Point(82, 305);
             textBox_ConstraseñaSeleccionada.Name = "textBox_ConstraseñaSeleccionada";
             textBox_ConstraseñaSeleccionada.Size = new Size(236, 23);
             textBox_ConstraseñaSeleccionada.TabIndex = 8;
@@ -109,7 +109,7 @@
             // textBox_NombreSeleccionado
             // 
             textBox_NombreSeleccionado.Enabled = false;
-            textBox_NombreSeleccionado.Location = new Point(82, 197);
+            textBox_NombreSeleccionado.Location = new Point(82, 276);
             textBox_NombreSeleccionado.Name = "textBox_NombreSeleccionado";
             textBox_NombreSeleccionado.Size = new Size(342, 23);
             textBox_NombreSeleccionado.TabIndex = 7;
@@ -147,7 +147,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(groupBox1);
             Name = "UC_BuscarUsuario";
-            Size = new Size(442, 260);
+            Size = new Size(442, 345);
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();

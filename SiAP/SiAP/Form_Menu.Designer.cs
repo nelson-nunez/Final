@@ -30,11 +30,9 @@
         {
             menuStrip1 = new MenuStrip();
             administradorToolStripMenuItem = new ToolStripMenuItem();
-            cToolStripMenuItem = new ToolStripMenuItem();
             miCuentaToolStripMenuItem = new ToolStripMenuItem();
             usuariosToolStripMenuItem = new ToolStripMenuItem();
             rolesToolStripMenuItem = new ToolStripMenuItem();
-            permisosToolStripMenuItem = new ToolStripMenuItem();
             turnosToolStripMenuItem = new ToolStripMenuItem();
             historialMédicoToolStripMenuItem = new ToolStripMenuItem();
             reportesToolStripMenuItem = new ToolStripMenuItem();
@@ -49,28 +47,20 @@
             menuStrip1.Items.AddRange(new ToolStripItem[] { administradorToolStripMenuItem, turnosToolStripMenuItem, historialMédicoToolStripMenuItem, reportesToolStripMenuItem, salirToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(1284, 30);
+            menuStrip1.Size = new Size(1238, 30);
             menuStrip1.TabIndex = 0;
             menuStrip1.Text = "menuStrip1";
             // 
             // administradorToolStripMenuItem
             // 
             administradorToolStripMenuItem.BackColor = Color.Gainsboro;
-            administradorToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { cToolStripMenuItem, miCuentaToolStripMenuItem, usuariosToolStripMenuItem, rolesToolStripMenuItem, permisosToolStripMenuItem });
+            administradorToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { miCuentaToolStripMenuItem, usuariosToolStripMenuItem, rolesToolStripMenuItem });
             administradorToolStripMenuItem.Image = Properties.Resources.hogar;
             administradorToolStripMenuItem.Margin = new Padding(2);
             administradorToolStripMenuItem.Name = "administradorToolStripMenuItem";
             administradorToolStripMenuItem.Size = new Size(70, 22);
             administradorToolStripMenuItem.Tag = "TAG001";
             administradorToolStripMenuItem.Text = "Inicio";
-            // 
-            // cToolStripMenuItem
-            // 
-            cToolStripMenuItem.Image = Properties.Resources.contrasena;
-            cToolStripMenuItem.Name = "cToolStripMenuItem";
-            cToolStripMenuItem.Size = new Size(180, 22);
-            cToolStripMenuItem.Tag = "TAG002";
-            cToolStripMenuItem.Text = "Modificar Clave";
             // 
             // miCuentaToolStripMenuItem
             // 
@@ -79,6 +69,7 @@
             miCuentaToolStripMenuItem.Size = new Size(180, 22);
             miCuentaToolStripMenuItem.Tag = "TAG003";
             miCuentaToolStripMenuItem.Text = "Mi Cuenta";
+            miCuentaToolStripMenuItem.Click += miCuentaToolStripMenuItem_Click;
             // 
             // usuariosToolStripMenuItem
             // 
@@ -86,6 +77,7 @@
             usuariosToolStripMenuItem.Name = "usuariosToolStripMenuItem";
             usuariosToolStripMenuItem.Size = new Size(180, 22);
             usuariosToolStripMenuItem.Text = "Usuarios";
+            usuariosToolStripMenuItem.Click += usuariosToolStripMenuItem_Click;
             // 
             // rolesToolStripMenuItem
             // 
@@ -95,14 +87,6 @@
             rolesToolStripMenuItem.Tag = "TAG004";
             rolesToolStripMenuItem.Text = "Roles";
             rolesToolStripMenuItem.Click += rolesToolStripMenuItem_Click;
-            // 
-            // permisosToolStripMenuItem
-            // 
-            permisosToolStripMenuItem.Image = Properties.Resources.proteger;
-            permisosToolStripMenuItem.Name = "permisosToolStripMenuItem";
-            permisosToolStripMenuItem.Size = new Size(180, 22);
-            permisosToolStripMenuItem.Tag = "TAG005";
-            permisosToolStripMenuItem.Text = "Permisos";
             // 
             // turnosToolStripMenuItem
             // 
@@ -151,10 +135,10 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = SystemColors.ButtonFace;
+            BackColor = Color.WhiteSmoke;
             BackgroundImage = Properties.Resources.logo;
             BackgroundImageLayout = ImageLayout.Center;
-            ClientSize = new Size(1284, 761);
+            ClientSize = new Size(1238, 765);
             Controls.Add(menuStrip1);
             DoubleBuffered = true;
             FormBorderStyle = FormBorderStyle.Fixed3D;
@@ -171,10 +155,8 @@
 
         private MenuStrip menuStrip1;
         private ToolStripMenuItem administradorToolStripMenuItem;
-        private ToolStripMenuItem cToolStripMenuItem;
         private ToolStripMenuItem miCuentaToolStripMenuItem;
         private ToolStripMenuItem usuariosToolStripMenuItem;
-        private ToolStripMenuItem permisosToolStripMenuItem;
         private ToolStripMenuItem rolesToolStripMenuItem;
         private ToolStripMenuItem turnosToolStripMenuItem;
         private ToolStripMenuItem historialMédicoToolStripMenuItem;

@@ -8,7 +8,7 @@ namespace SiAP.Abstracciones
 {
     public interface IEncriptacion
     {
-        string EncriptarSHA(string texto);
+        //string EncriptarSHA(string texto);
         string Encriptar3DES(string texto);
         string Desencriptar3DES(string textoEncriptado);
     }

@@ -37,12 +37,12 @@ namespace SiAP.BLL.Seguridad
             _logger.GenerarLog($"Permiso agregado: {permiso.Codigo}");
         }
 
-        public void Modificar(Permiso permiso, string codigoAnterior = null)
+        public void Modificar(Permiso permiso)
         {
             if (!EsValido(permiso))
                 throw new ArgumentException(MensajeError);
 
-            _mppPermiso.Modificar(permiso, codigoAnterior);
+            _mppPermiso.Modificar(permiso);
             _logger.GenerarLog($"Permiso modificado: {permiso.Codigo}");
         }
 

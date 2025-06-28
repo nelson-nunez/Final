@@ -20,7 +20,8 @@ namespace SiAP.UI.Controles
         BLL_Usuario _bllUsuario;
         public Usuario itemSeleccionado = new Usuario();
         private IEncriptacion _encriptacion;
-
+        public event EventHandler<EventArgs> ShouldUpdate;
+        private List<string>  campos = new List<string> { "Id", "Username", "Nombre", "Apellido", "Email" };
         public UC_BuscarUsuario()
         {
             InitializeComponent();
@@ -28,19 +29,23 @@ namespace SiAP.UI.Controles
             //Configurar Grids
             this.Controls.ConfigurarTodosLosGrids();
             _encriptacion = new Encriptador();
+            Limpiar();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             if (!String.IsNullOrEmpty(textBox_Buscar.Text))
             {
-                var usuarios = _bllUsuario.ObtenerTodos()
-                    .Where(x => string.IsNullOrWhiteSpace(textBox_Buscar.Text)
-                             || x.Username.Contains(textBox_Buscar.Text, StringComparison.OrdinalIgnoreCase)
-                             || x.Nombre.Contains(textBox_Buscar.Text, StringComparison.OrdinalIgnoreCase))
-                    .ToList();
-                dataGridView1.CargarGrid(new List<string> { "Id", "Nombre", "Username", "Password", "Email" }, usuarios);
+                Limpiar();
+                return;
             }
+            
+            var usuarios = _bllUsuario.ObtenerTodos()
+                .Where(x => string.IsNullOrWhiteSpace(textBox_Buscar.Text)
+                         || x.Username.Contains(textBox_Buscar.Text, StringComparison.OrdinalIgnoreCase)
+                         || x.Nombre.Contains(textBox_Buscar.Text, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+            dataGridView1.CargarGrid(campos, usuarios);
         }
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -54,6 +59,7 @@ namespace SiAP.UI.Controles
             //Campos
             textBox_NombreSeleccionado.Text = item.Username;
             textBox_ConstraseñaSeleccionada.Text = item.Password;
+            ShouldUpdate?.Invoke(null, new EventArgs());
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
@@ -62,6 +68,13 @@ namespace SiAP.UI.Controles
                 textBox_ConstraseñaSeleccionada.Text = _encriptacion.Desencriptar3DES(itemSeleccionado.Password);
             else
                 textBox_ConstraseñaSeleccionada.Text = itemSeleccionado.Password;
+        }
+
+        public void Limpiar()
+        {
+            dataGridView1.CargarGrid(campos, _bllUsuario.ObtenerTodos().ToList());
+            itemSeleccionado = new Usuario();
+            CargarDatos(itemSeleccionado); 
         }
     }
 }

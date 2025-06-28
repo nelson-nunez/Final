@@ -28,9 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            UC_BuscarUsuario1 = new Controles.UC_BuscarUsuario();
-            uC_cruD_Roles1 = new UC_CRUD_Roles();
-            uC_cruD_Permisos1 = new UC_CRUD_Permisos();
             groupBox1 = new GroupBox();
             groupBox4 = new GroupBox();
             treeView_Permisos = new TreeView();
@@ -45,33 +42,15 @@
             button_Asociar_Rol_User = new Button();
             treeView_Users = new TreeView();
             ABMs = new GroupBox();
+            uC_cruD_Permisos2 = new UC_CRUD_Permisos();
+            uC_cruD_Roles2 = new UC_CRUD_Roles();
+            uC_BuscarUsuario2 = new Controles.UC_BuscarUsuario();
             groupBox1.SuspendLayout();
             groupBox4.SuspendLayout();
             groupBox3.SuspendLayout();
             groupBox2.SuspendLayout();
             ABMs.SuspendLayout();
             SuspendLayout();
-            // 
-            // UC_BuscarUsuario1
-            // 
-            UC_BuscarUsuario1.Location = new Point(6, 19);
-            UC_BuscarUsuario1.Name = "UC_BuscarUsuario1";
-            UC_BuscarUsuario1.Size = new Size(442, 260);
-            UC_BuscarUsuario1.TabIndex = 2;
-            // 
-            // uC_cruD_Roles1
-            // 
-            uC_cruD_Roles1.Location = new Point(457, 19);
-            uC_cruD_Roles1.Name = "uC_cruD_Roles1";
-            uC_cruD_Roles1.Size = new Size(337, 345);
-            uC_cruD_Roles1.TabIndex = 7;
-            // 
-            // uC_cruD_Permisos1
-            // 
-            uC_cruD_Permisos1.Location = new Point(882, 19);
-            uC_cruD_Permisos1.Name = "uC_cruD_Permisos1";
-            uC_cruD_Permisos1.Size = new Size(332, 345);
-            uC_cruD_Permisos1.TabIndex = 8;
             // 
             // groupBox1
             // 
@@ -80,7 +59,7 @@
             groupBox1.Controls.Add(groupBox2);
             groupBox1.Location = new Point(3, 371);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(1265, 356);
+            groupBox1.Size = new Size(1223, 356);
             groupBox1.TabIndex = 16;
             groupBox1.TabStop = false;
             groupBox1.Text = "Asignar Roles/Permisos";
@@ -228,22 +207,44 @@
             // 
             // ABMs
             // 
-            ABMs.Controls.Add(UC_BuscarUsuario1);
-            ABMs.Controls.Add(uC_cruD_Permisos1);
-            ABMs.Controls.Add(uC_cruD_Roles1);
+            ABMs.Controls.Add(uC_cruD_Permisos2);
+            ABMs.Controls.Add(uC_cruD_Roles2);
+            ABMs.Controls.Add(uC_BuscarUsuario2);
             ABMs.Location = new Point(3, 1);
+            ABMs.Margin = new Padding(0);
             ABMs.Name = "ABMs";
-            ABMs.Size = new Size(1265, 370);
+            ABMs.Size = new Size(1223, 370);
             ABMs.TabIndex = 17;
             ABMs.TabStop = false;
             ABMs.Text = "ABMs";
+            // 
+            // uC_cruD_Permisos2
+            // 
+            uC_cruD_Permisos2.Location = new Point(879, 19);
+            uC_cruD_Permisos2.Name = "uC_cruD_Permisos2";
+            uC_cruD_Permisos2.Size = new Size(335, 345);
+            uC_cruD_Permisos2.TabIndex = 2;
+            // 
+            // uC_cruD_Roles2
+            // 
+            uC_cruD_Roles2.Location = new Point(457, 22);
+            uC_cruD_Roles2.Name = "uC_cruD_Roles2";
+            uC_cruD_Roles2.Size = new Size(335, 345);
+            uC_cruD_Roles2.TabIndex = 1;
+            // 
+            // uC_BuscarUsuario2
+            // 
+            uC_BuscarUsuario2.Location = new Point(6, 22);
+            uC_BuscarUsuario2.Name = "uC_BuscarUsuario2";
+            uC_BuscarUsuario2.Size = new Size(442, 342);
+            uC_BuscarUsuario2.TabIndex = 0;
             // 
             // Form_Roles
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.WhiteSmoke;
-            ClientSize = new Size(1280, 731);
+            ClientSize = new Size(1234, 731);
             Controls.Add(groupBox1);
             Controls.Add(ABMs);
             Name = "Form_Roles";
@@ -257,7 +258,6 @@
         }
 
         #endregion
-        private Controles.UC_BuscarUsuario UC_BuscarUsuario1;
         private UC_CRUD_Roles uC_cruD_Roles1;
         private UC_CRUD_Permisos uC_cruD_Permisos1;
         private GroupBox groupBox1;
@@ -274,5 +274,9 @@
         private Button button_Quitar_Rol_User;
         private Button button_Asociar_Rol_User;
         private GroupBox ABMs;
+        private Controles.UC_BuscarUsuario uC_BuscarUsuario1;
+        private UC_CRUD_Permisos uC_cruD_Permisos2;
+        private UC_CRUD_Roles uC_cruD_Roles2;
+        private Controles.UC_BuscarUsuario uC_BuscarUsuario2;
     }
 }

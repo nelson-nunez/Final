@@ -164,8 +164,8 @@
   </Permiso>
   <Permiso>
     <Id>24</Id>
-    <Codigo>ZZZZZZZZZ</Codigo>
-    <Descripcion>zxzxzxzx</Descripcion>
+    <Codigo>ZZzzz</Codigo>
+    <Descripcion>zxzxzxza</Descripcion>
     <EsCompuesto>true</EsCompuesto>
   </Permiso>
   <PermisoHijo>
@@ -197,12 +197,24 @@
     <Legajo>1001</Legajo>
     <Username>admin</Username>
     <Nombre>Administrador</Nombre>
-    <Apellido>Sistema</Apellido>
-    <Email>admin@empresa.com</Email>
+    <Apellido>Sistemas</Apellido>
+    <Email>nelsonjnunez@gmail.com</Email>
     <Password>STqG+Tki2fc=</Password>
     <FechaUltimoCambioPassword>2025-06-13T19:31:06.5006375-03:00</FechaUltimoCambioPassword>
     <PalabraClave>default</PalabraClave>
     <RespuestaClave>admin</RespuestaClave>
+    <Bloqueado>false</Bloqueado>
+    <Activo>true</Activo>
+  </Usuario>
+  <Usuario>
+    <Id>3</Id>
+    <Username>Qwerwer</Username>
+    <Nombre>Assdasd</Nombre>
+    <Apellido>Zsdasd</Apellido>
+    <Email>asdasss@gmail.com</Email>
+    <Password>Rbz+CKvCfbu1/Cre/+yTFdVYBcHseu8uMuT2a9SELgk=</Password>
+    <PalabraClave />
+    <RespuestaClave />
     <Bloqueado>false</Bloqueado>
     <Activo>true</Activo>
   </Usuario>

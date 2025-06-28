@@ -70,7 +70,10 @@ namespace SiAP.UI.Forms_Seguridad
             {
                 itemSeleccionado = new PermisoCompuesto("0", null);
                 InputsExtensions.PedirConfirmacion("Desea crear el Rol?");
-                //Valores
+                //Verificar
+                textBox_Cod_Rol.Text.ValidarSoloTexto("Código");
+                textBox_Desc_Rol.Text.ValidarSoloTexto("Descripción"); 
+                //Asignar
                 itemSeleccionado.Codigo = textBox_Cod_Rol.Text;
                 itemSeleccionado.Descripcion = textBox_Desc_Rol.Text;
 
@@ -92,8 +95,11 @@ namespace SiAP.UI.Forms_Seguridad
             try
             {
                 itemSeleccionado = treeView_Roles.VerificarYRetornarSeleccion<PermisoCompuesto>();
-                InputsExtensions.PedirConfirmacion("Desea guardar los cambios?");
-                //Valores
+                InputsExtensions.PedirConfirmacion("Desea guardar los cambios?");                
+                //Verificar
+                textBox_Cod_Rol.Text.ValidarSoloTexto("Código");
+                textBox_Desc_Rol.Text.ValidarSoloTexto("Descripción"); 
+                //Asignar
                 itemSeleccionado.Codigo = textBox_Cod_Rol.Text;
                 itemSeleccionado.Descripcion = textBox_Desc_Rol.Text;
 

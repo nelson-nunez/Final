@@ -36,18 +36,18 @@ namespace SiAP.BLL.Seguridad
             if (_mppUsuario.Existe(usuario))
                 throw new InvalidOperationException("El usuario ya existe.");
 
-            usuario.Password = _encriptacion.EncriptarSHA(usuario.Password);
+            usuario.Password = _encriptacion.Encriptar3DES(usuario.Password);
             _mppUsuario.Agregar(usuario);
             _logger.GenerarLog($"Usuario agregado: {usuario.Username}");
         }
 
-        public void Modificar(Usuario usuario, string legajoAnterior = null)
+        public void Modificar(Usuario usuario)
         {
             if (!EsValido(usuario))
                 throw new ArgumentException(MensajeError);
-            //Verificar si puedo usar para cambiar pass
-            usuario.Password = _encriptacion.EncriptarSHA(usuario.Password);
-            _mppUsuario.Modificar(usuario, legajoAnterior);
+            if (string.IsNullOrEmpty(usuario.Password))
+                usuario.Password = _encriptacion.Encriptar3DES(usuario.Password);
+            _mppUsuario.Modificar(usuario);
             _logger.GenerarLog($"Usuario modificado: {usuario.Username}");
         }
 
@@ -74,9 +74,6 @@ namespace SiAP.BLL.Seguridad
         {
             _mensajeError = "";
 
-            if (usuario.Legajo == null || usuario.Legajo <= 0)
-                _mensajeError += "El legajo debe ser un número válido. ";
-
             if (string.IsNullOrWhiteSpace(usuario.Username))
                 _mensajeError += "El username es obligatorio. ";
 
@@ -95,6 +92,7 @@ namespace SiAP.BLL.Seguridad
             return string.IsNullOrEmpty(_mensajeError);
         }
 
+        #region Ops especiales
         public bool Ingresar(string username, string password)
         {                    
             Usuario usr = _mppUsuario.LeerPorUsername(username);
@@ -122,6 +120,17 @@ namespace SiAP.BLL.Seguridad
             GestionUsuario.UsuarioLogueado= usr;
             return GestionUsuario.UsuarioLogueado != null;
         }
+
+
+        public void Blanqueo(Usuario usuario)
+        {
+            if (!EsValido(usuario)) throw new ArgumentException(MensajeError);
+            usuario.Password = _encriptacion.Encriptar3DES(usuario.Password);
+            _mppUsuario.Modificar(usuario);
+            _logger.GenerarLog($"Usuario modificado: {usuario.Username}");
+        }
+
+        #endregion
 
         #region Permisos
 

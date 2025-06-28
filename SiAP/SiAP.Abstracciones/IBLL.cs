@@ -9,7 +9,7 @@ namespace SiAP.Abstracciones
     public interface IBLL<T>
     {
         void Agregar(T objeto);
-        void Modificar(T objeto, string valorUnicoAnterior = null);
+        void Modificar(T objeto);
         void Eliminar(T objeto);
         IList<T> ObtenerTodos();
         T Leer(T objeto);
