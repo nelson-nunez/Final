@@ -4,16 +4,6 @@
     <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
       <xs:complexType>
         <xs:choice minOccurs="0" maxOccurs="unbounded">
-          <xs:element name="Log">
-            <xs:complexType>
-              <xs:sequence>
-                <xs:element name="Id" type="xs:long" />
-                <xs:element name="Fecha" type="xs:dateTime" minOccurs="0" />
-                <xs:element name="Usuario" type="xs:string" minOccurs="0" />
-                <xs:element name="Operacion" type="xs:string" minOccurs="0" />
-              </xs:sequence>
-            </xs:complexType>
-          </xs:element>
           <xs:element name="Permiso">
             <xs:complexType>
               <xs:sequence>
@@ -58,13 +48,43 @@
               </xs:sequence>
             </xs:complexType>
           </xs:element>
+          <xs:element name="Medico">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="Id" type="xs:long" />
+                <xs:element name="Nombre" type="xs:string" minOccurs="0" />
+                <xs:element name="Apellido" type="xs:string" minOccurs="0" />
+                <xs:element name="Dni" type="xs:string" minOccurs="0" />
+                <xs:element name="FechaNacimiento" type="xs:dateTime" minOccurs="0" />
+                <xs:element name="Email" type="xs:string" minOccurs="0" />
+                <xs:element name="Telefono" type="xs:string" minOccurs="0" />
+                <xs:element name="MedicoId" type="xs:int" minOccurs="0" />
+                <xs:element name="Titulo" type="xs:string" minOccurs="0" />
+                <xs:element name="EspecialidadId" type="xs:int" minOccurs="0" />
+                <xs:element name="EspecialidadNombre" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="Paciente">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="Id" type="xs:long" />
+                <xs:element name="Nombre" type="xs:string" minOccurs="0" />
+                <xs:element name="Apellido" type="xs:string" minOccurs="0" />
+                <xs:element name="Dni" type="xs:string" minOccurs="0" />
+                <xs:element name="FechaNacimiento" type="xs:dateTime" minOccurs="0" />
+                <xs:element name="Email" type="xs:string" minOccurs="0" />
+                <xs:element name="Telefono" type="xs:string" minOccurs="0" />
+                <xs:element name="PacienteId" type="xs:int" minOccurs="0" />
+                <xs:element name="ObraSocial" type="xs:string" minOccurs="0" />
+                <xs:element name="Plan" type="xs:string" minOccurs="0" />
+                <xs:element name="NumeroSocio" type="xs:int" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
         </xs:choice>
       </xs:complexType>
       <xs:unique name="Constraint1" msdata:PrimaryKey="true">
-        <xs:selector xpath=".//Log" />
-        <xs:field xpath="Id" />
-      </xs:unique>
-      <xs:unique name="Permiso_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
         <xs:selector xpath=".//Permiso" />
         <xs:field xpath="Id" />
       </xs:unique>
@@ -82,26 +102,16 @@
         <xs:field xpath="UsuarioId" />
         <xs:field xpath="PermisoId" />
       </xs:unique>
+      <xs:unique name="Medico_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+        <xs:selector xpath=".//Medico" />
+        <xs:field xpath="Id" />
+      </xs:unique>
+      <xs:unique name="Paciente_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+        <xs:selector xpath=".//Paciente" />
+        <xs:field xpath="Id" />
+      </xs:unique>
     </xs:element>
   </xs:schema>
-  <Log>
-    <Id>1</Id>
-    <Fecha>2025-06-13T19:24:32.6898582-03:00</Fecha>
-    <Usuario>UsuarioLogueado</Usuario>
-    <Operacion>Permiso agregado: asd</Operacion>
-  </Log>
-  <Log>
-    <Id>2</Id>
-    <Fecha>2025-06-13T19:24:40.9919047-03:00</Fecha>
-    <Usuario>UsuarioLogueado</Usuario>
-    <Operacion>Permiso agregado: zxczxc</Operacion>
-  </Log>
-  <Log>
-    <Id>3</Id>
-    <Fecha>2025-06-13T19:24:51.1781396-03:00</Fecha>
-    <Usuario>UsuarioLogueado</Usuario>
-    <Operacion>Permiso asignado: zxczxc - vbnbnv a asd - qwe</Operacion>
-  </Log>
   <Permiso>
     <Id>10</Id>
     <Codigo>Administrador</Codigo>
@@ -111,62 +121,56 @@
   <Permiso>
     <Id>11</Id>
     <Codigo>TAG001</Codigo>
-    <Descripcion>Acceso a Inicio</Descripcion>
+    <Descripcion>Inicio</Descripcion>
     <EsCompuesto>false</EsCompuesto>
   </Permiso>
   <Permiso>
     <Id>12</Id>
     <Codigo>TAG002</Codigo>
-    <Descripcion>Modificar Clave</Descripcion>
+    <Descripcion>MiCuenta</Descripcion>
     <EsCompuesto>false</EsCompuesto>
   </Permiso>
   <Permiso>
     <Id>13</Id>
     <Codigo>TAG003</Codigo>
-    <Descripcion>Gestión de Usuarios</Descripcion>
+    <Descripcion>Usuarios</Descripcion>
     <EsCompuesto>false</EsCompuesto>
   </Permiso>
   <Permiso>
     <Id>14</Id>
     <Codigo>TAG004</Codigo>
-    <Descripcion>Gestión de Roles</Descripcion>
+    <Descripcion>Permisos</Descripcion>
     <EsCompuesto>false</EsCompuesto>
   </Permiso>
   <Permiso>
     <Id>15</Id>
     <Codigo>TAG005</Codigo>
-    <Descripcion>Gestión de Permisos.</Descripcion>
+    <Descripcion>Médicos</Descripcion>
+    <EsCompuesto>false</EsCompuesto>
+  </Permiso>
+  <Permiso>
+    <Id>16</Id>
+    <Codigo>TAG006</Codigo>
+    <Descripcion>Pacientes</Descripcion>
+    <EsCompuesto>false</EsCompuesto>
+  </Permiso>
+  <Permiso>
+    <Id>17</Id>
+    <Codigo>TAG007</Codigo>
+    <Descripcion>Turnos</Descripcion>
     <EsCompuesto>false</EsCompuesto>
   </Permiso>
   <Permiso>
     <Id>18</Id>
-    <Codigo>Soporte</Codigo>
-    <Descripcion>Permisos soporte</Descripcion>
-    <EsCompuesto>true</EsCompuesto>
-  </Permiso>
-  <Permiso>
-    <Id>19</Id>
-    <Codigo>Asd</Codigo>
-    <Descripcion>qwe</Descripcion>
-    <EsCompuesto>true</EsCompuesto>
-  </Permiso>
-  <Permiso>
-    <Id>20</Id>
-    <Codigo>AAAA</Codigo>
-    <Descripcion>D2ddddddddd</Descripcion>
-    <EsCompuesto>true</EsCompuesto>
-  </Permiso>
-  <Permiso>
-    <Id>21</Id>
-    <Codigo>TAG007</Codigo>
-    <Descripcion>test2</Descripcion>
+    <Codigo>TAG008</Codigo>
+    <Descripcion>HistorialMedico</Descripcion>
     <EsCompuesto>false</EsCompuesto>
   </Permiso>
   <Permiso>
-    <Id>24</Id>
-    <Codigo>ZZzzz</Codigo>
-    <Descripcion>zxzxzxza</Descripcion>
-    <EsCompuesto>true</EsCompuesto>
+    <Id>19</Id>
+    <Codigo>TAG009</Codigo>
+    <Descripcion>Reportes</Descripcion>
+    <EsCompuesto>false</EsCompuesto>
   </Permiso>
   <PermisoHijo>
     <PadreId>10</PadreId>
@@ -185,36 +189,36 @@
     <HijoId>14</HijoId>
   </PermisoHijo>
   <PermisoHijo>
-    <PadreId>18</PadreId>
+    <PadreId>10</PadreId>
     <HijoId>15</HijoId>
   </PermisoHijo>
   <PermisoHijo>
-    <PadreId>19</PadreId>
-    <HijoId>20</HijoId>
+    <PadreId>10</PadreId>
+    <HijoId>16</HijoId>
+  </PermisoHijo>
+  <PermisoHijo>
+    <PadreId>10</PadreId>
+    <HijoId>17</HijoId>
+  </PermisoHijo>
+  <PermisoHijo>
+    <PadreId>10</PadreId>
+    <HijoId>18</HijoId>
+  </PermisoHijo>
+  <PermisoHijo>
+    <PadreId>10</PadreId>
+    <HijoId>19</HijoId>
   </PermisoHijo>
   <Usuario>
     <Id>1</Id>
     <Legajo>1001</Legajo>
     <Username>admin</Username>
     <Nombre>Administrador</Nombre>
-    <Apellido>Sistemas</Apellido>
-    <Email>nelsonjnunez@gmail.com</Email>
+    <Apellido>Sistema</Apellido>
+    <Email>admin@empresa.com</Email>
     <Password>STqG+Tki2fc=</Password>
-    <FechaUltimoCambioPassword>2025-06-13T19:31:06.5006375-03:00</FechaUltimoCambioPassword>
+    <FechaUltimoCambioPassword>2025-06-30T23:13:18.2979063-03:00</FechaUltimoCambioPassword>
     <PalabraClave>default</PalabraClave>
     <RespuestaClave>admin</RespuestaClave>
-    <Bloqueado>false</Bloqueado>
-    <Activo>true</Activo>
-  </Usuario>
-  <Usuario>
-    <Id>3</Id>
-    <Username>Qwerwer</Username>
-    <Nombre>Assdasd</Nombre>
-    <Apellido>Zsdasd</Apellido>
-    <Email>asdasss@gmail.com</Email>
-    <Password>Rbz+CKvCfbu1/Cre/+yTFdVYBcHseu8uMuT2a9SELgk=</Password>
-    <PalabraClave />
-    <RespuestaClave />
     <Bloqueado>false</Bloqueado>
     <Activo>true</Activo>
   </Usuario>
@@ -222,4 +226,56 @@
     <UsuarioId>1</UsuarioId>
     <PermisoId>10</PermisoId>
   </UsuarioPermiso>
+  <Medico>
+    <Id>1</Id>
+    <Nombre>Ana</Nombre>
+    <Apellido>Pérez</Apellido>
+    <Dni>12345678</Dni>
+    <FechaNacimiento>1980-05-10T00:00:00-03:00</FechaNacimiento>
+    <Email>ana.perez@hospital.com</Email>
+    <Telefono>1122334455</Telefono>
+    <MedicoId>101</MedicoId>
+    <Titulo>Doctora en Medicina</Titulo>
+    <EspecialidadId>4</EspecialidadId>
+    <EspecialidadNombre>Cardiología</EspecialidadNombre>
+  </Medico>
+  <Medico>
+    <Id>2</Id>
+    <Nombre>Marcos</Nombre>
+    <Apellido>Andrada</Apellido>
+    <Dni>13345678</Dni>
+    <FechaNacimiento>1981-08-20T00:00:00-03:00</FechaNacimiento>
+    <Email>marcos@hospital.com</Email>
+    <Telefono>1122334466</Telefono>
+    <MedicoId>102</MedicoId>
+    <Titulo>Doctor en Medicina</Titulo>
+    <EspecialidadId>2</EspecialidadId>
+    <EspecialidadNombre>Pediatría</EspecialidadNombre>
+  </Medico>
+  <Medico>
+    <Id>3</Id>
+    <Nombre>Marcelo</Nombre>
+    <Apellido>Pereira</Apellido>
+    <Dni>43345678</Dni>
+    <FechaNacimiento>1991-08-20T00:00:00-03:00</FechaNacimiento>
+    <Email>marcosp@hospital.com</Email>
+    <Telefono>1122334466</Telefono>
+    <MedicoId>102</MedicoId>
+    <Titulo>Doctor en Medicina</Titulo>
+    <EspecialidadId>2</EspecialidadId>
+    <EspecialidadNombre>Pediatría</EspecialidadNombre>
+  </Medico>
+  <Paciente>
+    <Id>2</Id>
+    <Nombre>Juan</Nombre>
+    <Apellido>Gómez</Apellido>
+    <Dni>87654321</Dni>
+    <FechaNacimiento>1990-03-20T00:00:00-03:00</FechaNacimiento>
+    <Email>juan.gomez@paciente.com</Email>
+    <Telefono>1133445566</Telefono>
+    <PacienteId>201</PacienteId>
+    <ObraSocial>OSDE</ObraSocial>
+    <Plan>210</Plan>
+    <NumeroSocio>445566</NumeroSocio>
+  </Paciente>
 </NewDataSet>

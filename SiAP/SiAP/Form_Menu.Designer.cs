@@ -33,10 +33,12 @@
             miCuentaToolStripMenuItem = new ToolStripMenuItem();
             usuariosToolStripMenuItem = new ToolStripMenuItem();
             rolesToolStripMenuItem = new ToolStripMenuItem();
+            médicosToolStripMenuItem = new ToolStripMenuItem();
             turnosToolStripMenuItem = new ToolStripMenuItem();
             historialMédicoToolStripMenuItem = new ToolStripMenuItem();
             reportesToolStripMenuItem = new ToolStripMenuItem();
             salirToolStripMenuItem = new ToolStripMenuItem();
+            pacientesToolStripMenuItem = new ToolStripMenuItem();
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -54,7 +56,7 @@
             // administradorToolStripMenuItem
             // 
             administradorToolStripMenuItem.BackColor = Color.Gainsboro;
-            administradorToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { miCuentaToolStripMenuItem, usuariosToolStripMenuItem, rolesToolStripMenuItem });
+            administradorToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { miCuentaToolStripMenuItem, usuariosToolStripMenuItem, rolesToolStripMenuItem, médicosToolStripMenuItem, pacientesToolStripMenuItem });
             administradorToolStripMenuItem.Image = Properties.Resources.hogar;
             administradorToolStripMenuItem.Margin = new Padding(2);
             administradorToolStripMenuItem.Name = "administradorToolStripMenuItem";
@@ -67,7 +69,7 @@
             miCuentaToolStripMenuItem.Image = Properties.Resources.usuario;
             miCuentaToolStripMenuItem.Name = "miCuentaToolStripMenuItem";
             miCuentaToolStripMenuItem.Size = new Size(180, 22);
-            miCuentaToolStripMenuItem.Tag = "TAG003";
+            miCuentaToolStripMenuItem.Tag = "TAG002";
             miCuentaToolStripMenuItem.Text = "Mi Cuenta";
             miCuentaToolStripMenuItem.Click += miCuentaToolStripMenuItem_Click;
             // 
@@ -76,6 +78,7 @@
             usuariosToolStripMenuItem.Image = Properties.Resources.nueva_cuenta;
             usuariosToolStripMenuItem.Name = "usuariosToolStripMenuItem";
             usuariosToolStripMenuItem.Size = new Size(180, 22);
+            usuariosToolStripMenuItem.Tag = "TAG003";
             usuariosToolStripMenuItem.Text = "Usuarios";
             usuariosToolStripMenuItem.Click += usuariosToolStripMenuItem_Click;
             // 
@@ -85,8 +88,17 @@
             rolesToolStripMenuItem.Name = "rolesToolStripMenuItem";
             rolesToolStripMenuItem.Size = new Size(180, 22);
             rolesToolStripMenuItem.Tag = "TAG004";
-            rolesToolStripMenuItem.Text = "Roles";
+            rolesToolStripMenuItem.Text = "Permisos";
             rolesToolStripMenuItem.Click += rolesToolStripMenuItem_Click;
+            // 
+            // médicosToolStripMenuItem
+            // 
+            médicosToolStripMenuItem.Image = Properties.Resources.medica;
+            médicosToolStripMenuItem.Name = "médicosToolStripMenuItem";
+            médicosToolStripMenuItem.Size = new Size(140, 22);
+            médicosToolStripMenuItem.Tag = "TAG005";
+            médicosToolStripMenuItem.Text = "Médicos";
+            médicosToolStripMenuItem.Click += médicosToolStripMenuItem_Click;
             // 
             // turnosToolStripMenuItem
             // 
@@ -131,6 +143,14 @@
             salirToolStripMenuItem.Text = "Salir";
             salirToolStripMenuItem.Click += CerrarTodosLosFormulariosHijos;
             // 
+            // pacientesToolStripMenuItem
+            // 
+            pacientesToolStripMenuItem.Image = Properties.Resources.paciente;
+            pacientesToolStripMenuItem.Name = "pacientesToolStripMenuItem";
+            pacientesToolStripMenuItem.Size = new Size(180, 22);
+            pacientesToolStripMenuItem.Text = "Pacientes";
+            pacientesToolStripMenuItem.Click += pacientesToolStripMenuItem_Click;
+            // 
             // Form_Menu
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -162,5 +182,7 @@
         private ToolStripMenuItem historialMédicoToolStripMenuItem;
         private ToolStripMenuItem reportesToolStripMenuItem;
         private ToolStripMenuItem salirToolStripMenuItem;
+        private ToolStripMenuItem médicosToolStripMenuItem;
+        private ToolStripMenuItem pacientesToolStripMenuItem;
     }
 }

@@ -58,6 +58,11 @@ namespace SiAP.UI.Extensiones
             if (string.IsNullOrWhiteSpace(valor))
                 throw new ArgumentException($"El campo '{nombreCampo}' no puede estar vacío.");
         }
+        public static void Validar(this bool valor, string nombreCampo)
+        {
+            if (!valor)
+                throw new ArgumentException($"Debe aceptar '{nombreCampo}'.");
+        }
 
         public static void ValidarSoloTexto(this string valor, string nombreCampo)
         {
@@ -76,16 +81,16 @@ namespace SiAP.UI.Extensiones
                 throw new ArgumentException($"El campo '{nombreCampo}' no tiene un formato de email válido.");
         }
 
-        public static void Validar(this bool valor, string nombreCampo)
+        public static void ValidarSoloNumeros(this string valor, string nombreCampo)
         {
-            if (!valor)
-                throw new ArgumentException($"Debe aceptar '{nombreCampo}'.");
+            if (!long.TryParse(valor, out var numero) || numero <= 0)
+                throw new ArgumentException($"El campo '{nombreCampo}' debe contener solo números y ser mayor a cero.");
         }
-
+        
         public static void ValidarSoloNumeros(this decimal valor, string nombreCampo)
         {
             if (valor <= 0)
-                throw new ArgumentException($"El campo '{nombreCampo}' debe ser mayor a cero.");
+                throw new ArgumentException($"El campo '{nombreCampo}' debe contener solo números y ser mayor a cero.");
         }
 
         public static void ValidarPassword(this string valor, string nombreCampo)
@@ -97,6 +102,16 @@ namespace SiAP.UI.Extensiones
 
             if (!Regex.IsMatch(valor, @"^[a-zA-Z0-9]+$"))
                 throw new ArgumentException($"El campo '{nombreCampo}' solo puede contener letras y números sin espacios ni símbolos.");
+        }
+
+        public static void ValidarMayorEdad(this DateTime fechaNacimiento, string nombreCampo)
+        {
+            var hoy = DateTime.Today;
+            var edad = hoy.Year - fechaNacimiento.Year;
+            if (fechaNacimiento > hoy.AddYears(-edad))
+                edad--;
+            if (edad < 18)
+                throw new ArgumentException($"El campo '{nombreCampo}' debe corresponder a una persona mayor de 18 años.");
         }
 
         #endregion

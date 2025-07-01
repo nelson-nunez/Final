@@ -2,6 +2,9 @@
 using System.Diagnostics;
 using System.Xml;
 using SiAP.Abstracciones;
+using SiAP.BE.Seguridad;
+using SiAP.BE;
+using SiAP.UI;
 
 namespace SiAP.DAL
 {
@@ -198,6 +201,16 @@ namespace SiAP.DAL
                     ds.Tables.Add(CrearTablaUsuarioPermiso());
                     Actualizar_BD(ds);
                 }
+                if (!ds.Tables.Contains("Medico"))
+                {
+                    ds.Tables.Add(CrearTablaMedico());
+                    Actualizar_BD(ds);
+                }
+                if (!ds.Tables.Contains("Paciente"))
+                {
+                    ds.Tables.Add(CrearTablaPaciente());
+                    Actualizar_BD(ds);
+                }
             }
             catch (Exception ex)
             {
@@ -248,26 +261,22 @@ namespace SiAP.DAL
         private DataTable CrearTablaPermiso()
         {
             var tabla = new DataTable("Permiso");
-
             tabla.Columns.Add(new DataColumn("Id", typeof(long)));
             tabla.Columns.Add(new DataColumn("Codigo", typeof(string)));
             tabla.Columns.Add(new DataColumn("Descripcion", typeof(string)));
             tabla.Columns.Add(new DataColumn("EsCompuesto", typeof(bool)));
-
             tabla.PrimaryKey = new[] { tabla.Columns["Id"] };
-
-            // Permiso compuesto - administrador
-            tabla.Rows.Add(10, "Administrador", "Permisos administrativos", true);
-            // Permisos simples
-            tabla.Rows.Add(11, "TAG001", "Acceso a Inicio", false);
-            tabla.Rows.Add(12, "TAG002", "Modificar Clave", false);
-            tabla.Rows.Add(13, "TAG003", "Gestión de Usuarios", false);
-            tabla.Rows.Add(14, "TAG004", "Gestión de Roles", false);
-            tabla.Rows.Add(15, "TAG005", "Gestión de Permisos", false);
-
-            // Permiso compuesto - soporte
-            tabla.Rows.Add(18, "Soporte", "Permisos soporte", true);
-
+            long idActual = 10;
+            // Agrego el permiso compuesto "Administrador"
+            tabla.Rows.Add(idActual, "Administrador", "Permisos administrativos", true);
+            long idAdministrador = idActual;
+            idActual++;
+            // Agrego los permisos simples desde MenusConstantes
+            foreach (var menu in MenusConstantes.ObtenerTodos())
+            {
+                tabla.Rows.Add(idActual, menu.Etiqueta, menu.Nombre, false);
+                idActual++;
+            }
             return tabla;
         }
 
@@ -275,22 +284,18 @@ namespace SiAP.DAL
         private DataTable CrearTablaPermisoHijo()
         {
             var tabla = new DataTable("PermisoHijo");
-
             tabla.Columns.Add(new DataColumn("PadreId", typeof(long)));
             tabla.Columns.Add(new DataColumn("HijoId", typeof(long)));
-
             tabla.PrimaryKey = new[] { tabla.Columns["PadreId"], tabla.Columns["HijoId"] };
-
-            // Relaciones del permiso compuesto "Administrador"
-            tabla.Rows.Add(10, 11);
-            tabla.Rows.Add(10, 12);
-            tabla.Rows.Add(10, 13);
-            tabla.Rows.Add(10, 14);
-            tabla.Rows.Add(10, 18);
-
-            // Relaciones del permiso compuesto "Soporte"
-            tabla.Rows.Add(18, 15);
-
+            // ID del permiso compuesto "Administrador"
+            long idAdministrador = 10;
+            long idHijoInicio = 11;
+            // Se crean las relaciones para todos los Menus dentro del compuesto "Administrador"
+            foreach (var menu in MenusConstantes.ObtenerTodos())
+            {
+                tabla.Rows.Add(idAdministrador, idHijoInicio);
+                idHijoInicio++;
+            }
             return tabla;
         }
 
@@ -313,7 +318,118 @@ namespace SiAP.DAL
             return tabla;
         }
 
-        //Logssssssssssssssssssssssssssssssssssssssssssssssssssssssss
+        private DataTable CrearTablaMedico()
+        {
+            var tabla = new DataTable("Medico");
+
+            // Propiedades heredadas de ClaseBase y Persona
+            tabla.Columns.Add(new DataColumn("Id", typeof(long)));
+            tabla.Columns.Add(new DataColumn("Nombre", typeof(string)));
+            tabla.Columns.Add(new DataColumn("Apellido", typeof(string)));
+            tabla.Columns.Add(new DataColumn("Dni", typeof(string)));
+            tabla.Columns.Add(new DataColumn("FechaNacimiento", typeof(DateTime)));
+            tabla.Columns.Add(new DataColumn("Email", typeof(string)));
+            tabla.Columns.Add(new DataColumn("Telefono", typeof(string)));
+
+            // Propiedades específicas de Medico
+            tabla.Columns.Add(new DataColumn("MedicoId", typeof(int)));
+            tabla.Columns.Add(new DataColumn("Titulo", typeof(string)));
+            tabla.Columns.Add(new DataColumn("EspecialidadId", typeof(int)));
+            tabla.Columns.Add(new DataColumn("EspecialidadNombre", typeof(string)));
+
+            tabla.PrimaryKey = new[] { tabla.Columns["Id"] };
+
+            // Fila 1
+            var fila1 = tabla.NewRow();
+            fila1["Id"] = 1;
+            fila1["Nombre"] = "Ana";
+            fila1["Apellido"] = "Pérez";
+            fila1["Dni"] = "12345678";
+            fila1["FechaNacimiento"] = new DateTime(1980, 5, 10);
+            fila1["Email"] = "ana.perez@hospital.com";
+            fila1["Telefono"] = "1122334455";
+            fila1["MedicoId"] = 101;
+            fila1["Titulo"] = "Doctora en Medicina";
+            fila1["EspecialidadId"] = 4;
+            fila1["EspecialidadNombre"] = "Cardiología";
+            tabla.Rows.Add(fila1);
+
+            // Fila 2
+            var fila2 = tabla.NewRow();
+            fila2["Id"] = 2;
+            fila2["Nombre"] = "Marcos";
+            fila2["Apellido"] = "Andrada";
+            fila2["Dni"] = "13345678";
+            fila2["FechaNacimiento"] = new DateTime(1981, 8, 20);
+            fila2["Email"] = "marcos@hospital.com";
+            fila2["Telefono"] = "1122334466";
+            fila2["MedicoId"] = 102;
+            fila2["Titulo"] = "Doctor en Medicina";
+            fila2["EspecialidadId"] = 2;
+            fila2["EspecialidadNombre"] = "Pediatría";
+            tabla.Rows.Add(fila2);
+
+            // Fila 2
+            var fila3 = tabla.NewRow();
+            fila3["Id"] = 3;
+            fila3["Nombre"] = "Marcelo";
+            fila3["Apellido"] = "Pereira";
+            fila3["Dni"] = "43345678";
+            fila3["FechaNacimiento"] = new DateTime(1991, 8, 20);
+            fila3["Email"] = "marcosp@hospital.com";
+            fila3["Telefono"] = "1122334466";
+            fila3["MedicoId"] = 102;
+            fila3["Titulo"] = "Doctor en Medicina";
+            fila3["EspecialidadId"] = 2;
+            fila3["EspecialidadNombre"] = "Pediatría";
+            tabla.Rows.Add(fila3);
+
+            return tabla;
+        }
+
+        private DataTable CrearTablaPaciente()
+        {
+            var tabla = new DataTable("Paciente");
+
+            // Propiedades heredadas de ClaseBase y Persona
+            tabla.Columns.Add(new DataColumn("Id", typeof(long)));
+            tabla.Columns.Add(new DataColumn("Nombre", typeof(string)));
+            tabla.Columns.Add(new DataColumn("Apellido", typeof(string)));
+            tabla.Columns.Add(new DataColumn("Dni", typeof(string)));
+            tabla.Columns.Add(new DataColumn("FechaNacimiento", typeof(DateTime)));
+            tabla.Columns.Add(new DataColumn("Email", typeof(string)));
+            tabla.Columns.Add(new DataColumn("Telefono", typeof(string)));
+
+            // Propiedades específicas de Paciente
+            tabla.Columns.Add(new DataColumn("PacienteId", typeof(int)));
+            tabla.Columns.Add(new DataColumn("ObraSocial", typeof(string)));
+            tabla.Columns.Add(new DataColumn("Plan", typeof(string)));
+            tabla.Columns.Add(new DataColumn("NumeroSocio", typeof(int)));
+
+            tabla.PrimaryKey = new[] { tabla.Columns["Id"] };
+
+            // Fila mockup (opcional)
+            var fila = tabla.NewRow();
+            fila["Id"] = 2;
+            fila["Nombre"] = "Juan";
+            fila["Apellido"] = "Gómez";
+            fila["Dni"] = "87654321";
+            fila["FechaNacimiento"] = new DateTime(1990, 3, 20);
+            fila["Email"] = "juan.gomez@paciente.com";
+            fila["Telefono"] = "1133445566";
+            fila["PacienteId"] = 201;
+            fila["ObraSocial"] = "OSDE";
+            fila["Plan"] = "210";
+            fila["NumeroSocio"] = 445566;
+            tabla.Rows.Add(fila);
+
+            return tabla;
+        }
+
+        #endregion
+
+        #region Crea BD Logs
+
         private void InicializarTablasLog(DataSet ds)
         {
             try

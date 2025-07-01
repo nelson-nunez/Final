@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SiAP.BE;
 using SiAP.BE.Seguridad;
 
 namespace SiAP.UI.Extensiones
@@ -175,6 +176,44 @@ namespace SiAP.UI.Extensiones
                     TreeNode nodoRol = treeView.Nodes.Add(rol.Id.ToString(), $"{rol.Username}: {rol.Nombre}, {rol.Apellido}");
                     nodoRol.Tag = rol;
                 }
+            }
+        }
+        #endregion
+
+        #region Medicos
+        public static void ArmarArbolMedicos(this TreeView treeView, List<Medico> medicos)
+        {
+            ArgumentNullException.ThrowIfNull(treeView);
+            if (medicos == null) return;
+
+            treeView.Nodes.Clear();
+
+            // Agrupar médicos por especialidad
+            var grupos = medicos
+                .Where(m => m.Especialidad != null)
+                .GroupBy(m => m.Especialidad.Nombre)
+                .OrderBy(g => g.Key);
+
+            foreach (var grupo in grupos)
+            {
+                var nodoEspecialidad = new TreeNode($"Especialidad: {grupo.Key}")
+                {
+                    Name = grupo.Key,
+                    Tag = grupo.First().Especialidad
+                };
+
+                foreach (var medico in grupo.OrderBy(m => m.Apellido))
+                {
+                    var nodoMedico = new TreeNode(medico.ToString())
+                    {
+                        Name = $"Medico_{medico.MedicoId}",
+                        Tag = medico,
+                        ForeColor = Color.DarkGreen
+                    };
+                    nodoEspecialidad.Nodes.Add(nodoMedico);
+                }
+
+                treeView.Nodes.Add(nodoEspecialidad);
             }
         }
         #endregion

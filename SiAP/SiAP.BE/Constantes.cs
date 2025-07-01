@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using SiAP.BE.Base;
 
-namespace SiAP.BE
+namespace SiAP.UI
 {
     public class Menu: ClaseBase
     {
@@ -37,9 +37,9 @@ namespace SiAP.BE
             new Menu(4, "Permisos", "TAG004"),
             new Menu(5, "Médicos", "TAG005"),
             new Menu(6, "Pacientes", "TAG006"),
-            new Menu(6, "Turnos", "TAG006"),
-            new Menu(7, "HistorialMedico", "TAG007"),
-            new Menu(8, "Reportes", "TAG008"),           
+            new Menu(7, "Turnos", "TAG007"),
+            new Menu(8, "HistorialMedico", "TAG008"),
+            new Menu(9, "Reportes", "TAG009"),           
         };
 
         public static IReadOnlyList<Menu> ObtenerTodos() => _menus;

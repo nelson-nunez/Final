@@ -22,6 +22,8 @@ namespace SiAP.UI
         private Form_Roles form_Roles;
         private Form_CRUD_Usuarios form_users;
         private Form_Config_Usuario form_config_user;
+        private Form_CRUD_Medicos form_medic;
+        private Form_CRUD_Pacientes form_paciente;
         //Componentes
         private UC_Login UC_Login;
 
@@ -148,6 +150,7 @@ namespace SiAP.UI
         #endregion
 
         #region Abrir Item Menu
+       
         private void AbrirForm_Turnos(object sender, EventArgs e)
         {
             AbrirFormGeneral(ref form_turnos);
@@ -167,11 +170,22 @@ namespace SiAP.UI
         {
             AbrirFormGeneral(ref form_users);
         }
-        #endregion
-
         private void miCuentaToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AbrirFormGeneral(ref form_config_user);
         }
+
+        private void médicosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AbrirFormGeneral(ref form_medic);
+        }
+        
+        private void pacientesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AbrirFormGeneral(ref form_paciente);
+        }
+
+        #endregion
+
     }
 }

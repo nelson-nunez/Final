@@ -7,27 +7,41 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using SiAP.BE;
+using SiAP.BE.Seguridad;
+using SiAP.BLL;
 using SiAP.BLL.Logs;
+using SiAP.BLL.Seguridad;
 using SiAP.UI.Extensiones;
 
 namespace SiAP.UI
 {
     public partial class Form_Turnos : Form
     {
-        BLLLog _logger;
+        BLL_Medico _bllMedicos;
+        Medico itemSeleccionado;
 
         public Form_Turnos()
         {
             InitializeComponent();
 
-            _logger = BLLLog.ObtenerInstancia();
+            _bllMedicos = BLL_Medico.ObtenerInstancia();
+            //Cargando trees
+            treeView1.ArmarArbolMedicos(_bllMedicos.ObtenerTodos().ToList());
         }
 
-        private void materialButton1_Click(object sender, EventArgs e)
+        private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            _logger.GenerarLog($"Backup del día {DateTime.Now:dd/MM/yyyy HH:mm:ss} generado.");
-            var listalogs = _logger.ObtenerLogs().ToList();
-            dataGridView1.CargarGrid(new List<string> { "Fecha", "Usuario", "Operacion"}, listalogs);
+            // Solo permitir selección de nodos raíz (color negro)
+            if (e.Node.ForeColor != Color.DarkGreen)
+            {
+                treeView1.SelectedNode = null;
+                return;
+            }
+            itemSeleccionado = e.Node?.Tag as Medico;
+            label_titular_agenda.Text = $"Agenda: {itemSeleccionado.ToString()}";
         }
+
+        ColumnReorderedEventArgs cree los mpps y blls de agenda y turno, continuar creando el datagrid para ver las agendas disponibles y luego los turnos que puedo elegir.
     }
 }
