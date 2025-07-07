@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using SiAP.Abstracciones;
 using SiAP.BE;
 using SiAP.BLL.Logs;
+using SiAP.BLL.Seguridad;
 using SiAP.MPP;
 
 namespace SiAP.BLL
@@ -64,9 +65,23 @@ namespace SiAP.BLL
             return _mppPaciente.ObtenerTodos();
         }
 
-        public Paciente Leer(Paciente paciente)
+        public IList<Paciente> Buscar(string parametro)
         {
-            return _mppPaciente.LeerPorId(paciente.Id);
+            var usuarios = _mppPaciente.ObtenerTodos()
+                .Where(x => string.IsNullOrWhiteSpace(parametro)
+                         || x.Nombre.Contains(parametro, StringComparison.OrdinalIgnoreCase)
+                         || x.Apellido.Contains(parametro, StringComparison.OrdinalIgnoreCase)
+                         || x.Dni.Contains(parametro, StringComparison.OrdinalIgnoreCase)
+                      )
+                .ToList();
+
+            return _mppPaciente.ObtenerTodos();
+        }
+
+
+        public Paciente Leer(long pacienteId)
+        {
+            return _mppPaciente.LeerPorId(pacienteId);
         }
 
         public bool EsValido(Paciente paciente)

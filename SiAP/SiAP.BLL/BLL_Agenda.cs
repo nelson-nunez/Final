@@ -61,9 +61,9 @@ namespace SiAP.BLL
             return _mppAgenda.ObtenerTodos();
         }
 
-        public Agenda Leer(Agenda agenda)
+        public Agenda Leer(long agendaId)
         {
-            return _mppAgenda.LeerPorId(agenda.Id);
+            return _mppAgenda.LeerPorId(agendaId);
         }
 
         public bool EsValido(Agenda agenda)
@@ -82,14 +82,14 @@ namespace SiAP.BLL
             return string.IsNullOrEmpty(_mensajeError);
         }
 
-        public IList<Agenda> BuscarPorMedico(long medicoId)
+        public IList<Agenda> BuscarPorMedicoyRango(Medico medico, DateTime fecha)
         {
-            return _mppAgenda.Buscar("medicoid", medicoId.ToString());
-        }
-
-        public IList<Agenda> BuscarPorFecha(DateTime fecha)
-        {
-            return _mppAgenda.Buscar("fecha", fecha.ToShortDateString());
+            // Calcular el inicio de semana (lunes)
+            var diasDesdeLunes = (int)fecha.DayOfWeek - (int)DayOfWeek.Monday;
+            if (diasDesdeLunes < 0) diasDesdeLunes += 7;
+            var desde = fecha.Date.AddDays(-diasDesdeLunes);
+            var hasta = desde.AddDays(6);
+            return _mppAgenda.BuscarPorMedicoyRango(medico.Id, desde, hasta);
         }
     }
 }

@@ -79,9 +79,9 @@ namespace SiAP.BLL.Seguridad
             return _mppPermiso.ObtenerTodos();
         }
 
-        public Permiso Leer(Permiso permiso)
+        public Permiso Leer(long permisoId)
         {
-            return _mppPermiso.LeerPorId(permiso.Codigo);
+            return _mppPermiso.LeerPorId(permisoId);
         }
 
         public bool EsValido(Permiso permiso)

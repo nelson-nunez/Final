@@ -115,6 +115,29 @@ namespace SiAP.UI.Extensiones
         }
 
         #endregion
+
+        public static void CargarMesesRelativos(this ComboBox comboBox)
+        {
+            var fechas = new List<DateTime>();
+            var fechaBase = DateTime.Today;
+
+            for (int i = -6; i <= 6; i++)
+            {
+                var mes = fechaBase.AddMonths(i);
+                fechas.Add(new DateTime(mes.Year, mes.Month, 1));
+            }
+
+            comboBox.DataSource = fechas
+                .Select(f => new
+                {
+                    Fecha = f,
+                    MesAnio = f.ToString("MM/yy")
+                })
+                .ToList();
+
+            comboBox.DisplayMember = "MesAnio";
+            comboBox.ValueMember = "Fecha";
+        }
     }
 
 }

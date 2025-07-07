@@ -206,7 +206,7 @@ namespace SiAP.UI.Extensiones
                 {
                     var nodoMedico = new TreeNode(medico.ToString())
                     {
-                        Name = $"Medico_{medico.MedicoId}",
+                        Name = $"Medico_{medico.Id}",
                         Tag = medico,
                         ForeColor = Color.DarkGreen
                     };

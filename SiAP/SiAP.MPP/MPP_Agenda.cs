@@ -113,6 +113,12 @@ namespace SiAP.MPP
             };
         }
 
+        public IList<Agenda> BuscarPorMedicoyRango(long medicoId, DateTime fechadesde, DateTime fechahasta)
+        {
+            var lista = ObtenerTodos().Where(t => t.MedicoId == medicoId && (t.Fecha >= fechadesde && t.Fecha <= fechahasta)).ToList();
+            return (IList<Agenda>)lista;
+        }
+
         private Agenda HidratarObjeto(DataRow r)
         {
             return new Agenda
@@ -125,5 +131,4 @@ namespace SiAP.MPP
             };
         }
     }
-
 }

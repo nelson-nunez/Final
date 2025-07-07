@@ -8,9 +8,13 @@ namespace SiAP.BE
 {
     public class Paciente: Persona
     {
-        public int PacienteId { get; set; }
         public string ObraSocial { get; set; }
         public string Plan { get; set; }
         public int NumeroSocio { get; set; }
+
+        public override string ToString()
+        {
+            return $"{Dni} - {Apellido}, {Nombre}";
+        }
     }
 }

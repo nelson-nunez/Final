@@ -211,6 +211,16 @@ namespace SiAP.DAL
                     ds.Tables.Add(CrearTablaPaciente());
                     Actualizar_BD(ds);
                 }
+                if (!ds.Tables.Contains("Agenda"))
+                {
+                    ds.Tables.Add(CrearTablaAgenda());
+                    Actualizar_BD(ds);
+                }
+                if (!ds.Tables.Contains("Turno"))
+                {
+                    ds.Tables.Add(CrearTablaTurno());
+                    Actualizar_BD(ds);
+                }
             }
             catch (Exception ex)
             {
@@ -330,9 +340,7 @@ namespace SiAP.DAL
             tabla.Columns.Add(new DataColumn("FechaNacimiento", typeof(DateTime)));
             tabla.Columns.Add(new DataColumn("Email", typeof(string)));
             tabla.Columns.Add(new DataColumn("Telefono", typeof(string)));
-
             // Propiedades específicas de Medico
-            tabla.Columns.Add(new DataColumn("MedicoId", typeof(int)));
             tabla.Columns.Add(new DataColumn("Titulo", typeof(string)));
             tabla.Columns.Add(new DataColumn("EspecialidadId", typeof(int)));
             tabla.Columns.Add(new DataColumn("EspecialidadNombre", typeof(string)));
@@ -348,7 +356,6 @@ namespace SiAP.DAL
             fila1["FechaNacimiento"] = new DateTime(1980, 5, 10);
             fila1["Email"] = "ana.perez@hospital.com";
             fila1["Telefono"] = "1122334455";
-            fila1["MedicoId"] = 101;
             fila1["Titulo"] = "Doctora en Medicina";
             fila1["EspecialidadId"] = 4;
             fila1["EspecialidadNombre"] = "Cardiología";
@@ -363,7 +370,6 @@ namespace SiAP.DAL
             fila2["FechaNacimiento"] = new DateTime(1981, 8, 20);
             fila2["Email"] = "marcos@hospital.com";
             fila2["Telefono"] = "1122334466";
-            fila2["MedicoId"] = 102;
             fila2["Titulo"] = "Doctor en Medicina";
             fila2["EspecialidadId"] = 2;
             fila2["EspecialidadNombre"] = "Pediatría";
@@ -378,7 +384,6 @@ namespace SiAP.DAL
             fila3["FechaNacimiento"] = new DateTime(1991, 8, 20);
             fila3["Email"] = "marcosp@hospital.com";
             fila3["Telefono"] = "1122334466";
-            fila3["MedicoId"] = 102;
             fila3["Titulo"] = "Doctor en Medicina";
             fila3["EspecialidadId"] = 2;
             fila3["EspecialidadNombre"] = "Pediatría";
@@ -399,9 +404,7 @@ namespace SiAP.DAL
             tabla.Columns.Add(new DataColumn("FechaNacimiento", typeof(DateTime)));
             tabla.Columns.Add(new DataColumn("Email", typeof(string)));
             tabla.Columns.Add(new DataColumn("Telefono", typeof(string)));
-
             // Propiedades específicas de Paciente
-            tabla.Columns.Add(new DataColumn("PacienteId", typeof(int)));
             tabla.Columns.Add(new DataColumn("ObraSocial", typeof(string)));
             tabla.Columns.Add(new DataColumn("Plan", typeof(string)));
             tabla.Columns.Add(new DataColumn("NumeroSocio", typeof(int)));
@@ -417,10 +420,84 @@ namespace SiAP.DAL
             fila["FechaNacimiento"] = new DateTime(1990, 3, 20);
             fila["Email"] = "juan.gomez@paciente.com";
             fila["Telefono"] = "1133445566";
-            fila["PacienteId"] = 201;
             fila["ObraSocial"] = "OSDE";
             fila["Plan"] = "210";
             fila["NumeroSocio"] = 445566;
+            tabla.Rows.Add(fila);
+
+            return tabla;
+        }
+
+        private DataTable CrearTablaAgenda()
+        {
+            var tabla = new DataTable("Agenda");
+
+            tabla.Columns.Add(new DataColumn("Id", typeof(long)));
+            tabla.Columns.Add(new DataColumn("Fecha", typeof(DateTime)));
+            tabla.Columns.Add(new DataColumn("HoraInicio", typeof(TimeSpan)));
+            tabla.Columns.Add(new DataColumn("HoraFin", typeof(TimeSpan)));
+            tabla.Columns.Add(new DataColumn("MedicoId", typeof(long)));
+
+            tabla.PrimaryKey = new[] { tabla.Columns["Id"] };
+
+            var tablaMedicos = CrearTablaMedico();
+            var fechaBase = DateTime.Today.Date;
+
+            long idAgenda = 1;
+
+            foreach (DataRow medico in tablaMedicos.Rows)
+            {
+                var medicoId = (long)medico["Id"];
+
+                // Lunes a Domingo (DayOfWeek: 0 a 6)
+                for (int dia = 0; dia < 7; dia++)
+                {
+                    var fecha = fechaBase.AddDays(dia);
+
+                    for (int hora = 8; hora < 13; hora++) // De 8 a 13hs
+                    {
+                        var fila = tabla.NewRow();
+                        fila["Id"] = idAgenda++;
+                        fila["Fecha"] = fecha;
+                        fila["HoraInicio"] = new TimeSpan(hora, 0, 0);
+                        fila["HoraFin"] = new TimeSpan(hora + 1, 0, 0);
+                        fila["MedicoId"] = medicoId;
+
+                        tabla.Rows.Add(fila);
+                    }
+                }
+            }
+
+            return tabla;
+        }
+
+        private DataTable CrearTablaTurno()
+        {
+            var tabla = new DataTable("Turno");
+
+            tabla.Columns.Add(new DataColumn("Id", typeof(long)));
+            tabla.Columns.Add(new DataColumn("Fecha", typeof(DateTime)));
+            tabla.Columns.Add(new DataColumn("HoraInicio", typeof(TimeSpan)));
+            tabla.Columns.Add(new DataColumn("HoraFin", typeof(TimeSpan)));
+            tabla.Columns.Add(new DataColumn("TipoAtencion", typeof(string)));
+            tabla.Columns.Add(new DataColumn("Estado", typeof(string))); // Se guarda como texto legible
+            tabla.Columns.Add(new DataColumn("MedicoId", typeof(long)));
+            tabla.Columns.Add(new DataColumn("PacienteId", typeof(long)));
+            tabla.Columns.Add(new DataColumn("AgendaId", typeof(long)));
+
+            tabla.PrimaryKey = new[] { tabla.Columns["Id"] };
+
+            var fila = tabla.NewRow();
+            fila["Id"] = 1;
+            fila["Fecha"] = new DateTime(2025, 7, 8);
+            fila["HoraInicio"] = new TimeSpan(9, 0, 0);
+            fila["HoraFin"] = new TimeSpan(10, 0, 0);
+            fila["TipoAtencion"] = "Consulta general";
+            fila["Estado"] = EstadoTurno.Asignado.ToString();
+            fila["MedicoId"] = 1;
+            fila["PacienteId"] = 2;
+            fila["AgendaId"] = 12; 
+
             tabla.Rows.Add(fila);
 
             return tabla;

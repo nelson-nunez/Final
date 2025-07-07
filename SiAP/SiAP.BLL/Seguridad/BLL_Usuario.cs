@@ -65,9 +65,9 @@ namespace SiAP.BLL.Seguridad
             return _mppUsuario.ObtenerTodos();
         }
 
-        public Usuario Leer(Usuario usuario)
+        public Usuario Leer(long usuarioId)
         {
-            return _mppUsuario.LeerPorId(usuario.Legajo);
+            return _mppUsuario.LeerPorId(usuarioId);
         }
 
         public bool EsValido(Usuario usuario)

@@ -12,7 +12,7 @@ namespace SiAP.Abstracciones
         void Modificar(T objeto);
         void Eliminar(T objeto);
         IList<T> ObtenerTodos();
-        T Leer(T objeto);
+        T Leer(long Id);
 
         //Valido
         bool EsValido(T objeto);

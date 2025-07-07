@@ -64,9 +64,9 @@ namespace SiAP.BLL
             return _mppMedico.ObtenerTodos();
         }
 
-        public Medico Leer(Medico medico)
+        public Medico Leer(long medicoId)
         {
-            return _mppMedico.LeerPorId(medico.Id);
+            return _mppMedico.LeerPorId(medicoId);
         }
 
         public bool EsValido(Medico medico)

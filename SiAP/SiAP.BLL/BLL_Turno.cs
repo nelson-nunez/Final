@@ -30,6 +30,8 @@ namespace SiAP.BLL
             return _instancia ??= new BLL_Turno();
         }
 
+        #region interfaz
+
         public void Agregar(Turno turno)
         {
             if (!EsValido(turno))
@@ -61,9 +63,9 @@ namespace SiAP.BLL
             return _mppTurno.ObtenerTodos();
         }
 
-        public Turno Leer(Turno turno)
+        public Turno Leer(long turnoId)
         {
-            return _mppTurno.LeerPorId(turno.Id);
+            return _mppTurno.LeerPorId(turnoId);
         }
 
         public bool EsValido(Turno turno)
@@ -86,25 +88,27 @@ namespace SiAP.BLL
             return string.IsNullOrEmpty(_mensajeError);
         }
 
-        public IList<Turno> BuscarPorMedico(long medicoId)
+        #endregion
+
+        public Turno BuscarTurnoPorRango(Medico medico, Agenda agenda)
         {
-            return _mppTurno.Buscar("medicoid", medicoId.ToString());
+            return _mppTurno.BuscarTurnoPorMedIdyRangoHorario(medico.Id, agenda.Fecha, agenda.HoraInicio, agenda.HoraFin);
         }
 
-        public IList<Turno> BuscarPorFecha(DateTime fecha)
+        public IList<Turno> BuscarPorMedicoyRango(Medico medico, DateTime fecha)
         {
-            return _mppTurno.Buscar("fecha", fecha.ToShortDateString());
+            // Calcular el inicio de semana (lunes)
+            var diasDesdeLunes = (int)fecha.DayOfWeek - (int)DayOfWeek.Monday;
+            if (diasDesdeLunes < 0) diasDesdeLunes += 7;
+            var desde = fecha.Date.AddDays(-diasDesdeLunes);
+            var hasta = desde.AddDays(6);
+            return _mppTurno.BuscarPorMedicoyRango(medico.Id, desde, hasta);
         }
 
         public void CambiarEstado(Turno turno, EstadoTurno nuevoEstado)
         {
             turno.Estado = nuevoEstado;
             Modificar(turno);
-        }
-
-        public IList<Turno> ObtenerTurnosPorEstado(EstadoTurno estado)
-        {
-            return ObtenerTodos().Where(t => t.Estado == estado).ToList();
         }
     }
 }

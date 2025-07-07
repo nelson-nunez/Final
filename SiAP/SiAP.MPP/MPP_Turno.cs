@@ -44,6 +44,7 @@ namespace SiAP.MPP
             dr["Estado"] = entidad.Estado.ToString();
             dr["MedicoId"] = entidad.MedicoId;
             dr["PacienteId"] = entidad.PacienteId;
+            dr["AgendaId"] = entidad.AgendaId;
 
             dt.Rows.Add(dr);
             _datos.Actualizar_BD(ds);
@@ -63,6 +64,7 @@ namespace SiAP.MPP
             dr["Estado"] = entidad.Estado.ToString();
             dr["MedicoId"] = entidad.MedicoId;
             dr["PacienteId"] = entidad.PacienteId;
+            dr["AgendaId"] = entidad.AgendaId;
 
             _datos.Actualizar_BD(ds);
         }
@@ -110,6 +112,23 @@ namespace SiAP.MPP
             };
         }
 
+        // Si necesitas buscar por rango de tiempo en lugar de hora exacta
+        public Turno BuscarTurnoPorMedIdyRangoHorario(long medicoId, DateTime fecha, TimeSpan horaDesde, TimeSpan horaHasta)
+        {
+            var lista = ObtenerTodos();
+            return lista.FirstOrDefault(
+                t => t.MedicoId == medicoId && 
+                t.Fecha.Date == fecha.Date &&
+                (t.HoraInicio >= horaDesde && t.HoraInicio < horaHasta || t.HoraFin > horaDesde && t.HoraFin <= horaHasta)
+                );
+        }
+
+        public IList<Turno> BuscarPorMedicoyRango(long medicoId, DateTime fechadesde, DateTime fechahasta)
+        {
+            var lista = ObtenerTodos().Where(t => t.MedicoId == medicoId && (t.Fecha >= fechadesde && t.Fecha <= fechahasta)).ToList();
+            return (IList<Turno>)lista;
+        }
+
         private Turno Hidratar(DataRow r)
         {
             return new Turno
@@ -121,7 +140,8 @@ namespace SiAP.MPP
                 TipoAtencion = r["TipoAtencion"].ToString(),
                 Estado = Enum.Parse<EstadoTurno>(r["Estado"].ToString()),
                 MedicoId = Convert.ToInt64(r["MedicoId"]),
-                PacienteId = Convert.ToInt64(r["PacienteId"])
+                PacienteId = Convert.ToInt64(r["PacienteId"]),
+                AgendaId = Convert.ToInt64(r["AgendaId"])
             };
         }
     }

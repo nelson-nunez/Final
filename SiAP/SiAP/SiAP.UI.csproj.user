@@ -10,6 +10,9 @@
     <Compile Update="Controles\UC_Guardar_H.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Update="Controles\UC_Buscar_Paciente.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Update="Forms_Seguridad\UC_CRUD_Permisos.cs">
       <SubType>UserControl</SubType>
     </Compile>
