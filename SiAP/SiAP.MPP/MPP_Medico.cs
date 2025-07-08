@@ -114,6 +114,7 @@ namespace SiAP.MPP
             dr["FechaNacimiento"] = entidad.FechaNacimiento;
             dr["Email"] = entidad.Email;
             dr["Telefono"] = entidad.Telefono;
+            dr["ArancelConsulta"] = entidad.ArancelConsulta;
             dr["Titulo"] = entidad.Titulo;
 
             dr["EspecialidadId"] = entidad.Especialidad?.Id ?? 0;
@@ -135,6 +136,7 @@ namespace SiAP.MPP
                 FechaNacimiento = Convert.ToDateTime(r["FechaNacimiento"]),
                 Email = r["Email"].ToString(),
                 Telefono = r["Telefono"].ToString(),
+                ArancelConsulta = Convert.ToDecimal(r["ArancelConsulta"]),
                 Titulo = r["Titulo"].ToString(),
                 Especialidad = especialidad
             };

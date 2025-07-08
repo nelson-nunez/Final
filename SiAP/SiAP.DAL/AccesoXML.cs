@@ -340,6 +340,7 @@ namespace SiAP.DAL
             tabla.Columns.Add(new DataColumn("FechaNacimiento", typeof(DateTime)));
             tabla.Columns.Add(new DataColumn("Email", typeof(string)));
             tabla.Columns.Add(new DataColumn("Telefono", typeof(string)));
+            tabla.Columns.Add(new DataColumn("ArancelConsulta", typeof(decimal)));
             // Propiedades específicas de Medico
             tabla.Columns.Add(new DataColumn("Titulo", typeof(string)));
             tabla.Columns.Add(new DataColumn("EspecialidadId", typeof(int)));
@@ -356,6 +357,7 @@ namespace SiAP.DAL
             fila1["FechaNacimiento"] = new DateTime(1980, 5, 10);
             fila1["Email"] = "ana.perez@hospital.com";
             fila1["Telefono"] = "1122334455";
+            fila1["ArancelConsulta"] = "10000";
             fila1["Titulo"] = "Doctora en Medicina";
             fila1["EspecialidadId"] = 4;
             fila1["EspecialidadNombre"] = "Cardiología";
@@ -370,6 +372,7 @@ namespace SiAP.DAL
             fila2["FechaNacimiento"] = new DateTime(1981, 8, 20);
             fila2["Email"] = "marcos@hospital.com";
             fila2["Telefono"] = "1122334466";
+            fila2["ArancelConsulta"] = "12000";
             fila2["Titulo"] = "Doctor en Medicina";
             fila2["EspecialidadId"] = 2;
             fila2["EspecialidadNombre"] = "Pediatría";
@@ -384,6 +387,7 @@ namespace SiAP.DAL
             fila3["FechaNacimiento"] = new DateTime(1991, 8, 20);
             fila3["Email"] = "marcosp@hospital.com";
             fila3["Telefono"] = "1122334466";
+            fila3["ArancelConsulta"] = "9000";
             fila3["Titulo"] = "Doctor en Medicina";
             fila3["EspecialidadId"] = 2;
             fila3["EspecialidadNombre"] = "Pediatría";

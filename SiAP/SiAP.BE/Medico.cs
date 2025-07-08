@@ -10,8 +10,9 @@ namespace SiAP.BE
     {      
         public string Titulo { get; set; }
 
-
         public Especialidad Especialidad { get; set; }
+
+        public decimal ArancelConsulta { get; set; }
 
         public override string ToString()
         {

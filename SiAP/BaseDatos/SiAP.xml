@@ -1052,4 +1052,14 @@
     <PacienteId>2</PacienteId>
     <AgendaId>12</AgendaId>
   </Turno>
+  <Turno>
+    <Id>4</Id>
+    <Fecha>2025-07-08T00:00:00-03:00</Fecha>
+    <HoraInicio>PT11H</HoraInicio>
+    <HoraFin>PT12H</HoraFin>
+    <Estado>Asignado</Estado>
+    <MedicoId>1</MedicoId>
+    <PacienteId>2</PacienteId>
+    <AgendaId>14</AgendaId>
+  </Turno>
 </NewDataSet>

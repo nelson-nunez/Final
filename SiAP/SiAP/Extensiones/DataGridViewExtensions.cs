@@ -218,7 +218,7 @@ namespace SiAP.UI.Extensiones
                 if (turno != null)
                 {
                     // Turno asignado
-                    celda.Value = "Asignado";
+                    celda.Value = turno.Estado;
                     celda.Tag = agenda;
                     celda.Style.BackColor = Color.LightBlue;
                     celda.Style.SelectionBackColor = Color.LightBlue;

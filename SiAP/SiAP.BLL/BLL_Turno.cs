@@ -54,6 +54,8 @@ namespace SiAP.BLL
         {
             if (_mppTurno.TieneDependencias(turno))
                 throw new InvalidOperationException("El turno tiene dependencias y no puede eliminarse.");
+            if (turno.Estado == EstadoTurno.Atendido || turno.Estado == EstadoTurno.Ausente)
+                throw new InvalidOperationException("El turno ya no puede eliminarse.");
             _mppTurno.Eliminar(turno);
             _logger.GenerarLog($"Turno eliminado: ID {turno.Id}");
         }
@@ -76,8 +78,6 @@ namespace SiAP.BLL
                 _mensajeError += "La fecha es obligatoria. ";
             if (turno.HoraInicio >= turno.HoraFin)
                 _mensajeError += "La hora de inicio debe ser anterior a la hora de fin. ";
-            if (string.IsNullOrWhiteSpace(turno.TipoAtencion))
-                _mensajeError += "El tipo de atención es obligatorio. ";
             if (turno.MedicoId <= 0)
                 _mensajeError += "El ID del médico es obligatorio. ";
             if (turno.PacienteId <= 0)

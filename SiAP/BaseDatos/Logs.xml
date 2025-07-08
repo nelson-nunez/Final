@@ -40,4 +40,34 @@
     <Usuario>UsuarioLogueado</Usuario>
     <Operacion>Paciente eliminado: JUAN PERES</Operacion>
   </Log>
+  <Log>
+    <Id>4</Id>
+    <Fecha>2025-07-07T22:35:55.7391068-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Turno agregado: Médico ID 1, Paciente ID 2, Fecha 08/07/2025</Operacion>
+  </Log>
+  <Log>
+    <Id>5</Id>
+    <Fecha>2025-07-07T22:36:24.3533762-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Turno agregado: Médico ID 2, Paciente ID 2, Fecha 12/07/2025</Operacion>
+  </Log>
+  <Log>
+    <Id>6</Id>
+    <Fecha>2025-07-07T22:40:54.2160453-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Turno eliminado: ID 2</Operacion>
+  </Log>
+  <Log>
+    <Id>7</Id>
+    <Fecha>2025-07-07T22:41:00.2296445-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Turno agregado: Médico ID 1, Paciente ID 2, Fecha 08/07/2025</Operacion>
+  </Log>
+  <Log>
+    <Id>8</Id>
+    <Fecha>2025-07-07T23:35:23.290514-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Turno eliminado: ID 3</Operacion>
+  </Log>
 </NewDataSet>

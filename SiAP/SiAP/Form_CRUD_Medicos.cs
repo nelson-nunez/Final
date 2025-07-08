@@ -122,6 +122,7 @@ namespace SiAP.UI
             dateTime_feccha_nac.Value = (itemSeleccionado.FechaNacimiento.Year > 1900) ? itemSeleccionado.FechaNacimiento : DateTime.Today;
             textBox_email.Text = itemSeleccionado.Email;
             textBox_telefono.Text = itemSeleccionado.Telefono;
+            textBox_precio.Text = itemSeleccionado.ArancelConsulta.ToString();
             textBox_titulo.Text = itemSeleccionado.Titulo;
             comboBox_especialidad.SelectedItem = itemSeleccionado.Especialidad;
 
@@ -135,6 +136,7 @@ namespace SiAP.UI
             itemSeleccionado.FechaNacimiento = dateTime_feccha_nac.Value;
             itemSeleccionado.Email = textBox_email.Text;
             itemSeleccionado.Telefono = textBox_telefono.Text;
+            itemSeleccionado.ArancelConsulta = Convert.ToDecimal(textBox_precio.Text);
             itemSeleccionado.Titulo = textBox_titulo.Text;
             itemSeleccionado.Especialidad = (Especialidad)comboBox_especialidad.SelectedItem;
         }
@@ -148,6 +150,7 @@ namespace SiAP.UI
             textBox_email.Text.ValidarEmail("Email");
             textBox_telefono.Text.ValidarSoloNumeros("Teléfono");
             textBox_titulo.Text.ValidarSoloTexto("Título");
+            textBox_precio.Text.ValidarSoloNumeros("Precio");
             var item = comboBox_especialidad.SelectedItem as Especialidad;
             InputsExtensions.OnlySelected(item, "especialidad ");
         }

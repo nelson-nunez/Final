@@ -243,6 +243,16 @@ namespace SiAP.UI.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap pagar {
+            get {
+                object obj = ResourceManager.GetObject("pagar", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap proteger {
             get {
                 object obj = ResourceManager.GetObject("proteger", resourceCulture);

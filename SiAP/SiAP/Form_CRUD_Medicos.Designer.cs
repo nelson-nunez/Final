@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             groupBox1 = new GroupBox();
+            label3 = new Label();
+            textBox_precio = new TextBox();
             textBox_DNI = new TextBox();
             label9 = new Label();
             comboBox_especialidad = new ComboBox();
@@ -60,6 +62,8 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(label3);
+            groupBox1.Controls.Add(textBox_precio);
             groupBox1.Controls.Add(textBox_DNI);
             groupBox1.Controls.Add(label9);
             groupBox1.Controls.Add(comboBox_especialidad);
@@ -84,9 +88,26 @@
             groupBox1.TabStop = false;
             groupBox1.Text = "ABM";
             // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(10, 268);
+            label3.Name = "label3";
+            label3.Size = new Size(96, 15);
+            label3.TabIndex = 42;
+            label3.Text = "Precio Consulta: ";
+            // 
+            // textBox_precio
+            // 
+            textBox_precio.BackColor = Color.Honeydew;
+            textBox_precio.Location = new Point(112, 265);
+            textBox_precio.Name = "textBox_precio";
+            textBox_precio.Size = new Size(298, 23);
+            textBox_precio.TabIndex = 41;
+            // 
             // textBox_DNI
             // 
-            textBox_DNI.Location = new Point(101, 91);
+            textBox_DNI.Location = new Point(112, 91);
             textBox_DNI.Name = "textBox_DNI";
             textBox_DNI.Size = new Size(298, 23);
             textBox_DNI.TabIndex = 40;
@@ -94,7 +115,7 @@
             // label9
             // 
             label9.AutoSize = true;
-            label9.Location = new Point(17, 239);
+            label9.Location = new Point(28, 239);
             label9.Name = "label9";
             label9.Size = new Size(78, 15);
             label9.TabIndex = 39;
@@ -103,14 +124,14 @@
             // comboBox_especialidad
             // 
             comboBox_especialidad.FormattingEnabled = true;
-            comboBox_especialidad.Location = new Point(101, 236);
+            comboBox_especialidad.Location = new Point(112, 236);
             comboBox_especialidad.Name = "comboBox_especialidad";
             comboBox_especialidad.Size = new Size(298, 23);
             comboBox_especialidad.TabIndex = 38;
             // 
             // textBox_titulo
             // 
-            textBox_titulo.Location = new Point(101, 207);
+            textBox_titulo.Location = new Point(112, 207);
             textBox_titulo.Name = "textBox_titulo";
             textBox_titulo.Size = new Size(298, 23);
             textBox_titulo.TabIndex = 37;
@@ -118,7 +139,7 @@
             // label8
             // 
             label8.AutoSize = true;
-            label8.Location = new Point(52, 210);
+            label8.Location = new Point(63, 210);
             label8.Name = "label8";
             label8.Size = new Size(43, 15);
             label8.TabIndex = 36;
@@ -127,7 +148,7 @@
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(27, 126);
+            label7.Location = new Point(38, 126);
             label7.Name = "label7";
             label7.Size = new Size(68, 15);
             label7.TabIndex = 34;
@@ -136,7 +157,7 @@
             // dateTime_feccha_nac
             // 
             dateTime_feccha_nac.Format = DateTimePickerFormat.Short;
-            dateTime_feccha_nac.Location = new Point(101, 120);
+            dateTime_feccha_nac.Location = new Point(112, 120);
             dateTime_feccha_nac.Name = "dateTime_feccha_nac";
             dateTime_feccha_nac.Size = new Size(298, 23);
             dateTime_feccha_nac.TabIndex = 33;
@@ -144,7 +165,7 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(62, 93);
+            label4.Location = new Point(73, 93);
             label4.Name = "label4";
             label4.Size = new Size(33, 15);
             label4.TabIndex = 31;
@@ -223,21 +244,21 @@
             // 
             // textBox_telefono
             // 
-            textBox_telefono.Location = new Point(101, 178);
+            textBox_telefono.Location = new Point(112, 178);
             textBox_telefono.Name = "textBox_telefono";
             textBox_telefono.Size = new Size(298, 23);
             textBox_telefono.TabIndex = 9;
             // 
             // textBox_email
             // 
-            textBox_email.Location = new Point(101, 149);
+            textBox_email.Location = new Point(112, 149);
             textBox_email.Name = "textBox_email";
             textBox_email.Size = new Size(298, 23);
             textBox_email.TabIndex = 8;
             // 
             // textBox_apellido
             // 
-            textBox_apellido.Location = new Point(101, 62);
+            textBox_apellido.Location = new Point(112, 62);
             textBox_apellido.Name = "textBox_apellido";
             textBox_apellido.Size = new Size(298, 23);
             textBox_apellido.TabIndex = 7;
@@ -245,7 +266,7 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(53, 152);
+            label6.Location = new Point(64, 152);
             label6.Name = "label6";
             label6.Size = new Size(42, 15);
             label6.TabIndex = 6;
@@ -254,7 +275,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(40, 181);
+            label5.Location = new Point(51, 181);
             label5.Name = "label5";
             label5.Size = new Size(55, 15);
             label5.TabIndex = 5;
@@ -263,7 +284,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(38, 65);
+            label2.Location = new Point(49, 65);
             label2.Name = "label2";
             label2.Size = new Size(57, 15);
             label2.TabIndex = 2;
@@ -271,7 +292,7 @@
             // 
             // textBox_nombre
             // 
-            textBox_nombre.Location = new Point(101, 33);
+            textBox_nombre.Location = new Point(112, 33);
             textBox_nombre.Name = "textBox_nombre";
             textBox_nombre.Size = new Size(298, 23);
             textBox_nombre.TabIndex = 1;
@@ -279,7 +300,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(38, 36);
+            label1.Location = new Point(49, 36);
             label1.Name = "label1";
             label1.Size = new Size(57, 15);
             label1.TabIndex = 0;
@@ -348,5 +369,7 @@
         private GroupBox groupBox3;
         private TextBox textBox_DNI;
         private DataGridView dataGridView1;
+        private Label label3;
+        private TextBox textBox_precio;
     }
 }

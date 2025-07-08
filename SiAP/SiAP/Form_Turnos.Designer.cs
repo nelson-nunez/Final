@@ -32,6 +32,7 @@
             treeView1 = new TreeView();
             groupBox1 = new GroupBox();
             groupBox2 = new GroupBox();
+            uC_Buscar_Paciente1 = new Forms_Seguridad.UC_Buscar_Paciente();
             label1 = new Label();
             label_titular_agenda = new Label();
             button_sem_siguiente = new Button();
@@ -39,22 +40,21 @@
             button_sem_actual = new Button();
             button_sem_anterior = new Button();
             groupBox_turno = new GroupBox();
+            textBox_hora_fin = new TextBox();
+            textBox_hora_inicio = new TextBox();
+            textBox_fecha = new TextBox();
+            textBox_estado = new TextBox();
+            textBox_paciente = new TextBox();
+            textBox_medico = new TextBox();
+            button_cobrar = new Button();
             label5 = new Label();
             label6 = new Label();
             label7 = new Label();
-            label2 = new Label();
             label3 = new Label();
             label4 = new Label();
             button_eliminar_turno = new Button();
             button_asignar_turno = new Button();
             button_seleccionar_paciente = new Button();
-            label_Paciente = new Label();
-            label_estado = new Label();
-            label_h_fin = new Label();
-            label_h_inicio = new Label();
-            label_fecha = new Label();
-            label_medico = new Label();
-            uC_Buscar_Paciente1 = new Forms_Seguridad.UC_Buscar_Paciente();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
@@ -75,7 +75,7 @@
             treeView1.HideSelection = false;
             treeView1.Location = new Point(6, 22);
             treeView1.Name = "treeView1";
-            treeView1.Size = new Size(314, 679);
+            treeView1.Size = new Size(314, 562);
             treeView1.TabIndex = 3;
             treeView1.AfterSelect += treeView1_AfterSelect;
             // 
@@ -107,6 +107,13 @@
             groupBox2.TabIndex = 10;
             groupBox2.TabStop = false;
             groupBox2.Text = "Turnos";
+            // 
+            // uC_Buscar_Paciente1
+            // 
+            uC_Buscar_Paciente1.Location = new Point(93, 164);
+            uC_Buscar_Paciente1.Name = "uC_Buscar_Paciente1";
+            uC_Buscar_Paciente1.Size = new Size(444, 286);
+            uC_Buscar_Paciente1.TabIndex = 11;
             // 
             // label1
             // 
@@ -173,43 +180,112 @@
             // 
             // groupBox_turno
             // 
+            groupBox_turno.Controls.Add(textBox_hora_fin);
+            groupBox_turno.Controls.Add(textBox_hora_inicio);
+            groupBox_turno.Controls.Add(textBox_fecha);
+            groupBox_turno.Controls.Add(textBox_estado);
+            groupBox_turno.Controls.Add(textBox_paciente);
+            groupBox_turno.Controls.Add(textBox_medico);
+            groupBox_turno.Controls.Add(button_cobrar);
             groupBox_turno.Controls.Add(label5);
             groupBox_turno.Controls.Add(label6);
             groupBox_turno.Controls.Add(label7);
-            groupBox_turno.Controls.Add(label2);
             groupBox_turno.Controls.Add(label3);
             groupBox_turno.Controls.Add(label4);
             groupBox_turno.Controls.Add(button_eliminar_turno);
             groupBox_turno.Controls.Add(button_asignar_turno);
             groupBox_turno.Controls.Add(button_seleccionar_paciente);
-            groupBox_turno.Controls.Add(label_Paciente);
-            groupBox_turno.Controls.Add(label_estado);
-            groupBox_turno.Controls.Add(label_h_fin);
-            groupBox_turno.Controls.Add(label_h_inicio);
-            groupBox_turno.Controls.Add(label_fecha);
-            groupBox_turno.Controls.Add(label_medico);
-            groupBox_turno.Location = new Point(326, 590);
+            groupBox_turno.Location = new Point(6, 590);
             groupBox_turno.Name = "groupBox_turno";
-            groupBox_turno.Size = new Size(878, 111);
+            groupBox_turno.Size = new Size(1198, 111);
             groupBox_turno.TabIndex = 5;
             groupBox_turno.TabStop = false;
             groupBox_turno.Text = "Turno Seleccionado";
+            // 
+            // textBox_hora_fin
+            // 
+            textBox_hora_fin.BackColor = Color.WhiteSmoke;
+            textBox_hora_fin.Enabled = false;
+            textBox_hora_fin.Location = new Point(427, 77);
+            textBox_hora_fin.Name = "textBox_hora_fin";
+            textBox_hora_fin.Size = new Size(119, 23);
+            textBox_hora_fin.TabIndex = 26;
+            // 
+            // textBox_hora_inicio
+            // 
+            textBox_hora_inicio.BackColor = Color.WhiteSmoke;
+            textBox_hora_inicio.Enabled = false;
+            textBox_hora_inicio.Location = new Point(427, 48);
+            textBox_hora_inicio.Name = "textBox_hora_inicio";
+            textBox_hora_inicio.Size = new Size(119, 23);
+            textBox_hora_inicio.TabIndex = 25;
+            // 
+            // textBox_fecha
+            // 
+            textBox_fecha.BackColor = Color.WhiteSmoke;
+            textBox_fecha.Enabled = false;
+            textBox_fecha.Location = new Point(427, 20);
+            textBox_fecha.Name = "textBox_fecha";
+            textBox_fecha.Size = new Size(119, 23);
+            textBox_fecha.TabIndex = 24;
+            // 
+            // textBox_estado
+            // 
+            textBox_estado.BackColor = Color.WhiteSmoke;
+            textBox_estado.Enabled = false;
+            textBox_estado.Location = new Point(124, 78);
+            textBox_estado.Name = "textBox_estado";
+            textBox_estado.Size = new Size(219, 23);
+            textBox_estado.TabIndex = 23;
+            // 
+            // textBox_paciente
+            // 
+            textBox_paciente.BackColor = Color.WhiteSmoke;
+            textBox_paciente.Enabled = false;
+            textBox_paciente.Location = new Point(124, 49);
+            textBox_paciente.Name = "textBox_paciente";
+            textBox_paciente.Size = new Size(219, 23);
+            textBox_paciente.TabIndex = 22;
+            // 
+            // textBox_medico
+            // 
+            textBox_medico.BackColor = Color.WhiteSmoke;
+            textBox_medico.Enabled = false;
+            textBox_medico.Location = new Point(124, 20);
+            textBox_medico.Name = "textBox_medico";
+            textBox_medico.Size = new Size(219, 23);
+            textBox_medico.TabIndex = 21;
+            // 
+            // button_cobrar
+            // 
+            button_cobrar.BackColor = Color.DarkSeaGreen;
+            button_cobrar.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            button_cobrar.Image = Properties.Resources.pagar;
+            button_cobrar.ImageAlign = ContentAlignment.MiddleLeft;
+            button_cobrar.Location = new Point(630, 42);
+            button_cobrar.Name = "button_cobrar";
+            button_cobrar.Size = new Size(108, 33);
+            button_cobrar.TabIndex = 20;
+            button_cobrar.Text = "Cobrar Turno";
+            button_cobrar.TextAlign = ContentAlignment.MiddleRight;
+            button_cobrar.UseVisualStyleBackColor = false;
+            button_cobrar.Click += button_cobrar_Click;
             // 
             // label5
             // 
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            label5.Location = new Point(174, 69);
+            label5.Location = new Point(349, 52);
             label5.Name = "label5";
-            label5.Size = new Size(43, 15);
+            label5.Size = new Size(72, 15);
             label5.TabIndex = 19;
-            label5.Text = "Inicio: ";
+            label5.Text = "Hora Inicio: ";
             // 
             // label6
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            label6.Location = new Point(20, 69);
+            label6.Location = new Point(377, 23);
             label6.Name = "label6";
             label6.Size = new Size(44, 15);
             label6.TabIndex = 18;
@@ -219,27 +295,17 @@
             // 
             label7.AutoSize = true;
             label7.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            label7.Location = new Point(11, 21);
+            label7.Location = new Point(61, 23);
             label7.Name = "label7";
             label7.Size = new Size(53, 15);
             label7.TabIndex = 17;
             label7.Text = "Médico: ";
             // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            label2.Location = new Point(6, 46);
-            label2.Name = "label2";
-            label2.Size = new Size(58, 15);
-            label2.TabIndex = 16;
-            label2.Text = "Paciente: ";
-            // 
             // label3
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            label3.Location = new Point(16, 91);
+            label3.Location = new Point(61, 86);
             label3.Name = "label3";
             label3.Size = new Size(48, 15);
             label3.TabIndex = 15;
@@ -249,19 +315,19 @@
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            label4.Location = new Point(187, 91);
+            label4.Location = new Point(363, 80);
             label4.Name = "label4";
-            label4.Size = new Size(29, 15);
+            label4.Size = new Size(58, 15);
             label4.TabIndex = 14;
-            label4.Text = "Fin: ";
+            label4.Text = "Hora Fin: ";
             // 
             // button_eliminar_turno
             // 
             button_eliminar_turno.BackColor = Color.IndianRed;
             button_eliminar_turno.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            button_eliminar_turno.Location = new Point(808, 31);
+            button_eliminar_turno.Location = new Point(1077, 20);
             button_eliminar_turno.Name = "button_eliminar_turno";
-            button_eliminar_turno.Size = new Size(64, 53);
+            button_eliminar_turno.Size = new Size(115, 40);
             button_eliminar_turno.TabIndex = 13;
             button_eliminar_turno.Text = "Eliminar Turno";
             button_eliminar_turno.UseVisualStyleBackColor = false;
@@ -271,9 +337,9 @@
             // 
             button_asignar_turno.BackColor = Color.MediumSeaGreen;
             button_asignar_turno.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            button_asignar_turno.Location = new Point(739, 31);
+            button_asignar_turno.Location = new Point(1077, 64);
             button_asignar_turno.Name = "button_asignar_turno";
-            button_asignar_turno.Size = new Size(63, 53);
+            button_asignar_turno.Size = new Size(115, 40);
             button_asignar_turno.TabIndex = 12;
             button_asignar_turno.Text = "Asignar Turno";
             button_asignar_turno.UseVisualStyleBackColor = false;
@@ -283,80 +349,13 @@
             // 
             button_seleccionar_paciente.BackColor = SystemColors.ActiveCaption;
             button_seleccionar_paciente.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            button_seleccionar_paciente.Location = new Point(501, 31);
+            button_seleccionar_paciente.Location = new Point(6, 48);
             button_seleccionar_paciente.Name = "button_seleccionar_paciente";
-            button_seleccionar_paciente.Size = new Size(83, 53);
+            button_seleccionar_paciente.Size = new Size(103, 23);
             button_seleccionar_paciente.TabIndex = 11;
-            button_seleccionar_paciente.Text = "Seleccionar Paciente";
+            button_seleccionar_paciente.Text = "Buscar Paciente";
             button_seleccionar_paciente.UseVisualStyleBackColor = false;
             button_seleccionar_paciente.Click += button_seleccionar_paciente_Click;
-            // 
-            // label_Paciente
-            // 
-            label_Paciente.AutoSize = true;
-            label_Paciente.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            label_Paciente.Location = new Point(70, 46);
-            label_Paciente.Name = "label_Paciente";
-            label_Paciente.Size = new Size(27, 15);
-            label_Paciente.TabIndex = 5;
-            label_Paciente.Text = "____";
-            // 
-            // label_estado
-            // 
-            label_estado.AutoSize = true;
-            label_estado.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            label_estado.Location = new Point(70, 91);
-            label_estado.Name = "label_estado";
-            label_estado.Size = new Size(27, 15);
-            label_estado.TabIndex = 4;
-            label_estado.Text = "____";
-            // 
-            // label_h_fin
-            // 
-            label_h_fin.AutoSize = true;
-            label_h_fin.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            label_h_fin.Location = new Point(229, 91);
-            label_h_fin.Name = "label_h_fin";
-            label_h_fin.Size = new Size(27, 15);
-            label_h_fin.TabIndex = 3;
-            label_h_fin.Text = "____";
-            // 
-            // label_h_inicio
-            // 
-            label_h_inicio.AutoSize = true;
-            label_h_inicio.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            label_h_inicio.Location = new Point(229, 69);
-            label_h_inicio.Name = "label_h_inicio";
-            label_h_inicio.Size = new Size(27, 15);
-            label_h_inicio.TabIndex = 2;
-            label_h_inicio.Text = "____";
-            // 
-            // label_fecha
-            // 
-            label_fecha.AutoSize = true;
-            label_fecha.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            label_fecha.Location = new Point(70, 69);
-            label_fecha.Name = "label_fecha";
-            label_fecha.Size = new Size(27, 15);
-            label_fecha.TabIndex = 1;
-            label_fecha.Text = "____";
-            // 
-            // label_medico
-            // 
-            label_medico.AutoSize = true;
-            label_medico.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            label_medico.Location = new Point(70, 21);
-            label_medico.Name = "label_medico";
-            label_medico.Size = new Size(27, 15);
-            label_medico.TabIndex = 0;
-            label_medico.Text = "____";
-            // 
-            // uC_Buscar_Paciente1
-            // 
-            uC_Buscar_Paciente1.Location = new Point(140, 231);
-            uC_Buscar_Paciente1.Name = "uC_Buscar_Paciente1";
-            uC_Buscar_Paciente1.Size = new Size(444, 286);
-            uC_Buscar_Paciente1.TabIndex = 11;
             // 
             // Form_Turnos
             // 
@@ -381,27 +380,27 @@
         private GroupBox groupBox1;
         private Label label_titular_agenda;
         private GroupBox groupBox_turno;
-        private Label label_h_fin;
-        private Label label_h_inicio;
-        private Label label_fecha;
-        private Label label_medico;
-        private Label label_estado;
         private Button button_sem_actual;
         private Button button_sem_anterior;
         private GroupBox groupBox2;
         private Label label1;
         private Button button_sem_siguiente;
         private ComboBox comboBox1;
-        private Label label_Paciente;
         private Button button_eliminar_turno;
         private Button button_asignar_turno;
         private Button button_seleccionar_paciente;
         private Label label5;
         private Label label6;
         private Label label7;
-        private Label label2;
         private Label label3;
         private Label label4;
         private Forms_Seguridad.UC_Buscar_Paciente uC_Buscar_Paciente1;
+        private Button button_cobrar;
+        private TextBox textBox_hora_fin;
+        private TextBox textBox_hora_inicio;
+        private TextBox textBox_fecha;
+        private TextBox textBox_estado;
+        private TextBox textBox_paciente;
+        private TextBox textBox_medico;
     }
 }

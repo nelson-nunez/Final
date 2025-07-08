@@ -40,6 +40,7 @@
             // 
             // groupBox1
             // 
+            groupBox1.BackColor = Color.Beige;
             groupBox1.Controls.Add(label1);
             groupBox1.Controls.Add(dataGridView_paciente);
             groupBox1.Controls.Add(label5);

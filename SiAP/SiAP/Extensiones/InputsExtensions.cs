@@ -137,7 +137,10 @@ namespace SiAP.UI.Extensiones
 
             comboBox.DisplayMember = "MesAnio";
             comboBox.ValueMember = "Fecha";
+
+            // Seleccionar por defecto el mes actual
+            var mesActual = new DateTime(fechaBase.Year, fechaBase.Month, 1);
+            comboBox.SelectedValue = mesActual;
         }
     }
-
 }
