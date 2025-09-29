@@ -24,6 +24,8 @@ namespace SiAP.UI
         private Form_Config_Usuario form_config_user;
         private Form_CRUD_Medicos form_medic;
         private Form_CRUD_Pacientes form_paciente;
+        private Form_Cobros form_cobros;
+        private Form_Agenda form_Agenda;
         //Componentes
         private UC_Login UC_Login;
 
@@ -64,7 +66,6 @@ namespace SiAP.UI
                 CambiarVisibilidadMenu(menuStrip1.Items, useractual.Permiso.ObtenerPermisos());
                 UC_Login.Visible = false;
             }
-
             UC_Login.LoginSuccess -= UC_Login_LoginSuccess;
         }
 
@@ -100,7 +101,7 @@ namespace SiAP.UI
                     }
                     bool visible = false;
                     string tag = subMenu.Tag as string;
-                    if (!string.IsNullOrEmpty(tag) && (tag.Equals("TAG") || permisosHabilitados.Any(p => p.Codigo.Equals(tag))))
+                    if (!string.IsNullOrEmpty(tag) && (tag.Equals("TAG") || permisosHabilitados.Any(p => p.Codigo.Equals(tag))) || tag.Equals("EXIT"))
                     {
                         visible = true;
                         tieneVisibles = true;
@@ -150,7 +151,7 @@ namespace SiAP.UI
         #endregion
 
         #region Abrir Item Menu
-       
+
         private void AbrirForm_Turnos(object sender, EventArgs e)
         {
             AbrirFormGeneral(ref form_turnos);
@@ -179,13 +180,22 @@ namespace SiAP.UI
         {
             AbrirFormGeneral(ref form_medic);
         }
-        
+
         private void pacientesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AbrirFormGeneral(ref form_paciente);
         }
 
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            AbrirFormGeneral(ref form_cobros);
+        }
+
         #endregion
 
+        private void toolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            AbrirFormGeneral(ref form_Agenda);            
+        }
     }
 }

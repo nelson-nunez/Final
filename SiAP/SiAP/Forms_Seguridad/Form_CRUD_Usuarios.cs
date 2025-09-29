@@ -124,8 +124,6 @@ namespace SiAP.UI.Forms_Seguridad
                 userControl.itemSeleccionado.Apellido = textBox_apellido.Text;
                 userControl.itemSeleccionado.Email = textBox_email.Text;
                 userControl.itemSeleccionado.Activo = checkBox1.Checked;
-                userControl.itemSeleccionado.Password = "Cambiar_" + textBox_email.Text;
-
                 _bllUsuario.Agregar(userControl.itemSeleccionado);
                 MessageBox.Show("Se guardaron los cambios con éxito");
                 userControl.Limpiar();

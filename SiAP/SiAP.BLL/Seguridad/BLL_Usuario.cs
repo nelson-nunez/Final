@@ -36,7 +36,8 @@ namespace SiAP.BLL.Seguridad
             if (_mppUsuario.Existe(usuario))
                 throw new InvalidOperationException("El usuario ya existe.");
 
-            usuario.Password = _encriptacion.Encriptar3DES(usuario.Password);
+            //Pass inicial es Cambiar_username
+            usuario.Password = _encriptacion.Encriptar3DES("Cambiar_"+ usuario.Username);
             _mppUsuario.Agregar(usuario);
             _logger.GenerarLog($"Usuario agregado: {usuario.Username}");
         }

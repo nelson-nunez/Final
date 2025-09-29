@@ -97,7 +97,7 @@
             textBox_username.Location = new Point(88, 31);
             textBox_username.Name = "textBox_username";
             textBox_username.Size = new Size(298, 23);
-            textBox_username.TabIndex = 30;
+            textBox_username.TabIndex = 1;
             // 
             // label3
             // 
@@ -128,7 +128,7 @@
             button_Borrar.Location = new Point(3, 3);
             button_Borrar.Name = "button_Borrar";
             button_Borrar.Size = new Size(74, 27);
-            button_Borrar.TabIndex = 22;
+            button_Borrar.TabIndex = 7;
             button_Borrar.Text = "Eliminar";
             button_Borrar.TextAlign = ContentAlignment.MiddleLeft;
             button_Borrar.UseVisualStyleBackColor = false;
@@ -143,7 +143,7 @@
             button_Limpiar.Location = new Point(83, 3);
             button_Limpiar.Name = "button_Limpiar";
             button_Limpiar.Size = new Size(74, 27);
-            button_Limpiar.TabIndex = 23;
+            button_Limpiar.TabIndex = 8;
             button_Limpiar.Text = "Limpiar";
             button_Limpiar.TextAlign = ContentAlignment.MiddleLeft;
             button_Limpiar.UseVisualStyleBackColor = false;
@@ -158,7 +158,7 @@
             button_Editar.Location = new Point(163, 3);
             button_Editar.Name = "button_Editar";
             button_Editar.Size = new Size(74, 27);
-            button_Editar.TabIndex = 24;
+            button_Editar.TabIndex = 9;
             button_Editar.Text = "Editar";
             button_Editar.TextAlign = ContentAlignment.MiddleLeft;
             button_Editar.UseVisualStyleBackColor = false;
@@ -173,7 +173,7 @@
             button_Guardar.Location = new Point(243, 3);
             button_Guardar.Name = "button_Guardar";
             button_Guardar.Size = new Size(74, 27);
-            button_Guardar.TabIndex = 25;
+            button_Guardar.TabIndex = 10;
             button_Guardar.Text = "Guardar";
             button_Guardar.TextAlign = ContentAlignment.MiddleLeft;
             button_Guardar.UseVisualStyleBackColor = false;
@@ -186,7 +186,7 @@
             checkBox1.Name = "checkBox1";
             checkBox1.RightToLeft = RightToLeft.Yes;
             checkBox1.Size = new Size(60, 19);
-            checkBox1.TabIndex = 10;
+            checkBox1.TabIndex = 6;
             checkBox1.Text = "Activo";
             checkBox1.UseVisualStyleBackColor = true;
             // 
@@ -196,21 +196,21 @@
             textBox_password.Location = new Point(88, 147);
             textBox_password.Name = "textBox_password";
             textBox_password.Size = new Size(298, 23);
-            textBox_password.TabIndex = 9;
+            textBox_password.TabIndex = 5;
             // 
             // textBox_email
             // 
             textBox_email.Location = new Point(88, 118);
             textBox_email.Name = "textBox_email";
             textBox_email.Size = new Size(298, 23);
-            textBox_email.TabIndex = 8;
+            textBox_email.TabIndex = 4;
             // 
             // textBox_apellido
             // 
             textBox_apellido.Location = new Point(88, 89);
             textBox_apellido.Name = "textBox_apellido";
             textBox_apellido.Size = new Size(298, 23);
-            textBox_apellido.TabIndex = 7;
+            textBox_apellido.TabIndex = 3;
             // 
             // label6
             // 
@@ -244,7 +244,7 @@
             textBox_nombre.Location = new Point(88, 60);
             textBox_nombre.Name = "textBox_nombre";
             textBox_nombre.Size = new Size(298, 23);
-            textBox_nombre.TabIndex = 1;
+            textBox_nombre.TabIndex = 2;
             // 
             // label1
             // 

@@ -70,4 +70,64 @@
     <Usuario>UsuarioLogueado</Usuario>
     <Operacion>Turno eliminado: ID 3</Operacion>
   </Log>
+  <Log>
+    <Id>9</Id>
+    <Fecha>2025-09-27T19:44:17.1240468-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Permiso modificado: Administrador</Operacion>
+  </Log>
+  <Log>
+    <Id>10</Id>
+    <Fecha>2025-09-27T19:45:05.2837008-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Permiso desasignado: TAG009 - Reportes a Administrador - Permisos administrativoss</Operacion>
+  </Log>
+  <Log>
+    <Id>11</Id>
+    <Fecha>2025-09-27T19:45:14.2531252-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Permiso asignado: TAG009 - Reportes a Administrador - Permisos administrativoss</Operacion>
+  </Log>
+  <Log>
+    <Id>12</Id>
+    <Fecha>2025-09-27T19:46:14.2423298-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Usuario agregado: nnunez</Operacion>
+  </Log>
+  <Log>
+    <Id>13</Id>
+    <Fecha>2025-09-28T20:03:04.5909232-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Permiso agregado: TAG010</Operacion>
+  </Log>
+  <Log>
+    <Id>14</Id>
+    <Fecha>2025-09-28T20:03:50.474855-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Permiso agregado: TAG009</Operacion>
+  </Log>
+  <Log>
+    <Id>15</Id>
+    <Fecha>2025-09-28T20:11:17.4358993-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Permiso eliminado: TAG010</Operacion>
+  </Log>
+  <Log>
+    <Id>16</Id>
+    <Fecha>2025-09-28T20:11:20.4792806-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Permiso eliminado: TAG009</Operacion>
+  </Log>
+  <Log>
+    <Id>17</Id>
+    <Fecha>2025-09-28T20:11:58.1173605-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Permiso agregado: TAG010</Operacion>
+  </Log>
+  <Log>
+    <Id>18</Id>
+    <Fecha>2025-09-28T20:12:09.6381757-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Permiso asignado: TAG010 - Agenda medica a Administrador - Permisos administrativoss</Operacion>
+  </Log>
 </NewDataSet>

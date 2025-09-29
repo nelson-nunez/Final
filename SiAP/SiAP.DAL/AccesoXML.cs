@@ -221,6 +221,17 @@ namespace SiAP.DAL
                     ds.Tables.Add(CrearTablaTurno());
                     Actualizar_BD(ds);
                 }
+                if (!ds.Tables.Contains("Factura"))
+                {
+                    ds.Tables.Add(CrearTablaFactura());
+                    Actualizar_BD(ds);
+                }
+                if (!ds.Tables.Contains("Cobro"))
+                {
+                    ds.Tables.Add(CrearTablaCobro());
+                    Actualizar_BD(ds);
+                }
+
             }
             catch (Exception ex)
             {
@@ -503,6 +514,87 @@ namespace SiAP.DAL
             fila["AgendaId"] = 12; 
 
             tabla.Rows.Add(fila);
+
+            return tabla;
+        }
+
+        private DataTable CrearTablaCobro()
+        {
+            var tabla = new DataTable("Cobro");
+
+            tabla.Columns.Add(new DataColumn("Id", typeof(long)));
+            tabla.Columns.Add(new DataColumn("FechaHora", typeof(DateTime)));
+            tabla.Columns.Add(new DataColumn("TipoPago", typeof(string)));
+            tabla.Columns.Add(new DataColumn("Monto", typeof(decimal)));
+            tabla.Columns.Add(new DataColumn("Estado", typeof(string))); // EstadoCobro como string
+            tabla.Columns.Add(new DataColumn("FacturaId", typeof(long)));
+            tabla.Columns.Add(new DataColumn("FormaPagoId", typeof(long)));
+
+            tabla.PrimaryKey = new[] { tabla.Columns["Id"] };
+
+            // Cobro 1 para Factura 1 (registrado, pago parcial)
+            var fila1 = tabla.NewRow();
+            fila1["Id"] = 1;
+            fila1["FechaHora"] = new DateTime(2025, 7, 8, 10, 30, 0);
+            fila1["TipoPago"] = "Efectivo";
+            fila1["Monto"] = 5000;
+            fila1["Estado"] = EstadoCobro.Registrado.ToString();
+            fila1["FacturaId"] = 1;
+            fila1["FormaPagoId"] = 1; // EF
+            tabla.Rows.Add(fila1);
+
+            // Cobro 2 para Factura 2 (confirmado, pago total)
+            var fila2 = tabla.NewRow();
+            fila2["Id"] = 2;
+            fila2["FechaHora"] = new DateTime(2025, 7, 9, 12, 0, 0);
+            fila2["TipoPago"] = "Transferencia";
+            fila2["Monto"] = 12000;
+            fila2["Estado"] = EstadoCobro.Confirmado.ToString();
+            fila2["FacturaId"] = 2;
+            fila2["FormaPagoId"] = 4; // TRANS
+            tabla.Rows.Add(fila2);
+
+            return tabla;
+        }
+
+        private DataTable CrearTablaFactura()
+        {
+            var tabla = new DataTable("Factura");
+
+            tabla.Columns.Add(new DataColumn("Id", typeof(long)));
+            tabla.Columns.Add(new DataColumn("FechaEmision", typeof(DateTime)));
+            tabla.Columns.Add(new DataColumn("NumeroFactura", typeof(string)));
+            tabla.Columns.Add(new DataColumn("Importe", typeof(decimal)));
+            tabla.Columns.Add(new DataColumn("Descripcion", typeof(string)));
+            tabla.Columns.Add(new DataColumn("Estado", typeof(string))); // EstadoFactura como string
+            tabla.Columns.Add(new DataColumn("TurnoId", typeof(long)));
+            tabla.Columns.Add(new DataColumn("PacienteId", typeof(long)));
+
+            tabla.PrimaryKey = new[] { tabla.Columns["Id"] };
+
+            // Ejemplo 1
+            var fila1 = tabla.NewRow();
+            fila1["Id"] = 1;
+            fila1["FechaEmision"] = new DateTime(2025, 7, 8);
+            fila1["NumeroFactura"] = "F0001-00000001";
+            fila1["Importe"] = 10000;
+            fila1["Descripcion"] = "Consulta médica general";
+            fila1["Estado"] = EstadoFactura.Emitida.ToString();
+            fila1["TurnoId"] = 1;
+            fila1["PacienteId"] = 2;
+            tabla.Rows.Add(fila1);
+
+            // Ejemplo 2
+            var fila2 = tabla.NewRow();
+            fila2["Id"] = 2;
+            fila2["FechaEmision"] = new DateTime(2025, 7, 9);
+            fila2["NumeroFactura"] = "F0001-00000002";
+            fila2["Importe"] = 12000;
+            fila2["Descripcion"] = "Consulta pediátrica";
+            fila2["Estado"] = EstadoFactura.Pagada.ToString();
+            fila2["TurnoId"] = 1;
+            fila2["PacienteId"] = 2;
+            tabla.Rows.Add(fila2);
 
             return tabla;
         }

@@ -23,6 +23,8 @@ namespace SiAP.UI.Forms_Seguridad
         {
             InitializeComponent();
             _bllPermiso = BLL_Permiso.ObtenerInstancia();
+            //TODO: sacar
+            var tt = _bllPermiso.ObtenerTodos().ToList();
             treeView_Permisos.ArmarArbolPermisosSimples(_bllPermiso.ObtenerTodos().ToList());
             comboBox1.DataSource = MenusConstantes.ObtenerTodos();
             comboBox1.DisplayMember = "Mostrar";
@@ -34,13 +36,12 @@ namespace SiAP.UI.Forms_Seguridad
         {
             try
             {
-                itemSeleccionado = new PermisoCompuesto("0", null);
+                itemSeleccionado = new PermisoSimple("0", null);
                 InputsExtensions.PedirConfirmacion("Desea crear el Permiso?");
                 //Verificar
                 var item = comboBox1.SelectedItem as Menu;
                 InputsExtensions.OnlySelected(item, "un menú ");
-                item.Etiqueta.ValidarSoloTexto("Item de Menú");
-                 textBox_Descripcion.Text.ValidarSoloTexto("Descripción");
+                textBox_Descripcion.Text.ValidarSoloTexto("Descripción");
                 //ASignar
                 itemSeleccionado.Codigo = item.Etiqueta;
                 itemSeleccionado.Descripcion = textBox_Descripcion.Text;

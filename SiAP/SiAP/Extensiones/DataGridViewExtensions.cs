@@ -12,6 +12,8 @@ namespace SiAP.UI.Extensiones
 {
     public static class DataGridViewExtensions
     {
+        #region Métodos Generales
+
         public static T VerificarYRetornarSeleccion<T>(this DataGridView grid) where T : class
         {
             if (grid == null)
@@ -32,33 +34,32 @@ namespace SiAP.UI.Extensiones
             {
                 if (control is DataGridView dgv)
                 {
-                    // Método de extensión o método estático
-                    dgv.ConfigurarGrids(); 
+                    dgv.ConfigurarGrids();
                 }
                 else if (control.HasChildren)
                 {
-                    // Recursividad para layouts anidados
-                    ConfigurarTodosLosGrids(control.Controls); 
+                    ConfigurarTodosLosGrids(control.Controls);
                 }
             }
         }
-        
+
         public static void ConfigurarGrids(this DataGridView dataGridView)
         {
             dataGridView.MultiSelect = false;
-            // Deshabilitar edición en el DataGridView
-            dataGridView.EditMode = DataGridViewEditMode.EditProgrammatically; // Evita edición directa
-            dataGridView.ReadOnly = true; // Hacer todo el DataGridView de solo lectura
+            dataGridView.EditMode = DataGridViewEditMode.EditProgrammatically;
+            dataGridView.ReadOnly = true;
             dataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
 
-            // Configurar estilos
-            dataGridView.DefaultCellStyle.Font = new Font("Calibri", 8);
-            dataGridView.DefaultCellStyle.ForeColor = Color.Black; // Establecer el color del texto
-            dataGridView.ColumnHeadersDefaultCellStyle.Font = new Font("Calibri", 8, FontStyle.Bold);
-            dataGridView.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black; // Establecer el color del texto en las cabeceras
-            dataGridView.RowsDefaultCellStyle.Font = new Font("Calibri", 8);
-            dataGridView.RowsDefaultCellStyle.ForeColor = Color.Black; // Establecer el color del texto en las filas
+            var fuente = new Font("Calibri", 8);
+            var fuenteBold = new Font("Calibri", 8, FontStyle.Bold);
+
+            dataGridView.DefaultCellStyle.Font = fuente;
+            dataGridView.DefaultCellStyle.ForeColor = Color.Black;
+            dataGridView.ColumnHeadersDefaultCellStyle.Font = fuenteBold;
+            dataGridView.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black;
+            dataGridView.RowsDefaultCellStyle.Font = fuente;
+            dataGridView.RowsDefaultCellStyle.ForeColor = Color.Black;
         }
 
         public static void CargarGrid<T>(this DataGridView dataGridView, List<string> campos, List<T> listaDeItems)
@@ -99,16 +100,20 @@ namespace SiAP.UI.Extensiones
             dataGridView.AutoResizeColumns();
         }
 
-        #region TURNOS
+        #endregion
+    }
 
-        public static void CargarEstiloTurnero(DataGridView grid)
+    public static class AgendaExtensions
+    {
+        #region Configuración de Agenda/Turnos
+
+        private static void ConfigurarEstiloCalendario(DataGridView grid)
         {
             grid.Columns.Clear();
             grid.Rows.Clear();
 
             var fuente = new Font("Calibri", 8);
             var fuenteBold = new Font("Calibri", 8, FontStyle.Bold);
-            var colorBlancoHumo = Color.WhiteSmoke;
 
             grid.DefaultCellStyle.Font = fuente;
             grid.DefaultCellStyle.ForeColor = Color.Black;
@@ -117,44 +122,31 @@ namespace SiAP.UI.Extensiones
             grid.RowsDefaultCellStyle.Font = fuente;
             grid.RowsDefaultCellStyle.ForeColor = Color.Black;
 
-            grid.ReadOnly = grid.MultiSelect = grid.AllowUserToAddRows = grid.AllowUserToDeleteRows =
+            grid.ReadOnly = grid.AllowUserToAddRows = grid.AllowUserToDeleteRows =
             grid.AllowUserToResizeRows = grid.AllowUserToResizeColumns = grid.AllowUserToOrderColumns =
             grid.RowHeadersVisible = grid.EnableHeadersVisualStyles = false;
 
-            grid.SelectionMode = DataGridViewSelectionMode.CellSelect;
             grid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             grid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             grid.ColumnHeadersDefaultCellStyle.SelectionBackColor = grid.ColumnHeadersDefaultCellStyle.BackColor;
             grid.RowHeadersDefaultCellStyle.SelectionBackColor = grid.RowHeadersDefaultCellStyle.BackColor;
         }
 
-        public static void CargarAgenda(this DataGridView grid, IList<Agenda> agendas, IList<Turno> turnos, DateTime fechaSeleccionada)
+        private static DateTime ObtenerInicioSemana(DateTime fecha)
         {
-            if (grid == null) throw new ArgumentNullException(nameof(grid));
-            CargarEstiloTurnero(grid);
-
-            // Configurar rango de semana y horarios
-            var diasDesdeLunes = (int)fechaSeleccionada.DayOfWeek - (int)DayOfWeek.Monday;
-            if (diasDesdeLunes < 0) 
+            var diasDesdeLunes = (int)fecha.DayOfWeek - (int)DayOfWeek.Monday;
+            if (diasDesdeLunes < 0)
                 diasDesdeLunes += 7;
-            var inicioSemana = fechaSeleccionada.Date.AddDays(-diasDesdeLunes);
-            var horaInicio = TimeSpan.FromHours(8);
-            var horaFin = TimeSpan.FromHours(20);
-
-            // Crear estructura del grid
-            CrearColumnas(grid);
-            CrearFilaFechas(grid, inicioSemana);
-            CrearFilasHorarios(grid, horaInicio, horaFin, agendas, turnos);
-            //Impedir sort
-            foreach (DataGridViewColumn col in grid.Columns)
-                col.SortMode = DataGridViewColumnSortMode.NotSortable;
+            return fecha.Date.AddDays(-diasDesdeLunes);
         }
 
-        private static void CrearColumnas(DataGridView grid)
+        private static void CrearColumnasSemana(DataGridView grid)
         {
             grid.Columns.Clear();
             grid.Columns.Add("", "");
-            var diasSemana = new[] { DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Saturday, DayOfWeek.Sunday };
+
+            var diasSemana = new[] { DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday,
+                                 DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Saturday, DayOfWeek.Sunday };
 
             foreach (var dia in diasSemana)
             {
@@ -169,7 +161,6 @@ namespace SiAP.UI.Extensiones
             filaFechas.CreateCells(grid);
             filaFechas.ReadOnly = true;
             filaFechas.DefaultCellStyle.BackColor = Color.WhiteSmoke;
-
             filaFechas.Cells[0].Value = "Horario/Fecha";
 
             for (int i = 0; i < 7; i++)
@@ -183,7 +174,7 @@ namespace SiAP.UI.Extensiones
             grid.Rows.Add(filaFechas);
         }
 
-        private static void CrearFilasHorarios(DataGridView grid, TimeSpan horaInicio, TimeSpan horaFin, IList<Agenda> agendas, IList<Turno> turnos)
+        private static void CrearFilasHorarios(DataGridView grid, TimeSpan horaInicio, TimeSpan horaFin, IList<Agenda> agendas, IList<Turno> turnos, TipoVistaCalendario tipoVista)
         {
             for (var hora = horaInicio; hora < horaFin; hora = hora.Add(TimeSpan.FromHours(1)))
             {
@@ -198,60 +189,136 @@ namespace SiAP.UI.Extensiones
                 // Celdas para cada día de la semana
                 for (int i = 0; i < 7; i++)
                 {
-                    var diaSemanaDeLaColumna = (DayOfWeek)((i + 1) % 7); // Ajustar índice para DayOfWeek
+                    var diaSemanaDeLaColumna = (DayOfWeek)((i + 1) % 7);
                     var agenda = agendas?.FirstOrDefault(a => a.Fecha.DayOfWeek == diaSemanaDeLaColumna && a.HoraInicio == hora);
                     var turno = turnos?.FirstOrDefault(t => t.AgendaId == agenda?.Id);
 
-                    ConfigurarCeldaAgenda(fila.Cells[i + 1], agenda, turno);
+                    ConfigurarCeldaCalendario(fila.Cells[i + 1], agenda, turno, tipoVista);
                 }
 
                 grid.Rows.Add(fila);
             }
         }
 
-        private static void ConfigurarCeldaAgenda(DataGridViewCell celda, Agenda agenda, Turno turno)
+        private static void ConfigurarCeldaCalendario(DataGridViewCell celda, Agenda agenda, Turno turno, TipoVistaCalendario tipoVista)
         {
             celda.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
-            if (agenda != null)
+            // Variables auxiliares para estilos
+            Color backColor, selBackColor, foreColor, selForeColor;
+            object valor;
+            bool readOnly = false;
+
+            if (agenda == null)
             {
-                if (turno != null)
-                {
-                    // Turno asignado
-                    celda.Value = turno.Estado;
-                    celda.Tag = agenda;
-                    celda.Style.BackColor = Color.LightBlue;
-                    celda.Style.SelectionBackColor = Color.LightBlue;
-                }
-                else
-                {
-                    // Agenda disponible
-                    celda.Value = "✔";
-                    celda.Tag = agenda;
-                    celda.Style.BackColor = Color.LightGray;
-                    celda.Style.SelectionBackColor = Color.LightGray;
-                }
+                // Sin agenda
+                valor = "✗";
+                readOnly = true;
+                backColor = Color.FromArgb(255, 235, 235);
+                selBackColor = Color.FromArgb(255, 180, 180);
+                foreColor = Color.FromArgb(180, 60, 60);
+                selForeColor = Color.FromArgb(120, 30, 30);
+            }
+            else if (turno != null)
+            {
+                // Turno asignado
+                valor = turno.Estado;
+                celda.Tag = agenda;
+                backColor = Color.FromArgb(220, 240, 255);
+                selBackColor = Color.FromArgb(100, 180, 255);
+                foreColor = Color.FromArgb(20, 80, 120);
+                selForeColor = Color.White;
             }
             else
             {
-                // Sin agenda
-                celda.Value = "✗";
-                celda.ReadOnly = true;
-                celda.Style.BackColor = Color.LightCoral;
-                celda.Style.SelectionBackColor = Color.LightCoral;
-                celda.Style.ForeColor = Color.DarkRed;
+                // Agenda disponible
+                valor = "✔";
+                celda.Tag = agenda;
+                backColor = Color.FromArgb(240, 240, 240);
+                selBackColor = Color.FromArgb(120, 200, 120);
+                foreColor = Color.FromArgb(80, 120, 80);
+                selForeColor = Color.White;
             }
+
+            // Asignación común
+            celda.Value = valor;
+            celda.ReadOnly = readOnly;
+            celda.Style.BackColor = backColor;
+            celda.Style.SelectionBackColor = selBackColor;
+            celda.Style.ForeColor = foreColor;
+            celda.Style.SelectionForeColor = selForeColor;
+        }
+
+        private static void DeshabilitarOrdenamiento(DataGridView grid)
+        {
+            foreach (DataGridViewColumn col in grid.Columns)
+                col.SortMode = DataGridViewColumnSortMode.NotSortable;
+        }
+
+        #endregion
+
+        #region Turnos
+
+        public static void CargarAgenda(this DataGridView grid, IList<Agenda> agendas, IList<Turno> turnos, DateTime fechaSeleccionada)
+        {
+            if (grid == null) throw new ArgumentNullException(nameof(grid));
+
+            ConfigurarEstiloCalendario(grid);
+            grid.MultiSelect = false;
+            grid.SelectionMode = DataGridViewSelectionMode.CellSelect;
+
+            var inicioSemana = ObtenerInicioSemana(fechaSeleccionada);
+            var horaInicio = TimeSpan.FromHours(8);
+            var horaFin = TimeSpan.FromHours(20);
+
+            CrearColumnasSemana(grid);
+            CrearFilaFechas(grid, inicioSemana);
+            CrearFilasHorarios(grid, horaInicio, horaFin, agendas, turnos, TipoVistaCalendario.Turnos);
+            DeshabilitarOrdenamiento(grid);
+        }
+
+        public static Turno ObtenerTurnoSeleccionado(this DataGridView grid)
+        {
+            return grid.CurrentCell.Tag as Turno;
+        }
+
+        #endregion
+
+        #region Agenda Médica
+
+        public static void CargarAgendaMedica(this DataGridView grid, IList<Agenda> agendas, IList<Turno> turnos, DateTime fechaSeleccionada)
+        {
+            if (grid == null) throw new ArgumentNullException(nameof(grid));
+
+            ConfigurarEstiloCalendario(grid);
+            grid.MultiSelect = true;
+            grid.SelectionMode = DataGridViewSelectionMode.CellSelect;
+
+            var inicioSemana = ObtenerInicioSemana(fechaSeleccionada);
+            var horaInicio = TimeSpan.FromHours(8);
+            var horaFin = TimeSpan.FromHours(20);
+
+            CrearColumnasSemana(grid);
+            CrearFilaFechas(grid, inicioSemana);
+            CrearFilasHorarios(grid, horaInicio, horaFin, agendas, turnos, TipoVistaCalendario.AgendaMedica);
+            DeshabilitarOrdenamiento(grid);
         }
 
         public static Agenda ObtenerAgendaSeleccionada(this DataGridView grid)
         {
-            if (grid?.CurrentCell == null)
-                throw new InvalidOperationException("Debe seleccionar una celda para continuar.");
-
-            return grid.CurrentCell.Tag as Agenda
-                    ?? throw new InvalidOperationException("La celda seleccionada no contiene una agenda válida.");
+            return grid.CurrentCell.Tag as Agenda;
         }
-        
+        #endregion
+
+        #region Enums Internos
+
+        private enum TipoVistaCalendario
+        {
+            Turnos,
+            AgendaMedica
+        }
+
         #endregion
     }
+
 }

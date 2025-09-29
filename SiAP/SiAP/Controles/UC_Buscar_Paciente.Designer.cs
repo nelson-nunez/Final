@@ -40,7 +40,7 @@
             // 
             // groupBox1
             // 
-            groupBox1.BackColor = Color.Beige;
+            groupBox1.BackColor = SystemColors.ButtonFace;
             groupBox1.Controls.Add(label1);
             groupBox1.Controls.Add(dataGridView_paciente);
             groupBox1.Controls.Add(label5);
@@ -48,7 +48,7 @@
             groupBox1.Controls.Add(textBox_Buscar);
             groupBox1.Location = new Point(3, 3);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(437, 280);
+            groupBox1.Size = new Size(437, 220);
             groupBox1.TabIndex = 2;
             groupBox1.TabStop = false;
             groupBox1.Text = "Paciente";
@@ -71,7 +71,7 @@
             dataGridView_paciente.Location = new Point(6, 69);
             dataGridView_paciente.Name = "dataGridView_paciente";
             dataGridView_paciente.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridView_paciente.Size = new Size(418, 201);
+            dataGridView_paciente.Size = new Size(418, 141);
             dataGridView_paciente.TabIndex = 6;
             dataGridView_paciente.CellClick += dataGridView1_CellClick;
             dataGridView_paciente.CellContentClick += dataGridView1_CellClick;
@@ -88,6 +88,8 @@
             // button1
             // 
             button1.BackColor = SystemColors.ActiveCaption;
+            button1.Image = Properties.Resources.lupa;
+            button1.ImageAlign = ContentAlignment.MiddleLeft;
             button1.Location = new Point(324, 39);
             button1.Name = "button1";
             button1.Size = new Size(100, 24);
@@ -109,7 +111,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(groupBox1);
             Name = "UC_Buscar_Paciente";
-            Size = new Size(444, 286);
+            Size = new Size(444, 226);
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView_paciente).EndInit();

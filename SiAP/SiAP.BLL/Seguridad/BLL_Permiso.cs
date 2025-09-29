@@ -30,7 +30,7 @@ namespace SiAP.BLL.Seguridad
             if (!EsValido(permiso))
                 throw new ArgumentException(MensajeError);
 
-            if (_mppPermiso.Existe(permiso))
+            if (_mppPermiso.ExistePorCodigo(permiso.Codigo))
                 throw new InvalidOperationException("El permiso ya existe.");
 
             _mppPermiso.Agregar(permiso);

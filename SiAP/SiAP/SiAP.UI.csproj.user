@@ -28,10 +28,16 @@
     <Compile Update="Forms_Seguridad\Form_Config_Usuario.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Form_Cobros.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Form_CRUD_Medicos.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Form_CRUD_Pacientes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Form_Facturas.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Form_HistoriaClinica.cs">
