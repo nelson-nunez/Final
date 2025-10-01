@@ -54,9 +54,10 @@
             // dataGridView1
             // 
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(6, 84);
+            dataGridView1.Location = new Point(6, 75);
             dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(782, 467);
+            dataGridView1.RowTemplate.Height = 22;
+            dataGridView1.Size = new Size(782, 550);
             dataGridView1.TabIndex = 2;
             dataGridView1.CellClick += dataGridView1_CellClick;
             dataGridView1.SelectionChanged += dataGridView1_SelectionChanged;
@@ -69,6 +70,7 @@
             treeView1.Size = new Size(314, 679);
             treeView1.TabIndex = 3;
             treeView1.AfterSelect += treeView1_AfterSelect;
+            treeView1.NodeMouseClick += treeView1_NodeMouseClick;
             // 
             // groupBox1
             // 
@@ -94,9 +96,9 @@
             groupBox2.Controls.Add(dataGridView1);
             groupBox2.Controls.Add(button_sem_actual);
             groupBox2.Controls.Add(button_sem_anterior);
-            groupBox2.Location = new Point(326, 22);
+            groupBox2.Location = new Point(326, 14);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(794, 679);
+            groupBox2.Size = new Size(794, 687);
             groupBox2.TabIndex = 10;
             groupBox2.TabStop = false;
             // 
@@ -104,7 +106,7 @@
             // 
             label5.AutoSize = true;
             label5.Font = new Font("Arial", 9F);
-            label5.Location = new Point(6, 599);
+            label5.Location = new Point(6, 658);
             label5.Name = "label5";
             label5.Size = new Size(170, 15);
             label5.TabIndex = 33;
@@ -114,7 +116,7 @@
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Arial", 9F);
-            label4.Location = new Point(6, 584);
+            label4.Location = new Point(6, 643);
             label4.Name = "label4";
             label4.Size = new Size(185, 15);
             label4.TabIndex = 32;
@@ -124,7 +126,7 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Arial", 9F);
-            label3.Location = new Point(6, 569);
+            label3.Location = new Point(6, 628);
             label3.Name = "label3";
             label3.Size = new Size(174, 15);
             label3.TabIndex = 31;
@@ -189,7 +191,7 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            label1.Location = new Point(310, 26);
+            label1.Location = new Point(315, 19);
             label1.Name = "label1";
             label1.Size = new Size(120, 15);
             label1.TabIndex = 10;
@@ -199,7 +201,7 @@
             // 
             label_titular_agenda.AutoSize = true;
             label_titular_agenda.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label_titular_agenda.Location = new Point(6, 25);
+            label_titular_agenda.Location = new Point(11, 18);
             label_titular_agenda.Name = "label_titular_agenda";
             label_titular_agenda.Size = new Size(48, 15);
             label_titular_agenda.TabIndex = 4;
@@ -208,7 +210,7 @@
             // button_sem_siguiente
             // 
             button_sem_siguiente.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            button_sem_siguiente.Location = new Point(668, 55);
+            button_sem_siguiente.Location = new Point(668, 44);
             button_sem_siguiente.Name = "button_sem_siguiente";
             button_sem_siguiente.Size = new Size(120, 25);
             button_sem_siguiente.TabIndex = 8;
@@ -219,7 +221,7 @@
             // comboBox1
             // 
             comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(436, 22);
+            comboBox1.Location = new Point(441, 15);
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(148, 23);
             comboBox1.TabIndex = 9;
@@ -229,7 +231,7 @@
             // 
             button_sem_actual.BackColor = SystemColors.ActiveCaption;
             button_sem_actual.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            button_sem_actual.Location = new Point(335, 55);
+            button_sem_actual.Location = new Point(335, 44);
             button_sem_actual.Name = "button_sem_actual";
             button_sem_actual.Size = new Size(120, 25);
             button_sem_actual.TabIndex = 7;
@@ -240,7 +242,7 @@
             // button_sem_anterior
             // 
             button_sem_anterior.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            button_sem_anterior.Location = new Point(6, 55);
+            button_sem_anterior.Location = new Point(6, 44);
             button_sem_anterior.Name = "button_sem_anterior";
             button_sem_anterior.Size = new Size(120, 25);
             button_sem_anterior.TabIndex = 6;

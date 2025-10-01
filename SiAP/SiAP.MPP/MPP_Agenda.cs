@@ -46,6 +46,26 @@ namespace SiAP.MPP
             _datos.Actualizar_BD(ds);
         }
 
+        public void AgregarAgendas(List<Agenda> entidades)
+        {
+            var ds = _datos.Obtener_Datos();
+            var dt = ds.Tables["Agenda"];
+
+            foreach (var entidad in entidades) 
+            {
+                ArgumentNullException.ThrowIfNull(entidad);
+                if (Existe(entidad)) return;
+                var dr = dt.NewRow();
+                dr["Id"] = DataRowHelper.ObtenerSiguienteId(dt, "Id");
+                dr["Fecha"] = entidad.Fecha;
+                dr["HoraInicio"] = entidad.HoraInicio.ToString(@"hh\:mm");
+                dr["HoraFin"] = entidad.HoraFin.ToString(@"hh\:mm");
+                dr["MedicoId"] = entidad.MedicoId;
+                dt.Rows.Add(dr);
+            }
+            _datos.Actualizar_BD(ds);
+        }
+
         public void Modificar(Agenda entidad)
         {
             var ds = _datos.Obtener_Datos();
@@ -69,6 +89,18 @@ namespace SiAP.MPP
             var dr = ds.Tables["Agenda"].AsEnumerable().FirstOrDefault(r => Convert.ToInt64(r["Id"]) == entidad.Id);
 
             dr?.Delete();
+            _datos.Actualizar_BD(ds);
+        }
+
+        public void EliminarAgendas(List<Agenda> entidades)
+        {
+            var ds = _datos.Obtener_Datos();
+            foreach (var entidad in entidades)
+            {
+                ArgumentNullException.ThrowIfNull(entidad);
+                var dr = ds.Tables["Agenda"].AsEnumerable().FirstOrDefault(r => Convert.ToInt64(r["Id"]) == entidad.Id);
+                dr?.Delete();
+            }
             _datos.Actualizar_BD(ds);
         }
 

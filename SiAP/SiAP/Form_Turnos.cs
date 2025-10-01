@@ -27,8 +27,7 @@ namespace SiAP.UI
         UC_Buscar_Paciente userControl;
 
         Medico medicoSeleccionado;
-        Agenda agendaSeleccionado;
-        Turno turnoSeleccionado;
+        AgendaExtensions.CeldaAgenda celdaSeleccionada;
         Paciente pacienteSeleccionado;
         DateTime fechaseleccionada;
 
@@ -40,19 +39,24 @@ namespace SiAP.UI
             _bllAgenda = BLL_Agenda.ObtenerInstancia();
             _bllTurnos = BLL_Turno.ObtenerInstancia();
             _bllPaciente = BLL_Paciente.ObtenerInstancia();
-            //asocio controles a sus instancias
+
+            // Asocio controles a sus instancias
             userControl = this.FindUserControl<UC_Buscar_Paciente>("uC_Buscar_Paciente1");
             userControl.Visible = false;
             userControl.ShouldUpdate += ShouldUpdate;
-            //Cargo trees
+
+            // Cargo trees
             treeView1.ArmarArbolMedicos(_bllMedicos.ObtenerTodos().ToList());
-            //Cargo Datagrid
-            CargarAgenda();
-            //Cargo Combo
+
+            // Cargo Combo
             comboBox1.CargarMesesRelativos();
             fechaseleccionada = DateTime.Now;
+
+            // Inicializo botones
             button_eliminar_turno.Visible = false;
             button_asignar_turno.Visible = false;
+            button_cobrar.Visible = false;
+            button_seleccionar_paciente.Visible = false;
         }
 
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
@@ -65,9 +69,10 @@ namespace SiAP.UI
                     treeView1.SelectedNode = null;
                     return;
                 }
+
                 medicoSeleccionado = e.Node?.Tag as Medico;
                 label_titular_agenda.Text = $"Agenda: {medicoSeleccionado.ToString()}";
-                turnoSeleccionado = null;
+                celdaSeleccionada = null;
                 CargarAgenda();
                 MostrarTurno();
             }
@@ -87,8 +92,7 @@ namespace SiAP.UI
                     return;
                 }
 
-                agendaSeleccionado = null;
-                turnoSeleccionado = null;
+                celdaSeleccionada = null;
                 pacienteSeleccionado = null;
 
                 var agendas = _bllAgenda.BuscarPorMedicoyRango(medicoSeleccionado, fechaseleccionada);
@@ -105,13 +109,12 @@ namespace SiAP.UI
         {
             try
             {
-                agendaSeleccionado = dataGridView1.ObtenerAgendaSeleccionada();
-                turnoSeleccionado = _bllTurnos.BuscarTurnoPorRango(medicoSeleccionado, agendaSeleccionado);
+                celdaSeleccionada = dataGridView1.ObtenerCeldaSeleccionada();
                 MostrarTurno();
             }
             catch (Exception ex)
             {
-                agendaSeleccionado = null;
+                celdaSeleccionada = null;
                 dataGridView1.ClearSelection();
                 MessageBox.Show(ex.Message, "⛔ Error");
             }
@@ -119,34 +122,55 @@ namespace SiAP.UI
 
         public void MostrarTurno()
         {
-            bool hayTurno = turnoSeleccionado != null;
-            //Botones
-            button_seleccionar_paciente.Visible = !hayTurno;
-            button_eliminar_turno.Visible = hayTurno;
-            button_asignar_turno.Visible = !hayTurno;
-            button_cobrar.Visible = hayTurno &&
-                (turnoSeleccionado.Estado == EstadoTurno.Asignado || turnoSeleccionado.Estado == EstadoTurno.Confirmado);
+            if (celdaSeleccionada == null)
+            {
+                LimpiarFormulario();
+                return;
+            }
 
-            //Textos
+            bool hayTurno = celdaSeleccionada.TieneTurno;
+            bool hayAgenda = celdaSeleccionada.TieneAgenda;
+
+            // Visibilidad de botones
+            button_seleccionar_paciente.Visible = hayAgenda && !hayTurno;
+            button_asignar_turno.Visible = hayAgenda && !hayTurno && pacienteSeleccionado != null;
+            button_eliminar_turno.Visible = hayTurno;
+            button_cobrar.Visible = hayTurno &&
+                (celdaSeleccionada.Turno.Estado == EstadoTurno.Asignado ||
+                 celdaSeleccionada.Turno.Estado == EstadoTurno.Confirmado);
+
+            // Llenar textos
+            textBox_medico.Text = medicoSeleccionado?.ToString();
+            textBox_fecha.Text = celdaSeleccionada.Agenda.Fecha.ToShortDateString();
+            textBox_hora_inicio.Text = celdaSeleccionada.Agenda.HoraInicio.ToString(@"hh\:mm");
+            textBox_hora_fin.Text = celdaSeleccionada.Agenda.HoraFin.ToString(@"hh\:mm");
+
             if (hayTurno)
-            {             
-                textBox_medico.Text = medicoSeleccionado.ToString();
-                textBox_fecha.Text = turnoSeleccionado.Fecha.ToShortDateString();
-                textBox_hora_inicio.Text = turnoSeleccionado.HoraInicio.ToString();
-                textBox_hora_fin.Text = turnoSeleccionado.HoraFin.ToString();
-                textBox_paciente.Text = _bllPaciente.Leer(turnoSeleccionado.PacienteId).ToString();
-                textBox_estado.Text = turnoSeleccionado.Estado.ToString();
+            {
+                textBox_paciente.Text = _bllPaciente.Leer(celdaSeleccionada.Turno.PacienteId).ToString();
+                textBox_estado.Text = celdaSeleccionada.Turno.Estado.ToString();
             }
             else
             {
-                textBox_medico.Text = medicoSeleccionado.ToString();
-                textBox_fecha.Text = agendaSeleccionado?.Fecha.ToShortDateString();
-                textBox_hora_inicio.Text = agendaSeleccionado?.HoraInicio.ToString();
-                textBox_hora_fin.Text = agendaSeleccionado?.HoraFin.ToString();
                 pacienteSeleccionado = userControl.itemSeleccionado;
                 textBox_paciente.Text = pacienteSeleccionado?.ToString();
-                textBox_estado.Text = turnoSeleccionado?.Estado.ToString();
+                textBox_estado.Text = hayAgenda ? "Disponible" : "Sin agenda";
             }
+        }
+
+        private void LimpiarFormulario()
+        {
+            button_seleccionar_paciente.Visible = false;
+            button_asignar_turno.Visible = false;
+            button_eliminar_turno.Visible = false;
+            button_cobrar.Visible = false;
+
+            textBox_medico.Text = medicoSeleccionado?.ToString();
+            textBox_fecha.Clear();
+            textBox_hora_inicio.Clear();
+            textBox_hora_fin.Clear();
+            textBox_paciente.Clear();
+            textBox_estado.Clear();
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -157,7 +181,6 @@ namespace SiAP.UI
                 CargarAgenda();
             }
         }
-
 
         #region Buttons filtros
 
@@ -198,32 +221,45 @@ namespace SiAP.UI
         {
             try
             {
-                //Verifico
+                // Verifico
                 if (medicoSeleccionado == null)
-                    throw new InvalidOperationException("Debe seleccionar un medico para continuar.");
-                if (agendaSeleccionado == null)
-                    throw new InvalidOperationException("Debe seleccionar una agenda para continuar.");
-                if (userControl.itemSeleccionado == null)
+                    throw new InvalidOperationException("Debe seleccionar un médico para continuar.");
+
+                if (celdaSeleccionada == null || !celdaSeleccionada.TieneAgenda)
+                    throw new InvalidOperationException("Debe seleccionar una agenda disponible para continuar.");
+
+                if (pacienteSeleccionado == null)
                     throw new InvalidOperationException("Debe seleccionar un paciente para continuar.");
-                //Confirmacion
-                InputsExtensions.PedirConfirmacion("Desea reservar el turno?");
-                //Crear
-                turnoSeleccionado = new Turno();
-                turnoSeleccionado.Fecha = agendaSeleccionado.Fecha;
-                turnoSeleccionado.HoraInicio = agendaSeleccionado.HoraInicio;
-                turnoSeleccionado.HoraFin = agendaSeleccionado.HoraFin;
-                turnoSeleccionado.AgendaId = agendaSeleccionado.Id;
-                turnoSeleccionado.MedicoId = medicoSeleccionado.Id;
-                turnoSeleccionado.PacienteId = pacienteSeleccionado.Id;
-                turnoSeleccionado.Estado = EstadoTurno.Asignado;
-                _bllTurnos.Agregar(turnoSeleccionado);
-                MessageBox.Show("Se creó el registro con éxito");
-                //Si sale bien limpio Cargo Datagrid
+
+                if (celdaSeleccionada.TieneTurno)
+                    throw new InvalidOperationException("Este horario ya tiene un turno asignado.");
+
+                // Confirmación
+                InputsExtensions.PedirConfirmacion("¿Desea reservar el turno?");
+
+                // Crear turno
+                var nuevoTurno = new Turno
+                {
+                    Fecha = celdaSeleccionada.Agenda.Fecha,
+                    HoraInicio = celdaSeleccionada.Agenda.HoraInicio,
+                    HoraFin = celdaSeleccionada.Agenda.HoraFin,
+                    AgendaId = celdaSeleccionada.Agenda.Id,
+                    MedicoId = medicoSeleccionado.Id,
+                    PacienteId = pacienteSeleccionado.Id,
+                    Estado = EstadoTurno.Asignado
+                };
+
+                _bllTurnos.Agregar(nuevoTurno);
+                MessageBox.Show("Se creó el turno con éxito", "✔ Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                // Recargar y limpiar
+                pacienteSeleccionado = null;
+                userControl.itemSeleccionado = null;
                 CargarAgenda();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "⛔ Error");
+                MessageBox.Show(ex.Message, "⛔ Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -231,26 +267,40 @@ namespace SiAP.UI
         {
             try
             {
-                //Verifico
-                if (turnoSeleccionado == null)
+                // Verifico
+                if (celdaSeleccionada == null || !celdaSeleccionada.TieneTurno)
                     throw new InvalidOperationException("Debe seleccionar un turno para eliminar.");
-                //Confirmacion
-                InputsExtensions.PedirConfirmacion("Desea eliminar el turno?");
-                //Eliminar
-                _bllTurnos.Eliminar(turnoSeleccionado);
-                MessageBox.Show("Se eliminó el registro con éxito");
-                //Si sale bien limpio Cargo Datagrid
+
+                // Confirmación
+                InputsExtensions.PedirConfirmacion("¿Desea eliminar el turno?");
+
+                // Eliminar
+                _bllTurnos.Eliminar(celdaSeleccionada.Turno);
+                MessageBox.Show("Se eliminó el turno con éxito", "✔ Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                // Recargar
                 CargarAgenda();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "⛔ Error");
+                MessageBox.Show(ex.Message, "⛔ Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void button_cobrar_Click(object sender, EventArgs e)
         {
-            //button_cobrar
+            try
+            {
+                if (celdaSeleccionada == null || !celdaSeleccionada.TieneTurno)
+                    throw new InvalidOperationException("Debe seleccionar un turno para cobrar.");
+
+                // Lógica de cobro aquí
+                MessageBox.Show("Funcionalidad de cobro pendiente de implementación");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "⛔ Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         #endregion

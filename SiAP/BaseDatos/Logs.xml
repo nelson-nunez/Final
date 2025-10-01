@@ -130,4 +130,124 @@
     <Usuario>UsuarioLogueado</Usuario>
     <Operacion>Permiso asignado: TAG010 - Agenda medica a Administrador - Permisos administrativoss</Operacion>
   </Log>
+  <Log>
+    <Id>19</Id>
+    <Fecha>2025-09-30T21:04:41.3573999-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Agenda agregada: Médico ID 1, Fecha 03/10/2025</Operacion>
+  </Log>
+  <Log>
+    <Id>20</Id>
+    <Fecha>2025-09-30T21:04:41.3585292-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Agenda agregada: Médico ID 1, Fecha 03/10/2025</Operacion>
+  </Log>
+  <Log>
+    <Id>21</Id>
+    <Fecha>2025-09-30T21:04:41.3589604-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Agenda agregada: Médico ID 1, Fecha 03/10/2025</Operacion>
+  </Log>
+  <Log>
+    <Id>22</Id>
+    <Fecha>2025-09-30T21:04:41.3687114-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Agenda agregada: Médico ID 1, Fecha 03/10/2025</Operacion>
+  </Log>
+  <Log>
+    <Id>23</Id>
+    <Fecha>2025-09-30T21:04:41.3692187-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Agenda agregada: Médico ID 1, Fecha 02/10/2025</Operacion>
+  </Log>
+  <Log>
+    <Id>24</Id>
+    <Fecha>2025-09-30T21:04:41.3696045-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Agenda agregada: Médico ID 1, Fecha 02/10/2025</Operacion>
+  </Log>
+  <Log>
+    <Id>25</Id>
+    <Fecha>2025-09-30T21:04:41.3700077-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Agenda agregada: Médico ID 1, Fecha 02/10/2025</Operacion>
+  </Log>
+  <Log>
+    <Id>26</Id>
+    <Fecha>2025-09-30T21:04:41.3704006-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Agenda agregada: Médico ID 1, Fecha 02/10/2025</Operacion>
+  </Log>
+  <Log>
+    <Id>27</Id>
+    <Fecha>2025-09-30T21:04:41.3707787-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Agenda agregada: Médico ID 1, Fecha 01/10/2025</Operacion>
+  </Log>
+  <Log>
+    <Id>28</Id>
+    <Fecha>2025-09-30T21:04:41.3711726-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Agenda agregada: Médico ID 1, Fecha 30/09/2025</Operacion>
+  </Log>
+  <Log>
+    <Id>29</Id>
+    <Fecha>2025-09-30T21:04:41.3715504-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Agenda agregada: Médico ID 1, Fecha 01/10/2025</Operacion>
+  </Log>
+  <Log>
+    <Id>30</Id>
+    <Fecha>2025-09-30T21:04:41.3719275-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Agenda agregada: Médico ID 1, Fecha 01/10/2025</Operacion>
+  </Log>
+  <Log>
+    <Id>31</Id>
+    <Fecha>2025-09-30T21:04:41.3723081-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Agenda agregada: Médico ID 1, Fecha 01/10/2025</Operacion>
+  </Log>
+  <Log>
+    <Id>32</Id>
+    <Fecha>2025-09-30T21:04:41.3726911-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Agenda agregada: Médico ID 1, Fecha 30/09/2025</Operacion>
+  </Log>
+  <Log>
+    <Id>33</Id>
+    <Fecha>2025-09-30T21:04:41.3731063-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Agenda agregada: Médico ID 1, Fecha 30/09/2025</Operacion>
+  </Log>
+  <Log>
+    <Id>34</Id>
+    <Fecha>2025-09-30T21:04:41.3734925-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Agenda agregada: Médico ID 1, Fecha 30/09/2025</Operacion>
+  </Log>
+  <Log>
+    <Id>35</Id>
+    <Fecha>2025-09-30T21:05:19.8470361-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Agenda eliminada: Médico ID 1, Fecha 03/10/2025</Operacion>
+  </Log>
+  <Log>
+    <Id>36</Id>
+    <Fecha>2025-09-30T21:18:06.0498389-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Agenda eliminada: Médico ID 1, Fecha 01/10/2025</Operacion>
+  </Log>
+  <Log>
+    <Id>37</Id>
+    <Fecha>2025-09-30T21:18:44.1969262-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Agenda agregada: Médico ID 1, Fecha 01/10/2025</Operacion>
+  </Log>
+  <Log>
+    <Id>38</Id>
+    <Fecha>2025-09-30T21:18:50.1421085-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Agenda eliminada: Médico ID 1, Fecha 02/10/2025</Operacion>
+  </Log>
 </NewDataSet>

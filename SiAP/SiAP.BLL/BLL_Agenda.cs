@@ -50,8 +50,12 @@ namespace SiAP.BLL
 
         public void Eliminar(Agenda agenda)
         {
+            if (agenda.Fecha < DateTime.Now)
+                throw new ArgumentException("No se puede eliminar una agenda cuya fecha es posterior al corriente día.");
+            
             if (_mppAgenda.TieneDependencias(agenda))
                 throw new InvalidOperationException("La agenda tiene dependencias y no puede eliminarse.");
+
             _mppAgenda.Eliminar(agenda);
             _logger.GenerarLog($"Agenda eliminada: Médico ID {agenda.MedicoId}, Fecha {agenda.Fecha:dd/MM/yyyy}");
         }
@@ -90,6 +94,34 @@ namespace SiAP.BLL
             var desde = fecha.Date.AddDays(-diasDesdeLunes);
             var hasta = desde.AddDays(6);
             return _mppAgenda.BuscarPorMedicoyRango(medico.Id, desde, hasta);
+        }
+
+        public void AgregarAgendas(List<Agenda> agendas)
+        {
+            foreach (var agenda in agendas) 
+            { 
+                if (!EsValido(agenda))
+                    throw new ArgumentException(MensajeError);
+    
+            }
+            _mppAgenda.AgregarAgendas(agendas);
+            foreach (var agenda in agendas)
+                _logger.GenerarLog($"Agenda agregada: Médico ID {agenda.MedicoId}, Fecha {agenda.Fecha:dd/MM/yyyy}");       
+        }
+
+        public void EliminarAgendas(List<Agenda> agendas)
+        {
+            foreach (var agenda in agendas)
+            {
+                if (!EsValido(agenda))
+                    throw new ArgumentException(MensajeError);
+                if (agenda.Fecha < DateTime.Now)
+                    throw new ArgumentException("No se puede eliminar una agenda cuya fecha es posterior al corriente día.");
+
+            }
+            _mppAgenda.EliminarAgendas(agendas);
+            foreach (var agenda in agendas)
+                _logger.GenerarLog($"Agenda eliminada: Médico ID {agenda.MedicoId}, Fecha {agenda.Fecha:dd/MM/yyyy}");
         }
     }
 }

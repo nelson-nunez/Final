@@ -15,6 +15,7 @@ using SiAP.BLL.Seguridad;
 using SiAP.UI.Controles;
 using SiAP.UI.Extensiones;
 using SiAP.UI.Forms_Seguridad;
+using static SiAP.UI.Extensiones.AgendaExtensions;
 
 namespace SiAP.UI
 {
@@ -23,12 +24,9 @@ namespace SiAP.UI
         BLL_Medico _bllMedicos;
         BLL_Agenda _bllAgenda;
         BLL_Turno _bllTurnos;
-        BLL_Paciente _bllPaciente;
-        UC_Buscar_Paciente userControl;
 
         Medico medicoSeleccionado;
-        Agenda agendaSeleccionado;
-        List<Agenda> listaAgendaSeleccionadas;
+        List<CeldaAgenda> listaCeldasSeleccionadas;
         DateTime fechaseleccionada;
 
         public Form_Agenda()
@@ -38,7 +36,6 @@ namespace SiAP.UI
             _bllMedicos = BLL_Medico.ObtenerInstancia();
             _bllAgenda = BLL_Agenda.ObtenerInstancia();
             _bllTurnos = BLL_Turno.ObtenerInstancia();
-            _bllPaciente = BLL_Paciente.ObtenerInstancia();
             //Cargo trees
             treeView1.ArmarArbolMedicos(_bllMedicos.ObtenerTodos().ToList());
             //Cargo Datagrid
@@ -67,6 +64,27 @@ namespace SiAP.UI
                 MessageBox.Show(ex.Message, "⛔ Error");
             }
         }
+       
+        private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            try
+            {
+                // Solo permitir selección de nodos raíz (color negro)
+                if (e.Node.ForeColor != Color.DarkGreen)
+                {
+                    treeView1.SelectedNode = null;
+                    return;
+                }
+                medicoSeleccionado = e.Node?.Tag as Medico;
+                label_titular_agenda.Text = $"Agenda: {medicoSeleccionado.ToString()}";
+                CargarAgendaMedica();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "⛔ Error");
+            }
+        }
+
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (comboBox1.SelectedValue is DateTime fechaSeleccionada)
@@ -84,11 +102,10 @@ namespace SiAP.UI
             {
                 if (medicoSeleccionado == null || medicoSeleccionado.Id == 0)
                 {
+                    dataGridView1.Columns.Clear();
                     dataGridView1.DataSource = null;
                     return;
                 }
-
-                agendaSeleccionado = null;
                 var agendas = _bllAgenda.BuscarPorMedicoyRango(medicoSeleccionado, fechaseleccionada);
                 var turnos = _bllTurnos.BuscarPorMedicoyRango(medicoSeleccionado, fechaseleccionada);
                 dataGridView1.CargarAgendaMedica(agendas, turnos, fechaseleccionada);
@@ -103,39 +120,32 @@ namespace SiAP.UI
         {
             try
             {
-                agendaSeleccionado = dataGridView1.ObtenerAgendaSeleccionada();
+                listaCeldasSeleccionadas = dataGridView1.ObtenerCeldasSeleccionadas();
             }
             catch (Exception ex)
             {
-                agendaSeleccionado = null;
+                listaCeldasSeleccionadas = null;
                 dataGridView1.ClearSelection();
                 MessageBox.Show(ex.Message, "⛔ Error");
             }
         }
-        
+
         private void dataGridView1_SelectionChanged(object sender, EventArgs e)
         {
             try
             {
-                var grid = sender as DataGridView;
-                var celdasSeleccionadas = grid.SelectedCells;
-                Console.WriteLine($"Celdas seleccionadas: {celdasSeleccionadas.Count}");
-                foreach (DataGridViewCell celda in celdasSeleccionadas)
-                {
-                    agendaSeleccionado = dataGridView1.ObtenerAgendaSeleccionada();
-                    listaAgendaSeleccionadas.Add(agendaSeleccionado);
-                }
+                listaCeldasSeleccionadas = null;
+                listaCeldasSeleccionadas = dataGridView1.ObtenerCeldasSeleccionadas();
             }
             catch (Exception ex)
             {
-                agendaSeleccionado = null;
+                listaCeldasSeleccionadas = null;
                 dataGridView1.ClearSelection();
                 MessageBox.Show(ex.Message, "⛔ Error");
             }
         }
 
         #endregion
-
 
         #region Buttons filtros
 
@@ -163,18 +173,68 @@ namespace SiAP.UI
 
         private void button_Borrar_Click(object sender, EventArgs e)
         {
+            try
+            {
+                // Verifico
+                if (medicoSeleccionado == null)
+                    throw new InvalidOperationException("Debe seleccionar un médico para continuar.");
+                //Verificaciones
+                if (listaCeldasSeleccionadas.Where(x => x.TieneTurno).Any())
+                    InputsExtensions.PedirConfirmacion("La agenda seleccionada cuenta con turnos otorgados. ¿Desea eliminarla igualmente?");
+                else
+                    InputsExtensions.PedirConfirmacion("¿Desea eliminar las agendas seleccionadas para el médico?");
 
+                _bllAgenda.EliminarAgendas(listaCeldasSeleccionadas.Select(x => x.Agenda).ToList());
+                MessageBox.Show("Se eliminaron las agendas con éxito", "✔ Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                // Recargar y limpiar
+                CargarAgendaMedica();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "⛔ Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
+
         private void button_Limpiar_Click(object sender, EventArgs e)
         {
+            // Recargar y limpiar
+            medicoSeleccionado = null;
 
+            listaCeldasSeleccionadas = null;
+            dataGridView1.ClearSelection();
+
+            CargarAgendaMedica();
         }
 
         private void button_Guardar_Click(object sender, EventArgs e)
         {
+            try
+            {
+                // Verifico
+                if (medicoSeleccionado == null)
+                    throw new InvalidOperationException("Debe seleccionar un médico para continuar.");
+                //Verificaciones
+                if (listaCeldasSeleccionadas.Where(x => x.TieneAgenda).Any())
+                    throw new Exception("La agenda ya se encuentra reservada");
+                // Confirmación
+                InputsExtensions.PedirConfirmacion("¿Desea registrar las agendas seleccionadas para el médico?");
 
+                var lista = listaCeldasSeleccionadas.Select(x => x.Agenda).ToList();
+                lista.ForEach(x => x.MedicoId = medicoSeleccionado.Id);
+                _bllAgenda.AgregarAgendas(lista);
+                MessageBox.Show("Se reservaron las agendas con éxito", "✔ Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                // Recargar y limpiar
+                CargarAgendaMedica();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "⛔ Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         #endregion
+
     }
 }
