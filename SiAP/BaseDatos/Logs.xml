@@ -250,4 +250,34 @@
     <Usuario>UsuarioLogueado</Usuario>
     <Operacion>Agenda eliminada: Médico ID 1, Fecha 02/10/2025</Operacion>
   </Log>
+  <Log>
+    <Id>39</Id>
+    <Fecha>2025-10-02T13:16:23.308901-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Turno agregado: Médico ID 1, Paciente ID 2, Fecha 03/10/2025</Operacion>
+  </Log>
+  <Log>
+    <Id>40</Id>
+    <Fecha>2025-10-02T13:16:29.8131285-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Turno eliminado: ID 2</Operacion>
+  </Log>
+  <Log>
+    <Id>41</Id>
+    <Fecha>2025-10-02T13:16:35.9829075-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Turno agregado: Médico ID 1, Paciente ID 2, Fecha 03/10/2025</Operacion>
+  </Log>
+  <Log>
+    <Id>42</Id>
+    <Fecha>2025-10-02T13:18:33.3916447-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Turno agregado: Médico ID 1, Paciente ID 2, Fecha 01/10/2025</Operacion>
+  </Log>
+  <Log>
+    <Id>43</Id>
+    <Fecha>2025-10-02T13:18:50.2425223-03:00</Fecha>
+    <Usuario>UsuarioLogueado</Usuario>
+    <Operacion>Turno eliminado: ID 3</Operacion>
+  </Log>
 </NewDataSet>

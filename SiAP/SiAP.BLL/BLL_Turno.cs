@@ -36,6 +36,9 @@ namespace SiAP.BLL
         {
             if (!EsValido(turno))
                 throw new ArgumentException(MensajeError);
+            if (turno.Fecha < DateTime.Now)
+                throw new InvalidOperationException("No se puede asignar un turno con fecha anterior al corriente día.");
+
             if (_mppTurno.Existe(turno))
                 throw new InvalidOperationException("El turno ya existe.");
             _mppTurno.Agregar(turno);
@@ -54,6 +57,9 @@ namespace SiAP.BLL
         {
             if (_mppTurno.TieneDependencias(turno))
                 throw new InvalidOperationException("El turno tiene dependencias y no puede eliminarse.");
+            if (turno.Fecha < DateTime.Now)
+                throw new InvalidOperationException("No se puede eliminar un turno con fecha anterior al corriente día."); 
+            
             if (turno.Estado == EstadoTurno.Atendido || turno.Estado == EstadoTurno.Ausente)
                 throw new InvalidOperationException("El turno ya no puede eliminarse.");
             _mppTurno.Eliminar(turno);

@@ -66,7 +66,7 @@
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Location = new Point(6, 84);
             dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(776, 467);
+            dataGridView1.Size = new Size(866, 495);
             dataGridView1.TabIndex = 2;
             dataGridView1.CellClick += dataGridView1_CellClick;
             // 
@@ -75,7 +75,7 @@
             treeView1.HideSelection = false;
             treeView1.Location = new Point(6, 22);
             treeView1.Name = "treeView1";
-            treeView1.Size = new Size(314, 562);
+            treeView1.Size = new Size(314, 571);
             treeView1.TabIndex = 3;
             treeView1.AfterSelect += treeView1_AfterSelect;
             // 
@@ -86,7 +86,7 @@
             groupBox1.Controls.Add(treeView1);
             groupBox1.Location = new Point(12, 12);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(1210, 707);
+            groupBox1.Size = new Size(1210, 715);
             groupBox1.TabIndex = 4;
             groupBox1.TabStop = false;
             groupBox1.Text = "Reservar Turno";
@@ -101,9 +101,9 @@
             groupBox2.Controls.Add(dataGridView1);
             groupBox2.Controls.Add(button_sem_actual);
             groupBox2.Controls.Add(button_sem_anterior);
-            groupBox2.Location = new Point(326, 22);
+            groupBox2.Location = new Point(326, 14);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(878, 562);
+            groupBox2.Size = new Size(878, 587);
             groupBox2.TabIndex = 10;
             groupBox2.TabStop = false;
             groupBox2.Text = "Turnos";
@@ -119,7 +119,7 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            label1.Location = new Point(310, 26);
+            label1.Location = new Point(284, 19);
             label1.Name = "label1";
             label1.Size = new Size(120, 15);
             label1.TabIndex = 10;
@@ -129,7 +129,7 @@
             // 
             label_titular_agenda.AutoSize = true;
             label_titular_agenda.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label_titular_agenda.Location = new Point(6, 25);
+            label_titular_agenda.Location = new Point(6, 19);
             label_titular_agenda.Name = "label_titular_agenda";
             label_titular_agenda.Size = new Size(48, 15);
             label_titular_agenda.TabIndex = 4;
@@ -138,7 +138,7 @@
             // button_sem_siguiente
             // 
             button_sem_siguiente.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            button_sem_siguiente.Location = new Point(662, 55);
+            button_sem_siguiente.Location = new Point(752, 55);
             button_sem_siguiente.Name = "button_sem_siguiente";
             button_sem_siguiente.Size = new Size(120, 25);
             button_sem_siguiente.TabIndex = 8;
@@ -149,7 +149,7 @@
             // comboBox1
             // 
             comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(436, 22);
+            comboBox1.Location = new Point(410, 16);
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(148, 23);
             comboBox1.TabIndex = 9;
@@ -159,7 +159,7 @@
             // 
             button_sem_actual.BackColor = SystemColors.ActiveCaption;
             button_sem_actual.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            button_sem_actual.Location = new Point(335, 55);
+            button_sem_actual.Location = new Point(381, 55);
             button_sem_actual.Name = "button_sem_actual";
             button_sem_actual.Size = new Size(120, 25);
             button_sem_actual.TabIndex = 7;
@@ -195,9 +195,9 @@
             groupBox_turno.Controls.Add(button_eliminar_turno);
             groupBox_turno.Controls.Add(button_asignar_turno);
             groupBox_turno.Controls.Add(button_seleccionar_paciente);
-            groupBox_turno.Location = new Point(6, 590);
+            groupBox_turno.Location = new Point(6, 599);
             groupBox_turno.Name = "groupBox_turno";
-            groupBox_turno.Size = new Size(1198, 111);
+            groupBox_turno.Size = new Size(1198, 110);
             groupBox_turno.TabIndex = 5;
             groupBox_turno.TabStop = false;
             groupBox_turno.Text = "Turno Seleccionado";
@@ -206,7 +206,7 @@
             // 
             textBox_hora_fin.BackColor = Color.WhiteSmoke;
             textBox_hora_fin.Enabled = false;
-            textBox_hora_fin.Location = new Point(427, 77);
+            textBox_hora_fin.Location = new Point(427, 82);
             textBox_hora_fin.Name = "textBox_hora_fin";
             textBox_hora_fin.Size = new Size(119, 23);
             textBox_hora_fin.TabIndex = 26;
@@ -215,7 +215,7 @@
             // 
             textBox_hora_inicio.BackColor = Color.WhiteSmoke;
             textBox_hora_inicio.Enabled = false;
-            textBox_hora_inicio.Location = new Point(427, 48);
+            textBox_hora_inicio.Location = new Point(427, 53);
             textBox_hora_inicio.Name = "textBox_hora_inicio";
             textBox_hora_inicio.Size = new Size(119, 23);
             textBox_hora_inicio.TabIndex = 25;
@@ -224,7 +224,7 @@
             // 
             textBox_fecha.BackColor = Color.WhiteSmoke;
             textBox_fecha.Enabled = false;
-            textBox_fecha.Location = new Point(427, 20);
+            textBox_fecha.Location = new Point(427, 24);
             textBox_fecha.Name = "textBox_fecha";
             textBox_fecha.Size = new Size(119, 23);
             textBox_fecha.TabIndex = 24;
@@ -233,7 +233,7 @@
             // 
             textBox_estado.BackColor = Color.WhiteSmoke;
             textBox_estado.Enabled = false;
-            textBox_estado.Location = new Point(124, 78);
+            textBox_estado.Location = new Point(115, 82);
             textBox_estado.Name = "textBox_estado";
             textBox_estado.Size = new Size(219, 23);
             textBox_estado.TabIndex = 23;
@@ -242,7 +242,7 @@
             // 
             textBox_paciente.BackColor = Color.WhiteSmoke;
             textBox_paciente.Enabled = false;
-            textBox_paciente.Location = new Point(124, 49);
+            textBox_paciente.Location = new Point(115, 53);
             textBox_paciente.Name = "textBox_paciente";
             textBox_paciente.Size = new Size(219, 23);
             textBox_paciente.TabIndex = 22;
@@ -251,7 +251,7 @@
             // 
             textBox_medico.BackColor = Color.WhiteSmoke;
             textBox_medico.Enabled = false;
-            textBox_medico.Location = new Point(124, 20);
+            textBox_medico.Location = new Point(115, 25);
             textBox_medico.Name = "textBox_medico";
             textBox_medico.Size = new Size(219, 23);
             textBox_medico.TabIndex = 21;
@@ -262,7 +262,7 @@
             button_cobrar.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
             button_cobrar.Image = Properties.Resources.pagar;
             button_cobrar.ImageAlign = ContentAlignment.MiddleLeft;
-            button_cobrar.Location = new Point(630, 42);
+            button_cobrar.Location = new Point(616, 48);
             button_cobrar.Name = "button_cobrar";
             button_cobrar.Size = new Size(108, 33);
             button_cobrar.TabIndex = 20;
@@ -275,7 +275,7 @@
             // 
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            label5.Location = new Point(349, 52);
+            label5.Location = new Point(349, 57);
             label5.Name = "label5";
             label5.Size = new Size(72, 15);
             label5.TabIndex = 19;
@@ -285,7 +285,7 @@
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            label6.Location = new Point(377, 23);
+            label6.Location = new Point(377, 28);
             label6.Name = "label6";
             label6.Size = new Size(44, 15);
             label6.TabIndex = 18;
@@ -295,7 +295,7 @@
             // 
             label7.AutoSize = true;
             label7.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            label7.Location = new Point(61, 23);
+            label7.Location = new Point(56, 28);
             label7.Name = "label7";
             label7.Size = new Size(53, 15);
             label7.TabIndex = 17;
@@ -305,7 +305,7 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            label3.Location = new Point(61, 86);
+            label3.Location = new Point(61, 85);
             label3.Name = "label3";
             label3.Size = new Size(48, 15);
             label3.TabIndex = 15;
@@ -315,7 +315,7 @@
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            label4.Location = new Point(363, 80);
+            label4.Location = new Point(363, 85);
             label4.Name = "label4";
             label4.Size = new Size(58, 15);
             label4.TabIndex = 14;
@@ -349,7 +349,7 @@
             // 
             button_seleccionar_paciente.BackColor = SystemColors.ActiveCaption;
             button_seleccionar_paciente.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            button_seleccionar_paciente.Location = new Point(6, 48);
+            button_seleccionar_paciente.Location = new Point(6, 52);
             button_seleccionar_paciente.Name = "button_seleccionar_paciente";
             button_seleccionar_paciente.Size = new Size(103, 23);
             button_seleccionar_paciente.TabIndex = 11;
