@@ -1,20 +1,15 @@
 ﻿using System.Data;
-using SiAP.Abstracciones;
 using SiAP.BE.Logs;
-using SiAP.DAL;
 using SiAP.MPP.Base;
 
 namespace SiAP.MPP.Logs
 {
-    public class MPPLog
+    public class MPPLog : MapperBase<Log>
     {
-        private readonly IAccesoDatos _datos;
         private static MPPLog _instancia;
+        protected override string NombreTabla => "Log";
 
-        private MPPLog()
-        {
-            _datos = AccesoXML.ObtenerInstancia();
-        }
+        private MPPLog() : base() { }
 
         public static MPPLog ObtenerInstancia()
         {
@@ -24,24 +19,22 @@ namespace SiAP.MPP.Logs
         public IList<Log> ObtenerLog()
         {
             var ds = _datos.Obtener_Logs();
-            var dt = ds.Tables["Log"];
-
-            return dt.AsEnumerable()
-                     .Select(CargarObjeto)
-                     .Where(log => log != null)
-                     .OrderByDescending(log => log.Fecha)
-                     .ToList();
+            return ds.Tables[NombreTabla].AsEnumerable()
+                .Select(HidratarObjeto)
+                .Where(log => log != null)
+                .OrderByDescending(log => log.Fecha)
+                .ToList();
         }
 
         public IList<Log> ObtenerLog(DateTime desde, DateTime hasta, string propiedad, string texto)
         {
             var ds = _datos.Obtener_Logs();
-            var dt = ds.Tables["Log"];
+            var dt = ds.Tables[NombreTabla];
             var filtro = ConstruirFiltro(desde, hasta, propiedad, texto);
             var filas = dt.Select(filtro);
 
             return filas
-                .Select(CargarObjeto)
+                .Select(HidratarObjeto)
                 .Where(log => log != null)
                 .OrderByDescending(log => log.Fecha)
                 .ToList();
@@ -49,20 +42,20 @@ namespace SiAP.MPP.Logs
 
         public void GuardarLog(Log log)
         {
-            if (log == null)
-                throw new ArgumentNullException(nameof(log));
+            ArgumentNullException.ThrowIfNull(log);
 
             var ds = _datos.Obtener_Logs();
-            var dt = ds.Tables["Log"];
+            var dt = ds.Tables[NombreTabla];
             var dr = dt.NewRow();
 
-            dr["Id"] = DataRowHelper.ObtenerSiguienteId(dt, "Id");
-            dr["Fecha"] = log.Fecha;
-            dr["Usuario"] = log.Usuario ?? string.Empty;
-            dr["Operacion"] = log.Operacion ?? string.Empty;
+            long nuevoId = DataRowHelper.ObtenerSiguienteId(dt, "Id");
+            dr["Id"] = nuevoId;
+            AsignarDatos(dr, log);
 
             dt.Rows.Add(dr);
             _datos.Actualizar_BDLogs(ds);
+
+            log.Id = nuevoId;
         }
 
         public void ActualizarUsuarioUsername(string usernameActual, string usernameNuevo)
@@ -71,7 +64,7 @@ namespace SiAP.MPP.Logs
                 throw new ArgumentException("Los valores de usuario no pueden estar vacíos.");
 
             var ds = _datos.Obtener_Logs();
-            var dt = ds.Tables["Log"];
+            var dt = ds.Tables[NombreTabla];
             var registros = dt.Select($"Usuario = '{usernameActual.Replace("'", "''")}'");
 
             foreach (var dr in registros)
@@ -79,7 +72,7 @@ namespace SiAP.MPP.Logs
                 dr["Usuario"] = usernameNuevo;
             }
 
-            _datos.Actualizar_BD(ds);
+            _datos.Actualizar_BDLogs(ds);
         }
 
         private string ConstruirFiltro(DateTime desde, DateTime hasta, string propiedad, string texto)
@@ -98,7 +91,14 @@ namespace SiAP.MPP.Logs
             return filtro;
         }
 
-        private Log CargarObjeto(DataRow dr)
+        private void AsignarDatos(DataRow dr, Log entidad)
+        {
+            dr["Fecha"] = entidad.Fecha;
+            dr["Usuario"] = entidad.Usuario ?? string.Empty;
+            dr["Operacion"] = entidad.Operacion ?? string.Empty;
+        }
+
+        private Log HidratarObjeto(DataRow dr)
         {
             if (dr == null) return null;
 

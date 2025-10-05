@@ -1,29 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using global::SiAP.Abstracciones;
-using global::SiAP.BE;
-using global::SiAP.DAL;
-using global::SiAP.MPP.Base;
+﻿using System.Data;
+using SiAP.Abstracciones;
 using SiAP.BE;
+using SiAP.MPP.Base;
 
 namespace SiAP.MPP
 {
-    public class MPP_Cobro : IMapper<Cobro>
+    public class MPP_Cobro : MapperBase<Cobro>, IMapper<Cobro>
     {
-        private readonly IAccesoDatos _datos;
         private static MPP_Cobro _instancia;
+        protected override string NombreTabla => "Cobro";
 
-        private MPP_Cobro()
-        {
-            _datos = AccesoXML.ObtenerInstancia();
-        }
+        private MPP_Cobro() : base() { }
 
         public static MPP_Cobro ObtenerInstancia()
         {
@@ -32,55 +19,23 @@ namespace SiAP.MPP
 
         public void Agregar(Cobro entidad)
         {
-            ArgumentNullException.ThrowIfNull(entidad);
             if (Existe(entidad)) return;
-
-            var ds = _datos.Obtener_Datos();
-            var dt = ds.Tables["Cobro"];
-            var dr = dt.NewRow();
-
-            dr["Id"] = DataRowHelper.ObtenerSiguienteId(dt, "Id");
-            dr["FechaHora"] = entidad.FechaHora;
-            dr["TipoPago"] = entidad.TipoPago;
-            dr["Monto"] = entidad.Monto;
-            dr["Estado"] = entidad.Estado.ToString();
-            dr["FacturaId"] = entidad.FacturaId;
-            dr["FormaPagoId"] = entidad.FormaPagoId;
-
-            dt.Rows.Add(dr);
-            _datos.Actualizar_BD(ds);
+            AgregarEntidad(entidad, AsignarDatos);
         }
 
         public void Modificar(Cobro entidad)
         {
-            var ds = _datos.Obtener_Datos();
-            var dr = ds.Tables["Cobro"].AsEnumerable()
-                .FirstOrDefault(r => Convert.ToInt64(r["Id"]) == entidad.Id)
-                ?? throw new Exception("Cobro no encontrado.");
-
-            dr["FechaHora"] = entidad.FechaHora;
-            dr["TipoPago"] = entidad.TipoPago;
-            dr["Monto"] = entidad.Monto;
-            dr["Estado"] = entidad.Estado.ToString();
-            dr["FacturaId"] = entidad.FacturaId;
-            dr["FormaPagoId"] = entidad.FormaPagoId;
-
-            _datos.Actualizar_BD(ds);
+            ModificarEntidad(entidad, AsignarDatos);
         }
 
         public void Eliminar(Cobro entidad)
         {
-            var ds = _datos.Obtener_Datos();
-            var dr = ds.Tables["Cobro"].AsEnumerable()
-                .FirstOrDefault(r => Convert.ToInt64(r["Id"]) == entidad.Id);
-            dr?.Delete();
-            _datos.Actualizar_BD(ds);
+            EliminarEntidad(entidad);
         }
 
         public bool Existe(Cobro entidad)
         {
-            var ds = _datos.Obtener_Datos();
-            return ds.Tables["Cobro"].AsEnumerable().Any(r => Convert.ToInt64(r["Id"]) == entidad.Id);
+            return ExisteEntidad(entidad);
         }
 
         public bool TieneDependencias(Cobro entidad)
@@ -90,13 +45,12 @@ namespace SiAP.MPP
 
         public IList<Cobro> ObtenerTodos()
         {
-            var ds = _datos.Obtener_Datos();
-            return ds.Tables["Cobro"].AsEnumerable().Select(Hidratar).ToList();
+            return ObtenerTodasEntidades(HidratarObjeto);
         }
 
         public Cobro LeerPorId(object id)
         {
-            return ObtenerTodos().FirstOrDefault(c => c.Id == Convert.ToInt64(id));
+            return LeerEntidadPorId(id, HidratarObjeto);
         }
 
         public IList<Cobro> Buscar(string campo = "", string valor = "", bool incluirInactivos = true)
@@ -113,7 +67,7 @@ namespace SiAP.MPP
 
             return campo.ToLower() switch
             {
-                "tipopago" => cobros.Where(c => c.TipoPago.ToLower().Contains(valor)).ToList(),
+                "tipopago" => BuscarPorCampo(cobros, campo, valor, c => c.TipoPago),
                 "estado" => cobros.Where(c => c.Estado.ToString().ToLower().Contains(valor)).ToList(),
                 "facturaid" => cobros.Where(c => c.FacturaId.ToString() == valor).ToList(),
                 "formapagoid" => cobros.Where(c => c.FormaPagoId.ToString() == valor).ToList(),
@@ -121,7 +75,17 @@ namespace SiAP.MPP
             };
         }
 
-        private Cobro Hidratar(DataRow r)
+        private void AsignarDatos(DataRow dr, Cobro entidad)
+        {
+            dr["FechaHora"] = entidad.FechaHora;
+            dr["TipoPago"] = entidad.TipoPago;
+            dr["Monto"] = entidad.Monto;
+            dr["Estado"] = entidad.Estado.ToString();
+            dr["FacturaId"] = entidad.FacturaId;
+            dr["FormaPagoId"] = entidad.FormaPagoId;
+        }
+
+        private Cobro HidratarObjeto(DataRow r)
         {
             return new Cobro
             {
@@ -136,4 +100,3 @@ namespace SiAP.MPP
         }
     }
 }
-

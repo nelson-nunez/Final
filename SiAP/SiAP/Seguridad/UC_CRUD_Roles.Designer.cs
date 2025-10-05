@@ -96,7 +96,7 @@
             button_Borrar.Location = new Point(3, 3);
             button_Borrar.Name = "button_Borrar";
             button_Borrar.Size = new Size(74, 27);
-            button_Borrar.TabIndex = 22;
+            button_Borrar.TabIndex = 3;
             button_Borrar.Text = "Eliminar";
             button_Borrar.TextAlign = ContentAlignment.MiddleLeft;
             button_Borrar.UseVisualStyleBackColor = false;
@@ -111,7 +111,7 @@
             button_Limpiar.Location = new Point(83, 3);
             button_Limpiar.Name = "button_Limpiar";
             button_Limpiar.Size = new Size(74, 27);
-            button_Limpiar.TabIndex = 23;
+            button_Limpiar.TabIndex = 4;
             button_Limpiar.Text = "Limpiar";
             button_Limpiar.TextAlign = ContentAlignment.MiddleLeft;
             button_Limpiar.UseVisualStyleBackColor = false;
@@ -126,7 +126,7 @@
             button_Editar.Location = new Point(163, 3);
             button_Editar.Name = "button_Editar";
             button_Editar.Size = new Size(74, 27);
-            button_Editar.TabIndex = 24;
+            button_Editar.TabIndex = 5;
             button_Editar.Text = "Editar";
             button_Editar.TextAlign = ContentAlignment.MiddleLeft;
             button_Editar.UseVisualStyleBackColor = false;
@@ -141,7 +141,7 @@
             button_Guardar.Location = new Point(243, 3);
             button_Guardar.Name = "button_Guardar";
             button_Guardar.Size = new Size(74, 27);
-            button_Guardar.TabIndex = 25;
+            button_Guardar.TabIndex = 6;
             button_Guardar.Text = "Guardar";
             button_Guardar.TextAlign = ContentAlignment.MiddleLeft;
             button_Guardar.UseVisualStyleBackColor = false;
@@ -190,7 +190,7 @@
             button1.Location = new Point(211, 297);
             button1.Name = "button1";
             button1.Size = new Size(118, 24);
-            button1.TabIndex = 18;
+            button1.TabIndex = 9;
             button1.Text = "Asociar/Desasociar";
             button1.UseVisualStyleBackColor = false;
             button1.Click += button1_Click;
@@ -210,14 +210,14 @@
             comboBox_roles.Location = new Point(6, 298);
             comboBox_roles.Name = "comboBox_roles";
             comboBox_roles.Size = new Size(199, 23);
-            comboBox_roles.TabIndex = 16;
+            comboBox_roles.TabIndex = 8;
             // 
             // treeView_Roles
             // 
             treeView_Roles.Location = new Point(6, 121);
             treeView_Roles.Name = "treeView_Roles";
             treeView_Roles.Size = new Size(322, 158);
-            treeView_Roles.TabIndex = 14;
+            treeView_Roles.TabIndex = 7;
             treeView_Roles.AfterSelect += treeView_Roles_AfterSelect;
             // 
             // label4
@@ -243,14 +243,14 @@
             textBox_Desc_Rol.Location = new Point(138, 53);
             textBox_Desc_Rol.Name = "textBox_Desc_Rol";
             textBox_Desc_Rol.Size = new Size(190, 23);
-            textBox_Desc_Rol.TabIndex = 3;
+            textBox_Desc_Rol.TabIndex = 2;
             // 
             // textBox_Cod_Rol
             // 
             textBox_Cod_Rol.Location = new Point(138, 24);
             textBox_Cod_Rol.Name = "textBox_Cod_Rol";
             textBox_Cod_Rol.Size = new Size(190, 23);
-            textBox_Cod_Rol.TabIndex = 2;
+            textBox_Cod_Rol.TabIndex = 1;
             // 
             // label2
             // 

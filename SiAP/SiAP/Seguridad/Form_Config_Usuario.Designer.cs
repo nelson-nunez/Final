@@ -70,7 +70,7 @@
             checkBox1.Location = new Point(35, 211);
             checkBox1.Name = "checkBox1";
             checkBox1.Size = new Size(111, 19);
-            checkBox1.TabIndex = 33;
+            checkBox1.TabIndex = 5;
             checkBox1.Text = "Mostrar/Ocultar";
             checkBox1.UseVisualStyleBackColor = true;
             checkBox1.CheckedChanged += checkBox1_CheckedChanged;
@@ -89,7 +89,7 @@
             textBox_rep_new_pass.Location = new Point(35, 182);
             textBox_rep_new_pass.Name = "textBox_rep_new_pass";
             textBox_rep_new_pass.Size = new Size(292, 23);
-            textBox_rep_new_pass.TabIndex = 31;
+            textBox_rep_new_pass.TabIndex = 4;
             // 
             // label1
             // 
@@ -105,7 +105,7 @@
             textBox_new_pass.Location = new Point(35, 138);
             textBox_new_pass.Name = "textBox_new_pass";
             textBox_new_pass.Size = new Size(292, 23);
-            textBox_new_pass.TabIndex = 29;
+            textBox_new_pass.TabIndex = 3;
             // 
             // flowLayoutPanel1
             // 
@@ -125,7 +125,7 @@
             button_Limpiar.Location = new Point(3, 3);
             button_Limpiar.Name = "button_Limpiar";
             button_Limpiar.Size = new Size(74, 27);
-            button_Limpiar.TabIndex = 23;
+            button_Limpiar.TabIndex = 6;
             button_Limpiar.Text = "Limpiar";
             button_Limpiar.TextAlign = ContentAlignment.MiddleLeft;
             button_Limpiar.UseVisualStyleBackColor = false;
@@ -140,7 +140,7 @@
             button_Guardar.Location = new Point(83, 3);
             button_Guardar.Name = "button_Guardar";
             button_Guardar.Size = new Size(74, 27);
-            button_Guardar.TabIndex = 25;
+            button_Guardar.TabIndex = 7;
             button_Guardar.Text = "Guardar";
             button_Guardar.TextAlign = ContentAlignment.MiddleLeft;
             button_Guardar.UseVisualStyleBackColor = false;
@@ -151,14 +151,14 @@
             textBox_old_pass.Location = new Point(35, 93);
             textBox_old_pass.Name = "textBox_old_pass";
             textBox_old_pass.Size = new Size(292, 23);
-            textBox_old_pass.TabIndex = 9;
+            textBox_old_pass.TabIndex = 2;
             // 
             // textBox_email
             // 
             textBox_email.Location = new Point(35, 49);
             textBox_email.Name = "textBox_email";
             textBox_email.Size = new Size(292, 23);
-            textBox_email.TabIndex = 8;
+            textBox_email.TabIndex = 1;
             // 
             // label6
             // 

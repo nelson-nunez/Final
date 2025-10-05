@@ -1,26 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data;
 using SiAP.Abstracciones;
 using SiAP.BE;
-using SiAP.BE.Base;
-using SiAP.DAL;
 using SiAP.MPP.Base;
 
 namespace SiAP.MPP
 {
-    public class MPP_Turno : IMapper<Turno>
+    public class MPP_Turno : MapperBase<Turno>, IMapper<Turno>
     {
-        private readonly IAccesoDatos _datos;
         private static MPP_Turno _instancia;
+        protected override string NombreTabla => "Turno";
 
-        private MPP_Turno()
-        {
-            _datos = AccesoXML.ObtenerInstancia();
-        }
+        private MPP_Turno() : base() { }
 
         public static MPP_Turno ObtenerInstancia()
         {
@@ -32,70 +22,34 @@ namespace SiAP.MPP
             ArgumentNullException.ThrowIfNull(entidad);
             if (Existe(entidad)) return;
 
-            var ds = _datos.Obtener_Datos();
-            var dt = ds.Tables["Turno"];
-            var dr = dt.NewRow();
-
-            dr["Id"] = DataRowHelper.ObtenerSiguienteId(dt, "Id");
-            dr["Fecha"] = entidad.Fecha;
-            dr["HoraInicio"] = entidad.HoraInicio;
-            dr["HoraFin"] = entidad.HoraFin;
-            dr["TipoAtencion"] = entidad.TipoAtencion;
-            dr["Estado"] = entidad.Estado.ToString();
-            dr["MedicoId"] = entidad.MedicoId;
-            dr["PacienteId"] = entidad.PacienteId;
-            dr["AgendaId"] = entidad.AgendaId;
-
-            dt.Rows.Add(dr);
-            _datos.Actualizar_BD(ds);
+            AgregarEntidad(entidad, AsignarDatos);
         }
 
         public void Modificar(Turno entidad)
         {
-            var ds = _datos.Obtener_Datos();
-            var dr = ds.Tables["Turno"].AsEnumerable()
-                .FirstOrDefault(r => Convert.ToInt64(r["Id"]) == entidad.Id)
-                ?? throw new Exception("Turno no encontrado.");
-
-            dr["Fecha"] = entidad.Fecha;
-            dr["HoraInicio"] = entidad.HoraInicio;
-            dr["HoraFin"] = entidad.HoraFin;
-            dr["TipoAtencion"] = entidad.TipoAtencion;
-            dr["Estado"] = entidad.Estado.ToString();
-            dr["MedicoId"] = entidad.MedicoId;
-            dr["PacienteId"] = entidad.PacienteId;
-            dr["AgendaId"] = entidad.AgendaId;
-
-            _datos.Actualizar_BD(ds);
+            ModificarEntidad(entidad, AsignarDatos);
         }
 
         public void Eliminar(Turno entidad)
         {
-            var ds = _datos.Obtener_Datos();
-            var dr = ds.Tables["Turno"].AsEnumerable()
-                .FirstOrDefault(r => Convert.ToInt64(r["Id"]) == entidad.Id);
-            dr?.Delete();
-            _datos.Actualizar_BD(ds);
+            EliminarEntidad(entidad);
         }
 
         public bool Existe(Turno entidad)
         {
-            var ds = _datos.Obtener_Datos();
-            return ds.Tables["Turno"].AsEnumerable()
-                .Any(r => Convert.ToInt64(r["Id"]) == entidad.Id);
+            return ExisteEntidad(entidad);
         }
 
         public bool TieneDependencias(Turno entidad) => false;
 
         public IList<Turno> ObtenerTodos()
         {
-            var ds = _datos.Obtener_Datos();
-            return ds.Tables["Turno"].AsEnumerable().Select(Hidratar).ToList();
+            return ObtenerTodasEntidades(HidratarObjeto);
         }
 
         public Turno LeerPorId(object id)
         {
-            return ObtenerTodos().FirstOrDefault(t => t.Id == Convert.ToInt64(id));
+            return LeerEntidadPorId(id, HidratarObjeto);
         }
 
         public IList<Turno> Buscar(string campo = "", string valor = "", bool incluirInactivos = true)
@@ -112,24 +66,40 @@ namespace SiAP.MPP
             };
         }
 
-        // Si necesitas buscar por rango de tiempo en lugar de hora exacta
         public Turno BuscarTurnoPorMedIdyRangoHorario(long medicoId, DateTime fecha, TimeSpan horaDesde, TimeSpan horaHasta)
         {
             var lista = ObtenerTodos();
             return lista.FirstOrDefault(
-                t => t.MedicoId == medicoId && 
+                t => t.MedicoId == medicoId &&
                 t.Fecha.Date == fecha.Date &&
-                (t.HoraInicio >= horaDesde && t.HoraInicio < horaHasta || t.HoraFin > horaDesde && t.HoraFin <= horaHasta)
-                );
+                (t.HoraInicio >= horaDesde && t.HoraInicio < horaHasta ||
+                 t.HoraFin > horaDesde && t.HoraFin <= horaHasta)
+            );
         }
 
         public IList<Turno> BuscarPorMedicoyRango(long medicoId, DateTime fechadesde, DateTime fechahasta)
         {
-            var lista = ObtenerTodos().Where(t => t.MedicoId == medicoId && (t.Fecha >= fechadesde && t.Fecha <= fechahasta)).ToList();
-            return (IList<Turno>)lista;
+            var lista = ObtenerTodos()
+                .Where(t => t.MedicoId == medicoId &&
+                           t.Fecha >= fechadesde &&
+                           t.Fecha <= fechahasta)
+                .ToList();
+            return lista;
         }
 
-        private Turno Hidratar(DataRow r)
+        private void AsignarDatos(DataRow dr, Turno entidad)
+        {
+            dr["Fecha"] = entidad.Fecha;
+            dr["HoraInicio"] = entidad.HoraInicio;
+            dr["HoraFin"] = entidad.HoraFin;
+            dr["TipoAtencion"] = entidad.TipoAtencion;
+            dr["Estado"] = entidad.Estado.ToString();
+            dr["MedicoId"] = entidad.MedicoId;
+            dr["PacienteId"] = entidad.PacienteId;
+            dr["AgendaId"] = entidad.AgendaId;
+        }
+
+        private Turno HidratarObjeto(DataRow r)
         {
             return new Turno
             {

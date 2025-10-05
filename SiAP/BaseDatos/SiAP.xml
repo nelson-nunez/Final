@@ -4,6 +4,19 @@
     <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
       <xs:complexType>
         <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="Persona">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="Id" type="xs:long" />
+                <xs:element name="Nombre" type="xs:string" minOccurs="0" />
+                <xs:element name="Apellido" type="xs:string" minOccurs="0" />
+                <xs:element name="Dni" type="xs:string" minOccurs="0" />
+                <xs:element name="FechaNacimiento" type="xs:dateTime" minOccurs="0" />
+                <xs:element name="Email" type="xs:string" minOccurs="0" />
+                <xs:element name="Telefono" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
           <xs:element name="Permiso">
             <xs:complexType>
               <xs:sequence>
@@ -26,17 +39,14 @@
             <xs:complexType>
               <xs:sequence>
                 <xs:element name="Id" type="xs:long" />
-                <xs:element name="Legajo" type="xs:int" minOccurs="0" />
                 <xs:element name="Username" type="xs:string" minOccurs="0" />
-                <xs:element name="Nombre" type="xs:string" minOccurs="0" />
-                <xs:element name="Apellido" type="xs:string" minOccurs="0" />
-                <xs:element name="Email" type="xs:string" minOccurs="0" />
                 <xs:element name="Password" type="xs:string" minOccurs="0" />
                 <xs:element name="FechaUltimoCambioPassword" type="xs:dateTime" minOccurs="0" />
                 <xs:element name="PalabraClave" type="xs:string" minOccurs="0" />
                 <xs:element name="RespuestaClave" type="xs:string" minOccurs="0" />
                 <xs:element name="Bloqueado" type="xs:boolean" minOccurs="0" />
                 <xs:element name="Activo" type="xs:boolean" minOccurs="0" />
+                <xs:element name="PersonaId" type="xs:long" minOccurs="0" />
               </xs:sequence>
             </xs:complexType>
           </xs:element>
@@ -48,20 +58,33 @@
               </xs:sequence>
             </xs:complexType>
           </xs:element>
+          <xs:element name="Administrador">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="Id" type="xs:long" />
+                <xs:element name="PersonaId" type="xs:long" minOccurs="0" />
+                <xs:element name="Area" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="Secretario">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="Id" type="xs:long" />
+                <xs:element name="PersonaId" type="xs:long" minOccurs="0" />
+                <xs:element name="Legajo" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
           <xs:element name="Medico">
             <xs:complexType>
               <xs:sequence>
                 <xs:element name="Id" type="xs:long" />
-                <xs:element name="Nombre" type="xs:string" minOccurs="0" />
-                <xs:element name="Apellido" type="xs:string" minOccurs="0" />
-                <xs:element name="Dni" type="xs:string" minOccurs="0" />
-                <xs:element name="FechaNacimiento" type="xs:dateTime" minOccurs="0" />
-                <xs:element name="Email" type="xs:string" minOccurs="0" />
-                <xs:element name="Telefono" type="xs:string" minOccurs="0" />
-                <xs:element name="ArancelConsulta" type="xs:decimal" minOccurs="0" />
+                <xs:element name="PersonaId" type="xs:long" minOccurs="0" />
                 <xs:element name="Titulo" type="xs:string" minOccurs="0" />
                 <xs:element name="EspecialidadId" type="xs:int" minOccurs="0" />
                 <xs:element name="EspecialidadNombre" type="xs:string" minOccurs="0" />
+                <xs:element name="ArancelConsulta" type="xs:decimal" minOccurs="0" />
               </xs:sequence>
             </xs:complexType>
           </xs:element>
@@ -69,12 +92,7 @@
             <xs:complexType>
               <xs:sequence>
                 <xs:element name="Id" type="xs:long" />
-                <xs:element name="Nombre" type="xs:string" minOccurs="0" />
-                <xs:element name="Apellido" type="xs:string" minOccurs="0" />
-                <xs:element name="Dni" type="xs:string" minOccurs="0" />
-                <xs:element name="FechaNacimiento" type="xs:dateTime" minOccurs="0" />
-                <xs:element name="Email" type="xs:string" minOccurs="0" />
-                <xs:element name="Telefono" type="xs:string" minOccurs="0" />
+                <xs:element name="PersonaId" type="xs:long" minOccurs="0" />
                 <xs:element name="ObraSocial" type="xs:string" minOccurs="0" />
                 <xs:element name="Plan" type="xs:string" minOccurs="0" />
                 <xs:element name="NumeroSocio" type="xs:int" minOccurs="0" />
@@ -137,6 +155,10 @@
         </xs:choice>
       </xs:complexType>
       <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+        <xs:selector xpath=".//Persona" />
+        <xs:field xpath="Id" />
+      </xs:unique>
+      <xs:unique name="Permiso_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
         <xs:selector xpath=".//Permiso" />
         <xs:field xpath="Id" />
       </xs:unique>
@@ -153,6 +175,14 @@
         <xs:selector xpath=".//UsuarioPermiso" />
         <xs:field xpath="UsuarioId" />
         <xs:field xpath="PermisoId" />
+      </xs:unique>
+      <xs:unique name="Administrador_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+        <xs:selector xpath=".//Administrador" />
+        <xs:field xpath="Id" />
+      </xs:unique>
+      <xs:unique name="Secretario_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+        <xs:selector xpath=".//Secretario" />
+        <xs:field xpath="Id" />
       </xs:unique>
       <xs:unique name="Medico_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
         <xs:selector xpath=".//Medico" />
@@ -180,70 +210,136 @@
       </xs:unique>
     </xs:element>
   </xs:schema>
+  <Persona>
+    <Id>1</Id>
+    <Nombre>Admin</Nombre>
+    <Apellido>Sistema</Apellido>
+    <Dni>00000000</Dni>
+    <FechaNacimiento>1990-01-01T00:00:00-03:00</FechaNacimiento>
+    <Email>admin@sistema.com</Email>
+    <Telefono>0000000000</Telefono>
+  </Persona>
+  <Persona>
+    <Id>2</Id>
+    <Nombre>Julio</Nombre>
+    <Apellido>Losada</Apellido>
+    <Dni>12345678</Dni>
+    <FechaNacimiento>1980-05-10T00:00:00-03:00</FechaNacimiento>
+    <Email>julio@hospital.com</Email>
+    <Telefono>1122334455</Telefono>
+  </Persona>
+  <Persona>
+    <Id>3</Id>
+    <Nombre>Ana</Nombre>
+    <Apellido>Pérez</Apellido>
+    <Dni>23456789</Dni>
+    <FechaNacimiento>1980-05-10T00:00:00-03:00</FechaNacimiento>
+    <Email>ana.perez@hospital.com</Email>
+    <Telefono>1122334455</Telefono>
+  </Persona>
+  <Persona>
+    <Id>4</Id>
+    <Nombre>Marcos</Nombre>
+    <Apellido>Andrada</Apellido>
+    <Dni>34567890</Dni>
+    <FechaNacimiento>1981-08-20T00:00:00-03:00</FechaNacimiento>
+    <Email>marcos@hospital.com</Email>
+    <Telefono>1122334466</Telefono>
+  </Persona>
+  <Persona>
+    <Id>5</Id>
+    <Nombre>Marcelo</Nombre>
+    <Apellido>Pereira</Apellido>
+    <Dni>45678901</Dni>
+    <FechaNacimiento>1991-08-20T00:00:00-03:00</FechaNacimiento>
+    <Email>marcosp@hospital.com</Email>
+    <Telefono>1122334466</Telefono>
+  </Persona>
+  <Persona>
+    <Id>6</Id>
+    <Nombre>Juan</Nombre>
+    <Apellido>Gómez</Apellido>
+    <Dni>87654321</Dni>
+    <FechaNacimiento>1990-03-20T00:00:00-03:00</FechaNacimiento>
+    <Email>juan.gomez@paciente.com</Email>
+    <Telefono>1133445566</Telefono>
+  </Persona>
   <Permiso>
     <Id>10</Id>
     <Codigo>Administrador</Codigo>
-    <Descripcion>Permisos administrativoss</Descripcion>
+    <Descripcion>Permisos administrativos</Descripcion>
     <EsCompuesto>true</EsCompuesto>
   </Permiso>
   <Permiso>
     <Id>11</Id>
-    <Codigo>TAG001</Codigo>
-    <Descripcion>Inicio</Descripcion>
-    <EsCompuesto>false</EsCompuesto>
-  </Permiso>
-  <Permiso>
-    <Id>12</Id>
-    <Codigo>TAG002</Codigo>
+    <Codigo>TAG01</Codigo>
     <Descripcion>MiCuenta</Descripcion>
     <EsCompuesto>false</EsCompuesto>
   </Permiso>
   <Permiso>
-    <Id>13</Id>
-    <Codigo>TAG003</Codigo>
-    <Descripcion>Usuarios</Descripcion>
-    <EsCompuesto>false</EsCompuesto>
-  </Permiso>
-  <Permiso>
-    <Id>14</Id>
-    <Codigo>TAG004</Codigo>
-    <Descripcion>Permisos</Descripcion>
-    <EsCompuesto>false</EsCompuesto>
-  </Permiso>
-  <Permiso>
-    <Id>15</Id>
-    <Codigo>TAG005</Codigo>
+    <Id>12</Id>
+    <Codigo>TAG02</Codigo>
     <Descripcion>Médicos</Descripcion>
     <EsCompuesto>false</EsCompuesto>
   </Permiso>
   <Permiso>
-    <Id>16</Id>
-    <Codigo>TAG006</Codigo>
+    <Id>13</Id>
+    <Codigo>TAG03</Codigo>
+    <Descripcion>Secretarios</Descripcion>
+    <EsCompuesto>false</EsCompuesto>
+  </Permiso>
+  <Permiso>
+    <Id>14</Id>
+    <Codigo>TAG04</Codigo>
     <Descripcion>Pacientes</Descripcion>
     <EsCompuesto>false</EsCompuesto>
   </Permiso>
   <Permiso>
+    <Id>15</Id>
+    <Codigo>TAG05</Codigo>
+    <Descripcion>Usuarios</Descripcion>
+    <EsCompuesto>false</EsCompuesto>
+  </Permiso>
+  <Permiso>
+    <Id>16</Id>
+    <Codigo>TAG06</Codigo>
+    <Descripcion>Permisos</Descripcion>
+    <EsCompuesto>false</EsCompuesto>
+  </Permiso>
+  <Permiso>
     <Id>17</Id>
-    <Codigo>TAG007</Codigo>
-    <Descripcion>Turnos</Descripcion>
+    <Codigo>TAG07</Codigo>
+    <Descripcion>Agenda</Descripcion>
     <EsCompuesto>false</EsCompuesto>
   </Permiso>
   <Permiso>
     <Id>18</Id>
-    <Codigo>TAG008</Codigo>
-    <Descripcion>HistorialMedico</Descripcion>
+    <Codigo>TAG08</Codigo>
+    <Descripcion>Turnos</Descripcion>
     <EsCompuesto>false</EsCompuesto>
   </Permiso>
   <Permiso>
     <Id>19</Id>
-    <Codigo>TAG009</Codigo>
-    <Descripcion>Reportes</Descripcion>
+    <Codigo>TAG09</Codigo>
+    <Descripcion>HistorialMedico</Descripcion>
     <EsCompuesto>false</EsCompuesto>
   </Permiso>
   <Permiso>
     <Id>20</Id>
-    <Codigo>TAG010</Codigo>
-    <Descripcion>Agenda medica</Descripcion>
+    <Codigo>TAG10</Codigo>
+    <Descripcion>Recetas</Descripcion>
+    <EsCompuesto>false</EsCompuesto>
+  </Permiso>
+  <Permiso>
+    <Id>21</Id>
+    <Codigo>TAG11</Codigo>
+    <Descripcion>Cobros</Descripcion>
+    <EsCompuesto>false</EsCompuesto>
+  </Permiso>
+  <Permiso>
+    <Id>22</Id>
+    <Codigo>TAG12</Codigo>
+    <Descripcion>Reportes</Descripcion>
     <EsCompuesto>false</EsCompuesto>
   </Permiso>
   <PermisoHijo>
@@ -286,919 +382,804 @@
     <PadreId>10</PadreId>
     <HijoId>20</HijoId>
   </PermisoHijo>
+  <PermisoHijo>
+    <PadreId>10</PadreId>
+    <HijoId>21</HijoId>
+  </PermisoHijo>
+  <PermisoHijo>
+    <PadreId>10</PadreId>
+    <HijoId>22</HijoId>
+  </PermisoHijo>
   <Usuario>
     <Id>1</Id>
-    <Legajo>1001</Legajo>
     <Username>admin</Username>
-    <Nombre>Administrador</Nombre>
-    <Apellido>Sistema</Apellido>
-    <Email>admin@empresa.com</Email>
     <Password>STqG+Tki2fc=</Password>
-    <FechaUltimoCambioPassword>2025-07-10T16:30:17.5579856-03:00</FechaUltimoCambioPassword>
+    <FechaUltimoCambioPassword>2025-10-05T20:01:48.4650127-03:00</FechaUltimoCambioPassword>
     <PalabraClave>default</PalabraClave>
     <RespuestaClave>admin</RespuestaClave>
     <Bloqueado>false</Bloqueado>
     <Activo>true</Activo>
-  </Usuario>
-  <Usuario>
-    <Id>2</Id>
-    <Username>nnunez</Username>
-    <Nombre>Nelson</Nombre>
-    <Apellido>Nuñez</Apellido>
-    <Email>nelsonjnunez@gmail.com</Email>
-    <Password>Rbz+CKvCfbtJtyju8ORHlqWKizL4bi6fM4+nvyq//6k=</Password>
-    <PalabraClave />
-    <RespuestaClave />
-    <Bloqueado>false</Bloqueado>
-    <Activo>true</Activo>
+    <PersonaId>1</PersonaId>
   </Usuario>
   <UsuarioPermiso>
     <UsuarioId>1</UsuarioId>
     <PermisoId>10</PermisoId>
   </UsuarioPermiso>
+  <Administrador>
+    <Id>1</Id>
+    <PersonaId>1</PersonaId>
+    <Area>Desarrollo</Area>
+  </Administrador>
+  <Secretario>
+    <Id>1</Id>
+    <PersonaId>2</PersonaId>
+    <Legajo>0001</Legajo>
+  </Secretario>
   <Medico>
     <Id>1</Id>
-    <Nombre>Ana</Nombre>
-    <Apellido>Pérez</Apellido>
-    <Dni>12345678</Dni>
-    <FechaNacimiento>1980-05-10T00:00:00-03:00</FechaNacimiento>
-    <Email>ana.perez@hospital.com</Email>
-    <Telefono>1122334455</Telefono>
-    <ArancelConsulta>10000</ArancelConsulta>
+    <PersonaId>3</PersonaId>
     <Titulo>Doctora en Medicina</Titulo>
     <EspecialidadId>4</EspecialidadId>
     <EspecialidadNombre>Cardiología</EspecialidadNombre>
+    <ArancelConsulta>10000</ArancelConsulta>
   </Medico>
   <Medico>
     <Id>2</Id>
-    <Nombre>Marcos</Nombre>
-    <Apellido>Andrada</Apellido>
-    <Dni>13345678</Dni>
-    <FechaNacimiento>1981-08-20T00:00:00-03:00</FechaNacimiento>
-    <Email>marcos@hospital.com</Email>
-    <Telefono>1122334466</Telefono>
-    <ArancelConsulta>12000</ArancelConsulta>
+    <PersonaId>4</PersonaId>
     <Titulo>Doctor en Medicina</Titulo>
     <EspecialidadId>2</EspecialidadId>
     <EspecialidadNombre>Pediatría</EspecialidadNombre>
+    <ArancelConsulta>12000</ArancelConsulta>
   </Medico>
   <Medico>
     <Id>3</Id>
-    <Nombre>Marcelo</Nombre>
-    <Apellido>Pereira</Apellido>
-    <Dni>43345678</Dni>
-    <FechaNacimiento>1991-08-20T00:00:00-03:00</FechaNacimiento>
-    <Email>marcosp@hospital.com</Email>
-    <Telefono>1122334466</Telefono>
-    <ArancelConsulta>9000</ArancelConsulta>
+    <PersonaId>5</PersonaId>
     <Titulo>Doctor en Medicina</Titulo>
     <EspecialidadId>2</EspecialidadId>
     <EspecialidadNombre>Pediatría</EspecialidadNombre>
+    <ArancelConsulta>9000</ArancelConsulta>
   </Medico>
   <Paciente>
-    <Id>2</Id>
-    <Nombre>Juan</Nombre>
-    <Apellido>Gómez</Apellido>
-    <Dni>87654321</Dni>
-    <FechaNacimiento>1990-03-20T00:00:00-03:00</FechaNacimiento>
-    <Email>juan.gomez@paciente.com</Email>
-    <Telefono>1133445566</Telefono>
+    <Id>1</Id>
+    <PersonaId>6</PersonaId>
     <ObraSocial>OSDE</ObraSocial>
     <Plan>210</Plan>
     <NumeroSocio>445566</NumeroSocio>
   </Paciente>
   <Agenda>
     <Id>1</Id>
-    <Fecha>2025-07-10T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-05T00:00:00-03:00</Fecha>
     <HoraInicio>PT8H</HoraInicio>
     <HoraFin>PT9H</HoraFin>
     <MedicoId>1</MedicoId>
   </Agenda>
   <Agenda>
     <Id>2</Id>
-    <Fecha>2025-07-10T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-05T00:00:00-03:00</Fecha>
     <HoraInicio>PT9H</HoraInicio>
     <HoraFin>PT10H</HoraFin>
     <MedicoId>1</MedicoId>
   </Agenda>
   <Agenda>
     <Id>3</Id>
-    <Fecha>2025-07-10T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-05T00:00:00-03:00</Fecha>
     <HoraInicio>PT10H</HoraInicio>
     <HoraFin>PT11H</HoraFin>
     <MedicoId>1</MedicoId>
   </Agenda>
   <Agenda>
     <Id>4</Id>
-    <Fecha>2025-07-10T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-05T00:00:00-03:00</Fecha>
     <HoraInicio>PT11H</HoraInicio>
     <HoraFin>PT12H</HoraFin>
     <MedicoId>1</MedicoId>
   </Agenda>
   <Agenda>
     <Id>5</Id>
-    <Fecha>2025-07-10T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-05T00:00:00-03:00</Fecha>
     <HoraInicio>PT12H</HoraInicio>
     <HoraFin>PT13H</HoraFin>
     <MedicoId>1</MedicoId>
   </Agenda>
   <Agenda>
     <Id>6</Id>
-    <Fecha>2025-07-11T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-06T00:00:00-03:00</Fecha>
     <HoraInicio>PT8H</HoraInicio>
     <HoraFin>PT9H</HoraFin>
     <MedicoId>1</MedicoId>
   </Agenda>
   <Agenda>
     <Id>7</Id>
-    <Fecha>2025-07-11T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-06T00:00:00-03:00</Fecha>
     <HoraInicio>PT9H</HoraInicio>
     <HoraFin>PT10H</HoraFin>
     <MedicoId>1</MedicoId>
   </Agenda>
   <Agenda>
     <Id>8</Id>
-    <Fecha>2025-07-11T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-06T00:00:00-03:00</Fecha>
     <HoraInicio>PT10H</HoraInicio>
     <HoraFin>PT11H</HoraFin>
     <MedicoId>1</MedicoId>
   </Agenda>
   <Agenda>
     <Id>9</Id>
-    <Fecha>2025-07-11T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-06T00:00:00-03:00</Fecha>
     <HoraInicio>PT11H</HoraInicio>
     <HoraFin>PT12H</HoraFin>
     <MedicoId>1</MedicoId>
   </Agenda>
   <Agenda>
     <Id>10</Id>
-    <Fecha>2025-07-11T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-06T00:00:00-03:00</Fecha>
     <HoraInicio>PT12H</HoraInicio>
     <HoraFin>PT13H</HoraFin>
     <MedicoId>1</MedicoId>
   </Agenda>
   <Agenda>
     <Id>11</Id>
-    <Fecha>2025-07-12T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-07T00:00:00-03:00</Fecha>
     <HoraInicio>PT8H</HoraInicio>
     <HoraFin>PT9H</HoraFin>
     <MedicoId>1</MedicoId>
   </Agenda>
   <Agenda>
     <Id>12</Id>
-    <Fecha>2025-07-12T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-07T00:00:00-03:00</Fecha>
     <HoraInicio>PT9H</HoraInicio>
     <HoraFin>PT10H</HoraFin>
     <MedicoId>1</MedicoId>
   </Agenda>
   <Agenda>
     <Id>13</Id>
-    <Fecha>2025-07-12T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-07T00:00:00-03:00</Fecha>
     <HoraInicio>PT10H</HoraInicio>
     <HoraFin>PT11H</HoraFin>
     <MedicoId>1</MedicoId>
   </Agenda>
   <Agenda>
     <Id>14</Id>
-    <Fecha>2025-07-12T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-07T00:00:00-03:00</Fecha>
     <HoraInicio>PT11H</HoraInicio>
     <HoraFin>PT12H</HoraFin>
     <MedicoId>1</MedicoId>
   </Agenda>
   <Agenda>
     <Id>15</Id>
-    <Fecha>2025-07-12T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-07T00:00:00-03:00</Fecha>
     <HoraInicio>PT12H</HoraInicio>
     <HoraFin>PT13H</HoraFin>
     <MedicoId>1</MedicoId>
   </Agenda>
   <Agenda>
     <Id>16</Id>
-    <Fecha>2025-07-13T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-08T00:00:00-03:00</Fecha>
     <HoraInicio>PT8H</HoraInicio>
     <HoraFin>PT9H</HoraFin>
     <MedicoId>1</MedicoId>
   </Agenda>
   <Agenda>
     <Id>17</Id>
-    <Fecha>2025-07-13T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-08T00:00:00-03:00</Fecha>
     <HoraInicio>PT9H</HoraInicio>
     <HoraFin>PT10H</HoraFin>
     <MedicoId>1</MedicoId>
   </Agenda>
   <Agenda>
     <Id>18</Id>
-    <Fecha>2025-07-13T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-08T00:00:00-03:00</Fecha>
     <HoraInicio>PT10H</HoraInicio>
     <HoraFin>PT11H</HoraFin>
     <MedicoId>1</MedicoId>
   </Agenda>
   <Agenda>
     <Id>19</Id>
-    <Fecha>2025-07-13T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-08T00:00:00-03:00</Fecha>
     <HoraInicio>PT11H</HoraInicio>
     <HoraFin>PT12H</HoraFin>
     <MedicoId>1</MedicoId>
   </Agenda>
   <Agenda>
     <Id>20</Id>
-    <Fecha>2025-07-13T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-08T00:00:00-03:00</Fecha>
     <HoraInicio>PT12H</HoraInicio>
     <HoraFin>PT13H</HoraFin>
     <MedicoId>1</MedicoId>
   </Agenda>
   <Agenda>
     <Id>21</Id>
-    <Fecha>2025-07-14T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-09T00:00:00-03:00</Fecha>
     <HoraInicio>PT8H</HoraInicio>
     <HoraFin>PT9H</HoraFin>
     <MedicoId>1</MedicoId>
   </Agenda>
   <Agenda>
     <Id>22</Id>
-    <Fecha>2025-07-14T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-09T00:00:00-03:00</Fecha>
     <HoraInicio>PT9H</HoraInicio>
     <HoraFin>PT10H</HoraFin>
     <MedicoId>1</MedicoId>
   </Agenda>
   <Agenda>
     <Id>23</Id>
-    <Fecha>2025-07-14T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-09T00:00:00-03:00</Fecha>
     <HoraInicio>PT10H</HoraInicio>
     <HoraFin>PT11H</HoraFin>
     <MedicoId>1</MedicoId>
   </Agenda>
   <Agenda>
     <Id>24</Id>
-    <Fecha>2025-07-14T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-09T00:00:00-03:00</Fecha>
     <HoraInicio>PT11H</HoraInicio>
     <HoraFin>PT12H</HoraFin>
     <MedicoId>1</MedicoId>
   </Agenda>
   <Agenda>
     <Id>25</Id>
-    <Fecha>2025-07-14T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-09T00:00:00-03:00</Fecha>
     <HoraInicio>PT12H</HoraInicio>
     <HoraFin>PT13H</HoraFin>
     <MedicoId>1</MedicoId>
   </Agenda>
   <Agenda>
     <Id>26</Id>
-    <Fecha>2025-07-15T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-10T00:00:00-03:00</Fecha>
     <HoraInicio>PT8H</HoraInicio>
     <HoraFin>PT9H</HoraFin>
     <MedicoId>1</MedicoId>
   </Agenda>
   <Agenda>
     <Id>27</Id>
-    <Fecha>2025-07-15T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-10T00:00:00-03:00</Fecha>
     <HoraInicio>PT9H</HoraInicio>
     <HoraFin>PT10H</HoraFin>
     <MedicoId>1</MedicoId>
   </Agenda>
   <Agenda>
     <Id>28</Id>
-    <Fecha>2025-07-15T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-10T00:00:00-03:00</Fecha>
     <HoraInicio>PT10H</HoraInicio>
     <HoraFin>PT11H</HoraFin>
     <MedicoId>1</MedicoId>
   </Agenda>
   <Agenda>
     <Id>29</Id>
-    <Fecha>2025-07-15T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-10T00:00:00-03:00</Fecha>
     <HoraInicio>PT11H</HoraInicio>
     <HoraFin>PT12H</HoraFin>
     <MedicoId>1</MedicoId>
   </Agenda>
   <Agenda>
     <Id>30</Id>
-    <Fecha>2025-07-15T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-10T00:00:00-03:00</Fecha>
     <HoraInicio>PT12H</HoraInicio>
     <HoraFin>PT13H</HoraFin>
     <MedicoId>1</MedicoId>
   </Agenda>
   <Agenda>
     <Id>31</Id>
-    <Fecha>2025-07-16T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-11T00:00:00-03:00</Fecha>
     <HoraInicio>PT8H</HoraInicio>
     <HoraFin>PT9H</HoraFin>
     <MedicoId>1</MedicoId>
   </Agenda>
   <Agenda>
     <Id>32</Id>
-    <Fecha>2025-07-16T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-11T00:00:00-03:00</Fecha>
     <HoraInicio>PT9H</HoraInicio>
     <HoraFin>PT10H</HoraFin>
     <MedicoId>1</MedicoId>
   </Agenda>
   <Agenda>
     <Id>33</Id>
-    <Fecha>2025-07-16T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-11T00:00:00-03:00</Fecha>
     <HoraInicio>PT10H</HoraInicio>
     <HoraFin>PT11H</HoraFin>
     <MedicoId>1</MedicoId>
   </Agenda>
   <Agenda>
     <Id>34</Id>
-    <Fecha>2025-07-16T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-11T00:00:00-03:00</Fecha>
     <HoraInicio>PT11H</HoraInicio>
     <HoraFin>PT12H</HoraFin>
     <MedicoId>1</MedicoId>
   </Agenda>
   <Agenda>
     <Id>35</Id>
-    <Fecha>2025-07-16T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-11T00:00:00-03:00</Fecha>
     <HoraInicio>PT12H</HoraInicio>
     <HoraFin>PT13H</HoraFin>
     <MedicoId>1</MedicoId>
   </Agenda>
   <Agenda>
     <Id>36</Id>
-    <Fecha>2025-07-10T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-05T00:00:00-03:00</Fecha>
     <HoraInicio>PT8H</HoraInicio>
     <HoraFin>PT9H</HoraFin>
     <MedicoId>2</MedicoId>
   </Agenda>
   <Agenda>
     <Id>37</Id>
-    <Fecha>2025-07-10T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-05T00:00:00-03:00</Fecha>
     <HoraInicio>PT9H</HoraInicio>
     <HoraFin>PT10H</HoraFin>
     <MedicoId>2</MedicoId>
   </Agenda>
   <Agenda>
     <Id>38</Id>
-    <Fecha>2025-07-10T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-05T00:00:00-03:00</Fecha>
     <HoraInicio>PT10H</HoraInicio>
     <HoraFin>PT11H</HoraFin>
     <MedicoId>2</MedicoId>
   </Agenda>
   <Agenda>
     <Id>39</Id>
-    <Fecha>2025-07-10T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-05T00:00:00-03:00</Fecha>
     <HoraInicio>PT11H</HoraInicio>
     <HoraFin>PT12H</HoraFin>
     <MedicoId>2</MedicoId>
   </Agenda>
   <Agenda>
     <Id>40</Id>
-    <Fecha>2025-07-10T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-05T00:00:00-03:00</Fecha>
     <HoraInicio>PT12H</HoraInicio>
     <HoraFin>PT13H</HoraFin>
     <MedicoId>2</MedicoId>
   </Agenda>
   <Agenda>
     <Id>41</Id>
-    <Fecha>2025-07-11T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-06T00:00:00-03:00</Fecha>
     <HoraInicio>PT8H</HoraInicio>
     <HoraFin>PT9H</HoraFin>
     <MedicoId>2</MedicoId>
   </Agenda>
   <Agenda>
     <Id>42</Id>
-    <Fecha>2025-07-11T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-06T00:00:00-03:00</Fecha>
     <HoraInicio>PT9H</HoraInicio>
     <HoraFin>PT10H</HoraFin>
     <MedicoId>2</MedicoId>
   </Agenda>
   <Agenda>
     <Id>43</Id>
-    <Fecha>2025-07-11T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-06T00:00:00-03:00</Fecha>
     <HoraInicio>PT10H</HoraInicio>
     <HoraFin>PT11H</HoraFin>
     <MedicoId>2</MedicoId>
   </Agenda>
   <Agenda>
     <Id>44</Id>
-    <Fecha>2025-07-11T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-06T00:00:00-03:00</Fecha>
     <HoraInicio>PT11H</HoraInicio>
     <HoraFin>PT12H</HoraFin>
     <MedicoId>2</MedicoId>
   </Agenda>
   <Agenda>
     <Id>45</Id>
-    <Fecha>2025-07-11T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-06T00:00:00-03:00</Fecha>
     <HoraInicio>PT12H</HoraInicio>
     <HoraFin>PT13H</HoraFin>
     <MedicoId>2</MedicoId>
   </Agenda>
   <Agenda>
     <Id>46</Id>
-    <Fecha>2025-07-12T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-07T00:00:00-03:00</Fecha>
     <HoraInicio>PT8H</HoraInicio>
     <HoraFin>PT9H</HoraFin>
     <MedicoId>2</MedicoId>
   </Agenda>
   <Agenda>
     <Id>47</Id>
-    <Fecha>2025-07-12T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-07T00:00:00-03:00</Fecha>
     <HoraInicio>PT9H</HoraInicio>
     <HoraFin>PT10H</HoraFin>
     <MedicoId>2</MedicoId>
   </Agenda>
   <Agenda>
     <Id>48</Id>
-    <Fecha>2025-07-12T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-07T00:00:00-03:00</Fecha>
     <HoraInicio>PT10H</HoraInicio>
     <HoraFin>PT11H</HoraFin>
     <MedicoId>2</MedicoId>
   </Agenda>
   <Agenda>
     <Id>49</Id>
-    <Fecha>2025-07-12T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-07T00:00:00-03:00</Fecha>
     <HoraInicio>PT11H</HoraInicio>
     <HoraFin>PT12H</HoraFin>
     <MedicoId>2</MedicoId>
   </Agenda>
   <Agenda>
     <Id>50</Id>
-    <Fecha>2025-07-12T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-07T00:00:00-03:00</Fecha>
     <HoraInicio>PT12H</HoraInicio>
     <HoraFin>PT13H</HoraFin>
     <MedicoId>2</MedicoId>
   </Agenda>
   <Agenda>
     <Id>51</Id>
-    <Fecha>2025-07-13T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-08T00:00:00-03:00</Fecha>
     <HoraInicio>PT8H</HoraInicio>
     <HoraFin>PT9H</HoraFin>
     <MedicoId>2</MedicoId>
   </Agenda>
   <Agenda>
     <Id>52</Id>
-    <Fecha>2025-07-13T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-08T00:00:00-03:00</Fecha>
     <HoraInicio>PT9H</HoraInicio>
     <HoraFin>PT10H</HoraFin>
     <MedicoId>2</MedicoId>
   </Agenda>
   <Agenda>
     <Id>53</Id>
-    <Fecha>2025-07-13T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-08T00:00:00-03:00</Fecha>
     <HoraInicio>PT10H</HoraInicio>
     <HoraFin>PT11H</HoraFin>
     <MedicoId>2</MedicoId>
   </Agenda>
   <Agenda>
     <Id>54</Id>
-    <Fecha>2025-07-13T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-08T00:00:00-03:00</Fecha>
     <HoraInicio>PT11H</HoraInicio>
     <HoraFin>PT12H</HoraFin>
     <MedicoId>2</MedicoId>
   </Agenda>
   <Agenda>
     <Id>55</Id>
-    <Fecha>2025-07-13T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-08T00:00:00-03:00</Fecha>
     <HoraInicio>PT12H</HoraInicio>
     <HoraFin>PT13H</HoraFin>
     <MedicoId>2</MedicoId>
   </Agenda>
   <Agenda>
     <Id>56</Id>
-    <Fecha>2025-07-14T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-09T00:00:00-03:00</Fecha>
     <HoraInicio>PT8H</HoraInicio>
     <HoraFin>PT9H</HoraFin>
     <MedicoId>2</MedicoId>
   </Agenda>
   <Agenda>
     <Id>57</Id>
-    <Fecha>2025-07-14T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-09T00:00:00-03:00</Fecha>
     <HoraInicio>PT9H</HoraInicio>
     <HoraFin>PT10H</HoraFin>
     <MedicoId>2</MedicoId>
   </Agenda>
   <Agenda>
     <Id>58</Id>
-    <Fecha>2025-07-14T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-09T00:00:00-03:00</Fecha>
     <HoraInicio>PT10H</HoraInicio>
     <HoraFin>PT11H</HoraFin>
     <MedicoId>2</MedicoId>
   </Agenda>
   <Agenda>
     <Id>59</Id>
-    <Fecha>2025-07-14T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-09T00:00:00-03:00</Fecha>
     <HoraInicio>PT11H</HoraInicio>
     <HoraFin>PT12H</HoraFin>
     <MedicoId>2</MedicoId>
   </Agenda>
   <Agenda>
     <Id>60</Id>
-    <Fecha>2025-07-14T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-09T00:00:00-03:00</Fecha>
     <HoraInicio>PT12H</HoraInicio>
     <HoraFin>PT13H</HoraFin>
     <MedicoId>2</MedicoId>
   </Agenda>
   <Agenda>
     <Id>61</Id>
-    <Fecha>2025-07-15T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-10T00:00:00-03:00</Fecha>
     <HoraInicio>PT8H</HoraInicio>
     <HoraFin>PT9H</HoraFin>
     <MedicoId>2</MedicoId>
   </Agenda>
   <Agenda>
     <Id>62</Id>
-    <Fecha>2025-07-15T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-10T00:00:00-03:00</Fecha>
     <HoraInicio>PT9H</HoraInicio>
     <HoraFin>PT10H</HoraFin>
     <MedicoId>2</MedicoId>
   </Agenda>
   <Agenda>
     <Id>63</Id>
-    <Fecha>2025-07-15T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-10T00:00:00-03:00</Fecha>
     <HoraInicio>PT10H</HoraInicio>
     <HoraFin>PT11H</HoraFin>
     <MedicoId>2</MedicoId>
   </Agenda>
   <Agenda>
     <Id>64</Id>
-    <Fecha>2025-07-15T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-10T00:00:00-03:00</Fecha>
     <HoraInicio>PT11H</HoraInicio>
     <HoraFin>PT12H</HoraFin>
     <MedicoId>2</MedicoId>
   </Agenda>
   <Agenda>
     <Id>65</Id>
-    <Fecha>2025-07-15T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-10T00:00:00-03:00</Fecha>
     <HoraInicio>PT12H</HoraInicio>
     <HoraFin>PT13H</HoraFin>
     <MedicoId>2</MedicoId>
   </Agenda>
   <Agenda>
     <Id>66</Id>
-    <Fecha>2025-07-16T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-11T00:00:00-03:00</Fecha>
     <HoraInicio>PT8H</HoraInicio>
     <HoraFin>PT9H</HoraFin>
     <MedicoId>2</MedicoId>
   </Agenda>
   <Agenda>
     <Id>67</Id>
-    <Fecha>2025-07-16T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-11T00:00:00-03:00</Fecha>
     <HoraInicio>PT9H</HoraInicio>
     <HoraFin>PT10H</HoraFin>
     <MedicoId>2</MedicoId>
   </Agenda>
   <Agenda>
     <Id>68</Id>
-    <Fecha>2025-07-16T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-11T00:00:00-03:00</Fecha>
     <HoraInicio>PT10H</HoraInicio>
     <HoraFin>PT11H</HoraFin>
     <MedicoId>2</MedicoId>
   </Agenda>
   <Agenda>
     <Id>69</Id>
-    <Fecha>2025-07-16T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-11T00:00:00-03:00</Fecha>
     <HoraInicio>PT11H</HoraInicio>
     <HoraFin>PT12H</HoraFin>
     <MedicoId>2</MedicoId>
   </Agenda>
   <Agenda>
     <Id>70</Id>
-    <Fecha>2025-07-16T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-11T00:00:00-03:00</Fecha>
     <HoraInicio>PT12H</HoraInicio>
     <HoraFin>PT13H</HoraFin>
     <MedicoId>2</MedicoId>
   </Agenda>
   <Agenda>
     <Id>71</Id>
-    <Fecha>2025-07-10T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-05T00:00:00-03:00</Fecha>
     <HoraInicio>PT8H</HoraInicio>
     <HoraFin>PT9H</HoraFin>
     <MedicoId>3</MedicoId>
   </Agenda>
   <Agenda>
     <Id>72</Id>
-    <Fecha>2025-07-10T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-05T00:00:00-03:00</Fecha>
     <HoraInicio>PT9H</HoraInicio>
     <HoraFin>PT10H</HoraFin>
     <MedicoId>3</MedicoId>
   </Agenda>
   <Agenda>
     <Id>73</Id>
-    <Fecha>2025-07-10T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-05T00:00:00-03:00</Fecha>
     <HoraInicio>PT10H</HoraInicio>
     <HoraFin>PT11H</HoraFin>
     <MedicoId>3</MedicoId>
   </Agenda>
   <Agenda>
     <Id>74</Id>
-    <Fecha>2025-07-10T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-05T00:00:00-03:00</Fecha>
     <HoraInicio>PT11H</HoraInicio>
     <HoraFin>PT12H</HoraFin>
     <MedicoId>3</MedicoId>
   </Agenda>
   <Agenda>
     <Id>75</Id>
-    <Fecha>2025-07-10T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-05T00:00:00-03:00</Fecha>
     <HoraInicio>PT12H</HoraInicio>
     <HoraFin>PT13H</HoraFin>
     <MedicoId>3</MedicoId>
   </Agenda>
   <Agenda>
     <Id>76</Id>
-    <Fecha>2025-07-11T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-06T00:00:00-03:00</Fecha>
     <HoraInicio>PT8H</HoraInicio>
     <HoraFin>PT9H</HoraFin>
     <MedicoId>3</MedicoId>
   </Agenda>
   <Agenda>
     <Id>77</Id>
-    <Fecha>2025-07-11T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-06T00:00:00-03:00</Fecha>
     <HoraInicio>PT9H</HoraInicio>
     <HoraFin>PT10H</HoraFin>
     <MedicoId>3</MedicoId>
   </Agenda>
   <Agenda>
     <Id>78</Id>
-    <Fecha>2025-07-11T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-06T00:00:00-03:00</Fecha>
     <HoraInicio>PT10H</HoraInicio>
     <HoraFin>PT11H</HoraFin>
     <MedicoId>3</MedicoId>
   </Agenda>
   <Agenda>
     <Id>79</Id>
-    <Fecha>2025-07-11T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-06T00:00:00-03:00</Fecha>
     <HoraInicio>PT11H</HoraInicio>
     <HoraFin>PT12H</HoraFin>
     <MedicoId>3</MedicoId>
   </Agenda>
   <Agenda>
     <Id>80</Id>
-    <Fecha>2025-07-11T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-06T00:00:00-03:00</Fecha>
     <HoraInicio>PT12H</HoraInicio>
     <HoraFin>PT13H</HoraFin>
     <MedicoId>3</MedicoId>
   </Agenda>
   <Agenda>
     <Id>81</Id>
-    <Fecha>2025-07-12T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-07T00:00:00-03:00</Fecha>
     <HoraInicio>PT8H</HoraInicio>
     <HoraFin>PT9H</HoraFin>
     <MedicoId>3</MedicoId>
   </Agenda>
   <Agenda>
     <Id>82</Id>
-    <Fecha>2025-07-12T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-07T00:00:00-03:00</Fecha>
     <HoraInicio>PT9H</HoraInicio>
     <HoraFin>PT10H</HoraFin>
     <MedicoId>3</MedicoId>
   </Agenda>
   <Agenda>
     <Id>83</Id>
-    <Fecha>2025-07-12T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-07T00:00:00-03:00</Fecha>
     <HoraInicio>PT10H</HoraInicio>
     <HoraFin>PT11H</HoraFin>
     <MedicoId>3</MedicoId>
   </Agenda>
   <Agenda>
     <Id>84</Id>
-    <Fecha>2025-07-12T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-07T00:00:00-03:00</Fecha>
     <HoraInicio>PT11H</HoraInicio>
     <HoraFin>PT12H</HoraFin>
     <MedicoId>3</MedicoId>
   </Agenda>
   <Agenda>
     <Id>85</Id>
-    <Fecha>2025-07-12T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-07T00:00:00-03:00</Fecha>
     <HoraInicio>PT12H</HoraInicio>
     <HoraFin>PT13H</HoraFin>
     <MedicoId>3</MedicoId>
   </Agenda>
   <Agenda>
     <Id>86</Id>
-    <Fecha>2025-07-13T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-08T00:00:00-03:00</Fecha>
     <HoraInicio>PT8H</HoraInicio>
     <HoraFin>PT9H</HoraFin>
     <MedicoId>3</MedicoId>
   </Agenda>
   <Agenda>
     <Id>87</Id>
-    <Fecha>2025-07-13T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-08T00:00:00-03:00</Fecha>
     <HoraInicio>PT9H</HoraInicio>
     <HoraFin>PT10H</HoraFin>
     <MedicoId>3</MedicoId>
   </Agenda>
   <Agenda>
     <Id>88</Id>
-    <Fecha>2025-07-13T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-08T00:00:00-03:00</Fecha>
     <HoraInicio>PT10H</HoraInicio>
     <HoraFin>PT11H</HoraFin>
     <MedicoId>3</MedicoId>
   </Agenda>
   <Agenda>
     <Id>89</Id>
-    <Fecha>2025-07-13T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-08T00:00:00-03:00</Fecha>
     <HoraInicio>PT11H</HoraInicio>
     <HoraFin>PT12H</HoraFin>
     <MedicoId>3</MedicoId>
   </Agenda>
   <Agenda>
     <Id>90</Id>
-    <Fecha>2025-07-13T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-08T00:00:00-03:00</Fecha>
     <HoraInicio>PT12H</HoraInicio>
     <HoraFin>PT13H</HoraFin>
     <MedicoId>3</MedicoId>
   </Agenda>
   <Agenda>
     <Id>91</Id>
-    <Fecha>2025-07-14T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-09T00:00:00-03:00</Fecha>
     <HoraInicio>PT8H</HoraInicio>
     <HoraFin>PT9H</HoraFin>
     <MedicoId>3</MedicoId>
   </Agenda>
   <Agenda>
     <Id>92</Id>
-    <Fecha>2025-07-14T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-09T00:00:00-03:00</Fecha>
     <HoraInicio>PT9H</HoraInicio>
     <HoraFin>PT10H</HoraFin>
     <MedicoId>3</MedicoId>
   </Agenda>
   <Agenda>
     <Id>93</Id>
-    <Fecha>2025-07-14T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-09T00:00:00-03:00</Fecha>
     <HoraInicio>PT10H</HoraInicio>
     <HoraFin>PT11H</HoraFin>
     <MedicoId>3</MedicoId>
   </Agenda>
   <Agenda>
     <Id>94</Id>
-    <Fecha>2025-07-14T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-09T00:00:00-03:00</Fecha>
     <HoraInicio>PT11H</HoraInicio>
     <HoraFin>PT12H</HoraFin>
     <MedicoId>3</MedicoId>
   </Agenda>
   <Agenda>
     <Id>95</Id>
-    <Fecha>2025-07-14T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-09T00:00:00-03:00</Fecha>
     <HoraInicio>PT12H</HoraInicio>
     <HoraFin>PT13H</HoraFin>
     <MedicoId>3</MedicoId>
   </Agenda>
   <Agenda>
     <Id>96</Id>
-    <Fecha>2025-07-15T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-10T00:00:00-03:00</Fecha>
     <HoraInicio>PT8H</HoraInicio>
     <HoraFin>PT9H</HoraFin>
     <MedicoId>3</MedicoId>
   </Agenda>
   <Agenda>
     <Id>97</Id>
-    <Fecha>2025-07-15T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-10T00:00:00-03:00</Fecha>
     <HoraInicio>PT9H</HoraInicio>
     <HoraFin>PT10H</HoraFin>
     <MedicoId>3</MedicoId>
   </Agenda>
   <Agenda>
     <Id>98</Id>
-    <Fecha>2025-07-15T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-10T00:00:00-03:00</Fecha>
     <HoraInicio>PT10H</HoraInicio>
     <HoraFin>PT11H</HoraFin>
     <MedicoId>3</MedicoId>
   </Agenda>
   <Agenda>
     <Id>99</Id>
-    <Fecha>2025-07-15T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-10T00:00:00-03:00</Fecha>
     <HoraInicio>PT11H</HoraInicio>
     <HoraFin>PT12H</HoraFin>
     <MedicoId>3</MedicoId>
   </Agenda>
   <Agenda>
     <Id>100</Id>
-    <Fecha>2025-07-15T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-10T00:00:00-03:00</Fecha>
     <HoraInicio>PT12H</HoraInicio>
     <HoraFin>PT13H</HoraFin>
     <MedicoId>3</MedicoId>
   </Agenda>
   <Agenda>
     <Id>101</Id>
-    <Fecha>2025-07-16T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-11T00:00:00-03:00</Fecha>
     <HoraInicio>PT8H</HoraInicio>
     <HoraFin>PT9H</HoraFin>
     <MedicoId>3</MedicoId>
   </Agenda>
   <Agenda>
     <Id>102</Id>
-    <Fecha>2025-07-16T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-11T00:00:00-03:00</Fecha>
     <HoraInicio>PT9H</HoraInicio>
     <HoraFin>PT10H</HoraFin>
     <MedicoId>3</MedicoId>
   </Agenda>
   <Agenda>
     <Id>103</Id>
-    <Fecha>2025-07-16T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-11T00:00:00-03:00</Fecha>
     <HoraInicio>PT10H</HoraInicio>
     <HoraFin>PT11H</HoraFin>
     <MedicoId>3</MedicoId>
   </Agenda>
   <Agenda>
     <Id>104</Id>
-    <Fecha>2025-07-16T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-11T00:00:00-03:00</Fecha>
     <HoraInicio>PT11H</HoraInicio>
     <HoraFin>PT12H</HoraFin>
     <MedicoId>3</MedicoId>
   </Agenda>
   <Agenda>
     <Id>105</Id>
-    <Fecha>2025-07-16T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-11T00:00:00-03:00</Fecha>
     <HoraInicio>PT12H</HoraInicio>
     <HoraFin>PT13H</HoraFin>
     <MedicoId>3</MedicoId>
-  </Agenda>
-  <Agenda>
-    <Id>107</Id>
-    <Fecha>2025-10-03T00:00:00-03:00</Fecha>
-    <HoraInicio>PT10H30M</HoraInicio>
-    <HoraFin>PT11H</HoraFin>
-    <MedicoId>1</MedicoId>
-  </Agenda>
-  <Agenda>
-    <Id>108</Id>
-    <Fecha>2025-10-03T00:00:00-03:00</Fecha>
-    <HoraInicio>PT10H</HoraInicio>
-    <HoraFin>PT10H30M</HoraFin>
-    <MedicoId>1</MedicoId>
-  </Agenda>
-  <Agenda>
-    <Id>109</Id>
-    <Fecha>2025-10-03T00:00:00-03:00</Fecha>
-    <HoraInicio>PT9H30M</HoraInicio>
-    <HoraFin>PT10H</HoraFin>
-    <MedicoId>1</MedicoId>
-  </Agenda>
-  <Agenda>
-    <Id>110</Id>
-    <Fecha>2025-10-02T00:00:00-03:00</Fecha>
-    <HoraInicio>PT11H</HoraInicio>
-    <HoraFin>PT11H30M</HoraFin>
-    <MedicoId>1</MedicoId>
-  </Agenda>
-  <Agenda>
-    <Id>112</Id>
-    <Fecha>2025-10-02T00:00:00-03:00</Fecha>
-    <HoraInicio>PT10H</HoraInicio>
-    <HoraFin>PT10H30M</HoraFin>
-    <MedicoId>1</MedicoId>
-  </Agenda>
-  <Agenda>
-    <Id>113</Id>
-    <Fecha>2025-10-02T00:00:00-03:00</Fecha>
-    <HoraInicio>PT9H30M</HoraInicio>
-    <HoraFin>PT10H</HoraFin>
-    <MedicoId>1</MedicoId>
-  </Agenda>
-  <Agenda>
-    <Id>115</Id>
-    <Fecha>2025-09-30T00:00:00-03:00</Fecha>
-    <HoraInicio>PT11H</HoraInicio>
-    <HoraFin>PT11H30M</HoraFin>
-    <MedicoId>1</MedicoId>
-  </Agenda>
-  <Agenda>
-    <Id>116</Id>
-    <Fecha>2025-10-01T00:00:00-03:00</Fecha>
-    <HoraInicio>PT10H30M</HoraInicio>
-    <HoraFin>PT11H</HoraFin>
-    <MedicoId>1</MedicoId>
-  </Agenda>
-  <Agenda>
-    <Id>117</Id>
-    <Fecha>2025-10-01T00:00:00-03:00</Fecha>
-    <HoraInicio>PT10H</HoraInicio>
-    <HoraFin>PT10H30M</HoraFin>
-    <MedicoId>1</MedicoId>
-  </Agenda>
-  <Agenda>
-    <Id>118</Id>
-    <Fecha>2025-10-01T00:00:00-03:00</Fecha>
-    <HoraInicio>PT9H30M</HoraInicio>
-    <HoraFin>PT10H</HoraFin>
-    <MedicoId>1</MedicoId>
-  </Agenda>
-  <Agenda>
-    <Id>119</Id>
-    <Fecha>2025-09-30T00:00:00-03:00</Fecha>
-    <HoraInicio>PT10H30M</HoraInicio>
-    <HoraFin>PT11H</HoraFin>
-    <MedicoId>1</MedicoId>
-  </Agenda>
-  <Agenda>
-    <Id>120</Id>
-    <Fecha>2025-09-30T00:00:00-03:00</Fecha>
-    <HoraInicio>PT10H</HoraInicio>
-    <HoraFin>PT10H30M</HoraFin>
-    <MedicoId>1</MedicoId>
-  </Agenda>
-  <Agenda>
-    <Id>121</Id>
-    <Fecha>2025-09-30T00:00:00-03:00</Fecha>
-    <HoraInicio>PT9H30M</HoraInicio>
-    <HoraFin>PT10H</HoraFin>
-    <MedicoId>1</MedicoId>
-  </Agenda>
-  <Agenda>
-    <Id>122</Id>
-    <Fecha>2025-10-01T00:00:00-03:00</Fecha>
-    <HoraInicio>PT12H</HoraInicio>
-    <HoraFin>PT12H30M</HoraFin>
-    <MedicoId>1</MedicoId>
   </Agenda>
   <Turno>
     <Id>1</Id>
@@ -1208,18 +1189,18 @@
     <TipoAtencion>Consulta general</TipoAtencion>
     <Estado>Asignado</Estado>
     <MedicoId>1</MedicoId>
-    <PacienteId>2</PacienteId>
+    <PacienteId>1</PacienteId>
     <AgendaId>12</AgendaId>
   </Turno>
   <Turno>
     <Id>2</Id>
-    <Fecha>2025-10-03T00:00:00-03:00</Fecha>
-    <HoraInicio>PT10H30M</HoraInicio>
-    <HoraFin>PT11H</HoraFin>
+    <Fecha>2025-10-07T00:00:00-03:00</Fecha>
+    <HoraInicio>PT9H</HoraInicio>
+    <HoraFin>PT10H</HoraFin>
     <Estado>Asignado</Estado>
     <MedicoId>1</MedicoId>
-    <PacienteId>2</PacienteId>
-    <AgendaId>107</AgendaId>
+    <PacienteId>1</PacienteId>
+    <AgendaId>12</AgendaId>
   </Turno>
   <Factura>
     <Id>1</Id>
@@ -1229,7 +1210,7 @@
     <Descripcion>Consulta médica general</Descripcion>
     <Estado>Emitida</Estado>
     <TurnoId>1</TurnoId>
-    <PacienteId>2</PacienteId>
+    <PacienteId>1</PacienteId>
   </Factura>
   <Factura>
     <Id>2</Id>
@@ -1239,7 +1220,7 @@
     <Descripcion>Consulta pediátrica</Descripcion>
     <Estado>Pagada</Estado>
     <TurnoId>1</TurnoId>
-    <PacienteId>2</PacienteId>
+    <PacienteId>1</PacienteId>
   </Factura>
   <Cobro>
     <Id>1</Id>

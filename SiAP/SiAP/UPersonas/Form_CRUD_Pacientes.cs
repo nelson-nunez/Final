@@ -1,16 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using SiAP.BE;
+﻿using SiAP.BE;
 using SiAP.BLL;
 using SiAP.UI.Extensiones;
-
 namespace SiAP.UI
 {
     public partial class Form_CRUD_Pacientes : Form
@@ -19,6 +9,7 @@ namespace SiAP.UI
 
         Paciente itemSeleccionado = new Paciente();
         BLL_Paciente _bllPaciente;
+        private List<string> campos = new List<string> { "Dni", "NombreCompleto", "Telefono", "ObraSocial", "NumeroSocio", "Plan" };
 
         #endregion
 
@@ -96,29 +87,39 @@ namespace SiAP.UI
         {
             if (limpiar)
             {
-                itemSeleccionado = new Paciente();
-                dataGridView1.DataSource = _bllPaciente.ObtenerTodos().ToList();
+                itemSeleccionado = new Paciente { Persona = new Persona() };
+                dataGridView1.CargarGrid(campos, _bllPaciente.ObtenerTodos().ToList());
             }
-
+            itemSeleccionado.Persona ??= new Persona();
+            // Usar las propiedades de conveniencia de Paciente
             textBox_nombre.Text = itemSeleccionado.Nombre;
             textBox_apellido.Text = itemSeleccionado.Apellido;
             textBox_DNI.Text = itemSeleccionado.Dni;
             dateTime_feccha_nac.Value = (itemSeleccionado.FechaNacimiento.Year > 1900) ? itemSeleccionado.FechaNacimiento : DateTime.Today;
             textBox_email.Text = itemSeleccionado.Email;
             textBox_telefono.Text = itemSeleccionado.Telefono;
-            textBox_ooss.Text = itemSeleccionado.ObraSocial;
-            textBox_plan.Text = itemSeleccionado.Plan;
+            textBox_ooss.Text = itemSeleccionado.ObraSocial ?? "";
+            textBox_plan.Text = itemSeleccionado.Plan ?? "";
             numeric_nro_socio.Value = itemSeleccionado.NumeroSocio;
         }
 
         private void AsignarDatos()
         {
-            itemSeleccionado.Nombre = textBox_nombre.Text;
-            itemSeleccionado.Apellido = textBox_apellido.Text;
-            itemSeleccionado.Dni = textBox_DNI.Text;
-            itemSeleccionado.FechaNacimiento = dateTime_feccha_nac.Value;
-            itemSeleccionado.Email = textBox_email.Text;
-            itemSeleccionado.Telefono = textBox_telefono.Text;
+            // Asegurarse de que Persona no sea null
+            if (itemSeleccionado.Persona == null)
+            {
+                itemSeleccionado.Persona = new Persona();
+            }
+
+            // Asignar datos a Persona (la entidad real)
+            itemSeleccionado.Persona.Nombre = textBox_nombre.Text;
+            itemSeleccionado.Persona.Apellido = textBox_apellido.Text;
+            itemSeleccionado.Persona.Dni = textBox_DNI.Text;
+            itemSeleccionado.Persona.FechaNacimiento = dateTime_feccha_nac.Value;
+            itemSeleccionado.Persona.Email = textBox_email.Text;
+            itemSeleccionado.Persona.Telefono = textBox_telefono.Text;
+
+            // Asignar datos específicos de Paciente
             itemSeleccionado.ObraSocial = textBox_ooss.Text;
             itemSeleccionado.Plan = textBox_plan.Text;
             itemSeleccionado.NumeroSocio = (int)numeric_nro_socio.Value;

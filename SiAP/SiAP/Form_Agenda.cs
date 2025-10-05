@@ -1,20 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Data;
 using SiAP.BE;
-using SiAP.BE.Seguridad;
 using SiAP.BLL;
-using SiAP.BLL.Logs;
-using SiAP.BLL.Seguridad;
-using SiAP.UI.Controles;
 using SiAP.UI.Extensiones;
-using SiAP.UI.Forms_Seguridad;
 using static SiAP.UI.Extensiones.AgendaExtensions;
 
 namespace SiAP.UI

@@ -67,7 +67,7 @@
             dataGridView1.Location = new Point(6, 84);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.Size = new Size(866, 495);
-            dataGridView1.TabIndex = 2;
+            dataGridView1.TabIndex = 6;
             dataGridView1.CellClick += dataGridView1_CellClick;
             // 
             // treeView1
@@ -76,7 +76,7 @@
             treeView1.Location = new Point(6, 22);
             treeView1.Name = "treeView1";
             treeView1.Size = new Size(314, 571);
-            treeView1.TabIndex = 3;
+            treeView1.TabIndex = 1;
             treeView1.AfterSelect += treeView1_AfterSelect;
             // 
             // groupBox1
@@ -84,6 +84,7 @@
             groupBox1.Controls.Add(groupBox2);
             groupBox1.Controls.Add(groupBox_turno);
             groupBox1.Controls.Add(treeView1);
+            groupBox1.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             groupBox1.Location = new Point(12, 12);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(1210, 715);
@@ -141,7 +142,7 @@
             button_sem_siguiente.Location = new Point(752, 55);
             button_sem_siguiente.Name = "button_sem_siguiente";
             button_sem_siguiente.Size = new Size(120, 25);
-            button_sem_siguiente.TabIndex = 8;
+            button_sem_siguiente.TabIndex = 5;
             button_sem_siguiente.Text = "Semana Siguiente";
             button_sem_siguiente.UseVisualStyleBackColor = true;
             button_sem_siguiente.Click += button_sem_siguiente_Click;
@@ -152,7 +153,7 @@
             comboBox1.Location = new Point(410, 16);
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(148, 23);
-            comboBox1.TabIndex = 9;
+            comboBox1.TabIndex = 2;
             comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             // 
             // button_sem_actual
@@ -162,7 +163,7 @@
             button_sem_actual.Location = new Point(381, 55);
             button_sem_actual.Name = "button_sem_actual";
             button_sem_actual.Size = new Size(120, 25);
-            button_sem_actual.TabIndex = 7;
+            button_sem_actual.TabIndex = 4;
             button_sem_actual.Text = "Semana Actual";
             button_sem_actual.UseVisualStyleBackColor = false;
             button_sem_actual.Click += button_sem_actual_Click;
@@ -173,7 +174,7 @@
             button_sem_anterior.Location = new Point(6, 55);
             button_sem_anterior.Name = "button_sem_anterior";
             button_sem_anterior.Size = new Size(120, 25);
-            button_sem_anterior.TabIndex = 6;
+            button_sem_anterior.TabIndex = 3;
             button_sem_anterior.Text = "Semana Anterior";
             button_sem_anterior.UseVisualStyleBackColor = true;
             button_sem_anterior.Click += button_sem_anterior_Click;
@@ -265,7 +266,7 @@
             button_cobrar.Location = new Point(616, 48);
             button_cobrar.Name = "button_cobrar";
             button_cobrar.Size = new Size(108, 33);
-            button_cobrar.TabIndex = 20;
+            button_cobrar.TabIndex = 8;
             button_cobrar.Text = "Cobrar Turno";
             button_cobrar.TextAlign = ContentAlignment.MiddleRight;
             button_cobrar.UseVisualStyleBackColor = false;
@@ -328,7 +329,7 @@
             button_eliminar_turno.Location = new Point(1077, 20);
             button_eliminar_turno.Name = "button_eliminar_turno";
             button_eliminar_turno.Size = new Size(115, 40);
-            button_eliminar_turno.TabIndex = 13;
+            button_eliminar_turno.TabIndex = 9;
             button_eliminar_turno.Text = "Eliminar Turno";
             button_eliminar_turno.UseVisualStyleBackColor = false;
             button_eliminar_turno.Click += button_eliminar_turno_Click;
@@ -340,7 +341,7 @@
             button_asignar_turno.Location = new Point(1077, 64);
             button_asignar_turno.Name = "button_asignar_turno";
             button_asignar_turno.Size = new Size(115, 40);
-            button_asignar_turno.TabIndex = 12;
+            button_asignar_turno.TabIndex = 10;
             button_asignar_turno.Text = "Asignar Turno";
             button_asignar_turno.UseVisualStyleBackColor = false;
             button_asignar_turno.Click += button_asignar_turno_Click;
@@ -352,7 +353,7 @@
             button_seleccionar_paciente.Location = new Point(6, 52);
             button_seleccionar_paciente.Name = "button_seleccionar_paciente";
             button_seleccionar_paciente.Size = new Size(103, 23);
-            button_seleccionar_paciente.TabIndex = 11;
+            button_seleccionar_paciente.TabIndex = 7;
             button_seleccionar_paciente.Text = "Buscar Paciente";
             button_seleccionar_paciente.UseVisualStyleBackColor = false;
             button_seleccionar_paciente.Click += button_seleccionar_paciente_Click;

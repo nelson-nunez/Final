@@ -84,7 +84,7 @@
             button_Borrar.Location = new Point(3, 3);
             button_Borrar.Name = "button_Borrar";
             button_Borrar.Size = new Size(74, 27);
-            button_Borrar.TabIndex = 22;
+            button_Borrar.TabIndex = 3;
             button_Borrar.Text = "Eliminar";
             button_Borrar.TextAlign = ContentAlignment.MiddleLeft;
             button_Borrar.UseVisualStyleBackColor = false;
@@ -99,7 +99,7 @@
             button_Limpiar.Location = new Point(83, 3);
             button_Limpiar.Name = "button_Limpiar";
             button_Limpiar.Size = new Size(74, 27);
-            button_Limpiar.TabIndex = 23;
+            button_Limpiar.TabIndex = 4;
             button_Limpiar.Text = "Limpiar";
             button_Limpiar.TextAlign = ContentAlignment.MiddleLeft;
             button_Limpiar.UseVisualStyleBackColor = false;
@@ -114,7 +114,7 @@
             button_Editar.Location = new Point(163, 3);
             button_Editar.Name = "button_Editar";
             button_Editar.Size = new Size(74, 27);
-            button_Editar.TabIndex = 24;
+            button_Editar.TabIndex = 5;
             button_Editar.Text = "Editar";
             button_Editar.TextAlign = ContentAlignment.MiddleLeft;
             button_Editar.UseVisualStyleBackColor = false;
@@ -129,7 +129,7 @@
             button_Guardar.Location = new Point(243, 3);
             button_Guardar.Name = "button_Guardar";
             button_Guardar.Size = new Size(74, 27);
-            button_Guardar.TabIndex = 25;
+            button_Guardar.TabIndex = 6;
             button_Guardar.Text = "Guardar";
             button_Guardar.TextAlign = ContentAlignment.MiddleLeft;
             button_Guardar.UseVisualStyleBackColor = false;
@@ -141,7 +141,7 @@
             comboBox1.Location = new Point(138, 24);
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(185, 23);
-            comboBox1.TabIndex = 15;
+            comboBox1.TabIndex = 1;
             // 
             // treeView_Permisos
             // 
@@ -181,7 +181,7 @@
             textBox_Descripcion.Location = new Point(138, 53);
             textBox_Descripcion.Name = "textBox_Descripcion";
             textBox_Descripcion.Size = new Size(185, 23);
-            textBox_Descripcion.TabIndex = 3;
+            textBox_Descripcion.TabIndex = 2;
             // 
             // label7
             // 

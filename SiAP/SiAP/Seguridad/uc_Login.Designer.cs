@@ -58,7 +58,7 @@
             button1.Location = new Point(115, 159);
             button1.Name = "button1";
             button1.Size = new Size(92, 34);
-            button1.TabIndex = 6;
+            button1.TabIndex = 3;
             button1.Text = "Ingresar";
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
@@ -68,14 +68,14 @@
             password.Location = new Point(27, 113);
             password.Name = "password";
             password.Size = new Size(271, 26);
-            password.TabIndex = 5;
+            password.TabIndex = 2;
             // 
             // email
             // 
             email.Location = new Point(27, 55);
             email.Name = "email";
             email.Size = new Size(271, 26);
-            email.TabIndex = 3;
+            email.TabIndex = 1;
             // 
             // label2
             // 

@@ -1,25 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data;
 using SiAP.Abstracciones;
 using SiAP.BE;
-using SiAP.DAL;
 using SiAP.MPP.Base;
 
 namespace SiAP.MPP
 {
-    public class MPP_Factura : IMapper<Factura>
+    public class MPP_Factura : MapperBase<Factura>, IMapper<Factura>
     {
-        private readonly IAccesoDatos _datos;
         private static MPP_Factura _instancia;
+        protected override string NombreTabla => "Factura";
 
-        private MPP_Factura()
-        {
-            _datos = AccesoXML.ObtenerInstancia();
-        }
+        private MPP_Factura() : base() { }
 
         public static MPP_Factura ObtenerInstancia()
         {
@@ -28,72 +19,41 @@ namespace SiAP.MPP
 
         public void Agregar(Factura entidad)
         {
-            ArgumentNullException.ThrowIfNull(entidad);
             if (Existe(entidad)) return;
-
-            var ds = _datos.Obtener_Datos();
-            var dt = ds.Tables["Factura"];
-            var dr = dt.NewRow();
-
-            dr["Id"] = DataRowHelper.ObtenerSiguienteId(dt, "Id");
-            dr["FechaEmision"] = entidad.FechaEmision;
-            dr["NumeroFactura"] = entidad.NumeroFactura;
-            dr["Importe"] = entidad.Importe;
-            dr["Descripcion"] = entidad.Descripcion;
-            dr["Estado"] = entidad.Estado.ToString();
-            dr["TurnoId"] = entidad.TurnoId;
-            dr["PacienteId"] = entidad.PacienteId;
-
-            dt.Rows.Add(dr);
-            _datos.Actualizar_BD(ds);
+            AgregarEntidad(entidad, AsignarDatos);
         }
 
         public void Modificar(Factura entidad)
         {
-            var ds = _datos.Obtener_Datos();
-            var dr = ds.Tables["Factura"].AsEnumerable()
-                .FirstOrDefault(r => Convert.ToInt64(r["Id"]) == entidad.Id)
-                ?? throw new Exception("Factura no encontrada.");
-
-            dr["FechaEmision"] = entidad.FechaEmision;
-            dr["NumeroFactura"] = entidad.NumeroFactura;
-            dr["Importe"] = entidad.Importe;
-            dr["Descripcion"] = entidad.Descripcion;
-            dr["Estado"] = entidad.Estado.ToString();
-            dr["TurnoId"] = entidad.TurnoId;
-            dr["PacienteId"] = entidad.PacienteId;
-
-            _datos.Actualizar_BD(ds);
+            ModificarEntidad(entidad, AsignarDatos);
         }
 
         public void Eliminar(Factura entidad)
         {
-            var ds = _datos.Obtener_Datos();
-            var dr = ds.Tables["Factura"].AsEnumerable()
-                .FirstOrDefault(r => Convert.ToInt64(r["Id"]) == entidad.Id);
-            dr?.Delete();
-            _datos.Actualizar_BD(ds);
+            EliminarEntidad(entidad);
         }
 
         public bool Existe(Factura entidad)
         {
-            var ds = _datos.Obtener_Datos();
-            return ds.Tables["Factura"].AsEnumerable()
-                .Any(r => Convert.ToInt64(r["Id"]) == entidad.Id);
+            return ExisteEntidad(entidad);
         }
 
         public bool TieneDependencias(Factura entidad)
         {
-            // Podrías validar si tiene cobros asociados
-            return entidad.Cobros != null && entidad.Cobros.Count > 0;
+            // Verificar si tiene cobros asociados en la BD
+            return TieneDependenciasEnTabla(entidad.Id, "Cobro", "FacturaId");
         }
 
         public IList<Factura> ObtenerTodos()
         {
-            var ds = _datos.Obtener_Datos();
-            return ds.Tables["Factura"].AsEnumerable().Select(Hidratar).ToList();
+            return ObtenerTodasEntidades(HidratarObjeto);
         }
-        
+
+        public Factura LeerPorId(object id)
+        {
+            return LeerEntidadPorId(id, HidratarObjeto);
+        }
+
         public IList<Factura> Buscar(string campo = "", string valor = "", bool incluirInactivos = true)
         {
             var facturas = ObtenerTodos();
@@ -108,8 +68,8 @@ namespace SiAP.MPP
 
             return campo.ToLower() switch
             {
-                "numerofactura" => facturas.Where(f => f.NumeroFactura.ToLower().Contains(valor)).ToList(),
-                "descripcion" => facturas.Where(f => f.Descripcion.ToLower().Contains(valor)).ToList(),
+                "numerofactura" => BuscarPorCampo(facturas, campo, valor, f => f.NumeroFactura),
+                "descripcion" => BuscarPorCampo(facturas, campo, valor, f => f.Descripcion),
                 "estado" => facturas.Where(f => f.Estado.ToString().ToLower().Contains(valor)).ToList(),
                 "pacienteid" => facturas.Where(f => f.PacienteId.ToString() == valor).ToList(),
                 "turnoid" => facturas.Where(f => f.TurnoId.ToString() == valor).ToList(),
@@ -117,12 +77,18 @@ namespace SiAP.MPP
             };
         }
 
-        public Factura LeerPorId(object id)
+        private void AsignarDatos(DataRow dr, Factura entidad)
         {
-            return ObtenerTodos().FirstOrDefault(f => f.Id == Convert.ToInt64(id));
+            dr["FechaEmision"] = entidad.FechaEmision;
+            dr["NumeroFactura"] = entidad.NumeroFactura;
+            dr["Importe"] = entidad.Importe;
+            dr["Descripcion"] = entidad.Descripcion;
+            dr["Estado"] = entidad.Estado.ToString();
+            dr["TurnoId"] = entidad.TurnoId;
+            dr["PacienteId"] = entidad.PacienteId;
         }
 
-        private Factura Hidratar(DataRow r)
+        private Factura HidratarObjeto(DataRow r)
         {
             return new Factura
             {
@@ -134,9 +100,8 @@ namespace SiAP.MPP
                 Estado = Enum.Parse<EstadoFactura>(r["Estado"].ToString()),
                 TurnoId = Convert.ToInt32(r["TurnoId"]),
                 PacienteId = Convert.ToInt32(r["PacienteId"]),
-                Cobros = new List<Cobro>() // Se puede cargar luego con otra capa (MPP_Cobro)
+                Cobros = new List<Cobro>() // Se puede cargar luego con MPP_Cobro si es necesario
             };
         }
-
     }
 }

@@ -32,7 +32,7 @@ namespace SiAP.UI.Extensiones
 
             foreach (var usuario in usuarios)
             {
-                var nodoUsuario = new TreeNode($"👤 {usuario.Username} - {usuario.Nombre} {usuario.Apellido}")
+                var nodoUsuario = new TreeNode($"👤 {usuario.Username} - {usuario.Persona.Nombre} {usuario.Persona.Apellido}")
                 {
                     Name = usuario.Id.ToString(),
                     Tag = usuario,
@@ -173,7 +173,7 @@ namespace SiAP.UI.Extensiones
             {
                 if (usuario is Usuario rol)
                 {
-                    TreeNode nodoRol = treeView.Nodes.Add(rol.Id.ToString(), $"{rol.Username}: {rol.Nombre}, {rol.Apellido}");
+                    TreeNode nodoRol = treeView.Nodes.Add(rol.Id.ToString(), $"{rol.Username}: {rol.Persona.Nombre}, {rol.Persona.Apellido}");
                     nodoRol.Tag = rol;
                 }
             }
@@ -202,7 +202,7 @@ namespace SiAP.UI.Extensiones
                     Tag = grupo.First().Especialidad
                 };
 
-                foreach (var medico in grupo.OrderBy(m => m.Apellido))
+                foreach (var medico in grupo.OrderBy(m => m.Persona.Apellido))
                 {
                     var nodoMedico = new TreeNode(medico.ToString())
                     {
@@ -216,6 +216,7 @@ namespace SiAP.UI.Extensiones
                 treeView.Nodes.Add(nodoEspecialidad);
             }
         }
+        
         #endregion
     }
 }

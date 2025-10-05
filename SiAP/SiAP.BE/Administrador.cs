@@ -3,17 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml.Serialization;
 using SiAP.BE.Base;
 
 namespace SiAP.BE
 {
-    public class Paciente: ClaseBase
+    public class Administrador : ClaseBase
     {
-        public string ObraSocial { get; set; }
-        public string Plan { get; set; }
-        public int NumeroSocio { get; set; }
-
+        public string Area { get; set; }
 
         // Persona
         public long PersonaId { get; set; }
@@ -26,7 +22,7 @@ namespace SiAP.BE
         public string Email => Persona?.Email ?? "";
         public string Telefono => Persona?.Telefono ?? "";
         public string NombreCompleto => Persona?.NombreCompleto ?? "";
-        
+
         public override string ToString()
         {
             return $"{Persona?.Apellido}, {Persona?.Nombre} - {Persona?.Dni}";

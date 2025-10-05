@@ -1,24 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data;
 using SiAP.Abstracciones;
 using SiAP.BE;
-using SiAP.DAL;
 using SiAP.MPP.Base;
 
 namespace SiAP.MPP
 {
-    public class MPP_Medico : IMapper<Medico>
+    public class MPP_Medico : MapperBase<Medico>, IMapper<Medico>
     {
-        private readonly IAccesoDatos _datos;
+        private readonly MPP_Persona _mppPersona;
         private static MPP_Medico _instancia;
+        protected override string NombreTabla => "Medico";
 
-        private MPP_Medico()
+        private MPP_Medico() : base()
         {
-            _datos = AccesoXML.ObtenerInstancia();
+            _mppPersona = MPP_Persona.ObtenerInstancia();
         }
 
         public static MPP_Medico ObtenerInstancia()
@@ -29,29 +24,23 @@ namespace SiAP.MPP
         public void Agregar(Medico entidad)
         {
             ArgumentNullException.ThrowIfNull(entidad);
+            ArgumentNullException.ThrowIfNull(entidad.Persona, "El médico debe tener una persona asociada");
 
-            if (Existe(entidad)) return;
+            if (Existe(entidad)) 
+                return;
 
-            var ds = _datos.Obtener_Datos();
-            var dt = ds.Tables["Medico"];
-            var dr = dt.NewRow();
-
-            AsignarDatos(dr, entidad);
-            dr["Id"] = DataRowHelper.ObtenerSiguienteId(dt, "Id");
-            dt.Rows.Add(dr);
-
-            _datos.Actualizar_BD(ds);
+            _mppPersona.Agregar(entidad.Persona);
+            entidad.PersonaId = entidad.Persona.Id;
+            AgregarEntidad(entidad, AsignarDatos);
         }
 
         public void Modificar(Medico entidad)
         {
-            var ds = _datos.Obtener_Datos();
-            var dr = ds.Tables["Medico"].AsEnumerable()
-                      .FirstOrDefault(r => Convert.ToInt64(r["Id"]) == entidad.Id)
-                      ?? throw new Exception("Médico no encontrado.");
+            ArgumentNullException.ThrowIfNull(entidad);
+            ArgumentNullException.ThrowIfNull(entidad.Persona, "El médico debe tener una persona asociada");
 
-            AsignarDatos(dr, entidad);
-            _datos.Actualizar_BD(ds);
+            _mppPersona.Modificar(entidad.Persona);
+            ModificarEntidad(entidad, AsignarDatos);
         }
 
         public void Eliminar(Medico entidad)
@@ -59,30 +48,39 @@ namespace SiAP.MPP
             ArgumentNullException.ThrowIfNull(entidad);
 
             var ds = _datos.Obtener_Datos();
-            var dr = ds.Tables["Medico"].AsEnumerable()
-                       .FirstOrDefault(r => Convert.ToInt64(r["Id"]) == entidad.Id);
-            dr?.Delete();
+            var dr = ds.Tables[NombreTabla].AsEnumerable().FirstOrDefault(r => Convert.ToInt64(r["Id"]) == entidad.Id);
 
-            _datos.Actualizar_BD(ds);
+            if (dr != null)
+            {
+                long personaId = Convert.ToInt64(dr["PersonaId"]);
+                EliminarEntidad(entidad);
+                var persona = _mppPersona.LeerPorId(personaId);
+                if (persona != null && !_mppPersona.TieneDependencias(persona))
+                {
+                    _mppPersona.Eliminar(persona);
+                }
+            }
         }
 
         public bool Existe(Medico entidad)
         {
-            if (entidad == null) return false;
-
-            var ds = _datos.Obtener_Datos();
-            return ds.Tables["Medico"].AsEnumerable().Any(r => Convert.ToInt64(r["Id"]) == entidad.Id);
+            return ExisteEntidad(entidad);
         }
 
         public bool TieneDependencias(Medico entidad)
         {
-            return false; // Sujeto a reglas de negocio futuras
+            return TieneDependenciasEnTabla(entidad.Id, "Agenda", "MedicoId") ||
+                   TieneDependenciasEnTabla(entidad.Id, "Turno", "MedicoId");
         }
 
         public IList<Medico> ObtenerTodos()
         {
-            var ds = _datos.Obtener_Datos();
-            return ds.Tables["Medico"].AsEnumerable().Select(HidratarObjeto).ToList();
+            return ObtenerTodasEntidades(HidratarObjeto);
+        }
+
+        public Medico LeerPorId(object id)
+        {
+            return LeerEntidadPorId(id, HidratarObjeto);
         }
 
         public IList<Medico> Buscar(string campo = "", string valor = "", bool incluirInactivos = true)
@@ -94,50 +92,39 @@ namespace SiAP.MPP
 
             return campo.ToLower() switch
             {
-                "nombre" => medicos.Where(m => m.Nombre.Contains(valor)).ToList(),
-                "apellido" => medicos.Where(m => m.Apellido.Contains(valor)).ToList(),
-                "dni" => medicos.Where(m => m.Dni == valor).ToList(),
+                "nombre" => BuscarPorCampo(medicos, campo, valor, m => m.Persona.Nombre),
+                "apellido" => BuscarPorCampo(medicos, campo, valor, m => m.Persona.Apellido),
+                "dni" => BuscarPorCampo(medicos, campo, valor, m => m.Persona.Dni),
+                "email" => BuscarPorCampo(medicos, campo, valor, m => m.Persona.Email),
                 _ => throw new ArgumentException($"Campo '{campo}' inválido.")
             };
         }
 
-        public Medico LeerPorId(object id)
-        {
-            return ObtenerTodos().FirstOrDefault(m => m.Id == Convert.ToInt64(id));
-        }
-
         private void AsignarDatos(DataRow dr, Medico entidad)
         {
-            dr["Nombre"] = entidad.Nombre;
-            dr["Apellido"] = entidad.Apellido;
-            dr["Dni"] = entidad.Dni;
-            dr["FechaNacimiento"] = entidad.FechaNacimiento;
-            dr["Email"] = entidad.Email;
-            dr["Telefono"] = entidad.Telefono;
-            dr["ArancelConsulta"] = entidad.ArancelConsulta;
+            dr["PersonaId"] = entidad.PersonaId;
             dr["Titulo"] = entidad.Titulo;
-
+            dr["ArancelConsulta"] = entidad.ArancelConsulta;
             dr["EspecialidadId"] = entidad.Especialidad?.Id ?? 0;
             dr["EspecialidadNombre"] = entidad.Especialidad?.Nombre ?? string.Empty;
         }
 
-
-        private Medico HidratarObjeto(DataRow r)
+        private Medico HidratarObjeto(DataRow rMedico)
         {
-            var especialidadId = Convert.ToInt32(r["EspecialidadId"]);
+            var personaId = Convert.ToInt64(rMedico["PersonaId"]);
+
+            var persona = _mppPersona.LeerPorId(personaId) ?? throw new Exception($"Persona con Id {personaId} no encontrada.");
+
+            var especialidadId = Convert.ToInt32(rMedico["EspecialidadId"]);
             var especialidad = Especialidad.ObtenerTodas().FirstOrDefault(e => e.Id == especialidadId);
 
             return new Medico
             {
-                Id = Convert.ToInt64(r["Id"]),
-                Nombre = r["Nombre"].ToString(),
-                Apellido = r["Apellido"].ToString(),
-                Dni = r["Dni"].ToString(),
-                FechaNacimiento = Convert.ToDateTime(r["FechaNacimiento"]),
-                Email = r["Email"].ToString(),
-                Telefono = r["Telefono"].ToString(),
-                ArancelConsulta = Convert.ToDecimal(r["ArancelConsulta"]),
-                Titulo = r["Titulo"].ToString(),
+                Id = Convert.ToInt64(rMedico["Id"]),
+                PersonaId = personaId,
+                Persona = persona,
+                Titulo = rMedico["Titulo"].ToString(),
+                ArancelConsulta = Convert.ToDecimal(rMedico["ArancelConsulta"]),
                 Especialidad = especialidad
             };
         }

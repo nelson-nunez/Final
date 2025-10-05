@@ -34,7 +34,7 @@ namespace SiAP.BLL
         {
             if (!EsValido(agenda))
                 throw new ArgumentException(MensajeError);
-            if (agenda.Fecha < DateTime.Now)
+            if (agenda.Fecha.Date < DateTime.Now.Date)
                 throw new InvalidOperationException("No se puede asignar una agenda con fecha anterior al corriente día."); 
             
             if (_mppAgenda.Existe(agenda))
@@ -56,8 +56,8 @@ namespace SiAP.BLL
             if (!EsValido(agenda))
                 throw new ArgumentException(MensajeError);
             
-            if (agenda.Fecha < DateTime.Now)
-                throw new ArgumentException("No se puede eliminar una agenda cuya fecha es posterior al corriente día.");
+            if (agenda.Fecha.Date < DateTime.Now.Date)
+                throw new ArgumentException("No se puede eliminar una agenda cuya fecha es anterior al corriente día.");
             
             if (_mppAgenda.TieneDependencias(agenda))
                 throw new InvalidOperationException("La agenda tiene dependencias y no puede eliminarse.");
@@ -121,8 +121,8 @@ namespace SiAP.BLL
             {
                 if (!EsValido(agenda))
                     throw new ArgumentException(MensajeError);
-                if (agenda.Fecha < DateTime.Now)
-                    throw new ArgumentException("No se puede eliminar una agenda cuya fecha es posterior al corriente día.");
+                if (agenda.Fecha.Date < DateTime.Now.Date)
+                    throw new ArgumentException("No se puede eliminar una agenda cuya fecha es anterior al corriente día.");
 
             }
             _mppAgenda.EliminarAgendas(agendas);

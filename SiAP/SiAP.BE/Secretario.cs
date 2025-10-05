@@ -3,17 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml.Serialization;
 using SiAP.BE.Base;
 
 namespace SiAP.BE
 {
-    public class Paciente: ClaseBase
+    public class Secretario : ClaseBase
     {
-        public string ObraSocial { get; set; }
-        public string Plan { get; set; }
-        public int NumeroSocio { get; set; }
-
+        public string Legajo { get; set; }
 
         // Persona
         public long PersonaId { get; set; }

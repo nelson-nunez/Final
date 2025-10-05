@@ -77,7 +77,7 @@
             dataGridView1.Location = new Point(6, 69);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.Size = new Size(418, 201);
-            dataGridView1.TabIndex = 6;
+            dataGridView1.TabIndex = 3;
             dataGridView1.CellClick += dataGridView1_CellClick;
             // 
             // label7
@@ -105,6 +105,8 @@
             textBox_ConstraseñaSeleccionada.Name = "textBox_ConstraseñaSeleccionada";
             textBox_ConstraseñaSeleccionada.Size = new Size(236, 23);
             textBox_ConstraseñaSeleccionada.TabIndex = 8;
+            textBox_ConstraseñaSeleccionada.Text = "5";
+            textBox_ConstraseñaSeleccionada.TextChanged += textBox_ConstraseñaSeleccionada_TextChanged;
             // 
             // textBox_NombreSeleccionado
             // 
@@ -112,7 +114,7 @@
             textBox_NombreSeleccionado.Location = new Point(82, 276);
             textBox_NombreSeleccionado.Name = "textBox_NombreSeleccionado";
             textBox_NombreSeleccionado.Size = new Size(342, 23);
-            textBox_NombreSeleccionado.TabIndex = 7;
+            textBox_NombreSeleccionado.TabIndex = 45;
             // 
             // label5
             // 
@@ -129,7 +131,7 @@
             button1.Location = new Point(324, 39);
             button1.Name = "button1";
             button1.Size = new Size(100, 24);
-            button1.TabIndex = 5;
+            button1.TabIndex = 2;
             button1.Text = "Buscar";
             button1.UseVisualStyleBackColor = false;
             button1.Click += button1_Click;
@@ -139,7 +141,7 @@
             textBox_Buscar.Location = new Point(6, 39);
             textBox_Buscar.Name = "textBox_Buscar";
             textBox_Buscar.Size = new Size(312, 23);
-            textBox_Buscar.TabIndex = 4;
+            textBox_Buscar.TabIndex = 1;
             // 
             // UC_BuscarUsuario
             // 

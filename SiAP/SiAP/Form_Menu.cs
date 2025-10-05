@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using SiAP.BE.Seguridad;
+﻿using SiAP.BE.Seguridad;
 using SiAP.BLL.Seguridad;
 using SiAP.UI.Controles;
 using SiAP.UI.Forms_Seguridad;
@@ -24,8 +15,11 @@ namespace SiAP.UI
         private Form_Config_Usuario form_config_user;
         private Form_CRUD_Medicos form_medic;
         private Form_CRUD_Pacientes form_paciente;
+        private Form_CRUD_Secretario form_secretario;
         private Form_Cobros form_cobros;
         private Form_Agenda form_Agenda;
+        private Form_Receta form_receta;
+        private Form_DashBoard form_reportes;
         //Componentes
         private UC_Login UC_Login;
 
@@ -45,6 +39,7 @@ namespace SiAP.UI
         }
 
         #region Login
+
         private void MostrarLogin()
         {
             // Crear y centrar el UC_Login
@@ -61,7 +56,7 @@ namespace SiAP.UI
             var useractual = GestionUsuario.UsuarioLogueado;
             if (useractual != null)
             {
-                MessageBox.Show($"Bienvenido {useractual.Nombre}", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show($"Bienvenido {useractual.Persona.Nombre}", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 menuStrip1.Visible = true;
                 CambiarVisibilidadMenu(menuStrip1.Items, useractual.Permiso.ObtenerPermisos());
                 UC_Login.Visible = false;
@@ -82,37 +77,47 @@ namespace SiAP.UI
 
         public void CambiarVisibilidadMenu(ToolStripItemCollection dropDownItems, IList<Permiso> permisosHabilitados)
         {
-            //Variable utilizada para mostrar/ocultar items del menu que no tienen hijos visibles
-            bool tieneVisibles = false;
-            CambiarVisibilidadMenu(dropDownItems, ref tieneVisibles, permisosHabilitados);
+            foreach (ToolStripMenuItem item in dropDownItems.OfType<ToolStripMenuItem>())
+            {
+                CambiarVisibilidadMenuRecursivo(item, permisosHabilitados);
+            }
         }
 
-        public void CambiarVisibilidadMenu(ToolStripItemCollection dropDownItems, ref bool tieneVisibles, IList<Permiso> permisosHabilitados)
+        private bool CambiarVisibilidadMenuRecursivo(ToolStripMenuItem menuItem, IList<Permiso> permisosHabilitados)
         {
-            foreach (object obj in dropDownItems)
-            {
-                ToolStripMenuItem subMenu = obj as ToolStripMenuItem;
-                if (subMenu != null)
-                {
-                    if (subMenu.HasDropDown)
-                    {
-                        tieneVisibles = false;
-                        CambiarVisibilidadMenu(subMenu.DropDownItems, ref tieneVisibles, permisosHabilitados);
-                    }
-                    bool visible = false;
-                    string tag = subMenu.Tag as string;
-                    if (!string.IsNullOrEmpty(tag) && (tag.Equals("TAG") || permisosHabilitados.Any(p => p.Codigo.Equals(tag))) || tag.Equals("EXIT"))
-                    {
-                        visible = true;
-                        tieneVisibles = true;
-                    }
+            string tag = menuItem.Tag as string;
+            bool tieneHijosVisibles = false;
 
-                    if (string.IsNullOrWhiteSpace(tag) && tieneVisibles)
-                        subMenu.Visible = true;
-                    else
-                        subMenu.Visible = visible;
+            if (menuItem.HasDropDownItems)
+            {
+                foreach (ToolStripMenuItem subItem in menuItem.DropDownItems.OfType<ToolStripMenuItem>())
+                {
+                    bool hijoVisible = CambiarVisibilidadMenuRecursivo(subItem, permisosHabilitados);
+                    tieneHijosVisibles |= hijoVisible;
                 }
             }
+            bool esVisible = false;
+
+            if (!string.IsNullOrEmpty(tag))
+            {
+                // Tags especiales siempre visibles
+                if (tag.Equals("TAG") || tag.Equals("EXIT"))
+                {
+                    esVisible = true;
+                }
+                // Si tiene permiso habilitado
+                else if (permisosHabilitados.Any(p => p.Codigo.Equals(tag, StringComparison.OrdinalIgnoreCase)))
+                {
+                    esVisible = true;
+                }
+            }
+
+            if (tieneHijosVisibles)
+            {
+                esVisible = true;
+            }
+            menuItem.Visible = esVisible;
+            return esVisible;
         }
 
         #endregion
@@ -152,25 +157,6 @@ namespace SiAP.UI
 
         #region Abrir Item Menu
 
-        private void AbrirForm_Turnos(object sender, EventArgs e)
-        {
-            AbrirFormGeneral(ref form_turnos);
-        }
-
-        private void AbrirForm_Historia(object sender, EventArgs e)
-        {
-            AbrirFormGeneral(ref form_historia);
-        }
-
-        private void rolesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            AbrirFormGeneral(ref form_Roles);
-        }
-
-        private void usuariosToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            AbrirFormGeneral(ref form_users);
-        }
         private void miCuentaToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AbrirFormGeneral(ref form_config_user);
@@ -186,16 +172,51 @@ namespace SiAP.UI
             AbrirFormGeneral(ref form_paciente);
         }
 
+        private void secretariosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AbrirFormGeneral(ref form_secretario);
+        }
+
+        private void usuariosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AbrirFormGeneral(ref form_users);
+        }
+
+        private void rolesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AbrirFormGeneral(ref form_Roles);
+        }
+
+        private void toolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            AbrirFormGeneral(ref form_Agenda);
+        }
+
+        private void toolStripMenuItem3_Click(object sender, EventArgs e)
+        {
+            AbrirFormGeneral(ref form_turnos);
+        }
+
+        private void historialMédicoToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            AbrirFormGeneral(ref form_historia);
+        }
+
+        private void recetasToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AbrirFormGeneral(ref form_receta);
+        }
+
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
             AbrirFormGeneral(ref form_cobros);
         }
 
-        #endregion
-
-        private void toolStripMenuItem2_Click(object sender, EventArgs e)
+        private void reportesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AbrirFormGeneral(ref form_Agenda);            
+            AbrirFormGeneral(ref form_reportes);
         }
+        
+        #endregion
     }
 }

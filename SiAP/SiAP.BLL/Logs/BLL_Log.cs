@@ -2,6 +2,7 @@
 using SiAP.BE_Vistas;
 using SiAP.MPP.Logs;
 using SiAP.BE.Logs;
+using SiAP.BLL.Seguridad;
 
 namespace SiAP.BLL.Logs
 {
@@ -38,7 +39,7 @@ namespace SiAP.BLL.Logs
         {
             Log log = new Log()
             {
-                Usuario = usuario ?? ObtenerUsuarioActual(),  // Usar el método para obtener el usuario actual
+                Usuario =  GestionUsuario.UsuarioLogueado.Username,
                 Fecha = DateTime.Now,
                 Operacion = detalle
             };
@@ -56,7 +57,7 @@ namespace SiAP.BLL.Logs
 
             Log log = new Log()
             {
-                Usuario = ObtenerUsuarioActual(), 
+                Usuario = GestionUsuario.UsuarioLogueado.Username,
                 Fecha = DateTime.Now,
                 Operacion = operacion
             };
@@ -72,13 +73,6 @@ namespace SiAP.BLL.Logs
                 Usuario = sourceItem.Usuario,
                 Operacion = sourceItem.Operacion
             }).ToList();
-        }
-
-        private string ObtenerUsuarioActual()
-        {
-            // Aquí se puede implementar la lógica para obtener el usuario actual de la sesión.
-            // Por ejemplo:
-            return "UsuarioLogueado"; // Reemplazar por la lógica real para obtener el usuario logueado.
         }
     }
 }

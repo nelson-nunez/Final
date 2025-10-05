@@ -78,15 +78,6 @@ namespace SiAP.BLL.Seguridad
             if (string.IsNullOrWhiteSpace(usuario.Username))
                 _mensajeError += "El username es obligatorio. ";
 
-            if (string.IsNullOrWhiteSpace(usuario.Nombre))
-                _mensajeError += "El nombre es obligatorio. ";
-
-            if (string.IsNullOrWhiteSpace(usuario.Apellido))
-                _mensajeError += "El apellido es obligatorio. ";
-
-            if (string.IsNullOrWhiteSpace(usuario.Email))
-                _mensajeError += "El email es obligatorio. ";
-
             if (string.IsNullOrWhiteSpace(usuario.Password))
                 _mensajeError += "La contraseña es obligatoria. ";
 

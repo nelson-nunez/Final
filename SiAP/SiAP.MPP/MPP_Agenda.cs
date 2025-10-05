@@ -1,25 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data;
 using SiAP.Abstracciones;
 using SiAP.BE;
-using SiAP.DAL;
 using SiAP.MPP.Base;
 
 namespace SiAP.MPP
 {
-    public class MPP_Agenda : IMapper<Agenda>
+    public class MPP_Agenda : MapperBase<Agenda>, IMapper<Agenda>
     {
-        private readonly IAccesoDatos _datos;
         private static MPP_Agenda _instancia;
+        protected override string NombreTabla => "Agenda";
 
-        private MPP_Agenda()
-        {
-            _datos = AccesoXML.ObtenerInstancia();
-        }
+        private MPP_Agenda() : base() { }
 
         public static MPP_Agenda ObtenerInstancia()
         {
@@ -28,86 +19,58 @@ namespace SiAP.MPP
 
         public void Agregar(Agenda entidad)
         {
-            ArgumentNullException.ThrowIfNull(entidad);
-
             if (Existe(entidad)) return;
-
-            var ds = _datos.Obtener_Datos();
-            var dt = ds.Tables["Agenda"];
-            var dr = dt.NewRow();
-
-            dr["Id"] = DataRowHelper.ObtenerSiguienteId(dt, "Id");
-            dr["Fecha"] = entidad.Fecha;
-            dr["HoraInicio"] = entidad.HoraInicio.ToString(@"hh\:mm");
-            dr["HoraFin"] = entidad.HoraFin.ToString(@"hh\:mm");
-            dr["MedicoId"] = entidad.MedicoId;
-
-            dt.Rows.Add(dr);
-            _datos.Actualizar_BD(ds);
+            AgregarEntidad(entidad, AsignarDatos);
         }
 
         public void AgregarAgendas(List<Agenda> entidades)
         {
             var ds = _datos.Obtener_Datos();
-            var dt = ds.Tables["Agenda"];
+            var dt = ds.Tables[NombreTabla];
 
-            foreach (var entidad in entidades) 
+            foreach (var entidad in entidades)
             {
                 ArgumentNullException.ThrowIfNull(entidad);
-                if (Existe(entidad)) return;
+                if (Existe(entidad)) continue;
+
                 var dr = dt.NewRow();
-                dr["Id"] = DataRowHelper.ObtenerSiguienteId(dt, "Id");
-                dr["Fecha"] = entidad.Fecha;
-                dr["HoraInicio"] = entidad.HoraInicio.ToString(@"hh\:mm");
-                dr["HoraFin"] = entidad.HoraFin.ToString(@"hh\:mm");
-                dr["MedicoId"] = entidad.MedicoId;
+                long nuevoId = DataRowHelper.ObtenerSiguienteId(dt, "Id");
+                dr["Id"] = nuevoId;
+                AsignarDatos(dr, entidad);
                 dt.Rows.Add(dr);
+                entidad.Id = nuevoId;
             }
             _datos.Actualizar_BD(ds);
         }
 
         public void Modificar(Agenda entidad)
         {
-            var ds = _datos.Obtener_Datos();
-            var dr = ds.Tables["Agenda"].AsEnumerable()
-                .FirstOrDefault(r => Convert.ToInt64(r["Id"]) == entidad.Id)
-                ?? throw new Exception("Agenda no encontrada.");
-
-            dr["Fecha"] = entidad.Fecha;
-            dr["HoraInicio"] = entidad.HoraInicio.ToString(@"hh\:mm");
-            dr["HoraFin"] = entidad.HoraFin.ToString(@"hh\:mm");
-            dr["MedicoId"] = entidad.MedicoId;
-
-            _datos.Actualizar_BD(ds);
+            ModificarEntidad(entidad, AsignarDatos);
         }
 
         public void Eliminar(Agenda entidad)
         {
-            ArgumentNullException.ThrowIfNull(entidad);
-
-            var ds = _datos.Obtener_Datos();
-            var dr = ds.Tables["Agenda"].AsEnumerable().FirstOrDefault(r => Convert.ToInt64(r["Id"]) == entidad.Id);
-
-            dr?.Delete();
-            _datos.Actualizar_BD(ds);
+            EliminarEntidad(entidad);
         }
 
         public void EliminarAgendas(List<Agenda> entidades)
         {
             var ds = _datos.Obtener_Datos();
+
             foreach (var entidad in entidades)
             {
                 ArgumentNullException.ThrowIfNull(entidad);
-                var dr = ds.Tables["Agenda"].AsEnumerable().FirstOrDefault(r => Convert.ToInt64(r["Id"]) == entidad.Id);
+                var dr = ds.Tables[NombreTabla].AsEnumerable().FirstOrDefault(r => Convert.ToInt64(r["Id"]) == entidad.Id);
                 dr?.Delete();
             }
+
             _datos.Actualizar_BD(ds);
         }
 
         public bool Existe(Agenda entidad)
         {
             var ds = _datos.Obtener_Datos();
-            return ds.Tables["Agenda"].AsEnumerable()
+            return ds.Tables[NombreTabla].AsEnumerable()
                 .Any(r =>
                     Convert.ToDateTime(r["Fecha"]) == entidad.Fecha &&
                     TimeSpan.Parse(r["HoraInicio"].ToString()) == entidad.HoraInicio &&
@@ -116,18 +79,17 @@ namespace SiAP.MPP
 
         public bool TieneDependencias(Agenda entidad)
         {
-            return false; // Cambiar si hay relaciones con Turno
+            return TieneDependenciasEnTabla(entidad.Id, "Turno", "AgendaId");
         }
 
         public IList<Agenda> ObtenerTodos()
         {
-            var ds = _datos.Obtener_Datos();
-            return ds.Tables["Agenda"].AsEnumerable().Select(HidratarObjeto).ToList();
+            return ObtenerTodasEntidades(HidratarObjeto);
         }
 
         public Agenda LeerPorId(object id)
         {
-            return ObtenerTodos().FirstOrDefault(a => a.Id == Convert.ToInt64(id));
+            return LeerEntidadPorId(id, HidratarObjeto);
         }
 
         public IList<Agenda> Buscar(string campo = "", string valor = "", bool incluirInactivos = true)
@@ -147,8 +109,19 @@ namespace SiAP.MPP
 
         public IList<Agenda> BuscarPorMedicoyRango(long medicoId, DateTime fechadesde, DateTime fechahasta)
         {
-            var lista = ObtenerTodos().Where(t => t.MedicoId == medicoId && (t.Fecha >= fechadesde && t.Fecha <= fechahasta)).ToList();
-            return (IList<Agenda>)lista;
+            return ObtenerTodos()
+                .Where(a => a.MedicoId == medicoId &&
+                            a.Fecha >= fechadesde &&
+                            a.Fecha <= fechahasta)
+                .ToList();
+        }
+
+        private void AsignarDatos(DataRow dr, Agenda entidad)
+        {
+            dr["Fecha"] = entidad.Fecha;
+            dr["HoraInicio"] = entidad.HoraInicio.ToString(@"hh\:mm");
+            dr["HoraFin"] = entidad.HoraFin.ToString(@"hh\:mm");
+            dr["MedicoId"] = entidad.MedicoId;
         }
 
         private Agenda HidratarObjeto(DataRow r)

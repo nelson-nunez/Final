@@ -1,21 +1,45 @@
 ﻿using System.Data;
 using SiAP.Abstracciones;
 using SiAP.BE.Seguridad;
+using SiAP.MPP.Base;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using SiAP.Abstracciones;
+using SiAP.BE.Seguridad;
+using SiAP.DAL;
+using SiAP.MPP.Base;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using SiAP.Abstracciones;
+using SiAP.BE.Seguridad;
+using SiAP.DAL;
+using SiAP.MPP.Base;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using SiAP.Abstracciones;
+using SiAP.BE.Seguridad;
 using SiAP.DAL;
 using SiAP.MPP.Base;
 
 namespace SiAP.MPP.Seguridad
 {
-    public class MPP_Usuario : IMapper<Usuario>
+    public class MPP_Usuario : MapperBase<Usuario>, IMapper<Usuario>
     {
-        private readonly IAccesoDatos _datos;
         private static MPP_Usuario _instancia;
         private static MPP_Permiso _instanciaPermiso;
+        private static MPP_Persona _instanciaPersona;
+        protected override string NombreTabla => "Usuario";
 
-        private MPP_Usuario()
+        private MPP_Usuario() : base()
         {
-            _datos = AccesoXML.ObtenerInstancia();
             _instanciaPermiso = MPP_Permiso.ObtenerInstancia();
+            _instanciaPersona = MPP_Persona.ObtenerInstancia();
         }
 
         public static MPP_Usuario ObtenerInstancia()
@@ -24,32 +48,28 @@ namespace SiAP.MPP.Seguridad
         }
 
         #region ABM
-   
+
         public void Agregar(Usuario entidad)
         {
             ArgumentNullException.ThrowIfNull(entidad);
-
             if (Existe(entidad)) return;
 
+            // Usar método de la base para agregar
+            AgregarEntidad(entidad, AsignarDatosUsuario);
+
+            // Guardar permisos después de agregar
             var ds = _datos.Obtener_Datos();
-            var dt = ds.Tables["Usuario"];
-            var dr = dt.NewRow();
-
-            AsignarDatosUsuario(dr, entidad);
-            dr["Id"] = DataRowHelper.ObtenerSiguienteId(dt, "Id");
-            dt.Rows.Add(dr);
-
             GuardarPermisosUsuario(entidad, ds);
             _datos.Actualizar_BD(ds);
         }
 
         public void Modificar(Usuario entidad)
         {
-            var ds = _datos.Obtener_Datos();
-            var dr = ds.Tables["Usuario"].AsEnumerable().FirstOrDefault(r => r["Id"].ToString() == entidad.Id.ToString())
-                    ?? throw new Exception("Usuario no encontrado.");
+            // Usar método de la base para modificar
+            ModificarEntidad(entidad, AsignarDatosUsuario);
 
-            AsignarDatosUsuario(dr, entidad);
+            // Actualizar permisos
+            var ds = _datos.Obtener_Datos();
             ActualizarPermisos(entidad, ds);
             _datos.Actualizar_BD(ds);
         }
@@ -59,39 +79,35 @@ namespace SiAP.MPP.Seguridad
             ArgumentNullException.ThrowIfNull(entidad);
 
             var ds = _datos.Obtener_Datos();
-            var dr = ds.Tables["Usuario"].AsEnumerable()
-                       .FirstOrDefault(r => Convert.ToInt64(r["Id"]) == entidad.Id);
-            dr?.Delete();
 
+            // Eliminar permisos antes de eliminar usuario
             EliminarPermisosUsuario(entidad.Id, ds);
-            _datos.Actualizar_BD(ds);
+
+            // Usar método de la base para eliminar
+            EliminarEntidad(entidad);
         }
 
         #endregion
 
-        #region Busquedas
+        #region Búsquedas
 
         public bool Existe(Usuario entidad)
         {
-            if (entidad == null) return false;
-
-            var ds = _datos.Obtener_Datos();
-            return ds.Tables["Usuario"].AsEnumerable().Any(r => Convert.ToInt64(r["Id"]) == entidad.Id);
+            return ExisteEntidad(entidad);
         }
 
         public bool TieneDependencias(Usuario entidad)
         {
-            ArgumentNullException.ThrowIfNull(entidad);
             if (entidad == null) return false;
-
-            var ds = _datos.Obtener_Datos();
-            return ds.Tables["UsuarioPermiso"].Select($"UsuarioId = '{entidad.Id}'").Any();
+            return TieneDependenciasEnTabla(entidad.Id, "UsuarioPermiso", "UsuarioId");
         }
 
         public IList<Usuario> ObtenerTodos()
         {
             var ds = _datos.Obtener_Datos();
-            return ds.Tables["Usuario"].AsEnumerable().Select(r => HidratarObjeto(r, ds)).ToList();
+            return ds.Tables[NombreTabla].AsEnumerable()
+                .Select(r => HidratarObjeto(r, ds))
+                .ToList();
         }
 
         public IList<Usuario> Buscar(string campo = "", string valor = "", bool incluirInactivos = true)
@@ -107,31 +123,26 @@ namespace SiAP.MPP.Seguridad
             return campo.ToLower() switch
             {
                 "id" => usuarios.Where(u => u.Id == Convert.ToInt64(valor)).ToList(),
-                "username" => usuarios.Where(u => u.Username.Contains(valor)).ToList(),
-                "nombre" => usuarios.Where(u => u.Nombre.Contains(valor)).ToList(),
-                "apellido" => usuarios.Where(u => u.Apellido.Contains(valor)).ToList(),
-                "email" => usuarios.Where(u => u.Email.Contains(valor)).ToList(),
+                "username" => usuarios.Where(u => u.Username.Contains(valor, StringComparison.OrdinalIgnoreCase)).ToList(),
                 _ => throw new ArgumentException($"Campo '{campo}' inválido.")
             };
         }
 
         public Usuario LeerPorId(object id)
         {
-            return ObtenerTodos().FirstOrDefault(u => u.Id == Convert.ToInt64(id.ToString()));
+            return ObtenerTodos().FirstOrDefault(u => u.Id == Convert.ToInt64(id));
         }
 
         public Usuario LeerPorUsername(string username)
         {
             var ds = _datos.Obtener_Datos();
-            var row = ds.Tables["Usuario"]
-                        .AsEnumerable()
-                        .FirstOrDefault(dr => dr["Username"].ToString() == username);
+            var row = ds.Tables[NombreTabla].AsEnumerable().FirstOrDefault(dr => dr["Username"].ToString().Equals(username, StringComparison.OrdinalIgnoreCase));
 
             return row != null ? HidratarObjeto(row, ds) : null;
         }
 
         #endregion
-        
+
         #region Permisos
 
         private void GuardarPermisosUsuario(Usuario entidad, DataSet ds)
@@ -147,7 +158,7 @@ namespace SiAP.MPP.Seguridad
 
         public void AgregarPermiso(Usuario usuario, Permiso permiso)
         {
-            if (usuario == null || string.IsNullOrWhiteSpace(usuario.Legajo.ToString()))
+            if (usuario == null || usuario.Id == 0)
                 throw new ArgumentException("Usuario inválido.");
 
             if (permiso == null || string.IsNullOrWhiteSpace(permiso.Codigo))
@@ -157,16 +168,14 @@ namespace SiAP.MPP.Seguridad
             var dtUsuarioPermiso = ds.Tables["UsuarioPermiso"];
 
             // Verificar si ya existe la relación
-            var existeRelacion = dtUsuarioPermiso.AsEnumerable()
-                .Any(r => r["UsuarioId"].ToString() == usuario.Legajo.ToString() &&
-                          r["PermisoId"].ToString() == permiso.Codigo);
+            var existeRelacion = dtUsuarioPermiso.AsEnumerable().Any(r => Convert.ToInt64(r["UsuarioId"]) == usuario.Id && r["PermisoId"].ToString() == permiso.Codigo);
 
             if (existeRelacion)
                 throw new InvalidOperationException("La relación usuario-permiso ya existe.");
 
             // Agregar nueva relación
             var nuevaFila = dtUsuarioPermiso.NewRow();
-            nuevaFila["UsuarioId"] = usuario.Legajo;
+            nuevaFila["UsuarioId"] = usuario.Id;
             nuevaFila["PermisoId"] = permiso.Codigo;
             dtUsuarioPermiso.Rows.Add(nuevaFila);
 
@@ -175,7 +184,7 @@ namespace SiAP.MPP.Seguridad
 
         public void QuitarPermiso(Usuario usuario, Permiso permiso)
         {
-            if (usuario == null || string.IsNullOrWhiteSpace(usuario.Legajo.ToString()))
+            if (usuario == null || usuario.Id == 0)
                 throw new ArgumentException("Usuario inválido.");
 
             if (permiso == null || string.IsNullOrWhiteSpace(permiso.Codigo))
@@ -186,7 +195,7 @@ namespace SiAP.MPP.Seguridad
 
             // Buscar y eliminar la relación
             var relacion = dtUsuarioPermiso.AsEnumerable()
-                .FirstOrDefault(r => r["UsuarioId"].ToString() == usuario.Legajo.ToString() &&
+                .FirstOrDefault(r => Convert.ToInt64(r["UsuarioId"]) == usuario.Id &&
                                     r["PermisoId"].ToString() == permiso.Codigo);
 
             if (relacion == null)
@@ -195,17 +204,14 @@ namespace SiAP.MPP.Seguridad
             relacion.Delete();
             _datos.Actualizar_BD(ds);
         }
-        
+
         #endregion
 
         #region Auxiliares
-        
+
         private void AsignarDatosUsuario(DataRow dr, Usuario entidad)
         {
             dr["Username"] = entidad.Username;
-            dr["Nombre"] = entidad.Nombre;
-            dr["Apellido"] = entidad.Apellido;
-            dr["Email"] = entidad.Email;
             dr["Password"] = entidad.Password;
             dr["Bloqueado"] = entidad.Bloqueado;
             dr["Activo"] = entidad.Activo;
@@ -219,22 +225,26 @@ namespace SiAP.MPP.Seguridad
             var usuario = new Usuario
             {
                 Id = Convert.ToInt64(r["Id"]),
-                Legajo = r["Legajo"] != DBNull.Value ? Convert.ToInt32(r["Legajo"]) : null,
                 Username = r["Username"].ToString(),
-                Nombre = r["Nombre"].ToString(),
-                Apellido = r["Apellido"].ToString(),
-                Email = r["Email"].ToString(),
                 Password = r["Password"].ToString(),
                 Bloqueado = Convert.ToBoolean(r["Bloqueado"]),
                 Activo = Convert.ToBoolean(r["Activo"]),
-                FechaUltimoCambioPassword = r["FechaUltimoCambioPassword"] != DBNull.Value ?
-                                           Convert.ToDateTime(r["FechaUltimoCambioPassword"]) : null,
-                PalabraClave = r["PalabraClave"].ToString(),
-                RespuestaClave = r["RespuestaClave"].ToString()
+                FechaUltimoCambioPassword = r["FechaUltimoCambioPassword"] != DBNull.Value ? Convert.ToDateTime(r["FechaUltimoCambioPassword"]) : null,
+                PalabraClave = r["PalabraClave"]?.ToString() ?? string.Empty,
+                RespuestaClave = r["RespuestaClave"]?.ToString() ?? string.Empty,
+                PersonaId = Convert.ToInt64(r["PersonaId"]),
+
             };
 
+            CargarPersonaCompleta(usuario); 
             CargarPermisosUsuario(usuario, ds);
             return usuario;
+        }
+
+        private void CargarPersonaCompleta(Usuario usuario)
+        {
+            if (usuario.PersonaId.HasValue && usuario.PersonaId.Value > 0)
+                usuario.Persona = _instanciaPersona.LeerPorIdSinUsuario(usuario.PersonaId.Value);
         }
 
         private void CargarPermisosUsuario(Usuario usuario, DataSet ds)
@@ -261,19 +271,11 @@ namespace SiAP.MPP.Seguridad
 
         private void EliminarPermisosUsuario(long usuarioId, DataSet ds)
         {
-            try
-            {
-                var relaciones = ds.Tables["UsuarioPermiso"].Select($"UsuarioId = '{usuarioId}'");
-                foreach (var rel in relaciones) rel.Delete();
-            }
-            catch (Exception ex)
-            {
-
-                throw;
-            }
+            var relaciones = ds.Tables["UsuarioPermiso"].Select($"UsuarioId = '{usuarioId}'");
+            foreach (var rel in relaciones)
+                rel.Delete();
         }
 
         #endregion
     }
 }
-

@@ -21,7 +21,7 @@ namespace SiAP.UI.Controles
         public Usuario itemSeleccionado = new Usuario();
         private IEncriptacion _encriptacion;
         public event EventHandler<EventArgs> ShouldUpdate;
-        private List<string>  campos = new List<string> { "Id", "Username", "Nombre", "Apellido", "Email" };
+        private List<string> campos = new List<string> { "Id", "Username", "Nombre", "Apellido", "Email" };
         public UC_BuscarUsuario()
         {
             InitializeComponent();
@@ -39,11 +39,11 @@ namespace SiAP.UI.Controles
                 Limpiar();
                 return;
             }
-            
+
             var usuarios = _bllUsuario.ObtenerTodos()
                 .Where(x => string.IsNullOrWhiteSpace(textBox_Buscar.Text)
                          || x.Username.Contains(textBox_Buscar.Text, StringComparison.OrdinalIgnoreCase)
-                         || x.Nombre.Contains(textBox_Buscar.Text, StringComparison.OrdinalIgnoreCase))
+                         || x.Persona.Nombre.Contains(textBox_Buscar.Text, StringComparison.OrdinalIgnoreCase))
                 .ToList();
             dataGridView1.CargarGrid(campos, usuarios);
         }
@@ -74,7 +74,12 @@ namespace SiAP.UI.Controles
         {
             dataGridView1.CargarGrid(campos, _bllUsuario.ObtenerTodos().ToList());
             itemSeleccionado = new Usuario();
-            CargarDatos(itemSeleccionado); 
+            CargarDatos(itemSeleccionado);
+        }
+
+        private void textBox_ConstraseñaSeleccionada_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

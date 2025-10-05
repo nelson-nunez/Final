@@ -72,7 +72,7 @@
             dataGridView_paciente.Name = "dataGridView_paciente";
             dataGridView_paciente.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridView_paciente.Size = new Size(418, 141);
-            dataGridView_paciente.TabIndex = 6;
+            dataGridView_paciente.TabIndex = 3;
             dataGridView_paciente.CellClick += dataGridView1_CellClick;
             dataGridView_paciente.CellContentClick += dataGridView1_CellClick;
             // 
@@ -93,7 +93,7 @@
             button1.Location = new Point(324, 39);
             button1.Name = "button1";
             button1.Size = new Size(100, 24);
-            button1.TabIndex = 5;
+            button1.TabIndex = 2;
             button1.Text = "Buscar";
             button1.UseVisualStyleBackColor = false;
             button1.Click += button1_Click;
@@ -103,7 +103,7 @@
             textBox_Buscar.Location = new Point(6, 39);
             textBox_Buscar.Name = "textBox_Buscar";
             textBox_Buscar.Size = new Size(312, 23);
-            textBox_Buscar.TabIndex = 4;
+            textBox_Buscar.TabIndex = 1;
             // 
             // UC_Buscar_Paciente
             // 

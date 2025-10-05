@@ -32,17 +32,23 @@ namespace SiAP.UI
     {
         private static readonly List<Menu> _menus = new()
         {
-            new Menu(1, "Inicio", "TAG001"),
-            new Menu(2, "MiCuenta", "TAG002"),
-            new Menu(3, "Usuarios", "TAG003"),
-            new Menu(4, "Permisos", "TAG004"),
-            new Menu(5, "Médicos", "TAG005"),
-            new Menu(6, "Pacientes", "TAG006"),
-            new Menu(7, "Turnos", "TAG007"),
-            new Menu(8, "HistorialMedico", "TAG008"),
-            new Menu(9, "Reportes", "TAG009"),
-            new Menu(10, "Agenda", "TAG010"),
-            new Menu(11, "Cobros", "TAG011"),
+            new Menu(1, "MiCuenta", "TAG01"),
+            
+            new Menu(2, "Médicos", "TAG02"),
+            new Menu(3, "Secretarios", "TAG03"),
+            new Menu(4, "Pacientes", "TAG04"),
+            
+            new Menu(5, "Usuarios", "TAG05"),
+            new Menu(6, "Permisos", "TAG06"),
+
+            new Menu(7, "Agenda", "TAG07"),
+            new Menu(8, "Turnos", "TAG08"),
+            
+            new Menu(9, "HistorialMedico", "TAG09"),
+            new Menu(10, "Recetas", "TAG10"),
+            
+            new Menu(11, "Cobros", "TAG11"),
+            new Menu(12, "Reportes", "TAG12"),
         };
 
         public static IReadOnlyList<Menu> ObtenerTodos() => _menus;
@@ -55,13 +61,13 @@ namespace SiAP.UI
 
     public static class TiposPersonas
     {
-        private static readonly List<Menu> _tipos = new()
+        private static readonly List<Menu> _menus = new()
         {
-            new Menu(1, "Médico", "Médico"),
-            new Menu(2, "Paciente", "Paciente"),
+            new Menu(1, "Medico", "001"),
+            new Menu(3, "Secretario", "003"),
         };
 
-        public static IReadOnlyList<Menu> ObtenerTodos() => _tipos;
+        public static IReadOnlyList<Menu> ObtenerTodos() => _menus;
     }
 
     public static class ConfiguracionCalendario

@@ -38,7 +38,7 @@ namespace SiAP.UI
         private void CargarDatos()
         {
             useractual = GestionUsuario.UsuarioLogueado;
-            textBox_email.Text = useractual.Email;
+            textBox_email.Text = useractual.Persona.Email;
             textBox_old_pass.Text = "";
             textBox_new_pass.Text = "";
             textBox_rep_new_pass.Text = "";
@@ -66,7 +66,7 @@ namespace SiAP.UI
                 InputsExtensions.PedirConfirmacion("Desea guardar los cambios?");
 
                 //Asignar
-                useractual.Email = textBox_email.Text;
+                useractual.Persona.Email = textBox_email.Text;
                 useractual.Password = _encriptacion.Encriptar3DES(textBox_rep_new_pass.Text);
 
                 _bllUsuario.Modificar(useractual);

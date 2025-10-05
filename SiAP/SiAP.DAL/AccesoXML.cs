@@ -48,7 +48,7 @@ namespace SiAP.DAL
 
         #endregion
 
-        #region LeerBD Comun
+        #region Leer y Grabar BD
 
         private DataSet ObtenerODatosOInicializar()
         {
@@ -58,13 +58,18 @@ namespace SiAP.DAL
             InicializarTablas(ds);
             return ds;
         }
-        public DataSet Obtener_Datos()
+
+        public DataSet Obtener_Datos() => _dataSet;
+
+        public void Actualizar_BD(DataSet ds)
         {
-            return _dataSet;
+            ds.WriteXml(ReferenciasBD.Path_BD, XmlWriteMode.WriteSchema);
         }
+
         #endregion
 
-        #region LeerBD Logs
+        #region Leer y Grabar Logs
+
         private DataSet ObtenerLOGDatosOInicializar()
         {
             AsegurarExistenciaArchivo(ReferenciasBD.Path_BDLogs, "Log");
@@ -74,37 +79,11 @@ namespace SiAP.DAL
             return ds;
         }
 
-        public DataSet Obtener_Logs()
-        {
-            return _dataSetLogs;           
-        }
-
-        #endregion
-
-        #region Grabar
-
-        public void Actualizar_BD(DataSet ds)
-        {
-            try
-            {
-                ds.WriteXml(ReferenciasBD.Path_BD, XmlWriteMode.WriteSchema);
-            }
-            catch
-            {
-                throw;
-            }
-        }
+        public DataSet Obtener_Logs() => _dataSetLogs;
 
         public void Actualizar_BDLogs(DataSet ds)
         {
-            try
-            {
-                ds.WriteXml(ReferenciasBD.Path_BDLogs, XmlWriteMode.WriteSchema);
-            }
-            catch
-            {
-                throw;
-            }
+            ds.WriteXml(ReferenciasBD.Path_BDLogs, XmlWriteMode.WriteSchema);
         }
 
         #endregion
@@ -113,372 +92,276 @@ namespace SiAP.DAL
 
         public void CrearBackup(string nombre_Backup)
         {
-            try
-            {
-                string backupDir = ReferenciasBD.NombreCarpetaBackUp;
-                string backupFileBD = Path.Combine(backupDir, $"{nombre_Backup}_SiAP.xml");
-                string backupFileLogs = Path.Combine(backupDir, $"{nombre_Backup}_Logs.xml");
+            string backupDir = ReferenciasBD.NombreCarpetaBackUp;
+            string backupFileBD = Path.Combine(backupDir, $"{nombre_Backup}_SiAP.xml");
+            string backupFileLogs = Path.Combine(backupDir, $"{nombre_Backup}_Logs.xml");
 
-                AsegurarExistenciaArchivo(ReferenciasBD.Path_BD, "SiAP");
-                AsegurarExistenciaArchivo(ReferenciasBD.Path_BDLogs, "Log");
+            AsegurarExistenciaArchivo(ReferenciasBD.Path_BD, "SiAP");
+            AsegurarExistenciaArchivo(ReferenciasBD.Path_BDLogs, "Log");
 
-                File.Copy(ReferenciasBD.Path_BD, backupFileBD, true);
-                File.Copy(ReferenciasBD.Path_BDLogs, backupFileLogs, true);
-            }
-            catch
-            {
-                throw;
-            }
+            File.Copy(ReferenciasBD.Path_BD, backupFileBD, true);
+            File.Copy(ReferenciasBD.Path_BDLogs, backupFileLogs, true);
         }
 
         public void EliminarBackup(string nombre_Backup)
         {
-            try
-            {
-                string backupDir = ReferenciasBD.NombreCarpetaBackUp;
-                string backupFileBD = Path.Combine(backupDir, $"{nombre_Backup}_SiAP.xml");
-                string backupFileLogs = Path.Combine(backupDir, $"{nombre_Backup}_Logs.xml");
+            string backupDir = ReferenciasBD.NombreCarpetaBackUp;
+            string backupFileBD = Path.Combine(backupDir, $"{nombre_Backup}_SiAP.xml");
+            string backupFileLogs = Path.Combine(backupDir, $"{nombre_Backup}_Logs.xml");
 
-                if (File.Exists(backupFileBD)) File.Delete(backupFileBD);
-                if (File.Exists(backupFileLogs)) File.Delete(backupFileLogs);
-            }
-            catch
-            {
-                throw;
-            }
+            if (File.Exists(backupFileBD)) File.Delete(backupFileBD);
+            if (File.Exists(backupFileLogs)) File.Delete(backupFileLogs);
         }
 
         public void RestaurarBackup(string nombre_Backup)
         {
-            try
+            string backupDir = ReferenciasBD.NombreCarpetaBackUp;
+            string backupFileBD = Path.Combine(backupDir, $"{nombre_Backup}_SiAP.xml");
+            string backupFileLogs = Path.Combine(backupDir, $"{nombre_Backup}_Logs.xml");
+
+            if (!File.Exists(backupFileBD))
+                throw new FileNotFoundException("No se encontró el backup de la base de datos principal.");
+
+            if (!File.Exists(backupFileLogs))
+                throw new FileNotFoundException("No se encontró el backup de la base de datos de logs.");
+
+            File.Copy(backupFileBD, ReferenciasBD.Path_BD, true);
+            File.Copy(backupFileLogs, ReferenciasBD.Path_BDLogs, true);
+
+            _dataSet = ObtenerODatosOInicializar();
+        }
+
+        #endregion
+
+        #region Inicializar Tablas
+
+        private void InicializarTablas(DataSet ds)
+        {
+            var tablas = new Dictionary<string, Func<DataTable>>
             {
-                string backupDir = ReferenciasBD.NombreCarpetaBackUp;
-                string backupFileBD = Path.Combine(backupDir, $"{nombre_Backup}_SiAP.xml");
-                string backupFileLogs = Path.Combine(backupDir, $"{nombre_Backup}_Logs.xml");
+                { "Persona", CrearTablaPersona },
+                { "Permiso", CrearTablaPermiso },
+                { "PermisoHijo", CrearTablaPermisoHijo },
+                { "Usuario", CrearTablaUsuario },
+                { "UsuarioPermiso", CrearTablaUsuarioPermiso },
+                { "Administrador", CrearTablaAdministrador },
+                { "Secretario", CrearTablaSecretario },
+                { "Medico", CrearTablaMedico },
+                { "Paciente", CrearTablaPaciente },
+                { "Agenda", CrearTablaAgenda },
+                { "Turno", CrearTablaTurno },
+                { "Factura", CrearTablaFactura },
+                { "Cobro", CrearTablaCobro }
+            };
 
-                if (!File.Exists(backupFileBD))
-                    throw new FileNotFoundException("No se encontró el backup de la base de datos principal.");
-
-                if (!File.Exists(backupFileLogs))
-                    throw new FileNotFoundException("No se encontró el backup de la base de datos de logs.");
-
-                File.Copy(backupFileBD, ReferenciasBD.Path_BD, true);
-                File.Copy(backupFileLogs, ReferenciasBD.Path_BDLogs, true);
-
-                _dataSet = ObtenerODatosOInicializar(); // Releer después de restaurar
+            foreach (var tabla in tablas)
+            {
+                if (!ds.Tables.Contains(tabla.Key))
+                {
+                    ds.Tables.Add(tabla.Value());
+                    Actualizar_BD(ds);
+                }
             }
-            catch
+        }
+
+        private void InicializarTablasLog(DataSet ds)
+        {
+            if (!ds.Tables.Contains("Log"))
             {
-                throw;
+                ds.Tables.Add(CrearTablaLog());
+                Actualizar_BDLogs(ds);
             }
         }
 
         #endregion
 
-        #region Crear BD
+        #region Tabla Persona (Base)
 
-        private void InicializarTablas(DataSet ds)
+        private DataTable CrearTablaPersona()
         {
-            try
-            {
-                if (!ds.Tables.Contains("Permiso"))
-                {
-                    ds.Tables.Add(CrearTablaPermiso());
-                    Actualizar_BD(ds);
-                }
-                if (!ds.Tables.Contains("PermisoHijo"))
-                {
-                    ds.Tables.Add(CrearTablaPermisoHijo());
-                    Actualizar_BD(ds);
-                }
-                if (!ds.Tables.Contains("Usuario"))
-                {
-                    ds.Tables.Add(CrearTablaUsuario());
-                    Actualizar_BD(ds);
-                }
-                if (!ds.Tables.Contains("UsuarioPermiso"))
-                {
-                    ds.Tables.Add(CrearTablaUsuarioPermiso());
-                    Actualizar_BD(ds);
-                }
-                if (!ds.Tables.Contains("Medico"))
-                {
-                    ds.Tables.Add(CrearTablaMedico());
-                    Actualizar_BD(ds);
-                }
-                if (!ds.Tables.Contains("Paciente"))
-                {
-                    ds.Tables.Add(CrearTablaPaciente());
-                    Actualizar_BD(ds);
-                }
-                if (!ds.Tables.Contains("Agenda"))
-                {
-                    ds.Tables.Add(CrearTablaAgenda());
-                    Actualizar_BD(ds);
-                }
-                if (!ds.Tables.Contains("Turno"))
-                {
-                    ds.Tables.Add(CrearTablaTurno());
-                    Actualizar_BD(ds);
-                }
-                if (!ds.Tables.Contains("Factura"))
-                {
-                    ds.Tables.Add(CrearTablaFactura());
-                    Actualizar_BD(ds);
-                }
-                if (!ds.Tables.Contains("Cobro"))
-                {
-                    ds.Tables.Add(CrearTablaCobro());
-                    Actualizar_BD(ds);
-                }
+            var tabla = new DataTable("Persona");
 
-            }
-            catch (Exception ex)
-            {
+            tabla.Columns.Add("Id", typeof(long));
+            tabla.Columns.Add("Nombre", typeof(string));
+            tabla.Columns.Add("Apellido", typeof(string));
+            tabla.Columns.Add("Dni", typeof(string));
+            tabla.Columns.Add("FechaNacimiento", typeof(DateTime));
+            tabla.Columns.Add("Email", typeof(string));
+            tabla.Columns.Add("Telefono", typeof(string));
 
-                throw;
-            }
-        }
-
-        // Tabla Usuario
-        private DataTable CrearTablaUsuario()
-        {
-            var tabla = new DataTable("Usuario");
-
-            tabla.Columns.Add(new DataColumn("Id", typeof(long)));
-            tabla.Columns.Add(new DataColumn("Legajo", typeof(int)));
-            tabla.Columns.Add(new DataColumn("Username", typeof(string)));
-            tabla.Columns.Add(new DataColumn("Nombre", typeof(string)));
-            tabla.Columns.Add(new DataColumn("Apellido", typeof(string)));
-            tabla.Columns.Add(new DataColumn("Email", typeof(string)));
-            tabla.Columns.Add(new DataColumn("Password", typeof(string)));
-            tabla.Columns.Add(new DataColumn("FechaUltimoCambioPassword", typeof(DateTime)));
-            tabla.Columns.Add(new DataColumn("PalabraClave", typeof(string)));
-            tabla.Columns.Add(new DataColumn("RespuestaClave", typeof(string)));
-            tabla.Columns.Add(new DataColumn("Bloqueado", typeof(bool)));
-            tabla.Columns.Add(new DataColumn("Activo", typeof(bool)));
             tabla.PrimaryKey = new[] { tabla.Columns["Id"] };
 
-            // Usuario mockup
-            var fila = tabla.NewRow();
-            fila["Id"] = 1;
-            fila["Legajo"] = 1001;
-            fila["Username"] = "admin";
-            fila["Nombre"] = "Administrador";
-            fila["Apellido"] = "Sistema";
-            fila["Email"] = "admin@empresa.com";
-            fila["Password"] = "STqG+Tki2fc=";
-            fila["FechaUltimoCambioPassword"] = DateTime.Now;
-            fila["PalabraClave"] = "default";
-            fila["RespuestaClave"] = "admin";
-            fila["Bloqueado"] = false;
-            fila["Activo"] = true;
-            tabla.Rows.Add(fila);
+            // Datos iniciales
+            tabla.Rows.Add(1, "Admin", "Sistema", "00000000", new DateTime(1990, 1, 1), "admin@sistema.com", "0000000000");
+            tabla.Rows.Add(2, "Julio", "Losada", "12345678", new DateTime(1980, 5, 10), "julio@hospital.com", "1122334455");
+            tabla.Rows.Add(3, "Ana", "Pérez", "23456789", new DateTime(1980, 5, 10), "ana.perez@hospital.com", "1122334455");
+            tabla.Rows.Add(4, "Marcos", "Andrada", "34567890", new DateTime(1981, 8, 20), "marcos@hospital.com", "1122334466");
+            tabla.Rows.Add(5, "Marcelo", "Pereira", "45678901", new DateTime(1991, 8, 20), "marcosp@hospital.com", "1122334466");
+            tabla.Rows.Add(6, "Juan", "Gómez", "87654321", new DateTime(1990, 3, 20), "juan.gomez@paciente.com", "1133445566");
 
             return tabla;
         }
 
-        // Tabla Permiso
-        private DataTable CrearTablaPermiso()
+        #endregion
+
+        #region Tablas Especializadas (referencian a Persona)
+
+        private DataTable CrearTablaAdministrador()
         {
-            var tabla = new DataTable("Permiso");
-            tabla.Columns.Add(new DataColumn("Id", typeof(long)));
-            tabla.Columns.Add(new DataColumn("Codigo", typeof(string)));
-            tabla.Columns.Add(new DataColumn("Descripcion", typeof(string)));
-            tabla.Columns.Add(new DataColumn("EsCompuesto", typeof(bool)));
+            var tabla = new DataTable("Administrador");
+            tabla.Columns.Add("Id", typeof(long));
+            tabla.Columns.Add("PersonaId", typeof(long)); // FK a Persona
+            tabla.Columns.Add("Area", typeof(string));
             tabla.PrimaryKey = new[] { tabla.Columns["Id"] };
-            long idActual = 10;
-            // Agrego el permiso compuesto "Administrador"
-            tabla.Rows.Add(idActual, "Administrador", "Permisos administrativos", true);
-            long idAdministrador = idActual;
-            idActual++;
-            // Agrego los permisos simples desde MenusConstantes
-            foreach (var menu in MenusConstantes.ObtenerTodos())
-            {
-                tabla.Rows.Add(idActual, menu.Etiqueta, menu.Nombre, false);
-                idActual++;
-            }
+
+            tabla.Rows.Add(1, 1, "Desarrollo"); // Referencia a Persona Id=1
             return tabla;
         }
 
-        // Tabla PermisoHijo (para representar el Composite)
-        private DataTable CrearTablaPermisoHijo()
+        private DataTable CrearTablaSecretario()
         {
-            var tabla = new DataTable("PermisoHijo");
-            tabla.Columns.Add(new DataColumn("PadreId", typeof(long)));
-            tabla.Columns.Add(new DataColumn("HijoId", typeof(long)));
-            tabla.PrimaryKey = new[] { tabla.Columns["PadreId"], tabla.Columns["HijoId"] };
-            // ID del permiso compuesto "Administrador"
-            long idAdministrador = 10;
-            long idHijoInicio = 11;
-            // Se crean las relaciones para todos los Menus dentro del compuesto "Administrador"
-            foreach (var menu in MenusConstantes.ObtenerTodos())
-            {
-                tabla.Rows.Add(idAdministrador, idHijoInicio);
-                idHijoInicio++;
-            }
-            return tabla;
-        }
+            var tabla = new DataTable("Secretario");
+            tabla.Columns.Add("Id", typeof(long));
+            tabla.Columns.Add("PersonaId", typeof(long));
+            tabla.Columns.Add("Legajo", typeof(string));
+            tabla.PrimaryKey = new[] { tabla.Columns["Id"] };
 
-        // Tabla UsuarioPermiso (relación Usuario → PermisoCompuesto)
-        private DataTable CrearTablaUsuarioPermiso()
-        {
-            var tabla = new DataTable("UsuarioPermiso");
-
-            tabla.Columns.Add(new DataColumn("UsuarioId", typeof(long)));
-            tabla.Columns.Add(new DataColumn("PermisoId", typeof(long)));
-
-            tabla.PrimaryKey = new[] {
-                tabla.Columns["UsuarioId"],
-                tabla.Columns["PermisoId"]
-            };
-
-            // Relación entre admin y el permiso compuesto
-            tabla.Rows.Add(1, 10);
-
+            tabla.Rows.Add(1, 2, "0001"); // Referencia a Persona Id=2
             return tabla;
         }
 
         private DataTable CrearTablaMedico()
         {
             var tabla = new DataTable("Medico");
-
-            // Propiedades heredadas de ClaseBase y Persona
-            tabla.Columns.Add(new DataColumn("Id", typeof(long)));
-            tabla.Columns.Add(new DataColumn("Nombre", typeof(string)));
-            tabla.Columns.Add(new DataColumn("Apellido", typeof(string)));
-            tabla.Columns.Add(new DataColumn("Dni", typeof(string)));
-            tabla.Columns.Add(new DataColumn("FechaNacimiento", typeof(DateTime)));
-            tabla.Columns.Add(new DataColumn("Email", typeof(string)));
-            tabla.Columns.Add(new DataColumn("Telefono", typeof(string)));
-            tabla.Columns.Add(new DataColumn("ArancelConsulta", typeof(decimal)));
-            // Propiedades específicas de Medico
-            tabla.Columns.Add(new DataColumn("Titulo", typeof(string)));
-            tabla.Columns.Add(new DataColumn("EspecialidadId", typeof(int)));
-            tabla.Columns.Add(new DataColumn("EspecialidadNombre", typeof(string)));
-
+            tabla.Columns.Add("Id", typeof(long));
+            tabla.Columns.Add("PersonaId", typeof(long));
+            tabla.Columns.Add("Titulo", typeof(string));
+            tabla.Columns.Add("EspecialidadId", typeof(int));
+            tabla.Columns.Add("EspecialidadNombre", typeof(string));
+            tabla.Columns.Add("ArancelConsulta", typeof(decimal));
             tabla.PrimaryKey = new[] { tabla.Columns["Id"] };
 
-            // Fila 1
-            var fila1 = tabla.NewRow();
-            fila1["Id"] = 1;
-            fila1["Nombre"] = "Ana";
-            fila1["Apellido"] = "Pérez";
-            fila1["Dni"] = "12345678";
-            fila1["FechaNacimiento"] = new DateTime(1980, 5, 10);
-            fila1["Email"] = "ana.perez@hospital.com";
-            fila1["Telefono"] = "1122334455";
-            fila1["ArancelConsulta"] = "10000";
-            fila1["Titulo"] = "Doctora en Medicina";
-            fila1["EspecialidadId"] = 4;
-            fila1["EspecialidadNombre"] = "Cardiología";
-            tabla.Rows.Add(fila1);
-
-            // Fila 2
-            var fila2 = tabla.NewRow();
-            fila2["Id"] = 2;
-            fila2["Nombre"] = "Marcos";
-            fila2["Apellido"] = "Andrada";
-            fila2["Dni"] = "13345678";
-            fila2["FechaNacimiento"] = new DateTime(1981, 8, 20);
-            fila2["Email"] = "marcos@hospital.com";
-            fila2["Telefono"] = "1122334466";
-            fila2["ArancelConsulta"] = "12000";
-            fila2["Titulo"] = "Doctor en Medicina";
-            fila2["EspecialidadId"] = 2;
-            fila2["EspecialidadNombre"] = "Pediatría";
-            tabla.Rows.Add(fila2);
-
-            // Fila 2
-            var fila3 = tabla.NewRow();
-            fila3["Id"] = 3;
-            fila3["Nombre"] = "Marcelo";
-            fila3["Apellido"] = "Pereira";
-            fila3["Dni"] = "43345678";
-            fila3["FechaNacimiento"] = new DateTime(1991, 8, 20);
-            fila3["Email"] = "marcosp@hospital.com";
-            fila3["Telefono"] = "1122334466";
-            fila3["ArancelConsulta"] = "9000";
-            fila3["Titulo"] = "Doctor en Medicina";
-            fila3["EspecialidadId"] = 2;
-            fila3["EspecialidadNombre"] = "Pediatría";
-            tabla.Rows.Add(fila3);
-
+            tabla.Rows.Add(1, 3, "Doctora en Medicina", 4, "Cardiología", 10000m);
+            tabla.Rows.Add(2, 4, "Doctor en Medicina", 2, "Pediatría", 12000m);
+            tabla.Rows.Add(3, 5, "Doctor en Medicina", 2, "Pediatría", 9000m);
             return tabla;
         }
 
         private DataTable CrearTablaPaciente()
         {
             var tabla = new DataTable("Paciente");
+            tabla.Columns.Add("Id", typeof(long));
+            tabla.Columns.Add("PersonaId", typeof(long));
+            tabla.Columns.Add("ObraSocial", typeof(string));
+            tabla.Columns.Add("Plan", typeof(string));
+            tabla.Columns.Add("NumeroSocio", typeof(int));
+            tabla.PrimaryKey = new[] { tabla.Columns["Id"] };
 
-            // Propiedades heredadas de ClaseBase y Persona
-            tabla.Columns.Add(new DataColumn("Id", typeof(long)));
-            tabla.Columns.Add(new DataColumn("Nombre", typeof(string)));
-            tabla.Columns.Add(new DataColumn("Apellido", typeof(string)));
-            tabla.Columns.Add(new DataColumn("Dni", typeof(string)));
-            tabla.Columns.Add(new DataColumn("FechaNacimiento", typeof(DateTime)));
-            tabla.Columns.Add(new DataColumn("Email", typeof(string)));
-            tabla.Columns.Add(new DataColumn("Telefono", typeof(string)));
-            // Propiedades específicas de Paciente
-            tabla.Columns.Add(new DataColumn("ObraSocial", typeof(string)));
-            tabla.Columns.Add(new DataColumn("Plan", typeof(string)));
-            tabla.Columns.Add(new DataColumn("NumeroSocio", typeof(int)));
+            tabla.Rows.Add(1, 6, "OSDE", "210", 445566);
+            return tabla;
+        }
+
+        #endregion
+
+        #region Usuarios y Permisos
+
+        private DataTable CrearTablaUsuario()
+        {
+            var tabla = new DataTable("Usuario");
+
+            tabla.Columns.Add("Id", typeof(long));
+            tabla.Columns.Add("Username", typeof(string));
+            tabla.Columns.Add("Password", typeof(string));
+            tabla.Columns.Add("FechaUltimoCambioPassword", typeof(DateTime));
+            tabla.Columns.Add("PalabraClave", typeof(string));
+            tabla.Columns.Add("RespuestaClave", typeof(string));
+            tabla.Columns.Add("Bloqueado", typeof(bool));
+            tabla.Columns.Add("Activo", typeof(bool));
+            tabla.Columns.Add("PersonaId", typeof(long));
 
             tabla.PrimaryKey = new[] { tabla.Columns["Id"] };
 
-            // Fila mockup (opcional)
-            var fila = tabla.NewRow();
-            fila["Id"] = 2;
-            fila["Nombre"] = "Juan";
-            fila["Apellido"] = "Gómez";
-            fila["Dni"] = "87654321";
-            fila["FechaNacimiento"] = new DateTime(1990, 3, 20);
-            fila["Email"] = "juan.gomez@paciente.com";
-            fila["Telefono"] = "1133445566";
-            fila["ObraSocial"] = "OSDE";
-            fila["Plan"] = "210";
-            fila["NumeroSocio"] = 445566;
-            tabla.Rows.Add(fila);
+            // Usuario admin vinculado a Administrador (Persona Id=1)
+            tabla.Rows.Add(1, "admin", "STqG+Tki2fc=", DateTime.Now, "default", "admin", false, true, 1);
+            return tabla;
+        }
+
+        private DataTable CrearTablaPermiso()
+        {
+            var tabla = new DataTable("Permiso");
+            tabla.Columns.Add("Id", typeof(long));
+            tabla.Columns.Add("Codigo", typeof(string));
+            tabla.Columns.Add("Descripcion", typeof(string));
+            tabla.Columns.Add("EsCompuesto", typeof(bool));
+            tabla.PrimaryKey = new[] { tabla.Columns["Id"] };
+
+            long idActual = 10;
+            tabla.Rows.Add(idActual++, "Administrador", "Permisos administrativos", true);
+
+            foreach (var menu in MenusConstantes.ObtenerTodos())
+            {
+                tabla.Rows.Add(idActual++, menu.Etiqueta, menu.Nombre, false);
+            }
 
             return tabla;
         }
 
+        private DataTable CrearTablaPermisoHijo()
+        {
+            var tabla = new DataTable("PermisoHijo");
+            tabla.Columns.Add("PadreId", typeof(long));
+            tabla.Columns.Add("HijoId", typeof(long));
+            tabla.PrimaryKey = new[] { tabla.Columns["PadreId"], tabla.Columns["HijoId"] };
+
+            long idAdministrador = 10;
+            long idHijo = 11;
+
+            foreach (var menu in MenusConstantes.ObtenerTodos())
+            {
+                tabla.Rows.Add(idAdministrador, idHijo++);
+            }
+
+            return tabla;
+        }
+
+        private DataTable CrearTablaUsuarioPermiso()
+        {
+            var tabla = new DataTable("UsuarioPermiso");
+            tabla.Columns.Add("UsuarioId", typeof(long));
+            tabla.Columns.Add("PermisoId", typeof(long));
+            tabla.PrimaryKey = new[] { tabla.Columns["UsuarioId"], tabla.Columns["PermisoId"] };
+
+            tabla.Rows.Add(1, 10); // Admin tiene permiso Administrador
+            return tabla;
+        }
+
+        #endregion
+
+        #region Tablas de Negocio
+
         private DataTable CrearTablaAgenda()
         {
             var tabla = new DataTable("Agenda");
-
-            tabla.Columns.Add(new DataColumn("Id", typeof(long)));
-            tabla.Columns.Add(new DataColumn("Fecha", typeof(DateTime)));
-            tabla.Columns.Add(new DataColumn("HoraInicio", typeof(TimeSpan)));
-            tabla.Columns.Add(new DataColumn("HoraFin", typeof(TimeSpan)));
-            tabla.Columns.Add(new DataColumn("MedicoId", typeof(long)));
-
+            tabla.Columns.Add("Id", typeof(long));
+            tabla.Columns.Add("Fecha", typeof(DateTime));
+            tabla.Columns.Add("HoraInicio", typeof(TimeSpan));
+            tabla.Columns.Add("HoraFin", typeof(TimeSpan));
+            tabla.Columns.Add("MedicoId", typeof(long));
             tabla.PrimaryKey = new[] { tabla.Columns["Id"] };
 
-            var tablaMedicos = CrearTablaMedico();
             var fechaBase = DateTime.Today.Date;
-
             long idAgenda = 1;
 
-            foreach (DataRow medico in tablaMedicos.Rows)
+            // Crear agenda para los 3 médicos
+            for (int medicoId = 1; medicoId <= 3; medicoId++)
             {
-                var medicoId = (long)medico["Id"];
-
-                // Lunes a Domingo (DayOfWeek: 0 a 6)
                 for (int dia = 0; dia < 7; dia++)
                 {
                     var fecha = fechaBase.AddDays(dia);
-
-                    for (int hora = 8; hora < 13; hora++) // De 8 a 13hs
+                    for (int hora = 8; hora < 13; hora++)
                     {
-                        var fila = tabla.NewRow();
-                        fila["Id"] = idAgenda++;
-                        fila["Fecha"] = fecha;
-                        fila["HoraInicio"] = new TimeSpan(hora, 0, 0);
-                        fila["HoraFin"] = new TimeSpan(hora + 1, 0, 0);
-                        fila["MedicoId"] = medicoId;
-
-                        tabla.Rows.Add(fila);
+                        tabla.Rows.Add(idAgenda++, fecha, new TimeSpan(hora, 0, 0),
+                            new TimeSpan(hora + 1, 0, 0), medicoId);
                     }
                 }
             }
@@ -489,70 +372,20 @@ namespace SiAP.DAL
         private DataTable CrearTablaTurno()
         {
             var tabla = new DataTable("Turno");
-
-            tabla.Columns.Add(new DataColumn("Id", typeof(long)));
-            tabla.Columns.Add(new DataColumn("Fecha", typeof(DateTime)));
-            tabla.Columns.Add(new DataColumn("HoraInicio", typeof(TimeSpan)));
-            tabla.Columns.Add(new DataColumn("HoraFin", typeof(TimeSpan)));
-            tabla.Columns.Add(new DataColumn("TipoAtencion", typeof(string)));
-            tabla.Columns.Add(new DataColumn("Estado", typeof(string))); // Se guarda como texto legible
-            tabla.Columns.Add(new DataColumn("MedicoId", typeof(long)));
-            tabla.Columns.Add(new DataColumn("PacienteId", typeof(long)));
-            tabla.Columns.Add(new DataColumn("AgendaId", typeof(long)));
-
+            tabla.Columns.Add("Id", typeof(long));
+            tabla.Columns.Add("Fecha", typeof(DateTime));
+            tabla.Columns.Add("HoraInicio", typeof(TimeSpan));
+            tabla.Columns.Add("HoraFin", typeof(TimeSpan));
+            tabla.Columns.Add("TipoAtencion", typeof(string));
+            tabla.Columns.Add("Estado", typeof(string));
+            tabla.Columns.Add("MedicoId", typeof(long));
+            tabla.Columns.Add("PacienteId", typeof(long));
+            tabla.Columns.Add("AgendaId", typeof(long));
             tabla.PrimaryKey = new[] { tabla.Columns["Id"] };
 
-            var fila = tabla.NewRow();
-            fila["Id"] = 1;
-            fila["Fecha"] = new DateTime(2025, 7, 8);
-            fila["HoraInicio"] = new TimeSpan(9, 0, 0);
-            fila["HoraFin"] = new TimeSpan(10, 0, 0);
-            fila["TipoAtencion"] = "Consulta general";
-            fila["Estado"] = EstadoTurno.Asignado.ToString();
-            fila["MedicoId"] = 1;
-            fila["PacienteId"] = 2;
-            fila["AgendaId"] = 12; 
-
-            tabla.Rows.Add(fila);
-
-            return tabla;
-        }
-
-        private DataTable CrearTablaCobro()
-        {
-            var tabla = new DataTable("Cobro");
-
-            tabla.Columns.Add(new DataColumn("Id", typeof(long)));
-            tabla.Columns.Add(new DataColumn("FechaHora", typeof(DateTime)));
-            tabla.Columns.Add(new DataColumn("TipoPago", typeof(string)));
-            tabla.Columns.Add(new DataColumn("Monto", typeof(decimal)));
-            tabla.Columns.Add(new DataColumn("Estado", typeof(string))); // EstadoCobro como string
-            tabla.Columns.Add(new DataColumn("FacturaId", typeof(long)));
-            tabla.Columns.Add(new DataColumn("FormaPagoId", typeof(long)));
-
-            tabla.PrimaryKey = new[] { tabla.Columns["Id"] };
-
-            // Cobro 1 para Factura 1 (registrado, pago parcial)
-            var fila1 = tabla.NewRow();
-            fila1["Id"] = 1;
-            fila1["FechaHora"] = new DateTime(2025, 7, 8, 10, 30, 0);
-            fila1["TipoPago"] = "Efectivo";
-            fila1["Monto"] = 5000;
-            fila1["Estado"] = EstadoCobro.Registrado.ToString();
-            fila1["FacturaId"] = 1;
-            fila1["FormaPagoId"] = 1; // EF
-            tabla.Rows.Add(fila1);
-
-            // Cobro 2 para Factura 2 (confirmado, pago total)
-            var fila2 = tabla.NewRow();
-            fila2["Id"] = 2;
-            fila2["FechaHora"] = new DateTime(2025, 7, 9, 12, 0, 0);
-            fila2["TipoPago"] = "Transferencia";
-            fila2["Monto"] = 12000;
-            fila2["Estado"] = EstadoCobro.Confirmado.ToString();
-            fila2["FacturaId"] = 2;
-            fila2["FormaPagoId"] = 4; // TRANS
-            tabla.Rows.Add(fila2);
+            tabla.Rows.Add(1, new DateTime(2025, 7, 8), new TimeSpan(9, 0, 0),
+                new TimeSpan(10, 0, 0), "Consulta general", EstadoTurno.Asignado.ToString(),
+                1, 1, 12);
 
             return tabla;
         }
@@ -560,76 +393,54 @@ namespace SiAP.DAL
         private DataTable CrearTablaFactura()
         {
             var tabla = new DataTable("Factura");
-
-            tabla.Columns.Add(new DataColumn("Id", typeof(long)));
-            tabla.Columns.Add(new DataColumn("FechaEmision", typeof(DateTime)));
-            tabla.Columns.Add(new DataColumn("NumeroFactura", typeof(string)));
-            tabla.Columns.Add(new DataColumn("Importe", typeof(decimal)));
-            tabla.Columns.Add(new DataColumn("Descripcion", typeof(string)));
-            tabla.Columns.Add(new DataColumn("Estado", typeof(string))); // EstadoFactura como string
-            tabla.Columns.Add(new DataColumn("TurnoId", typeof(long)));
-            tabla.Columns.Add(new DataColumn("PacienteId", typeof(long)));
-
+            tabla.Columns.Add("Id", typeof(long));
+            tabla.Columns.Add("FechaEmision", typeof(DateTime));
+            tabla.Columns.Add("NumeroFactura", typeof(string));
+            tabla.Columns.Add("Importe", typeof(decimal));
+            tabla.Columns.Add("Descripcion", typeof(string));
+            tabla.Columns.Add("Estado", typeof(string));
+            tabla.Columns.Add("TurnoId", typeof(long));
+            tabla.Columns.Add("PacienteId", typeof(long));
             tabla.PrimaryKey = new[] { tabla.Columns["Id"] };
 
-            // Ejemplo 1
-            var fila1 = tabla.NewRow();
-            fila1["Id"] = 1;
-            fila1["FechaEmision"] = new DateTime(2025, 7, 8);
-            fila1["NumeroFactura"] = "F0001-00000001";
-            fila1["Importe"] = 10000;
-            fila1["Descripcion"] = "Consulta médica general";
-            fila1["Estado"] = EstadoFactura.Emitida.ToString();
-            fila1["TurnoId"] = 1;
-            fila1["PacienteId"] = 2;
-            tabla.Rows.Add(fila1);
+            tabla.Rows.Add(1, new DateTime(2025, 7, 8), "F0001-00000001", 10000m, "Consulta médica general", EstadoFactura.Emitida.ToString(), 1, 1);
+            tabla.Rows.Add(2, new DateTime(2025, 7, 9), "F0001-00000002", 12000m, "Consulta pediátrica", EstadoFactura.Pagada.ToString(), 1, 1);
 
-            // Ejemplo 2
-            var fila2 = tabla.NewRow();
-            fila2["Id"] = 2;
-            fila2["FechaEmision"] = new DateTime(2025, 7, 9);
-            fila2["NumeroFactura"] = "F0001-00000002";
-            fila2["Importe"] = 12000;
-            fila2["Descripcion"] = "Consulta pediátrica";
-            fila2["Estado"] = EstadoFactura.Pagada.ToString();
-            fila2["TurnoId"] = 1;
-            fila2["PacienteId"] = 2;
-            tabla.Rows.Add(fila2);
+            return tabla;
+        }
+
+        private DataTable CrearTablaCobro()
+        {
+            var tabla = new DataTable("Cobro");
+            tabla.Columns.Add("Id", typeof(long));
+            tabla.Columns.Add("FechaHora", typeof(DateTime));
+            tabla.Columns.Add("TipoPago", typeof(string));
+            tabla.Columns.Add("Monto", typeof(decimal));
+            tabla.Columns.Add("Estado", typeof(string));
+            tabla.Columns.Add("FacturaId", typeof(long));
+            tabla.Columns.Add("FormaPagoId", typeof(long));
+            tabla.PrimaryKey = new[] { tabla.Columns["Id"] };
+
+            tabla.Rows.Add(1, new DateTime(2025, 7, 8, 10, 30, 0), "Efectivo", 5000m,
+                EstadoCobro.Registrado.ToString(), 1, 1);
+            tabla.Rows.Add(2, new DateTime(2025, 7, 9, 12, 0, 0), "Transferencia", 12000m,
+                EstadoCobro.Confirmado.ToString(), 2, 4);
 
             return tabla;
         }
 
         #endregion
 
-        #region Crea BD Logs
+        #region Logs
 
-        private void InicializarTablasLog(DataSet ds)
-        {
-            try
-            {
-                if (!ds.Tables.Contains("Log"))
-                {
-                    ds.Tables.Add(CrearTablaLog());
-                    Actualizar_BD(ds);
-                }
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-        }
-        // Tabla Log
         private DataTable CrearTablaLog()
         {
             var tabla = new DataTable("Log");
-
-            tabla.Columns.Add(new DataColumn("Id", typeof(long)));
-            tabla.Columns.Add(new DataColumn("Fecha", typeof(DateTime)));
-            tabla.Columns.Add(new DataColumn("Usuario", typeof(string)));
-            tabla.Columns.Add(new DataColumn("Operacion", typeof(string)));
-
+            tabla.Columns.Add("Id", typeof(long));
+            tabla.Columns.Add("Fecha", typeof(DateTime));
+            tabla.Columns.Add("Usuario", typeof(string));
+            tabla.Columns.Add("Operacion", typeof(string));
             tabla.PrimaryKey = new[] { tabla.Columns["Id"] };
-
             return tabla;
         }
 
