@@ -90,6 +90,19 @@ namespace SiAP.MPP
             };
         }
 
+        public IList<Secretario> Filtrar(string nombre, string email)
+        {
+            var secretarios = ObtenerTodos().Where(m =>
+                                                (!string.IsNullOrWhiteSpace(nombre) &&
+                                                (m.Persona.Nombre.Contains(nombre, StringComparison.OrdinalIgnoreCase) ||
+                                                m.Persona.Apellido.Contains(nombre, StringComparison.OrdinalIgnoreCase))) ||
+                                                (!string.IsNullOrWhiteSpace(email) &&
+                                                m.Persona.Email.Contains(email, StringComparison.OrdinalIgnoreCase)))
+                                            .ToList();
+
+            return secretarios.ToList();
+        }
+
         public Secretario LeerPorId(object id)
         {
             return LeerEntidadPorId(id, HidratarObjeto);

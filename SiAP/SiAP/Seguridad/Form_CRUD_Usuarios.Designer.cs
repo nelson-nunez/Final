@@ -30,7 +30,9 @@
         {
             groupBox1 = new GroupBox();
             groupBox3 = new GroupBox();
-            textBox1 = new TextBox();
+            label10 = new Label();
+            textBox_palabra_clave = new TextBox();
+            textBox_ocupacion = new TextBox();
             label4 = new Label();
             label1 = new Label();
             textBox_nombre = new TextBox();
@@ -78,7 +80,9 @@
             // 
             // groupBox3
             // 
-            groupBox3.Controls.Add(textBox1);
+            groupBox3.Controls.Add(label10);
+            groupBox3.Controls.Add(textBox_palabra_clave);
+            groupBox3.Controls.Add(textBox_ocupacion);
             groupBox3.Controls.Add(label4);
             groupBox3.Controls.Add(label1);
             groupBox3.Controls.Add(textBox_nombre);
@@ -100,12 +104,29 @@
             groupBox3.TabStop = false;
             groupBox3.Text = "Usuario";
             // 
-            // textBox1
+            // label10
             // 
-            textBox1.Location = new Point(141, 41);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(298, 23);
-            textBox1.TabIndex = 6;
+            label10.AutoSize = true;
+            label10.Location = new Point(54, 218);
+            label10.Name = "label10";
+            label10.Size = new Size(81, 15);
+            label10.TabIndex = 35;
+            label10.Text = "Palabra Clave:";
+            // 
+            // textBox_palabra_clave
+            // 
+            textBox_palabra_clave.Location = new Point(141, 215);
+            textBox_palabra_clave.Name = "textBox_palabra_clave";
+            textBox_palabra_clave.Size = new Size(298, 23);
+            textBox_palabra_clave.TabIndex = 36;
+            // 
+            // textBox_ocupacion
+            // 
+            textBox_ocupacion.Enabled = false;
+            textBox_ocupacion.Location = new Point(141, 41);
+            textBox_ocupacion.Name = "textBox_ocupacion";
+            textBox_ocupacion.Size = new Size(298, 23);
+            textBox_ocupacion.TabIndex = 6;
             // 
             // label4
             // 
@@ -271,7 +292,7 @@
             // checkBox1
             // 
             checkBox1.AutoSize = true;
-            checkBox1.Location = new Point(93, 225);
+            checkBox1.Location = new Point(93, 287);
             checkBox1.Name = "checkBox1";
             checkBox1.RightToLeft = RightToLeft.Yes;
             checkBox1.Size = new Size(60, 19);
@@ -281,6 +302,7 @@
             // 
             // textBox_email
             // 
+            textBox_email.Enabled = false;
             textBox_email.Location = new Point(141, 157);
             textBox_email.Name = "textBox_email";
             textBox_email.Size = new Size(298, 23);
@@ -423,12 +445,14 @@
         private Label label8;
         private Button button1;
         private TextBox textBox_nombre_personal;
-        private TextBox textBox1;
+        private TextBox textBox_ocupacion;
         private Label label4;
         private Label label7;
         private ComboBox comboBox_ocupacion;
         private GroupBox groupBox3;
         private Label label9;
         private TextBox textBox_email_personal;
+        private Label label10;
+        private TextBox textBox_palabra_clave;
     }
 }

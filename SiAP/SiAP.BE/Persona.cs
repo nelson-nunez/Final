@@ -20,5 +20,15 @@ namespace SiAP.BE
 
         public Usuario Usuario { get; set; }
         public string NombreCompleto => $"{Apellido}, {Nombre}";
+
+        public static implicit operator Persona?(Medico? v)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static implicit operator Persona?(Secretario? v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

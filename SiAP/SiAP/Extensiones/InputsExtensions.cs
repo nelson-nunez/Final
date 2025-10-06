@@ -142,5 +142,15 @@ namespace SiAP.UI.Extensiones
             var mesActual = new DateTime(fechaBase.Year, fechaBase.Month, 1);
             comboBox.SelectedValue = mesActual;
         }
+
+        public static string RemoveDiacritics(this string texto)
+        {
+            texto = texto.ToLowerInvariant();
+            return new string(
+                texto.Normalize(NormalizationForm.FormD)
+                     .Where(c => CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark)
+                     .ToArray()
+            );
+        }
     }
 }

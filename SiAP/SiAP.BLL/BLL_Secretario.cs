@@ -2,6 +2,7 @@
 using SiAP.BE;
 using SiAP.BLL.Logs;
 using SiAP.MPP;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace SiAP.BLL
 {
@@ -57,6 +58,11 @@ namespace SiAP.BLL
         public IList<Secretario> ObtenerTodos()
         {
             return _mppSecretario.ObtenerTodos();
+        }
+
+        public IList<Secretario> Filtrar(string Nombre,string Apellido,string Email)
+        {
+            return _mppSecretario.Filtrar(Nombre, Email);
         }
 
         public Secretario Leer(long secretarioId)
