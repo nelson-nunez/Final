@@ -16,7 +16,8 @@ namespace SiAP.UI.Forms_Seguridad
         BLL_Medico _bllMedico;
         BLL_Paciente _bllPaciente;
         BLL_Secretario _bllSecretario;
-        private object personalSeleccionado;
+        Persona personaSeleccionada;
+        Usuario usuarioSeleccionado;
         private List<string> camposmedicos = new List<string> { "Apellido", "Nombre", "Dni", "Email", "Especialidad" };
         private List<string> campossecretarios = new List<string> { "Apellido", "Nombre", "Dni", "Email", "Legajo" };
 
@@ -82,13 +83,23 @@ namespace SiAP.UI.Forms_Seguridad
         {
             try
             {
+                //Verificaciones
                 var item = comboBox_ocupacion.SelectedItem as Menu;
-                if (item == null) return;
-                
+                InputsExtensions.OnlySelected(item, "una ocupación");
+
+                personaSeleccionada = null;
+
                 if (item.Nombre == "Medico")
-                    personalSeleccionado = dataGridView1.VerificarYRetornarSeleccion<Medico>();
+                {
+                    var result = dataGridView1.VerificarYRetornarSeleccion<Medico>();
+                    personaSeleccionada = result.Persona;
+                }
                 else if (item.Nombre == "Secretario")
-                    personalSeleccionado = dataGridView1.VerificarYRetornarSeleccion<Secretario>();
+                {
+                    var result = dataGridView1.VerificarYRetornarSeleccion<Secretario>();
+                    personaSeleccionada = result.Persona;
+                }
+                usuarioSeleccionado = _bllUsuario.BuscarPorIdPersona(personaSeleccionada.Id) ;
                 CargarDatos();
             }
             catch (Exception ex)
@@ -101,259 +112,178 @@ namespace SiAP.UI.Forms_Seguridad
 
         #region Buttons
 
-        private void button_Borrar_Click(object sender, EventArgs e)
-        {
-            //try
-            //{
-            //    if (personalSeleccionado == null)
-            //        throw new Exception("Seleccione un usuario antes de continuar");
-
-            //    var item = comboBox_ocupacion.SelectedItem as Menu;
-            //    InputsExtensions.OnlySelected(item, "una ocupación");
-
-            //    string mensaje = "";
-            //    switch (item.Nombre)
-            //    {
-            //        case "Medico":
-            //            var medico = personalSeleccionado as Medico;
-            //            mensaje = $"Desea eliminar el médico '{medico.Persona.NombreCompleto}'?";
-            //            InputsExtensions.PedirConfirmacion(mensaje);
-            //            _bllMedico.Eliminar(medico);
-            //            break;
-            //        case "Secretario":
-            //            var secretario = personalSeleccionado as Secretario;
-            //            mensaje = $"Desea eliminar el secretario '{secretario.Persona.NombreCompleto}'?";
-            //            InputsExtensions.PedirConfirmacion(mensaje);
-            //            _bllSecretario.Eliminar(secretario);
-            //            break;
-            //    }
-
-            //    MessageBox.Show("Se eliminó el registro con éxito");
-            //    LimpiarSeleccion();
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show(ex.Message, "⛔ Error");
-            //}
-            //finally
-            //{
-            //    CargarDatos();
-            //}
-        }
-
         private void button_Limpiar_Click(object sender, EventArgs e)
         {
-            //try
-            //{
-            //    LimpiarSeleccion();
-            //    CargarDatos();
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show(ex.Message, "⛔ Error");
-            //}
+            try
+            {
+                LimpiarSeleccion();
+                CargarDatos();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "⛔ Error");
+            }
+        }
+        
+        private void LimpiarSeleccion()
+        {
+            personaSeleccionada = null;
+            usuarioSeleccionado = null;
+            textBox_ocupacion.Text = "";
+            textBox_username.Text = "";
+            textBox_nombre.Text = "";
+            textBox_apellido.Text = "";
+            textBox_email.Text = "";
+            textBox_password.Text = "";
+            textBox_palabra_clave.Text = "";
+            checkBox1.Checked = false;
+            dataGridView1.ClearSelection();
+        }
+        
+        private void button_Guardar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (personaSeleccionada == null)
+                    throw new Exception("Seleccione un personal antes de crear un usuario.");
+                if (usuarioSeleccionado != null)
+                    throw new Exception("El usuario ya existe. Edite el existente o seleccione otro personal.");
+
+                VerificarDatos();
+                usuarioSeleccionado = new Usuario();
+                usuarioSeleccionado.Activo = true;
+                usuarioSeleccionado.PalabraClave = textBox_palabra_clave.Text;
+                usuarioSeleccionado.Bloqueado = false;
+                usuarioSeleccionado.PersonaId = personaSeleccionada.Id;
+                usuarioSeleccionado.Username = textBox_username.Text;
+                usuarioSeleccionado.Password = textBox_password.Text;
+
+                InputsExtensions.PedirConfirmacion($"Desea crear el usuario '{usuarioSeleccionado.Username}'?");
+                _bllUsuario.Agregar(usuarioSeleccionado);
+
+                MessageBox.Show("Se guardaron los cambios con éxito");
+                LimpiarSeleccion();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "⛔ Error");
+            }
+            finally
+            {
+                CargarDatos();
+            }
         }
 
         private void button_Editar_Click(object sender, EventArgs e)
         {
-            ////try
-            //{
-            //    if (personalSeleccionado == null)
-            //        throw new Exception("Seleccione un usuario antes de continuar");
+            try
+            {
+                if (personaSeleccionada == null)
+                    throw new Exception("Seleccione un personal antes de editar un usuario.");
+                if (usuarioSeleccionado == null)
+                    throw new Exception("El personal seleccionado no cuenta con usuario creado para editar.");
 
-            //    VerificarDatos();
+                VerificarDatos();
+                usuarioSeleccionado.Username = textBox_username.Text;
+                usuarioSeleccionado.Password = textBox_password.Text;
+                usuarioSeleccionado.Activo = checkBox1.Checked;
+                usuarioSeleccionado.PalabraClave = textBox_palabra_clave.Text;
 
-            //    var item = comboBox_ocupacion.SelectedItem as Menu;
-            //    InputsExtensions.OnlySelected(item, "una ocupación");
+                InputsExtensions.PedirConfirmacion($"Desea editar el usuario '{usuarioSeleccionado.Username}'?");
+                _bllUsuario.Modificar(usuarioSeleccionado);
 
-            //    switch (item.Nombre)
-            //    {
-            //        case "Medico":
-            //            var medico = personalSeleccionado as Medico;
-            //            InputsExtensions.PedirConfirmacion($"Desea modificar el médico '{medico.Persona.NombreCompleto}'?");
-
-            //            medico.Persona.Email = textBox_email.Text;
-            //            // Actualizar otros campos según tu formulario
-
-            //            _bllMedico.Modificar(medico);
-            //            break;
-
-            //        case "Secretario":
-            //            var secretario = personalSeleccionado as Secretario;
-            //            InputsExtensions.PedirConfirmacion($"Desea modificar el secretario '{secretario.Persona.NombreCompleto}'?");
-
-            //            secretario.Persona.Email = textBox_email.Text;
-            //            // Actualizar otros campos según tu formulario
-
-            //            _bllSecretario.Modificar(secretario);
-            //            break;
-            //    }
-
-            //    MessageBox.Show("Se guardaron los cambios con éxito");
-            //    LimpiarSeleccion();
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show(ex.Message, "⛔ Error");
-            //}
-            //finally
-            //{
-            //    CargarDatos();
-            //}
-        }
-
-        private void button_Guardar_Click(object sender, EventArgs e)
+                MessageBox.Show("Se guardaron los cambios con éxito");
+                LimpiarSeleccion();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "⛔ Error");
+            }
+            finally
+            {
+                CargarDatos();
+            }
+        }     
+        
+        private void button_Borrar_Click(object sender, EventArgs e)
         {
-            ////try
-            //{
-            //    if (personalSeleccionado != null)
-            //        throw new Exception("Limpie la selección antes de continuar");
+            try
+            {
+                if (personaSeleccionada == null)
+                    throw new Exception("Seleccione un personal antes de eliminar un usuario.");
+                if (usuarioSeleccionado == null)
+                    throw new Exception("El personal seleccionado no cuenta con usuario creado para eliminar.");
 
-            //    VerificarDatos();
+                VerificarDatos();
+                InputsExtensions.PedirConfirmacion($"Desea eliminar el usuario '{usuarioSeleccionado.Username}'?");
+                _bllUsuario.Eliminar(usuarioSeleccionado);
 
-            //    var item = comboBox_ocupacion.SelectedItem as Menu;
-            //    InputsExtensions.OnlySelected(item, "una ocupación");
-
-            //    switch (item.Nombre)
-            //    {
-            //        case "Medico":
-            //            var medico = new Medico
-            //            {
-            //                Persona = new Persona
-            //                {
-            //                    // Asignar valores del formulario
-            //                    Email = textBox_email.Text,
-            //                    // ... otros campos
-            //                }
-            //            };
-            //            InputsExtensions.PedirConfirmacion($"Desea guardar el médico '{medico.Persona.NombreCompleto}'?");
-            //            _bllMedico.Agregar(medico);
-            //            break;
-
-            //        case "Secretario":
-            //            var secretario = new Secretario
-            //            {
-            //                Persona = new Persona
-            //                {
-            //                    // Asignar valores del formulario
-            //                    Email = textBox_email.Text,
-            //                    // ... otros campos
-            //                }
-            //            };
-            //            InputsExtensions.PedirConfirmacion($"Desea guardar el secretario '{secretario.Persona.NombreCompleto}'?");
-            //            _bllSecretario.Agregar(secretario);
-            //            break;
-            //    }
-
-            //    MessageBox.Show("Se guardaron los cambios con éxito");
-            //    LimpiarSeleccion();
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show(ex.Message, "⛔ Error");
-            //}
+                MessageBox.Show("Se eliminó el usuario con éxito");
+                LimpiarSeleccion();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "⛔ Error");
+            }
+            finally
+            {
+                CargarDatos();
+            }
         }
 
         private void button_Blanqueo_Click(object sender, EventArgs e)
         {
-            ////try
-            //{
-            //    if (personalSeleccionado == null)
-            //        throw new Exception("Seleccione un usuario antes de continuar");
+            try
+            {
+                if (personaSeleccionada == null)
+                    throw new Exception("Seleccione un personal antes de blanquear una contraseña de usuario.");
+                if (usuarioSeleccionado == null)
+                    throw new Exception("El personal seleccionado no cuenta con usuario creado.");
 
-            //    var item = comboBox_ocupacion.SelectedItem as Menu;
-            //    InputsExtensions.OnlySelected(item, "una ocupación");
+                VerificarDatos();
+                textBox_password.Text = "Cambiar_" + textBox_username.Text;
 
-            //    Persona persona = null;
-            //    string mensaje = "";
+                InputsExtensions.PedirConfirmacion($"Desea restablecer la contraseña del usuario '{usuarioSeleccionado.Username}'?");
+                _bllUsuario.Modificar(usuarioSeleccionado);
 
-            //    switch (item.Nombre)
-            //    {
-            //        case "Medico":
-            //            var medico = personalSeleccionado as Medico;
-            //            persona = medico.Persona;
-            //            mensaje = $"Desea blanquear la contraseña del médico: '{persona.NombreCompleto}'?";
-            //            break;
-            //        case "Secretario":
-            //            var secretario = personalSeleccionado as Secretario;
-            //            persona = secretario.Persona;
-            //            mensaje = $"Desea blanquear la contraseña del secretario: '{persona.NombreCompleto}'?";
-            //            break;
-            //    }
-
-            //    if (persona?.Usuario != null)
-            //    {
-            //        VerificarDatos();
-            //        InputsExtensions.PedirConfirmacion(mensaje);
-            //        persona.Usuario.Password = "Cambiar_" + textBox_email.Text;
-            //        _bllUsuario.Blanqueo(persona.Usuario);
-            //        MessageBox.Show("Se blanqueó la contraseña con éxito");
-            //        LimpiarSeleccion();
-            //    }
-            //    else
-            //    {
-            //        throw new Exception("El usuario seleccionado no tiene una cuenta de usuario asociada");
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show(ex.Message, "⛔ Error");
-            //}
-            //finally
-            //{
-            //    CargarDatos();
-            //}
-        }
-
-        private void LimpiarSeleccion()
-        {
-            personalSeleccionado = null;
-            textBox_username.Text = "";
-            textBox_nombre.Text = "";
-            textBox_apellido.Text = "";
-            textBox_password.Text = "";
-            textBox_email.Text = "";
-            checkBox1.Checked = false;
-            dataGridView1.ClearSelection();
+                MessageBox.Show("Se guardaron los cambios con éxito");
+                LimpiarSeleccion();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "⛔ Error");
+            }
+            finally
+            {
+                CargarDatos();
+            }
         }
 
         #endregion
 
         private void CargarDatos()
         {
-            if (personalSeleccionado == null) 
+            //Verificaciones
+            if (personaSeleccionada == null)
+            {
+                LimpiarSeleccion();
                 return;
-
+            }
             var item = comboBox_ocupacion.SelectedItem as Menu;
-            if (item == null) return;
-            Persona persona = null;
-            Usuario usuario = null;
+            InputsExtensions.OnlySelected(item, "una ocupación");
 
-            if (item.Nombre == "Medico")
+            if (personaSeleccionada != null)
             {
-                var tt = personalSeleccionado as Medico;
-                persona = tt.Persona;
+                textBox_ocupacion.Text = item.Nombre;
+                textBox_nombre.Text = personaSeleccionada.Nombre;
+                textBox_apellido.Text = personaSeleccionada.Apellido;
+                textBox_email.Text = personaSeleccionada.Email;
             }
-            else if (item.Nombre == "Secretario")
+            if (usuarioSeleccionado == null)
             {
-                var tt = personalSeleccionado as Secretario;
-                persona = tt.Persona;
-            }
-
-            if (persona == null)
-                return;
-
-
-            usuario = persona.Usuario;
-            textBox_ocupacion.Text= item.ToString();
-            textBox_nombre.Text = persona.Nombre;
-            textBox_apellido.Text = persona.Apellido;
-            textBox_email.Text = persona.Email;
-
-            if (usuario == null)
-            {
-                textBox_username.Text = ((persona.Nombre[0] + persona.Apellido).RemoveDiacritics());
-                textBox_password.Text = "Cambiar_" + textBox_email.Text; 
+                groupBox3.Text = "Nuevo Usuario";
+                textBox_username.Text = ((personaSeleccionada.Nombre[0] + personaSeleccionada.Apellido).RemoveDiacritics());
+                textBox_password.Text = "Cambiar_" + textBox_username.Text;
                 textBox_palabra_clave.Text = "";
                 checkBox1.Checked = true;
 
@@ -364,11 +294,11 @@ namespace SiAP.UI.Forms_Seguridad
             }
             else
             {
-                textBox_username.Text = usuario.Username;
-                textBox_password.Text = usuario.Password;
-                textBox_password.Text = usuario.PalabraClave;
-                checkBox1.Checked = usuario.Activo;
-
+                groupBox3.Text = "Usuario existente";
+                textBox_username.Text = usuarioSeleccionado.Username;
+                textBox_password.Text = usuarioSeleccionado.Password;
+                textBox_palabra_clave.Text = usuarioSeleccionado.PalabraClave;
+                checkBox1.Checked = usuarioSeleccionado.Activo;
                 button_Borrar.Visible = true;
                 button_Limpiar.Visible = true;
                 button_Editar.Visible = true;
@@ -378,10 +308,12 @@ namespace SiAP.UI.Forms_Seguridad
 
         private void VerificarDatos()
         {
+            textBox_ocupacion.Text.ValidarSoloTexto("Ocupación");
             textBox_username.Text.ValidarSoloTexto("Username");
             textBox_nombre.Text.ValidarSoloTexto("Nombre");
             textBox_apellido.Text.ValidarSoloTexto("Apellido");
             textBox_email.Text.ValidarEmail("Email");
+            textBox_palabra_clave.Text.Validar("Palabra clave");
             checkBox1.Checked.Validar("Activo");
         }
     }

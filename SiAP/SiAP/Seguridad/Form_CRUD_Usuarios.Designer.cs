@@ -97,6 +97,7 @@
             groupBox3.Controls.Add(checkBox1);
             groupBox3.Controls.Add(textBox_email);
             groupBox3.Controls.Add(textBox_password);
+            groupBox3.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
             groupBox3.Location = new Point(549, 22);
             groupBox3.Name = "groupBox3";
             groupBox3.Size = new Size(523, 531);
@@ -109,7 +110,7 @@
             label10.AutoSize = true;
             label10.Location = new Point(54, 218);
             label10.Name = "label10";
-            label10.Size = new Size(81, 15);
+            label10.Size = new Size(80, 15);
             label10.TabIndex = 35;
             label10.Text = "Palabra Clave:";
             // 
@@ -188,7 +189,7 @@
             label5.AutoSize = true;
             label5.Location = new Point(62, 189);
             label5.Name = "label5";
-            label5.Size = new Size(73, 15);
+            label5.Size = new Size(72, 15);
             label5.TabIndex = 5;
             label5.Text = "Contraseña: ";
             // 
@@ -326,6 +327,7 @@
             groupBox2.Controls.Add(label8);
             groupBox2.Controls.Add(button1);
             groupBox2.Controls.Add(textBox_nombre_personal);
+            groupBox2.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
             groupBox2.Location = new Point(6, 22);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(523, 531);
@@ -338,7 +340,7 @@
             label9.AutoSize = true;
             label9.Location = new Point(18, 97);
             label9.Name = "label9";
-            label9.Size = new Size(108, 15);
+            label9.Size = new Size(107, 15);
             label9.TabIndex = 10;
             label9.Text = "Correo Electrónico:";
             // 

@@ -40,4 +40,58 @@
     <Usuario>admin</Usuario>
     <Operacion>Turno agregado: Médico ID 1, Paciente ID 1, Fecha 07/10/2025</Operacion>
   </Log>
+  <Log>
+    <Id>4</Id>
+    <Fecha>2025-10-07T23:14:39.4488332-03:00</Fecha>
+    <Usuario>admin</Usuario>
+    <Operacion>Usuario agregado: aperez</Operacion>
+  </Log>
+  <Log>
+    <Id>5</Id>
+    <Fecha>2025-10-07T23:32:23.8167227-03:00</Fecha>
+    <Usuario>admin</Usuario>
+    <Operacion>Usuario agregado: mandrada</Operacion>
+  </Log>
+  <Log>
+    <Id>6</Id>
+    <Fecha>2025-10-07T23:41:28.9075824-03:00</Fecha>
+    <Usuario>admin</Usuario>
+    <Operacion>Usuario modificado: aperez</Operacion>
+  </Log>
+  <Log>
+    <Id>7</Id>
+    <Fecha>2025-10-07T23:41:37.3748275-03:00</Fecha>
+    <Usuario>admin</Usuario>
+    <Operacion>Usuario modificado: aperez</Operacion>
+  </Log>
+  <Log>
+    <Id>8</Id>
+    <Fecha>2025-10-07T23:46:41.8193282-03:00</Fecha>
+    <Usuario>admin</Usuario>
+    <Operacion>Usuario modificado: aperez</Operacion>
+  </Log>
+  <Log>
+    <Id>9</Id>
+    <Fecha>2025-10-07T23:47:26.8467758-03:00</Fecha>
+    <Usuario>admin</Usuario>
+    <Operacion>Usuario modificado: aperez</Operacion>
+  </Log>
+  <Log>
+    <Id>10</Id>
+    <Fecha>2025-10-07T23:48:37.2824247-03:00</Fecha>
+    <Usuario>admin</Usuario>
+    <Operacion>Usuario modificado: aperez</Operacion>
+  </Log>
+  <Log>
+    <Id>11</Id>
+    <Fecha>2025-10-07T23:48:57.386946-03:00</Fecha>
+    <Usuario>admin</Usuario>
+    <Operacion>Usuario modificado: mandrada</Operacion>
+  </Log>
+  <Log>
+    <Id>12</Id>
+    <Fecha>2025-10-07T23:49:05.6853291-03:00</Fecha>
+    <Usuario>admin</Usuario>
+    <Operacion>Usuario eliminado: mandrada</Operacion>
+  </Log>
 </NewDataSet>

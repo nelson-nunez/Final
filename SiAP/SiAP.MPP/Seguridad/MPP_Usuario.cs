@@ -105,9 +105,8 @@ namespace SiAP.MPP.Seguridad
         public IList<Usuario> ObtenerTodos()
         {
             var ds = _datos.Obtener_Datos();
-            return ds.Tables[NombreTabla].AsEnumerable()
-                .Select(r => HidratarObjeto(r, ds))
-                .ToList();
+            var lista = ds.Tables[NombreTabla].AsEnumerable().Select(r => HidratarObjeto(r, ds)).ToList();
+            return lista;
         }
 
         public IList<Usuario> Buscar(string campo = "", string valor = "", bool incluirInactivos = true)
@@ -131,6 +130,12 @@ namespace SiAP.MPP.Seguridad
         public Usuario LeerPorId(object id)
         {
             return ObtenerTodos().FirstOrDefault(u => u.Id == Convert.ToInt64(id));
+        }
+        
+        public Usuario BuscarPorIdPersona(long personId)
+        {
+            var result = ObtenerTodos().FirstOrDefault(u => u.PersonaId == Convert.ToInt64(personId));
+            return result;
         }
 
         public Usuario LeerPorUsername(string username)
@@ -218,27 +223,38 @@ namespace SiAP.MPP.Seguridad
             dr["FechaUltimoCambioPassword"] = entidad.FechaUltimoCambioPassword ?? (object)DBNull.Value;
             dr["PalabraClave"] = entidad.PalabraClave ?? string.Empty;
             dr["RespuestaClave"] = entidad.RespuestaClave ?? string.Empty;
+            dr["PersonaId"] = entidad.PersonaId;
         }
 
         private Usuario HidratarObjeto(DataRow r, DataSet ds)
         {
-            var usuario = new Usuario
+            try
             {
-                Id = Convert.ToInt64(r["Id"]),
-                Username = r["Username"].ToString(),
-                Password = r["Password"].ToString(),
-                Bloqueado = Convert.ToBoolean(r["Bloqueado"]),
-                Activo = Convert.ToBoolean(r["Activo"]),
-                FechaUltimoCambioPassword = r["FechaUltimoCambioPassword"] != DBNull.Value ? Convert.ToDateTime(r["FechaUltimoCambioPassword"]) : null,
-                PalabraClave = r["PalabraClave"]?.ToString() ?? string.Empty,
-                RespuestaClave = r["RespuestaClave"]?.ToString() ?? string.Empty,
-                PersonaId = Convert.ToInt64(r["PersonaId"]),
+                var usuario = new Usuario
+                {
+                    Id = r["Id"] != DBNull.Value ? Convert.ToInt64(r["Id"]) : 0,
+                    Username = r["Username"]?.ToString() ?? string.Empty,
+                    Password = r["Password"]?.ToString() ?? string.Empty,
+                    Bloqueado = r["Bloqueado"] != DBNull.Value && Convert.ToBoolean(r["Bloqueado"]),
+                    Activo = r["Activo"] != DBNull.Value && Convert.ToBoolean(r["Activo"]),
+                    FechaUltimoCambioPassword = r["FechaUltimoCambioPassword"] != DBNull.Value
+                        ? Convert.ToDateTime(r["FechaUltimoCambioPassword"])
+                        : null,
+                    PalabraClave = r["PalabraClave"]?.ToString() ?? string.Empty,
+                    RespuestaClave = r["RespuestaClave"]?.ToString() ?? string.Empty,
+                    PersonaId = r["PersonaId"] != DBNull.Value ? Convert.ToInt64(r["PersonaId"]) : 0
+                };
 
-            };
+                CargarPersonaCompleta(usuario);
+                CargarPermisosUsuario(usuario, ds);
 
-            CargarPersonaCompleta(usuario); 
-            CargarPermisosUsuario(usuario, ds);
-            return usuario;
+                return usuario;
+            }
+            catch (Exception ex)
+            {
+                // Lanzar una excepción más informativa para debugging
+                throw new Exception($"Error al hidratar el objeto Usuario: {ex.Message}", ex);
+            }
         }
 
         private void CargarPersonaCompleta(Usuario usuario)

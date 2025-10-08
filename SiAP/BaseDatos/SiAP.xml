@@ -401,6 +401,16 @@
     <Activo>true</Activo>
     <PersonaId>1</PersonaId>
   </Usuario>
+  <Usuario>
+    <Id>2</Id>
+    <Username>aperez</Username>
+    <Password>Rbz+CKvCfbsXmT0tM84XAA==</Password>
+    <PalabraClave>Cambiar_aperez</PalabraClave>
+    <RespuestaClave />
+    <Bloqueado>false</Bloqueado>
+    <Activo>true</Activo>
+    <PersonaId>3</PersonaId>
+  </Usuario>
   <UsuarioPermiso>
     <UsuarioId>1</UsuarioId>
     <PermisoId>10</PermisoId>

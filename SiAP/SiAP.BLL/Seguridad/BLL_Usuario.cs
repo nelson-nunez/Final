@@ -70,6 +70,12 @@ namespace SiAP.BLL.Seguridad
         {
             return _mppUsuario.LeerPorId(usuarioId);
         }
+        
+        public Usuario BuscarPorIdPersona(long personaId)
+        {
+            var lista = _mppUsuario.BuscarPorIdPersona(personaId);
+            return lista;
+        }
 
         public bool EsValido(Usuario usuario)
         {
@@ -112,7 +118,6 @@ namespace SiAP.BLL.Seguridad
             GestionUsuario.UsuarioLogueado= usr;
             return GestionUsuario.UsuarioLogueado != null;
         }
-
 
         public void Blanqueo(Usuario usuario)
         {
