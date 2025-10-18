@@ -151,7 +151,11 @@ namespace SiAP.DAL
                 { "Agenda", CrearTablaAgenda },
                 { "Turno", CrearTablaTurno },
                 { "Factura", CrearTablaFactura },
-                { "Cobro", CrearTablaCobro }
+                { "Cobro", CrearTablaCobro },
+                { "HistoriaClinica", CrearTablaHistoriaClinica },
+                { "Consulta", CrearTablaConsulta },
+                { "Receta", CrearTablaReceta },
+                { "Certificado", CrearTablaCertificado }
             };
 
             foreach (var tabla in tablas)
@@ -244,6 +248,7 @@ namespace SiAP.DAL
             tabla.Rows.Add(1, 3, "Doctora en Medicina", 4, "Cardiología", 10000m);
             tabla.Rows.Add(2, 4, "Doctor en Medicina", 2, "Pediatría", 12000m);
             tabla.Rows.Add(3, 5, "Doctor en Medicina", 2, "Pediatría", 9000m);
+            tabla.Rows.Add(4, 1, "ADMIN also Doctor", 2, "Pediatría", 9000m);
             return tabla;
         }
 
@@ -425,6 +430,115 @@ namespace SiAP.DAL
                 EstadoCobro.Registrado.ToString(), 1, 1);
             tabla.Rows.Add(2, new DateTime(2025, 7, 9, 12, 0, 0), "Transferencia", 12000m,
                 EstadoCobro.Confirmado.ToString(), 2, 4);
+
+            return tabla;
+        }
+
+        #endregion
+
+        #region Tablas Historia Clínica
+
+        private DataTable CrearTablaHistoriaClinica()
+        {
+            var tabla = new DataTable("HistoriaClinica");
+            tabla.Columns.Add("Id", typeof(long));
+            tabla.Columns.Add("PacienteId", typeof(long));
+            tabla.Columns.Add("Descripcion", typeof(string));
+            tabla.Columns.Add("FechaCreacion", typeof(DateTime));
+            tabla.PrimaryKey = new[] { tabla.Columns["Id"] };
+
+            // Historia clínica del paciente 1 (Juan Gómez)
+            tabla.Rows.Add(1, 1, "Historia clínica inicial - Paciente Juan Gómez", new DateTime(2024, 1, 15));
+
+            return tabla;
+        }
+
+        private DataTable CrearTablaConsulta()
+        {
+            var tabla = new DataTable("Consulta");
+            tabla.Columns.Add("Id", typeof(long));
+            tabla.Columns.Add("HistoriaClinicaId", typeof(long));
+            tabla.Columns.Add("MedicoId", typeof(long));
+            tabla.Columns.Add("Fecha", typeof(DateTime));
+            tabla.Columns.Add("Motivo", typeof(string));
+            tabla.Columns.Add("Diagnostico", typeof(string));
+            tabla.Columns.Add("Tratamiento", typeof(string));
+            tabla.Columns.Add("Observaciones", typeof(string));
+            tabla.PrimaryKey = new[] { tabla.Columns["Id"] };
+
+            // Consulta para el paciente 1 con el médico 1 (Ana Pérez - Cardióloga)
+            tabla.Rows.Add(
+                1, // Id
+                1, // HistoriaClinicaId (Historia del paciente 1)
+                1, // MedicoId (Ana Pérez - Cardióloga)
+                new DateTime(2024, 6, 15, 10, 30, 0), // Fecha
+                "Control de rutina y dolor en el pecho", // Motivo
+                "Hipertensión leve. Precarga cardíaca aumentada", // Diagnostico
+                "Enalapril 10mg, 1 comprimido cada 12 horas. Control en 30 días", // Tratamiento
+                "Paciente refiere episodios de dolor torácico ocasional. PA: 145/90. Se indica tratamiento y estudios complementarios" // Observaciones
+            );
+
+            return tabla;
+        }
+
+        private DataTable CrearTablaReceta()
+        {
+            var tabla = new DataTable("Receta");
+            tabla.Columns.Add("Id", typeof(long));
+            tabla.Columns.Add("ConsultaId", typeof(long));
+            tabla.Columns.Add("Fecha", typeof(DateTime));
+            tabla.Columns.Add("Medicamentos", typeof(string));
+            tabla.Columns.Add("Profesional", typeof(string));
+            tabla.Columns.Add("Nro_Socio", typeof(int));
+            tabla.Columns.Add("Obra_social", typeof(string));
+            tabla.Columns.Add("Plan", typeof(string));
+            tabla.Columns.Add("Observaciones", typeof(string));
+            tabla.Columns.Add("EsCronica", typeof(bool));
+            tabla.PrimaryKey = new[] { tabla.Columns["Id"] };
+
+            // Receta de la consulta 1
+            tabla.Rows.Add(
+                1, // Id
+                1, // ConsultaId
+                new DateTime(2024, 6, 15), // Fecha
+                "Enalapril 10mg - 1 comprimido cada 12 horas\nAspirina 100mg - 1 comprimido por día", // Medicamentos
+                "Dra. Ana Pérez - Cardióloga", // Profesional
+                445566, // Nro_Socio (del paciente 1)
+                "OSDE", // Obra_social
+                "210", // Plan
+                "Tomar con las comidas. No suspender sin indicación médica", // Observaciones
+                true // EsCronica
+            );
+
+            return tabla;
+        }
+
+        private DataTable CrearTablaCertificado()
+        {
+            var tabla = new DataTable("Certificado");
+            tabla.Columns.Add("Id", typeof(long));
+            tabla.Columns.Add("ConsultaId", typeof(long));
+            tabla.Columns.Add("Fecha", typeof(DateTime));
+            tabla.Columns.Add("TipoCertificado", typeof(string));
+            tabla.Columns.Add("Descripcion", typeof(string));
+            tabla.Columns.Add("Observaciones", typeof(string));
+            tabla.Columns.Add("FechaVigenciaDesde", typeof(DateTime));
+            tabla.Columns.Add("FechaVigenciaHasta", typeof(DateTime));
+            tabla.PrimaryKey = new[] { tabla.Columns["Id"] };
+
+            // Certificado médico de la consulta 1
+            tabla.Rows.Add(
+                1, // Id
+                1, // ConsultaId
+                new DateTime(2024, 6, 15), // Fecha
+                "Certificado Médico de Aptitud Física", // TipoCertificado
+                "El paciente Juan Gómez (DNI 87654321) se encuentra bajo tratamiento por hipertensión leve. " +
+                "Se recomienda evitar actividades físicas de alta intensidad hasta nuevo control médico. " +
+                "Puede realizar actividades físicas moderadas con autorización médica.", // Descripcion
+                "Control en 30 días. Presentar certificado actualizado según evolución del cuadro", // Observaciones
+                new DateTime(2024, 6, 15), // FechaVigenciaDesde
+                new DateTime(2024, 7, 15) // FechaVigenciaHasta (30 días de vigencia)
+            );
 
             return tabla;
         }

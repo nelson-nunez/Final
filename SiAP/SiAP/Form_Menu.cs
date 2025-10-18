@@ -60,6 +60,7 @@ namespace SiAP.UI
                 menuStrip1.Visible = true;
                 CambiarVisibilidadMenu(menuStrip1.Items, useractual.Permiso.ObtenerPermisos());
                 UC_Login.Visible = false;
+                toolStrip_logged_User.Text = useractual.Persona.NombreCompleto.ToString();
             }
             UC_Login.LoginSuccess -= UC_Login_LoginSuccess;
         }
@@ -216,7 +217,13 @@ namespace SiAP.UI
         {
             AbrirFormGeneral(ref form_reportes);
         }
-        
+
+        private void pacientesToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            AbrirFormGeneral(ref form_paciente);
+        }
+
         #endregion
+
     }
 }

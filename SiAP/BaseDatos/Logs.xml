@@ -24,74 +24,32 @@
   </xs:schema>
   <Log>
     <Id>1</Id>
-    <Fecha>2025-10-05T20:03:16.500812-03:00</Fecha>
+    <Fecha>2025-10-18T16:45:25.8519228-03:00</Fecha>
     <Usuario>admin</Usuario>
-    <Operacion>Turno agregado: Médico ID 1, Paciente ID 1, Fecha 07/10/2025</Operacion>
+    <Operacion>Consulta agregada - Médico: Sistema, Admin, Fecha: 18/10/2025</Operacion>
   </Log>
   <Log>
     <Id>2</Id>
-    <Fecha>2025-10-05T20:03:22.3253596-03:00</Fecha>
+    <Fecha>2025-10-18T16:46:45.3608397-03:00</Fecha>
     <Usuario>admin</Usuario>
-    <Operacion>Turno eliminado: ID 2</Operacion>
+    <Operacion>Consulta agregada - Médico: Sistema, Admin, Fecha: 18/10/2025</Operacion>
   </Log>
   <Log>
     <Id>3</Id>
-    <Fecha>2025-10-05T20:03:27.3304549-03:00</Fecha>
+    <Fecha>2025-10-18T16:49:47.6126847-03:00</Fecha>
     <Usuario>admin</Usuario>
-    <Operacion>Turno agregado: Médico ID 1, Paciente ID 1, Fecha 07/10/2025</Operacion>
+    <Operacion>Consulta modificada - ID: 3</Operacion>
   </Log>
   <Log>
     <Id>4</Id>
-    <Fecha>2025-10-07T23:14:39.4488332-03:00</Fecha>
+    <Fecha>2025-10-18T16:50:02.5743025-03:00</Fecha>
     <Usuario>admin</Usuario>
-    <Operacion>Usuario agregado: aperez</Operacion>
+    <Operacion>Consulta agregada - Médico: Sistema, Admin, Fecha: 18/10/2025</Operacion>
   </Log>
   <Log>
     <Id>5</Id>
-    <Fecha>2025-10-07T23:32:23.8167227-03:00</Fecha>
+    <Fecha>2025-10-18T16:52:51.2233766-03:00</Fecha>
     <Usuario>admin</Usuario>
-    <Operacion>Usuario agregado: mandrada</Operacion>
-  </Log>
-  <Log>
-    <Id>6</Id>
-    <Fecha>2025-10-07T23:41:28.9075824-03:00</Fecha>
-    <Usuario>admin</Usuario>
-    <Operacion>Usuario modificado: aperez</Operacion>
-  </Log>
-  <Log>
-    <Id>7</Id>
-    <Fecha>2025-10-07T23:41:37.3748275-03:00</Fecha>
-    <Usuario>admin</Usuario>
-    <Operacion>Usuario modificado: aperez</Operacion>
-  </Log>
-  <Log>
-    <Id>8</Id>
-    <Fecha>2025-10-07T23:46:41.8193282-03:00</Fecha>
-    <Usuario>admin</Usuario>
-    <Operacion>Usuario modificado: aperez</Operacion>
-  </Log>
-  <Log>
-    <Id>9</Id>
-    <Fecha>2025-10-07T23:47:26.8467758-03:00</Fecha>
-    <Usuario>admin</Usuario>
-    <Operacion>Usuario modificado: aperez</Operacion>
-  </Log>
-  <Log>
-    <Id>10</Id>
-    <Fecha>2025-10-07T23:48:37.2824247-03:00</Fecha>
-    <Usuario>admin</Usuario>
-    <Operacion>Usuario modificado: aperez</Operacion>
-  </Log>
-  <Log>
-    <Id>11</Id>
-    <Fecha>2025-10-07T23:48:57.386946-03:00</Fecha>
-    <Usuario>admin</Usuario>
-    <Operacion>Usuario modificado: mandrada</Operacion>
-  </Log>
-  <Log>
-    <Id>12</Id>
-    <Fecha>2025-10-07T23:49:05.6853291-03:00</Fecha>
-    <Usuario>admin</Usuario>
-    <Operacion>Usuario eliminado: mandrada</Operacion>
+    <Operacion>Consulta agregada - Médico: Sistema, Admin, Fecha: 18/10/2025</Operacion>
   </Log>
 </NewDataSet>

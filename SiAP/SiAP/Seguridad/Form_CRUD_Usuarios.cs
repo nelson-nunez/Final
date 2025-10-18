@@ -64,7 +64,7 @@ namespace SiAP.UI.Forms_Seguridad
 
                 if (item.Nombre == "Medico")
                 {
-                    var medicos = _bllMedico.Filtrar(textoBusqueda, textoBusqueda, emailBusqueda).ToList();
+                    var medicos = _bllMedico.Filtrar(textoBusqueda, emailBusqueda).ToList();
                     dataGridView1.CargarGrid(camposmedicos, medicos);
                 }
                 else if (item.Nombre == "Secretario")

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Policonsultorio.BE;
 using SiAP.BE;
 using SiAP.BE.Seguridad;
 
@@ -216,7 +217,66 @@ namespace SiAP.UI.Extensiones
                 treeView.Nodes.Add(nodoEspecialidad);
             }
         }
-        
+
+        #endregion
+
+        #region Pacientes
+        public static void ArmarArbolConsultas(this TreeView treeView, List<Consulta> consultas)
+        {
+            ArgumentNullException.ThrowIfNull(treeView);
+            if (consultas == null) return;
+
+            treeView.Nodes.Clear();
+
+            // Agrupar consultas por Mes/Año
+            var grupos = consultas
+                .GroupBy(c => new { c.Fecha.Year, c.Fecha.Month })
+                .OrderByDescending(g => g.Key.Year)
+                .ThenByDescending(g => g.Key.Month);
+
+            foreach (var grupo in grupos)
+            {
+                // Crear nodo de mes/año
+                string nombreMes = new DateTime(grupo.Key.Year, grupo.Key.Month, 1).ToString("MMMM yyyy");
+                var nodoMes = new TreeNode($"📅 {nombreMes} ({grupo.Count()} consultas)")
+                {
+                    Name = $"{grupo.Key.Year}_{grupo.Key.Month}",
+                    ForeColor = Color.DarkBlue
+                };
+
+                foreach (var consulta in grupo.OrderByDescending(c => c.Fecha))
+                {
+                    string nombreMedico = consulta.Medico?.Persona?.NombreCompleto ?? "Sin médico";
+                    string especialidad = consulta.Medico?.Especialidad?.Nombre ?? "Sin especialidad";
+                    string motivo = consulta.Motivo ?? "Sin motivo";
+
+                    if (motivo.Length > 50)
+                        motivo = motivo.Substring(0, 47) + "...";
+
+                    string textoNodo = $"{consulta.Fecha:dd/MM} - {nombreMedico} ({especialidad})";
+                    string segundorenglon = $"Motivo: {motivo}";
+
+                    var nodoConsulta = new TreeNode(textoNodo)
+                    {
+                        Name = $"Consulta_{consulta.Id}",
+                        Tag = consulta,
+                        ForeColor = Color.DarkGreen
+                    };
+                    nodoMes.Nodes.Add(nodoConsulta);
+                }
+                treeView.Nodes.Add(nodoMes);
+            }
+
+            // Si no hay consultas, mostrar mensaje
+            if (!consultas.Any())
+            {
+                var nodoVacio = new TreeNode("No hay consultas registradas")
+                {
+                    ForeColor = Color.Gray
+                };
+                treeView.Nodes.Add(nodoVacio);
+            }
+        }
         #endregion
     }
 }

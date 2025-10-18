@@ -2,6 +2,7 @@
 using SiAP.Abstracciones;
 using SiAP.BE;
 using SiAP.MPP.Base;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace SiAP.MPP
 {
@@ -92,12 +93,19 @@ namespace SiAP.MPP
 
             return campo.ToLower() switch
             {
+                "id" => BuscarPorCampo(medicos, campo, valor, m => m.Persona.Id),
                 "nombre" => BuscarPorCampo(medicos, campo, valor, m => m.Persona.Nombre),
                 "apellido" => BuscarPorCampo(medicos, campo, valor, m => m.Persona.Apellido),
                 "dni" => BuscarPorCampo(medicos, campo, valor, m => m.Persona.Dni),
                 "email" => BuscarPorCampo(medicos, campo, valor, m => m.Persona.Email),
                 _ => throw new ArgumentException($"Campo '{campo}' inválido.")
             };
+        }
+        
+        public Medico LeerPorPersonId(long campo)
+        {          
+            var result = ObtenerTodos().FirstOrDefault(x=>x.PersonaId == campo);
+            return result;
         }
 
         public IList<Medico> Filtrar(string nombre, string email)
