@@ -6,6 +6,7 @@ using SiAP.BLL.Logs;
 using SiAP.MPP;
 using Policonsultorio.BE;
 using SiAP.BLL.Seguridad;
+using SiAP.BE;
 
 namespace SiAP.BLL
 {
@@ -135,7 +136,7 @@ namespace SiAP.BLL
             return consulta;
         }
 
-        public Receta EmitirReceta(long consultaId, string medicamentos, string profesional, bool esCronica = false)
+        public Receta EmitirReceta(long consultaId, List<Medicamento> medicamentos, string profesional, bool esCronica = false)
         {
             var consulta = _mppConsulta.LeerPorId(consultaId);
 

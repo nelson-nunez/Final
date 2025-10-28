@@ -228,7 +228,15 @@ namespace SiAP.UI.Extensiones
 
             treeView.Nodes.Clear();
 
-            // Agrupar consultas por Mes/Año
+            if (!consultas.Any())
+            {
+                treeView.Nodes.Add(new TreeNode("No hay consultas registradas")
+                {
+                    ForeColor = Color.Gray
+                });
+                return;
+            }
+
             var grupos = consultas
                 .GroupBy(c => new { c.Fecha.Year, c.Fecha.Month })
                 .OrderByDescending(g => g.Key.Year)
@@ -236,7 +244,6 @@ namespace SiAP.UI.Extensiones
 
             foreach (var grupo in grupos)
             {
-                // Crear nodo de mes/año
                 string nombreMes = new DateTime(grupo.Key.Year, grupo.Key.Month, 1).ToString("MMMM yyyy");
                 var nodoMes = new TreeNode($"📅 {nombreMes} ({grupo.Count()} consultas)")
                 {
@@ -253,8 +260,7 @@ namespace SiAP.UI.Extensiones
                     if (motivo.Length > 50)
                         motivo = motivo.Substring(0, 47) + "...";
 
-                    string textoNodo = $"{consulta.Fecha:dd/MM} - {nombreMedico} ({especialidad})";
-                    string segundorenglon = $"Motivo: {motivo}";
+                    string textoNodo = $"{consulta.Fecha:dd/MM} - {nombreMedico} ({especialidad}) - {motivo}";
 
                     var nodoConsulta = new TreeNode(textoNodo)
                     {
@@ -266,17 +272,83 @@ namespace SiAP.UI.Extensiones
                 }
                 treeView.Nodes.Add(nodoMes);
             }
+        }
 
-            // Si no hay consultas, mostrar mensaje
-            if (!consultas.Any())
+        public static void ArmarArbolRecetas(this TreeView treeView, List<Consulta> consultas)
+        {
+            ArgumentNullException.ThrowIfNull(treeView);
+            if (consultas == null) return;
+
+            treeView.Nodes.Clear();
+
+            var todasLasRecetas = consultas
+                .Where(c => c.Recetas != null && c.Recetas.Any())
+                .SelectMany(c => c.Recetas)
+                .ToList();
+
+            if (!todasLasRecetas.Any())
             {
-                var nodoVacio = new TreeNode("No hay consultas registradas")
+                treeView.Nodes.Add(new TreeNode("No hay recetas registradas")
                 {
                     ForeColor = Color.Gray
+                });
+                return;
+            }
+
+            var grupos = todasLasRecetas
+                .GroupBy(r => new { r.Fecha.Year, r.Fecha.Month })
+                .OrderByDescending(g => g.Key.Year)
+                .ThenByDescending(g => g.Key.Month);
+
+            foreach (var grupo in grupos)
+            {
+                string nombreMes = new DateTime(grupo.Key.Year, grupo.Key.Month, 1).ToString("MMMM yyyy");
+                var nodoMes = new TreeNode($"📅 {nombreMes} ({grupo.Count()} recetas)")
+                {
+                    Name = $"{grupo.Key.Year}_{grupo.Key.Month}",
+                    ForeColor = Color.DarkBlue
                 };
-                treeView.Nodes.Add(nodoVacio);
+
+                foreach (var receta in grupo.OrderByDescending(r => r.Fecha))
+                {
+                    string profesional = receta.Profesional ?? "Sin profesional";
+                    string medicamentos = ObtenerTextoMedicamentos(receta.Medicamentos);
+
+                    string textoNodo = $"{receta.Fecha:dd/MM/yyyy} - {profesional} - {medicamentos}";
+
+                    var nodoReceta = new TreeNode(textoNodo)
+                    {
+                        Name = $"Receta_{receta.Id}",
+                        Tag = receta,
+                        ForeColor = Color.DarkGreen
+                    };
+
+                    nodoMes.Nodes.Add(nodoReceta);
+                }
+
+                treeView.Nodes.Add(nodoMes);
             }
         }
+
+        private static string ObtenerTextoMedicamentos(List<Medicamento> medicamentos)
+        {
+            if (medicamentos == null || !medicamentos.Any())
+                return "Sin medicamentos";
+
+            var primer = medicamentos.First();
+            string nombre = !string.IsNullOrWhiteSpace(primer.NombreComercial)
+                ? primer.NombreComercial
+                : primer.NombreMonodroga;
+
+            if (medicamentos.Count > 1)
+                nombre += $" (+{medicamentos.Count - 1})";
+
+            if (nombre.Length > 20)
+                nombre = nombre.Substring(0, 17) + "...";
+
+            return nombre;
+        }
+
         #endregion
     }
 }

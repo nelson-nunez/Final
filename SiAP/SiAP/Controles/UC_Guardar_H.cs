@@ -16,5 +16,10 @@ namespace SiAP.UI.Controles
         {
             InitializeComponent();
         }
+
+        private void UC_Guardar_H_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

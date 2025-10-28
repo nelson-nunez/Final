@@ -83,16 +83,6 @@ namespace SiAP.BLL
             return _mppReceta.BuscarCronicasVigentes();
         }
 
-
-        public IList<Receta> BuscarPorNumeroSocio(int numeroSocio)
-        {
-            if (numeroSocio <= 0)
-                throw new ArgumentException("El número de socio debe ser válido.");
-
-            return _mppReceta.BuscarPorNumeroSocio(numeroSocio);
-        }
-
-
         public IList<Receta> BuscarPorRangoFechas(DateTime desde, DateTime hasta)
         {
             if (hasta < desde)
@@ -100,7 +90,6 @@ namespace SiAP.BLL
 
             return _mppReceta.BuscarPorRangoFechas(desde, hasta);
         }
-
 
         public Receta RenovarReceta(long recetaId)
         {
@@ -127,7 +116,7 @@ namespace SiAP.BLL
                 return false;
             }
 
-            if (string.IsNullOrWhiteSpace(receta.Medicamentos))
+            if (receta.Medicamentos == null || !receta.Medicamentos.Any())
                 _mensajeError += "Los medicamentos son obligatorios. ";
 
             if (string.IsNullOrWhiteSpace(receta.Profesional))

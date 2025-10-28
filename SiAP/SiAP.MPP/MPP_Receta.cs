@@ -1,4 +1,8 @@
-﻿using System;
+﻿using System.Data;
+using SiAP.Abstracciones;
+using SiAP.MPP.Base;
+using Policonsultorio.BE;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -11,9 +15,13 @@ namespace SiAP.MPP
     public class MPP_Receta : MapperBase<Receta>, IMapper<Receta>
     {
         private static MPP_Receta _instancia;
+        private readonly MPP_Medicamento _mppMedicamento;
         protected override string NombreTabla => "Receta";
 
-        private MPP_Receta() : base() { }
+        private MPP_Receta() : base()
+        {
+            _mppMedicamento = MPP_Medicamento.ObtenerInstancia();
+        }
 
         public static MPP_Receta ObtenerInstancia()
         {
@@ -28,17 +36,38 @@ namespace SiAP.MPP
                 return;
 
             AgregarEntidad(entidad, AsignarDatos);
+
+            if (entidad.Medicamentos != null && entidad.Medicamentos.Any())
+            {
+                foreach (var droga in entidad.Medicamentos)
+                {
+                    droga.RecetaId = entidad.Id;
+                    _mppMedicamento.Agregar(droga);
+                }
+            }
         }
 
         public void Modificar(Receta entidad)
         {
             ArgumentNullException.ThrowIfNull(entidad);
             ModificarEntidad(entidad, AsignarDatos);
+
+            _mppMedicamento.EliminarPorRecetaId(entidad.Id);
+
+            if (entidad.Medicamentos != null && entidad.Medicamentos.Any())
+            {
+                foreach (var droga in entidad.Medicamentos)
+                {
+                    droga.RecetaId = entidad.Id;
+                    _mppMedicamento.Agregar(droga);
+                }
+            }
         }
 
         public void Eliminar(Receta entidad)
         {
             ArgumentNullException.ThrowIfNull(entidad);
+            _mppMedicamento.EliminarPorRecetaId(entidad.Id);
             EliminarEntidad(entidad);
         }
 
@@ -49,17 +78,31 @@ namespace SiAP.MPP
 
         public bool TieneDependencias(Receta entidad)
         {
-            return false; // Las recetas no tienen dependencias
+            return false;
         }
 
         public IList<Receta> ObtenerTodos()
         {
-            return ObtenerTodasEntidades(HidratarObjeto);
+            var recetas = ObtenerTodasEntidades(HidratarObjeto);
+
+            foreach (var receta in recetas)
+            {
+                receta.Medicamentos = _mppMedicamento.BuscarPorRecetaId(receta.Id).ToList();
+            }
+
+            return recetas;
         }
 
         public Receta LeerPorId(object id)
         {
-            return LeerEntidadPorId(id, HidratarObjeto);
+            var receta = LeerEntidadPorId(id, HidratarObjeto);
+
+            if (receta != null)
+            {
+                receta.Medicamentos = _mppMedicamento.BuscarPorRecetaId(receta.Id).ToList();
+            }
+
+            return receta;
         }
 
         public IList<Receta> Buscar(string campo = "", string valor = "", bool incluirInactivos = true)
@@ -71,7 +114,7 @@ namespace SiAP.MPP
 
             return campo.ToLower() switch
             {
-                "consultaid" => recetas.Where(r => r.Consulta?.Id == Convert.ToInt64(valor)).ToList(),
+                "consultaid" => recetas.Where(r => r.ConsultaId == Convert.ToInt64(valor)).ToList(),
                 "profesional" => recetas.Where(r => r.Profesional?.Contains(valor, StringComparison.OrdinalIgnoreCase) ?? false).ToList(),
                 "obrasocial" => recetas.Where(r => r.Obra_social?.Contains(valor, StringComparison.OrdinalIgnoreCase) ?? false).ToList(),
                 "nrosocio" => recetas.Where(r => r.Nro_Socio == Convert.ToInt32(valor)).ToList(),
@@ -79,21 +122,15 @@ namespace SiAP.MPP
             };
         }
 
-        /// Busca todas las recetas de una consulta específica
         public IList<Receta> BuscarPorConsultaId(long consultaId)
         {
-            var ds = _datos.Obtener_Datos();
-            var recetas = ds.Tables[NombreTabla].AsEnumerable()
-                .Where(r => r["ConsultaId"] != DBNull.Value &&
-                           Convert.ToInt64(r["ConsultaId"]) == consultaId)
-                .Select(HidratarObjeto)
+            var recetas = ObtenerTodos().Where(r => r.ConsultaId == consultaId)
                 .OrderByDescending(r => r.Fecha)
                 .ToList();
 
             return recetas;
         }
 
-        /// Busca recetas crónicas vigentes
         public IList<Receta> BuscarCronicasVigentes()
         {
             return ObtenerTodos()
@@ -102,16 +139,6 @@ namespace SiAP.MPP
                 .ToList();
         }
 
-        /// Busca recetas por número de socio
-        public IList<Receta> BuscarPorNumeroSocio(int numeroSocio)
-        {
-            return ObtenerTodos()
-                .Where(r => r.Nro_Socio == numeroSocio)
-                .OrderByDescending(r => r.Fecha)
-                .ToList();
-        }
-
-        /// Busca recetas en un rango de fechas
         public IList<Receta> BuscarPorRangoFechas(DateTime desde, DateTime hasta)
         {
             return ObtenerTodos()
@@ -122,9 +149,8 @@ namespace SiAP.MPP
 
         private void AsignarDatos(DataRow dr, Receta entidad)
         {
-            dr["ConsultaId"] = entidad.Consulta?.Id ?? (object)DBNull.Value;
+            dr["ConsultaId"] = entidad.ConsultaId;
             dr["Fecha"] = entidad.Fecha;
-            dr["Medicamentos"] = entidad.Medicamentos ?? string.Empty;
             dr["Profesional"] = entidad.Profesional ?? string.Empty;
             dr["Nro_Socio"] = entidad.Nro_Socio;
             dr["Obra_social"] = entidad.Obra_social ?? string.Empty;
@@ -138,8 +164,8 @@ namespace SiAP.MPP
             return new Receta
             {
                 Id = Convert.ToInt64(r["Id"]),
+                ConsultaId = Convert.ToInt64(r["ConsultaId"]),
                 Fecha = Convert.ToDateTime(r["Fecha"]),
-                Medicamentos = r["Medicamentos"]?.ToString() ?? string.Empty,
                 Profesional = r["Profesional"]?.ToString() ?? string.Empty,
                 Nro_Socio = r["Nro_Socio"] != DBNull.Value ? Convert.ToInt32(r["Nro_Socio"]) : 0,
                 Obra_social = r["Obra_social"]?.ToString() ?? string.Empty,

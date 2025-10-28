@@ -155,7 +155,8 @@ namespace SiAP.DAL
                 { "HistoriaClinica", CrearTablaHistoriaClinica },
                 { "Consulta", CrearTablaConsulta },
                 { "Receta", CrearTablaReceta },
-                { "Certificado", CrearTablaCertificado }
+                { "Certificado", CrearTablaCertificado },
+                { "Medicamento", CrearTablaMedicamento }
             };
 
             foreach (var tabla in tablas)
@@ -487,7 +488,6 @@ namespace SiAP.DAL
             tabla.Columns.Add("Id", typeof(long));
             tabla.Columns.Add("ConsultaId", typeof(long));
             tabla.Columns.Add("Fecha", typeof(DateTime));
-            tabla.Columns.Add("Medicamentos", typeof(string));
             tabla.Columns.Add("Profesional", typeof(string));
             tabla.Columns.Add("Nro_Socio", typeof(int));
             tabla.Columns.Add("Obra_social", typeof(string));
@@ -496,18 +496,53 @@ namespace SiAP.DAL
             tabla.Columns.Add("EsCronica", typeof(bool));
             tabla.PrimaryKey = new[] { tabla.Columns["Id"] };
 
-            // Receta de la consulta 1
             tabla.Rows.Add(
-                1, // Id
-                1, // ConsultaId
-                new DateTime(2024, 6, 15), // Fecha
-                "Enalapril 10mg - 1 comprimido cada 12 horas\nAspirina 100mg - 1 comprimido por día", // Medicamentos
-                "Dra. Ana Pérez - Cardióloga", // Profesional
-                445566, // Nro_Socio (del paciente 1)
-                "OSDE", // Obra_social
-                "210", // Plan
-                "Tomar con las comidas. No suspender sin indicación médica", // Observaciones
-                true // EsCronica
+                1,
+                1,
+                new DateTime(2024, 6, 15),
+                "Dra. Ana Pérez - Cardióloga",
+                445566,
+                "OSDE",
+                "210",
+                "Tomar con las comidas. No suspender sin indicación médica",
+                true
+            );
+
+            return tabla;
+        }
+
+        private DataTable CrearTablaMedicamento()
+        {
+            var tabla = new DataTable("Medicamento");
+            tabla.Columns.Add("Id", typeof(long));
+            tabla.Columns.Add("RecetaId", typeof(long));
+            tabla.Columns.Add("NombreComercial", typeof(string));
+            tabla.Columns.Add("NombreMonodroga", typeof(string));
+            tabla.Columns.Add("Cantidad", typeof(int));
+            tabla.PrimaryKey = new[] { tabla.Columns["Id"] };
+
+            tabla.Rows.Add(
+                1,
+                1,
+                "Enalapril",
+                "Enalapril Maleato",
+                30
+            );
+
+            tabla.Rows.Add(
+                2,
+                1,
+                "Aspirineta",
+                "Ácido Acetilsalicílico",
+                30
+            );
+
+            tabla.Rows.Add(
+                3,
+                1,
+                "Losacor",
+                "Losartán Potásico",
+                60
             );
 
             return tabla;
@@ -542,6 +577,7 @@ namespace SiAP.DAL
 
             return tabla;
         }
+
 
         #endregion
 

@@ -33,7 +33,14 @@
             button_Limpiar = new Button();
             button_Editar = new Button();
             flowLayoutPanel1 = new FlowLayoutPanel();
+            flowLayoutPanel2 = new FlowLayoutPanel();
+            button1 = new Button();
+            button2 = new Button();
+            button3 = new Button();
+            button4 = new Button();
+            button5 = new Button();
             flowLayoutPanel1.SuspendLayout();
+            flowLayoutPanel2.SuspendLayout();
             SuspendLayout();
             // 
             // button_Borrar
@@ -103,14 +110,106 @@
             flowLayoutPanel1.Size = new Size(320, 33);
             flowLayoutPanel1.TabIndex = 27;
             // 
+            // flowLayoutPanel2
+            // 
+            flowLayoutPanel2.Controls.Add(button1);
+            flowLayoutPanel2.Controls.Add(button2);
+            flowLayoutPanel2.Controls.Add(button3);
+            flowLayoutPanel2.Controls.Add(button4);
+            flowLayoutPanel2.Controls.Add(button5);
+            flowLayoutPanel2.FlowDirection = FlowDirection.TopDown;
+            flowLayoutPanel2.Location = new Point(237, 162);
+            flowLayoutPanel2.Margin = new Padding(5);
+            flowLayoutPanel2.Name = "flowLayoutPanel2";
+            flowLayoutPanel2.Size = new Size(88, 187);
+            flowLayoutPanel2.TabIndex = 28;
+            // 
+            // button1
+            // 
+            button1.BackColor = Color.IndianRed;
+            button1.Font = new Font("Calibri", 9.75F, FontStyle.Bold);
+            button1.Image = Properties.Resources.delete;
+            button1.ImageAlign = ContentAlignment.MiddleRight;
+            button1.Location = new Point(5, 5);
+            button1.Margin = new Padding(5);
+            button1.Name = "button1";
+            button1.Size = new Size(77, 27);
+            button1.TabIndex = 22;
+            button1.Text = "Eliminar";
+            button1.TextAlign = ContentAlignment.MiddleLeft;
+            button1.UseVisualStyleBackColor = false;
+            // 
+            // button2
+            // 
+            button2.BackColor = Color.SandyBrown;
+            button2.Font = new Font("Calibri", 9.75F, FontStyle.Bold);
+            button2.Image = Properties.Resources.clear;
+            button2.ImageAlign = ContentAlignment.MiddleRight;
+            button2.Location = new Point(5, 42);
+            button2.Margin = new Padding(5);
+            button2.Name = "button2";
+            button2.Size = new Size(77, 27);
+            button2.TabIndex = 23;
+            button2.Text = "Limpiar";
+            button2.TextAlign = ContentAlignment.MiddleLeft;
+            button2.UseVisualStyleBackColor = false;
+            // 
+            // button3
+            // 
+            button3.BackColor = SystemColors.ActiveCaption;
+            button3.Font = new Font("Calibri", 9.75F, FontStyle.Bold);
+            button3.Image = Properties.Resources.edit;
+            button3.ImageAlign = ContentAlignment.MiddleRight;
+            button3.Location = new Point(5, 79);
+            button3.Margin = new Padding(5);
+            button3.Name = "button3";
+            button3.Size = new Size(77, 27);
+            button3.TabIndex = 24;
+            button3.Text = "Editar";
+            button3.TextAlign = ContentAlignment.MiddleLeft;
+            button3.UseVisualStyleBackColor = false;
+            // 
+            // button4
+            // 
+            button4.BackColor = Color.DarkSeaGreen;
+            button4.Font = new Font("Calibri", 9.75F, FontStyle.Bold);
+            button4.Image = Properties.Resources.save;
+            button4.ImageAlign = ContentAlignment.MiddleRight;
+            button4.Location = new Point(5, 116);
+            button4.Margin = new Padding(5);
+            button4.Name = "button4";
+            button4.Size = new Size(77, 27);
+            button4.TabIndex = 25;
+            button4.Text = "Guardar";
+            button4.TextAlign = ContentAlignment.MiddleLeft;
+            button4.UseVisualStyleBackColor = false;
+            // 
+            // button5
+            // 
+            button5.BackColor = Color.Ivory;
+            button5.Font = new Font("Calibri", 9.75F, FontStyle.Bold);
+            button5.Image = Properties.Resources.printer;
+            button5.ImageAlign = ContentAlignment.MiddleRight;
+            button5.Location = new Point(5, 153);
+            button5.Margin = new Padding(5);
+            button5.Name = "button5";
+            button5.Size = new Size(77, 27);
+            button5.TabIndex = 29;
+            button5.Text = "Imprimir";
+            button5.TextAlign = ContentAlignment.MiddleLeft;
+            button5.UseVisualStyleBackColor = false;
+            // 
             // UC_Guardar_H
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(flowLayoutPanel2);
             Controls.Add(flowLayoutPanel1);
             Name = "UC_Guardar_H";
-            Size = new Size(439, 219);
+            Size = new Size(439, 460);
+            Load += UC_Guardar_H_Load;
             flowLayoutPanel1.ResumeLayout(false);
+            flowLayoutPanel2.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -121,5 +220,11 @@
         private Button button_Limpiar;
         private Button button_Editar;
         private FlowLayoutPanel flowLayoutPanel1;
+        private FlowLayoutPanel flowLayoutPanel2;
+        private Button button1;
+        private Button button2;
+        private Button button3;
+        private Button button4;
+        private Button button5;
     }
 }
