@@ -34,4 +34,10 @@
     <Usuario>admin</Usuario>
     <Operacion>Receta agregada - Profesional: Sistema, Admin, Fecha: 26/10/2025</Operacion>
   </Log>
+  <Log>
+    <Id>3</Id>
+    <Fecha>2025-10-30T19:22:25.7430861-03:00</Fecha>
+    <Usuario>admin</Usuario>
+    <Operacion>Receta modificada - ID: 2</Operacion>
+  </Log>
 </NewDataSet>

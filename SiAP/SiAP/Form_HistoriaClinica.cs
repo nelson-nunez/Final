@@ -416,11 +416,6 @@ namespace SiAP.UI
                 MessageBox.Show(ex.Message, "⛔ Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-     
-        private void button_rec_eliminar_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void button_rec_limpiar_Click(object sender, EventArgs e)
         {
@@ -437,7 +432,35 @@ namespace SiAP.UI
 
         private void button_rec_editar_Click(object sender, EventArgs e)
         {
+            try
+            {
+                //Verificaciones
+                if (recetaSeleccionada == null)
+                    throw new InvalidOperationException("Debe seleccionar una receta para editarla.");
+                if (recetaSeleccionada?.Profesional != medicoLoggeado.NombreCompleto)
+                    throw new InvalidOperationException("No se puede editar una receta emitida por otro médico.");
+                if (medicamentosSeleccionados == null || medicamentosSeleccionados.Count == 0)
+                    throw new InvalidOperationException("Debe agregar al menos un medicamento a la receta.");
+                //Confirmar
+                InputsExtensions.PedirConfirmacion("¿Desea guardar los datos de la receta?");
 
+                recetaSeleccionada.Fecha = DateTime.Now.Date;
+                recetaSeleccionada.Observaciones = richTextBox_observ.Text;
+                recetaSeleccionada.EsCronica = checkBox_cronico.Checked;
+                recetaSeleccionada.Medicamentos = medicamentosSeleccionados.ToList();
+
+                _bllReceta.Modificar(recetaSeleccionada);
+                MessageBox.Show("Se guardaron los cambios con éxito", "✔ Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                //Recaargo todo
+                CargarArbolRecetas();
+                recetaSeleccionada = null;
+                CargarReceta();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "⛔ Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void button_rec_guardar_Click(object sender, EventArgs e)

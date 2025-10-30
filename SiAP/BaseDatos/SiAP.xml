@@ -1362,12 +1362,12 @@
   <Receta>
     <Id>2</Id>
     <ConsultaId>2</ConsultaId>
-    <Fecha>2025-10-26T00:00:00-03:00</Fecha>
+    <Fecha>2025-10-30T00:00:00-03:00</Fecha>
     <Profesional>Sistema, Admin</Profesional>
     <Nro_Socio>445566</Nro_Socio>
     <Obra_social>OSDE</Obra_social>
     <Plan>210</Plan>
-    <Observaciones>asdasd</Observaciones>
+    <Observaciones>asdasd...</Observaciones>
     <EsCronica>true</EsCronica>
   </Receta>
   <Certificado>
@@ -1407,5 +1407,12 @@
     <NombreComercial>bayasp</NombreComercial>
     <NombreMonodroga>aspirina</NombreMonodroga>
     <Cantidad>3</Cantidad>
+  </Medicamento>
+  <Medicamento>
+    <Id>5</Id>
+    <RecetaId>2</RecetaId>
+    <NombreComercial>Tafirol</NombreComercial>
+    <NombreMonodroga>paracetamol</NombreMonodroga>
+    <Cantidad>2</Cantidad>
   </Medicamento>
 </NewDataSet>

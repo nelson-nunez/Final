@@ -59,7 +59,14 @@
             button_Editar = new Button();
             button_Guardar = new Button();
             tabPage3 = new TabPage();
+            flowLayoutPanel3 = new FlowLayoutPanel();
+            button_rec_limpiar = new Button();
+            button_rec_editar = new Button();
+            button_rec_guardar = new Button();
+            button_rec_imprimir = new Button();
             groupBox2 = new GroupBox();
+            label19 = new Label();
+            richTextBox_observ = new RichTextBox();
             checkBox_cronico = new CheckBox();
             textBox_nom_pac = new TextBox();
             textBox_dni_pac = new TextBox();
@@ -85,14 +92,6 @@
             label7 = new Label();
             treeView_recetas = new TreeView();
             uC_Buscar_Paciente1 = new Forms_Seguridad.UC_Buscar_Paciente();
-            button_rec_imprimir = new Button();
-            button_rec_guardar = new Button();
-            button_rec_editar = new Button();
-            button_rec_limpiar = new Button();
-            button_rec_eliminar = new Button();
-            flowLayoutPanel3 = new FlowLayoutPanel();
-            label19 = new Label();
-            richTextBox_observ = new RichTextBox();
             groupBox1.SuspendLayout();
             groupBox3.SuspendLayout();
             tabControl1.SuspendLayout();
@@ -101,9 +100,9 @@
             tabPage2.SuspendLayout();
             flowLayoutPanel1.SuspendLayout();
             tabPage3.SuspendLayout();
+            flowLayoutPanel3.SuspendLayout();
             groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView_medicamentos).BeginInit();
-            flowLayoutPanel3.SuspendLayout();
             SuspendLayout();
             // 
             // groupBox1
@@ -447,6 +446,82 @@
             tabPage3.TabIndex = 2;
             tabPage3.Text = "Recetas";
             // 
+            // flowLayoutPanel3
+            // 
+            flowLayoutPanel3.Controls.Add(button_rec_limpiar);
+            flowLayoutPanel3.Controls.Add(button_rec_editar);
+            flowLayoutPanel3.Controls.Add(button_rec_guardar);
+            flowLayoutPanel3.Controls.Add(button_rec_imprimir);
+            flowLayoutPanel3.Location = new Point(453, 558);
+            flowLayoutPanel3.Margin = new Padding(5);
+            flowLayoutPanel3.Name = "flowLayoutPanel3";
+            flowLayoutPanel3.Size = new Size(350, 35);
+            flowLayoutPanel3.TabIndex = 88;
+            // 
+            // button_rec_limpiar
+            // 
+            button_rec_limpiar.BackColor = Color.SandyBrown;
+            button_rec_limpiar.Font = new Font("Calibri", 9.75F, FontStyle.Bold);
+            button_rec_limpiar.Image = Properties.Resources.clear;
+            button_rec_limpiar.ImageAlign = ContentAlignment.MiddleRight;
+            button_rec_limpiar.Location = new Point(5, 5);
+            button_rec_limpiar.Margin = new Padding(5);
+            button_rec_limpiar.Name = "button_rec_limpiar";
+            button_rec_limpiar.Size = new Size(77, 27);
+            button_rec_limpiar.TabIndex = 23;
+            button_rec_limpiar.Text = "Limpiar";
+            button_rec_limpiar.TextAlign = ContentAlignment.MiddleLeft;
+            button_rec_limpiar.UseVisualStyleBackColor = false;
+            button_rec_limpiar.Click += button_rec_limpiar_Click;
+            // 
+            // button_rec_editar
+            // 
+            button_rec_editar.BackColor = SystemColors.ActiveCaption;
+            button_rec_editar.Font = new Font("Calibri", 9.75F, FontStyle.Bold);
+            button_rec_editar.Image = Properties.Resources.edit;
+            button_rec_editar.ImageAlign = ContentAlignment.MiddleRight;
+            button_rec_editar.Location = new Point(92, 5);
+            button_rec_editar.Margin = new Padding(5);
+            button_rec_editar.Name = "button_rec_editar";
+            button_rec_editar.Size = new Size(77, 27);
+            button_rec_editar.TabIndex = 24;
+            button_rec_editar.Text = "Editar";
+            button_rec_editar.TextAlign = ContentAlignment.MiddleLeft;
+            button_rec_editar.UseVisualStyleBackColor = false;
+            button_rec_editar.Click += button_rec_editar_Click;
+            // 
+            // button_rec_guardar
+            // 
+            button_rec_guardar.BackColor = Color.DarkSeaGreen;
+            button_rec_guardar.Font = new Font("Calibri", 9.75F, FontStyle.Bold);
+            button_rec_guardar.Image = Properties.Resources.save;
+            button_rec_guardar.ImageAlign = ContentAlignment.MiddleRight;
+            button_rec_guardar.Location = new Point(179, 5);
+            button_rec_guardar.Margin = new Padding(5);
+            button_rec_guardar.Name = "button_rec_guardar";
+            button_rec_guardar.Size = new Size(77, 27);
+            button_rec_guardar.TabIndex = 25;
+            button_rec_guardar.Text = "Guardar";
+            button_rec_guardar.TextAlign = ContentAlignment.MiddleLeft;
+            button_rec_guardar.UseVisualStyleBackColor = false;
+            button_rec_guardar.Click += button_rec_guardar_Click;
+            // 
+            // button_rec_imprimir
+            // 
+            button_rec_imprimir.BackColor = Color.Ivory;
+            button_rec_imprimir.Font = new Font("Calibri", 9.75F, FontStyle.Bold);
+            button_rec_imprimir.Image = Properties.Resources.printer;
+            button_rec_imprimir.ImageAlign = ContentAlignment.MiddleRight;
+            button_rec_imprimir.Location = new Point(266, 5);
+            button_rec_imprimir.Margin = new Padding(5);
+            button_rec_imprimir.Name = "button_rec_imprimir";
+            button_rec_imprimir.Size = new Size(77, 27);
+            button_rec_imprimir.TabIndex = 29;
+            button_rec_imprimir.Text = "Imprimir";
+            button_rec_imprimir.TextAlign = ContentAlignment.MiddleLeft;
+            button_rec_imprimir.UseVisualStyleBackColor = false;
+            button_rec_imprimir.Click += button_rec_imprimir_Click;
+            // 
             // groupBox2
             // 
             groupBox2.BackColor = Color.White;
@@ -482,6 +557,23 @@
             groupBox2.TabStop = false;
             groupBox2.Text = "Receta";
             // 
+            // label19
+            // 
+            label19.AutoSize = true;
+            label19.Location = new Point(17, 333);
+            label19.Name = "label19";
+            label19.Size = new Size(87, 15);
+            label19.TabIndex = 116;
+            label19.Text = "Observaciones:";
+            // 
+            // richTextBox_observ
+            // 
+            richTextBox_observ.Location = new Point(17, 351);
+            richTextBox_observ.Name = "richTextBox_observ";
+            richTextBox_observ.Size = new Size(436, 80);
+            richTextBox_observ.TabIndex = 115;
+            richTextBox_observ.Text = "";
+            // 
             // checkBox_cronico
             // 
             checkBox_cronico.AutoSize = true;
@@ -495,6 +587,7 @@
             // 
             // textBox_nom_pac
             // 
+            textBox_nom_pac.Enabled = false;
             textBox_nom_pac.Location = new Point(89, 42);
             textBox_nom_pac.Name = "textBox_nom_pac";
             textBox_nom_pac.Size = new Size(286, 23);
@@ -502,6 +595,7 @@
             // 
             // textBox_dni_pac
             // 
+            textBox_dni_pac.Enabled = false;
             textBox_dni_pac.Location = new Point(422, 42);
             textBox_dni_pac.Name = "textBox_dni_pac";
             textBox_dni_pac.Size = new Size(203, 23);
@@ -518,6 +612,7 @@
             // 
             // textBox_esp_med
             // 
+            textBox_esp_med.Enabled = false;
             textBox_esp_med.Location = new Point(628, 427);
             textBox_esp_med.Name = "textBox_esp_med";
             textBox_esp_med.Size = new Size(184, 23);
@@ -534,6 +629,7 @@
             // 
             // textBox_mat_med
             // 
+            textBox_mat_med.Enabled = false;
             textBox_mat_med.Location = new Point(628, 456);
             textBox_mat_med.Name = "textBox_mat_med";
             textBox_mat_med.Size = new Size(184, 23);
@@ -541,6 +637,7 @@
             // 
             // textBox_nombre_med
             // 
+            textBox_nombre_med.Enabled = false;
             textBox_nombre_med.Location = new Point(628, 398);
             textBox_nombre_med.Name = "textBox_nombre_med";
             textBox_nombre_med.Size = new Size(184, 23);
@@ -575,6 +672,7 @@
             // 
             // textBox_fecha
             // 
+            textBox_fecha.Enabled = false;
             textBox_fecha.Location = new Point(688, 16);
             textBox_fecha.Name = "textBox_fecha";
             textBox_fecha.Size = new Size(124, 23);
@@ -582,6 +680,7 @@
             // 
             // textBox_plan_pac
             // 
+            textBox_plan_pac.Enabled = false;
             textBox_plan_pac.Location = new Point(232, 100);
             textBox_plan_pac.Name = "textBox_plan_pac";
             textBox_plan_pac.Size = new Size(393, 23);
@@ -589,6 +688,7 @@
             // 
             // textBox_nrosoc_pac
             // 
+            textBox_nrosoc_pac.Enabled = false;
             textBox_nrosoc_pac.Location = new Point(89, 100);
             textBox_nrosoc_pac.Name = "textBox_nrosoc_pac";
             textBox_nrosoc_pac.Size = new Size(98, 23);
@@ -596,6 +696,7 @@
             // 
             // textBox_oss_pac
             // 
+            textBox_oss_pac.Enabled = false;
             textBox_oss_pac.Location = new Point(89, 71);
             textBox_oss_pac.Name = "textBox_oss_pac";
             textBox_oss_pac.Size = new Size(536, 23);
@@ -690,116 +791,6 @@
             uC_Buscar_Paciente1.Size = new Size(444, 226);
             uC_Buscar_Paciente1.TabIndex = 56;
             // 
-            // button_rec_imprimir
-            // 
-            button_rec_imprimir.BackColor = Color.Ivory;
-            button_rec_imprimir.Font = new Font("Calibri", 9.75F, FontStyle.Bold);
-            button_rec_imprimir.Image = Properties.Resources.printer;
-            button_rec_imprimir.ImageAlign = ContentAlignment.MiddleRight;
-            button_rec_imprimir.Location = new Point(353, 5);
-            button_rec_imprimir.Margin = new Padding(5);
-            button_rec_imprimir.Name = "button_rec_imprimir";
-            button_rec_imprimir.Size = new Size(77, 27);
-            button_rec_imprimir.TabIndex = 29;
-            button_rec_imprimir.Text = "Imprimir";
-            button_rec_imprimir.TextAlign = ContentAlignment.MiddleLeft;
-            button_rec_imprimir.UseVisualStyleBackColor = false;
-            button_rec_imprimir.Click += button_rec_imprimir_Click;
-            // 
-            // button_rec_guardar
-            // 
-            button_rec_guardar.BackColor = Color.DarkSeaGreen;
-            button_rec_guardar.Font = new Font("Calibri", 9.75F, FontStyle.Bold);
-            button_rec_guardar.Image = Properties.Resources.save;
-            button_rec_guardar.ImageAlign = ContentAlignment.MiddleRight;
-            button_rec_guardar.Location = new Point(266, 5);
-            button_rec_guardar.Margin = new Padding(5);
-            button_rec_guardar.Name = "button_rec_guardar";
-            button_rec_guardar.Size = new Size(77, 27);
-            button_rec_guardar.TabIndex = 25;
-            button_rec_guardar.Text = "Guardar";
-            button_rec_guardar.TextAlign = ContentAlignment.MiddleLeft;
-            button_rec_guardar.UseVisualStyleBackColor = false;
-            button_rec_guardar.Click += button_rec_guardar_Click;
-            // 
-            // button_rec_editar
-            // 
-            button_rec_editar.BackColor = SystemColors.ActiveCaption;
-            button_rec_editar.Font = new Font("Calibri", 9.75F, FontStyle.Bold);
-            button_rec_editar.Image = Properties.Resources.edit;
-            button_rec_editar.ImageAlign = ContentAlignment.MiddleRight;
-            button_rec_editar.Location = new Point(179, 5);
-            button_rec_editar.Margin = new Padding(5);
-            button_rec_editar.Name = "button_rec_editar";
-            button_rec_editar.Size = new Size(77, 27);
-            button_rec_editar.TabIndex = 24;
-            button_rec_editar.Text = "Editar";
-            button_rec_editar.TextAlign = ContentAlignment.MiddleLeft;
-            button_rec_editar.UseVisualStyleBackColor = false;
-            button_rec_editar.Click += button_rec_editar_Click;
-            // 
-            // button_rec_limpiar
-            // 
-            button_rec_limpiar.BackColor = Color.SandyBrown;
-            button_rec_limpiar.Font = new Font("Calibri", 9.75F, FontStyle.Bold);
-            button_rec_limpiar.Image = Properties.Resources.clear;
-            button_rec_limpiar.ImageAlign = ContentAlignment.MiddleRight;
-            button_rec_limpiar.Location = new Point(92, 5);
-            button_rec_limpiar.Margin = new Padding(5);
-            button_rec_limpiar.Name = "button_rec_limpiar";
-            button_rec_limpiar.Size = new Size(77, 27);
-            button_rec_limpiar.TabIndex = 23;
-            button_rec_limpiar.Text = "Limpiar";
-            button_rec_limpiar.TextAlign = ContentAlignment.MiddleLeft;
-            button_rec_limpiar.UseVisualStyleBackColor = false;
-            button_rec_limpiar.Click += button_rec_limpiar_Click;
-            // 
-            // button_rec_eliminar
-            // 
-            button_rec_eliminar.BackColor = Color.IndianRed;
-            button_rec_eliminar.Font = new Font("Calibri", 9.75F, FontStyle.Bold);
-            button_rec_eliminar.Image = Properties.Resources.delete;
-            button_rec_eliminar.ImageAlign = ContentAlignment.MiddleRight;
-            button_rec_eliminar.Location = new Point(5, 5);
-            button_rec_eliminar.Margin = new Padding(5);
-            button_rec_eliminar.Name = "button_rec_eliminar";
-            button_rec_eliminar.Size = new Size(77, 27);
-            button_rec_eliminar.TabIndex = 22;
-            button_rec_eliminar.Text = "Eliminar";
-            button_rec_eliminar.TextAlign = ContentAlignment.MiddleLeft;
-            button_rec_eliminar.UseVisualStyleBackColor = false;
-            button_rec_eliminar.Click += button_rec_eliminar_Click;
-            // 
-            // flowLayoutPanel3
-            // 
-            flowLayoutPanel3.Controls.Add(button_rec_eliminar);
-            flowLayoutPanel3.Controls.Add(button_rec_limpiar);
-            flowLayoutPanel3.Controls.Add(button_rec_editar);
-            flowLayoutPanel3.Controls.Add(button_rec_guardar);
-            flowLayoutPanel3.Controls.Add(button_rec_imprimir);
-            flowLayoutPanel3.Location = new Point(453, 558);
-            flowLayoutPanel3.Margin = new Padding(5);
-            flowLayoutPanel3.Name = "flowLayoutPanel3";
-            flowLayoutPanel3.Size = new Size(436, 35);
-            flowLayoutPanel3.TabIndex = 88;
-            // 
-            // label19
-            // 
-            label19.AutoSize = true;
-            label19.Location = new Point(17, 333);
-            label19.Name = "label19";
-            label19.Size = new Size(87, 15);
-            label19.TabIndex = 116;
-            label19.Text = "Observaciones:";
-            // 
-            // richTextBox_observ
-            // 
-            richTextBox_observ.Location = new Point(17, 351);
-            richTextBox_observ.Name = "richTextBox_observ";
-            richTextBox_observ.Size = new Size(436, 80);
-            richTextBox_observ.TabIndex = 115;
-            richTextBox_observ.Text = "";
-            // 
             // Form_HistoriaClinica
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -819,10 +810,10 @@
             tabPage2.PerformLayout();
             flowLayoutPanel1.ResumeLayout(false);
             tabPage3.ResumeLayout(false);
+            flowLayoutPanel3.ResumeLayout(false);
             groupBox2.ResumeLayout(false);
             groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView_medicamentos).EndInit();
-            flowLayoutPanel3.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -888,7 +879,6 @@
         private Forms_Seguridad.UC_Buscar_Paciente uC_Buscar_Paciente1;
         private CheckBox checkBox_cronico;
         private FlowLayoutPanel flowLayoutPanel3;
-        private Button button_rec_eliminar;
         private Button button_rec_limpiar;
         private Button button_rec_editar;
         private Button button_rec_guardar;
