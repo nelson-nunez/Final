@@ -1,18 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SiAP.Abstracciones;
-using SiAP.BE;
-using SiAP.BLL.Logs;
-using SiAP.BLL.Seguridad;
-using SiAP.MPP;
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using SiAP.Abstracciones;
+﻿using SiAP.Abstracciones;
 using SiAP.BE;
 using SiAP.BLL.Logs;
 using SiAP.MPP;

@@ -29,16 +29,7 @@
         private void InitializeComponent()
         {
             groupBox1 = new GroupBox();
-            groupBox3 = new GroupBox();
-            label_PLAN = new Label();
-            label20 = new Label();
-            button_seleccionar_paciente = new Button();
-            label_nro_socio = new Label();
-            label10 = new Label();
-            label8 = new Label();
-            label9 = new Label();
-            label_nombre_completo = new Label();
-            label_ooss = new Label();
+            uC_Mostrar_Paciente1 = new Forms_Seguridad.UC_Mostrar_Paciente();
             tabControl1 = new TabControl();
             tabPage1 = new TabPage();
             flowLayoutPanel2 = new FlowLayoutPanel();
@@ -65,35 +56,32 @@
             button_rec_guardar = new Button();
             button_rec_imprimir = new Button();
             groupBox2 = new GroupBox();
+            uC_Mostrar_Medico2 = new Forms_Seguridad.UC_Mostrar_Medico();
             label19 = new Label();
             richTextBox_observ = new RichTextBox();
             checkBox_cronico = new CheckBox();
-            textBox_nom_pac = new TextBox();
-            textBox_dni_pac = new TextBox();
-            label18 = new Label();
-            textBox_esp_med = new TextBox();
-            label12 = new Label();
-            textBox_mat_med = new TextBox();
-            textBox_nombre_med = new TextBox();
-            label16 = new Label();
-            label17 = new Label();
-            label11 = new Label();
             textBox_fecha = new TextBox();
-            textBox_plan_pac = new TextBox();
-            textBox_nrosoc_pac = new TextBox();
-            textBox_oss_pac = new TextBox();
             label5 = new Label();
-            button_editar_pac = new Button();
-            label13 = new Label();
-            label3 = new Label();
-            label14 = new Label();
-            label15 = new Label();
             dataGridView_medicamentos = new DataGridView();
             label7 = new Label();
             treeView_recetas = new TreeView();
+            tabPage4 = new TabPage();
+            treeView1 = new TreeView();
+            flowLayoutPanel4 = new FlowLayoutPanel();
+            button3 = new Button();
+            button5 = new Button();
+            button6 = new Button();
+            button7 = new Button();
+            groupBox4 = new GroupBox();
+            label32 = new Label();
+            richTextBox2 = new RichTextBox();
+            label21 = new Label();
+            richTextBox1 = new RichTextBox();
+            textBox6 = new TextBox();
+            label27 = new Label();
             uC_Buscar_Paciente1 = new Forms_Seguridad.UC_Buscar_Paciente();
+            uC_Mostrar_Medico1 = new Forms_Seguridad.UC_Mostrar_Medico();
             groupBox1.SuspendLayout();
-            groupBox3.SuspendLayout();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             flowLayoutPanel2.SuspendLayout();
@@ -103,11 +91,14 @@
             flowLayoutPanel3.SuspendLayout();
             groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView_medicamentos).BeginInit();
+            tabPage4.SuspendLayout();
+            flowLayoutPanel4.SuspendLayout();
+            groupBox4.SuspendLayout();
             SuspendLayout();
             // 
             // groupBox1
             // 
-            groupBox1.Controls.Add(groupBox3);
+            groupBox1.Controls.Add(uC_Mostrar_Paciente1);
             groupBox1.Controls.Add(tabControl1);
             groupBox1.Controls.Add(uC_Buscar_Paciente1);
             groupBox1.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
@@ -118,118 +109,24 @@
             groupBox1.TabStop = false;
             groupBox1.Text = "Historia Clínica";
             // 
-            // groupBox3
+            // uC_Mostrar_Paciente1
             // 
-            groupBox3.BackColor = Color.Transparent;
-            groupBox3.Controls.Add(label_PLAN);
-            groupBox3.Controls.Add(label20);
-            groupBox3.Controls.Add(button_seleccionar_paciente);
-            groupBox3.Controls.Add(label_nro_socio);
-            groupBox3.Controls.Add(label10);
-            groupBox3.Controls.Add(label8);
-            groupBox3.Controls.Add(label9);
-            groupBox3.Controls.Add(label_nombre_completo);
-            groupBox3.Controls.Add(label_ooss);
-            groupBox3.Location = new Point(6, 22);
-            groupBox3.Name = "groupBox3";
-            groupBox3.Size = new Size(1198, 55);
-            groupBox3.TabIndex = 30;
-            groupBox3.TabStop = false;
-            groupBox3.Text = "Paciente";
-            // 
-            // label_PLAN
-            // 
-            label_PLAN.AutoSize = true;
-            label_PLAN.Location = new Point(800, 22);
-            label_PLAN.Name = "label_PLAN";
-            label_PLAN.Size = new Size(49, 15);
-            label_PLAN.TabIndex = 51;
-            label_PLAN.Text = "..............";
-            // 
-            // label20
-            // 
-            label20.AutoSize = true;
-            label20.Location = new Point(758, 22);
-            label20.Name = "label20";
-            label20.Size = new Size(36, 15);
-            label20.TabIndex = 50;
-            label20.Text = "Plan: ";
-            // 
-            // button_seleccionar_paciente
-            // 
-            button_seleccionar_paciente.BackColor = SystemColors.ActiveCaption;
-            button_seleccionar_paciente.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            button_seleccionar_paciente.Location = new Point(29, 16);
-            button_seleccionar_paciente.Name = "button_seleccionar_paciente";
-            button_seleccionar_paciente.Size = new Size(103, 26);
-            button_seleccionar_paciente.TabIndex = 12;
-            button_seleccionar_paciente.Text = "Buscar Paciente";
-            button_seleccionar_paciente.UseVisualStyleBackColor = false;
-            button_seleccionar_paciente.Click += button_seleccionar_paciente_Click;
-            // 
-            // label_nro_socio
-            // 
-            label_nro_socio.AutoSize = true;
-            label_nro_socio.Location = new Point(1040, 22);
-            label_nro_socio.Name = "label_nro_socio";
-            label_nro_socio.Size = new Size(49, 15);
-            label_nro_socio.TabIndex = 49;
-            label_nro_socio.Text = "..............";
-            // 
-            // label10
-            // 
-            label10.AutoSize = true;
-            label10.Location = new Point(160, 22);
-            label10.Name = "label10";
-            label10.Size = new Size(109, 15);
-            label10.TabIndex = 43;
-            label10.Text = "Nombre Completo:";
-            // 
-            // label8
-            // 
-            label8.AutoSize = true;
-            label8.Location = new Point(500, 22);
-            label8.Name = "label8";
-            label8.Size = new Size(45, 15);
-            label8.TabIndex = 44;
-            label8.Text = "OOSS: ";
-            // 
-            // label9
-            // 
-            label9.AutoSize = true;
-            label9.Location = new Point(977, 22);
-            label9.Name = "label9";
-            label9.Size = new Size(57, 15);
-            label9.TabIndex = 45;
-            label9.Text = "N° Socio:";
-            // 
-            // label_nombre_completo
-            // 
-            label_nombre_completo.AutoSize = true;
-            label_nombre_completo.Location = new Point(276, 22);
-            label_nombre_completo.Name = "label_nombre_completo";
-            label_nombre_completo.Size = new Size(49, 15);
-            label_nombre_completo.TabIndex = 47;
-            label_nombre_completo.Text = "..............";
-            // 
-            // label_ooss
-            // 
-            label_ooss.AutoSize = true;
-            label_ooss.Location = new Point(552, 22);
-            label_ooss.Name = "label_ooss";
-            label_ooss.Size = new Size(49, 15);
-            label_ooss.TabIndex = 48;
-            label_ooss.Text = "..............";
+            uC_Mostrar_Paciente1.BackColor = Color.WhiteSmoke;
+            uC_Mostrar_Paciente1.Location = new Point(6, 22);
+            uC_Mostrar_Paciente1.Name = "uC_Mostrar_Paciente1";
+            uC_Mostrar_Paciente1.Size = new Size(900, 110);
+            uC_Mostrar_Paciente1.TabIndex = 57;
             // 
             // tabControl1
             // 
             tabControl1.Controls.Add(tabPage1);
             tabControl1.Controls.Add(tabPage2);
             tabControl1.Controls.Add(tabPage3);
-            tabControl1.Location = new Point(6, 83);
+            tabControl1.Controls.Add(tabPage4);
+            tabControl1.Location = new Point(6, 138);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(1198, 626);
+            tabControl1.Size = new Size(1198, 571);
             tabControl1.TabIndex = 31;
             // 
             // tabPage1
@@ -241,7 +138,7 @@
             tabPage1.Location = new Point(4, 24);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(1190, 598);
+            tabPage1.Size = new Size(1190, 543);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Historia Clínica";
             // 
@@ -249,7 +146,7 @@
             // 
             flowLayoutPanel2.Controls.Add(button1);
             flowLayoutPanel2.Controls.Add(button4);
-            flowLayoutPanel2.Location = new Point(508, 532);
+            flowLayoutPanel2.Location = new Point(500, 504);
             flowLayoutPanel2.Name = "flowLayoutPanel2";
             flowLayoutPanel2.Size = new Size(193, 33);
             flowLayoutPanel2.TabIndex = 65;
@@ -289,16 +186,16 @@
             label6.AutoSize = true;
             label6.Location = new Point(6, 19);
             label6.Name = "label6";
-            label6.Size = new Size(73, 15);
+            label6.Size = new Size(87, 15);
             label6.TabIndex = 64;
-            label6.Text = "Descripción:";
+            label6.Text = "Detalles HHCC:";
             // 
             // richText_historia_Clinica
             // 
             richText_historia_Clinica.Location = new Point(6, 37);
             richText_historia_Clinica.Name = "richText_historia_Clinica";
             richText_historia_Clinica.ScrollBars = RichTextBoxScrollBars.Vertical;
-            richText_historia_Clinica.Size = new Size(1178, 489);
+            richText_historia_Clinica.Size = new Size(1178, 461);
             richText_historia_Clinica.TabIndex = 63;
             richText_historia_Clinica.Text = "";
             // 
@@ -316,7 +213,7 @@
             tabPage2.Location = new Point(4, 24);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(1190, 598);
+            tabPage2.Size = new Size(1190, 543);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Consultas";
             // 
@@ -324,7 +221,7 @@
             // 
             treeView_historia_cli.Location = new Point(6, 14);
             treeView_historia_cli.Name = "treeView_historia_cli";
-            treeView_historia_cli.Size = new Size(229, 510);
+            treeView_historia_cli.Size = new Size(229, 484);
             treeView_historia_cli.TabIndex = 60;
             treeView_historia_cli.AfterSelect += treeView_historia_cli_AfterSelect;
             // 
@@ -339,9 +236,9 @@
             // 
             // richTextBox_tratamiento
             // 
-            richTextBox_tratamiento.Location = new Point(250, 374);
+            richTextBox_tratamiento.Location = new Point(253, 374);
             richTextBox_tratamiento.Name = "richTextBox_tratamiento";
-            richTextBox_tratamiento.Size = new Size(934, 150);
+            richTextBox_tratamiento.Size = new Size(934, 124);
             richTextBox_tratamiento.TabIndex = 65;
             richTextBox_tratamiento.Text = "";
             // 
@@ -384,7 +281,7 @@
             flowLayoutPanel1.Controls.Add(button_Limpiar);
             flowLayoutPanel1.Controls.Add(button_Editar);
             flowLayoutPanel1.Controls.Add(button_Guardar);
-            flowLayoutPanel1.Location = new Point(491, 530);
+            flowLayoutPanel1.Location = new Point(595, 504);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
             flowLayoutPanel1.Size = new Size(245, 33);
             flowLayoutPanel1.TabIndex = 59;
@@ -442,7 +339,7 @@
             tabPage3.Controls.Add(treeView_recetas);
             tabPage3.Location = new Point(4, 24);
             tabPage3.Name = "tabPage3";
-            tabPage3.Size = new Size(1190, 598);
+            tabPage3.Size = new Size(1190, 543);
             tabPage3.TabIndex = 2;
             tabPage3.Text = "Recetas";
             // 
@@ -452,7 +349,7 @@
             flowLayoutPanel3.Controls.Add(button_rec_editar);
             flowLayoutPanel3.Controls.Add(button_rec_guardar);
             flowLayoutPanel3.Controls.Add(button_rec_imprimir);
-            flowLayoutPanel3.Location = new Point(453, 558);
+            flowLayoutPanel3.Location = new Point(584, 503);
             flowLayoutPanel3.Margin = new Padding(5);
             flowLayoutPanel3.Name = "flowLayoutPanel3";
             flowLayoutPanel3.Size = new Size(350, 35);
@@ -524,43 +421,34 @@
             // 
             // groupBox2
             // 
-            groupBox2.BackColor = Color.White;
+            groupBox2.BackColor = Color.WhiteSmoke;
+            groupBox2.Controls.Add(uC_Mostrar_Medico2);
             groupBox2.Controls.Add(label19);
             groupBox2.Controls.Add(richTextBox_observ);
             groupBox2.Controls.Add(checkBox_cronico);
-            groupBox2.Controls.Add(textBox_nom_pac);
-            groupBox2.Controls.Add(textBox_dni_pac);
-            groupBox2.Controls.Add(label18);
-            groupBox2.Controls.Add(textBox_esp_med);
-            groupBox2.Controls.Add(label12);
-            groupBox2.Controls.Add(textBox_mat_med);
-            groupBox2.Controls.Add(textBox_nombre_med);
-            groupBox2.Controls.Add(label16);
-            groupBox2.Controls.Add(label17);
-            groupBox2.Controls.Add(label11);
             groupBox2.Controls.Add(textBox_fecha);
-            groupBox2.Controls.Add(textBox_plan_pac);
-            groupBox2.Controls.Add(textBox_nrosoc_pac);
-            groupBox2.Controls.Add(textBox_oss_pac);
             groupBox2.Controls.Add(label5);
-            groupBox2.Controls.Add(button_editar_pac);
-            groupBox2.Controls.Add(label13);
-            groupBox2.Controls.Add(label3);
-            groupBox2.Controls.Add(label14);
-            groupBox2.Controls.Add(label15);
             groupBox2.Controls.Add(dataGridView_medicamentos);
             groupBox2.Controls.Add(label7);
             groupBox2.Location = new Point(364, 3);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(823, 543);
+            groupBox2.Size = new Size(823, 492);
             groupBox2.TabIndex = 87;
             groupBox2.TabStop = false;
             groupBox2.Text = "Receta";
             // 
+            // uC_Mostrar_Medico2
+            // 
+            uC_Mostrar_Medico2.BackColor = Color.WhiteSmoke;
+            uC_Mostrar_Medico2.Location = new Point(561, 370);
+            uC_Mostrar_Medico2.Name = "uC_Mostrar_Medico2";
+            uC_Mostrar_Medico2.Size = new Size(251, 116);
+            uC_Mostrar_Medico2.TabIndex = 117;
+            // 
             // label19
             // 
             label19.AutoSize = true;
-            label19.Location = new Point(17, 333);
+            label19.Location = new Point(6, 266);
             label19.Name = "label19";
             label19.Size = new Size(87, 15);
             label19.TabIndex = 116;
@@ -568,9 +456,9 @@
             // 
             // richTextBox_observ
             // 
-            richTextBox_observ.Location = new Point(17, 351);
+            richTextBox_observ.Location = new Point(9, 284);
             richTextBox_observ.Name = "richTextBox_observ";
-            richTextBox_observ.Size = new Size(436, 80);
+            richTextBox_observ.Size = new Size(803, 80);
             richTextBox_observ.TabIndex = 115;
             richTextBox_observ.Text = "";
             // 
@@ -578,97 +466,12 @@
             // 
             checkBox_cronico.AutoSize = true;
             checkBox_cronico.CheckAlign = ContentAlignment.MiddleRight;
-            checkBox_cronico.Location = new Point(17, 441);
+            checkBox_cronico.Location = new Point(17, 379);
             checkBox_cronico.Name = "checkBox_cronico";
             checkBox_cronico.Size = new Size(83, 19);
             checkBox_cronico.TabIndex = 114;
             checkBox_cronico.Text = "Es crónico:";
             checkBox_cronico.UseVisualStyleBackColor = true;
-            // 
-            // textBox_nom_pac
-            // 
-            textBox_nom_pac.Enabled = false;
-            textBox_nom_pac.Location = new Point(89, 42);
-            textBox_nom_pac.Name = "textBox_nom_pac";
-            textBox_nom_pac.Size = new Size(286, 23);
-            textBox_nom_pac.TabIndex = 112;
-            // 
-            // textBox_dni_pac
-            // 
-            textBox_dni_pac.Enabled = false;
-            textBox_dni_pac.Location = new Point(422, 42);
-            textBox_dni_pac.Name = "textBox_dni_pac";
-            textBox_dni_pac.Size = new Size(203, 23);
-            textBox_dni_pac.TabIndex = 111;
-            // 
-            // label18
-            // 
-            label18.AutoSize = true;
-            label18.Location = new Point(655, 514);
-            label18.Name = "label18";
-            label18.Size = new Size(127, 15);
-            label18.TabIndex = 110;
-            label18.Text = "........................................";
-            // 
-            // textBox_esp_med
-            // 
-            textBox_esp_med.Enabled = false;
-            textBox_esp_med.Location = new Point(628, 427);
-            textBox_esp_med.Name = "textBox_esp_med";
-            textBox_esp_med.Size = new Size(184, 23);
-            textBox_esp_med.TabIndex = 109;
-            // 
-            // label12
-            // 
-            label12.AutoSize = true;
-            label12.Location = new Point(547, 430);
-            label12.Name = "label12";
-            label12.Size = new Size(75, 15);
-            label12.TabIndex = 108;
-            label12.Text = "Especialidad:";
-            // 
-            // textBox_mat_med
-            // 
-            textBox_mat_med.Enabled = false;
-            textBox_mat_med.Location = new Point(628, 456);
-            textBox_mat_med.Name = "textBox_mat_med";
-            textBox_mat_med.Size = new Size(184, 23);
-            textBox_mat_med.TabIndex = 107;
-            // 
-            // textBox_nombre_med
-            // 
-            textBox_nombre_med.Enabled = false;
-            textBox_nombre_med.Location = new Point(628, 398);
-            textBox_nombre_med.Name = "textBox_nombre_med";
-            textBox_nombre_med.Size = new Size(184, 23);
-            textBox_nombre_med.TabIndex = 106;
-            // 
-            // label16
-            // 
-            label16.AutoSize = true;
-            label16.Location = new Point(561, 401);
-            label16.Name = "label16";
-            label16.Size = new Size(61, 15);
-            label16.TabIndex = 104;
-            label16.Text = "Médico/a:";
-            // 
-            // label17
-            // 
-            label17.AutoSize = true;
-            label17.Location = new Point(562, 459);
-            label17.Name = "label17";
-            label17.Size = new Size(60, 15);
-            label17.TabIndex = 105;
-            label17.Text = "Matrícula:";
-            // 
-            // label11
-            // 
-            label11.AutoSize = true;
-            label11.Location = new Point(384, 45);
-            label11.Name = "label11";
-            label11.Size = new Size(32, 15);
-            label11.TabIndex = 102;
-            label11.Text = "DNI:";
             // 
             // textBox_fecha
             // 
@@ -677,30 +480,6 @@
             textBox_fecha.Name = "textBox_fecha";
             textBox_fecha.Size = new Size(124, 23);
             textBox_fecha.TabIndex = 101;
-            // 
-            // textBox_plan_pac
-            // 
-            textBox_plan_pac.Enabled = false;
-            textBox_plan_pac.Location = new Point(232, 100);
-            textBox_plan_pac.Name = "textBox_plan_pac";
-            textBox_plan_pac.Size = new Size(393, 23);
-            textBox_plan_pac.TabIndex = 100;
-            // 
-            // textBox_nrosoc_pac
-            // 
-            textBox_nrosoc_pac.Enabled = false;
-            textBox_nrosoc_pac.Location = new Point(89, 100);
-            textBox_nrosoc_pac.Name = "textBox_nrosoc_pac";
-            textBox_nrosoc_pac.Size = new Size(98, 23);
-            textBox_nrosoc_pac.TabIndex = 99;
-            // 
-            // textBox_oss_pac
-            // 
-            textBox_oss_pac.Enabled = false;
-            textBox_oss_pac.Location = new Point(89, 71);
-            textBox_oss_pac.Name = "textBox_oss_pac";
-            textBox_oss_pac.Size = new Size(536, 23);
-            textBox_oss_pac.TabIndex = 98;
             // 
             // label5
             // 
@@ -711,66 +490,18 @@
             label5.TabIndex = 95;
             label5.Text = "Fecha Emisión:";
             // 
-            // button_editar_pac
-            // 
-            button_editar_pac.BackColor = SystemColors.ActiveCaption;
-            button_editar_pac.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            button_editar_pac.Location = new Point(687, 68);
-            button_editar_pac.Name = "button_editar_pac";
-            button_editar_pac.Size = new Size(125, 27);
-            button_editar_pac.TabIndex = 88;
-            button_editar_pac.Text = "Editar Paciente";
-            button_editar_pac.UseVisualStyleBackColor = false;
-            button_editar_pac.Click += button_editar_pac_Click;
-            // 
-            // label13
-            // 
-            label13.AutoSize = true;
-            label13.Location = new Point(32, 45);
-            label13.Name = "label13";
-            label13.Size = new Size(51, 15);
-            label13.TabIndex = 89;
-            label13.Text = "Afiliado:";
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Location = new Point(26, 103);
-            label3.Name = "label3";
-            label3.Size = new Size(57, 15);
-            label3.TabIndex = 46;
-            label3.Text = "N° Socio:";
-            // 
-            // label14
-            // 
-            label14.AutoSize = true;
-            label14.Location = new Point(38, 74);
-            label14.Name = "label14";
-            label14.Size = new Size(45, 15);
-            label14.TabIndex = 90;
-            label14.Text = "OOSS: ";
-            // 
-            // label15
-            // 
-            label15.AutoSize = true;
-            label15.Location = new Point(197, 103);
-            label15.Name = "label15";
-            label15.Size = new Size(36, 15);
-            label15.TabIndex = 91;
-            label15.Text = "Plan: ";
-            // 
             // dataGridView_medicamentos
             // 
             dataGridView_medicamentos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView_medicamentos.Location = new Point(17, 152);
+            dataGridView_medicamentos.Location = new Point(9, 67);
             dataGridView_medicamentos.Name = "dataGridView_medicamentos";
-            dataGridView_medicamentos.Size = new Size(795, 174);
+            dataGridView_medicamentos.Size = new Size(803, 174);
             dataGridView_medicamentos.TabIndex = 86;
             // 
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(17, 134);
+            label7.Location = new Point(9, 49);
             label7.Name = "label7";
             label7.Size = new Size(26, 15);
             label7.TabIndex = 51;
@@ -780,9 +511,169 @@
             // 
             treeView_recetas.Location = new Point(3, 3);
             treeView_recetas.Name = "treeView_recetas";
-            treeView_recetas.Size = new Size(355, 543);
+            treeView_recetas.Size = new Size(355, 494);
             treeView_recetas.TabIndex = 61;
             treeView_recetas.AfterSelect += treeView_recetas_AfterSelect;
+            // 
+            // tabPage4
+            // 
+            tabPage4.BackColor = Color.WhiteSmoke;
+            tabPage4.Controls.Add(treeView1);
+            tabPage4.Controls.Add(flowLayoutPanel4);
+            tabPage4.Controls.Add(groupBox4);
+            tabPage4.Location = new Point(4, 24);
+            tabPage4.Name = "tabPage4";
+            tabPage4.Size = new Size(1190, 543);
+            tabPage4.TabIndex = 3;
+            tabPage4.Text = "Certificados";
+            // 
+            // treeView1
+            // 
+            treeView1.Location = new Point(3, 3);
+            treeView1.Name = "treeView1";
+            treeView1.Size = new Size(355, 492);
+            treeView1.TabIndex = 90;
+            // 
+            // flowLayoutPanel4
+            // 
+            flowLayoutPanel4.Controls.Add(button3);
+            flowLayoutPanel4.Controls.Add(button5);
+            flowLayoutPanel4.Controls.Add(button6);
+            flowLayoutPanel4.Controls.Add(button7);
+            flowLayoutPanel4.Location = new Point(606, 503);
+            flowLayoutPanel4.Margin = new Padding(5);
+            flowLayoutPanel4.Name = "flowLayoutPanel4";
+            flowLayoutPanel4.Size = new Size(350, 35);
+            flowLayoutPanel4.TabIndex = 89;
+            // 
+            // button3
+            // 
+            button3.BackColor = Color.SandyBrown;
+            button3.Font = new Font("Calibri", 9.75F, FontStyle.Bold);
+            button3.Image = Properties.Resources.clear;
+            button3.ImageAlign = ContentAlignment.MiddleRight;
+            button3.Location = new Point(5, 5);
+            button3.Margin = new Padding(5);
+            button3.Name = "button3";
+            button3.Size = new Size(77, 27);
+            button3.TabIndex = 23;
+            button3.Text = "Limpiar";
+            button3.TextAlign = ContentAlignment.MiddleLeft;
+            button3.UseVisualStyleBackColor = false;
+            // 
+            // button5
+            // 
+            button5.BackColor = SystemColors.ActiveCaption;
+            button5.Font = new Font("Calibri", 9.75F, FontStyle.Bold);
+            button5.Image = Properties.Resources.edit;
+            button5.ImageAlign = ContentAlignment.MiddleRight;
+            button5.Location = new Point(92, 5);
+            button5.Margin = new Padding(5);
+            button5.Name = "button5";
+            button5.Size = new Size(77, 27);
+            button5.TabIndex = 24;
+            button5.Text = "Editar";
+            button5.TextAlign = ContentAlignment.MiddleLeft;
+            button5.UseVisualStyleBackColor = false;
+            // 
+            // button6
+            // 
+            button6.BackColor = Color.DarkSeaGreen;
+            button6.Font = new Font("Calibri", 9.75F, FontStyle.Bold);
+            button6.Image = Properties.Resources.save;
+            button6.ImageAlign = ContentAlignment.MiddleRight;
+            button6.Location = new Point(179, 5);
+            button6.Margin = new Padding(5);
+            button6.Name = "button6";
+            button6.Size = new Size(77, 27);
+            button6.TabIndex = 25;
+            button6.Text = "Guardar";
+            button6.TextAlign = ContentAlignment.MiddleLeft;
+            button6.UseVisualStyleBackColor = false;
+            // 
+            // button7
+            // 
+            button7.BackColor = Color.Ivory;
+            button7.Font = new Font("Calibri", 9.75F, FontStyle.Bold);
+            button7.Image = Properties.Resources.printer;
+            button7.ImageAlign = ContentAlignment.MiddleRight;
+            button7.Location = new Point(266, 5);
+            button7.Margin = new Padding(5);
+            button7.Name = "button7";
+            button7.Size = new Size(77, 27);
+            button7.TabIndex = 29;
+            button7.Text = "Imprimir";
+            button7.TextAlign = ContentAlignment.MiddleLeft;
+            button7.UseVisualStyleBackColor = false;
+            // 
+            // groupBox4
+            // 
+            groupBox4.BackColor = Color.WhiteSmoke;
+            groupBox4.Controls.Add(uC_Mostrar_Medico1);
+            groupBox4.Controls.Add(label32);
+            groupBox4.Controls.Add(richTextBox2);
+            groupBox4.Controls.Add(label21);
+            groupBox4.Controls.Add(richTextBox1);
+            groupBox4.Controls.Add(textBox6);
+            groupBox4.Controls.Add(label27);
+            groupBox4.Location = new Point(364, 3);
+            groupBox4.Name = "groupBox4";
+            groupBox4.Size = new Size(823, 492);
+            groupBox4.TabIndex = 88;
+            groupBox4.TabStop = false;
+            groupBox4.Text = "Certificado Med.";
+            // 
+            // label32
+            // 
+            label32.AutoSize = true;
+            label32.Location = new Point(9, 44);
+            label32.Name = "label32";
+            label32.Size = new Size(54, 15);
+            label32.TabIndex = 118;
+            label32.Text = "Certifico:";
+            // 
+            // richTextBox2
+            // 
+            richTextBox2.Location = new Point(9, 62);
+            richTextBox2.Name = "richTextBox2";
+            richTextBox2.Size = new Size(803, 163);
+            richTextBox2.TabIndex = 117;
+            richTextBox2.Text = "";
+            // 
+            // label21
+            // 
+            label21.AutoSize = true;
+            label21.Location = new Point(9, 238);
+            label21.Name = "label21";
+            label21.Size = new Size(87, 15);
+            label21.TabIndex = 116;
+            label21.Text = "Observaciones:";
+            // 
+            // richTextBox1
+            // 
+            richTextBox1.Location = new Point(9, 256);
+            richTextBox1.Name = "richTextBox1";
+            richTextBox1.Size = new Size(803, 108);
+            richTextBox1.TabIndex = 115;
+            richTextBox1.Text = "";
+            // 
+            // textBox6
+            // 
+            textBox6.Enabled = false;
+            textBox6.Location = new Point(688, 16);
+            textBox6.Name = "textBox6";
+            textBox6.Size = new Size(124, 23);
+            textBox6.TabIndex = 101;
+            // 
+            // label27
+            // 
+            label27.AutoSize = true;
+            label27.Enabled = false;
+            label27.Location = new Point(596, 19);
+            label27.Name = "label27";
+            label27.Size = new Size(86, 15);
+            label27.TabIndex = 95;
+            label27.Text = "Fecha Emisión:";
             // 
             // uC_Buscar_Paciente1
             // 
@@ -790,6 +681,14 @@
             uC_Buscar_Paciente1.Name = "uC_Buscar_Paciente1";
             uC_Buscar_Paciente1.Size = new Size(444, 226);
             uC_Buscar_Paciente1.TabIndex = 56;
+            // 
+            // uC_Mostrar_Medico1
+            // 
+            uC_Mostrar_Medico1.BackColor = Color.WhiteSmoke;
+            uC_Mostrar_Medico1.Location = new Point(561, 370);
+            uC_Mostrar_Medico1.Name = "uC_Mostrar_Medico1";
+            uC_Mostrar_Medico1.Size = new Size(251, 116);
+            uC_Mostrar_Medico1.TabIndex = 119;
             // 
             // Form_HistoriaClinica
             // 
@@ -800,8 +699,6 @@
             Name = "Form_HistoriaClinica";
             Text = "Form_HistoriaClinica";
             groupBox1.ResumeLayout(false);
-            groupBox3.ResumeLayout(false);
-            groupBox3.PerformLayout();
             tabControl1.ResumeLayout(false);
             tabPage1.ResumeLayout(false);
             tabPage1.PerformLayout();
@@ -814,21 +711,16 @@
             groupBox2.ResumeLayout(false);
             groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView_medicamentos).EndInit();
+            tabPage4.ResumeLayout(false);
+            flowLayoutPanel4.ResumeLayout(false);
+            groupBox4.ResumeLayout(false);
+            groupBox4.PerformLayout();
             ResumeLayout(false);
         }
 
         #endregion
 
         private GroupBox groupBox1;
-        private Label label_nombre_completo;
-        private Label label3;
-        private Label label9;
-        private Label label8;
-        private Label label10;
-        private Label label_nro_socio;
-        private Label label_ooss;
-        private GroupBox groupBox3;
-        private Button button_seleccionar_paciente;
         private TabControl tabControl1;
         private TabPage tabPage1;
         private TabPage tabPage2;
@@ -854,28 +746,8 @@
         private DataGridView dataGridView_medicamentos;
         private Label label7;
         private Label label5;
-        private Button button_editar_pac;
-        private Label label13;
-        private Label label14;
-        private Label label15;
-        private TextBox textBox_plan_pac;
-        private TextBox textBox_nrosoc_pac;
-        private TextBox textBox_oss_pac;
-        private TextBox textBox1;
         private TextBox textBox6;
-        private Label label11;
         private TextBox textBox_fecha;
-        private TextBox textBox_esp_med;
-        private Label label12;
-        private TextBox textBox_mat_med;
-        private TextBox textBox_nombre_med;
-        private Label label16;
-        private Label label17;
-        private Label label18;
-        private TextBox textBox_nom_pac;
-        private TextBox textBox_dni_pac;
-        private Label label_PLAN;
-        private Label label20;
         private Forms_Seguridad.UC_Buscar_Paciente uC_Buscar_Paciente1;
         private CheckBox checkBox_cronico;
         private FlowLayoutPanel flowLayoutPanel3;
@@ -885,5 +757,21 @@
         private Button button_rec_imprimir;
         private Label label19;
         private RichTextBox richTextBox_observ;
+        private TabPage tabPage4;
+        private GroupBox groupBox4;
+        private Label label21;
+        private RichTextBox richTextBox1;
+        private Label label27;
+        private FlowLayoutPanel flowLayoutPanel4;
+        private Button button3;
+        private Button button5;
+        private Button button6;
+        private Button button7;
+        private TreeView treeView1;
+        private Label label32;
+        private RichTextBox richTextBox2;
+        private Forms_Seguridad.UC_Mostrar_Paciente uC_Mostrar_Paciente1;
+        private Forms_Seguridad.UC_Mostrar_Medico uC_Mostrar_Medico2;
+        private Forms_Seguridad.UC_Mostrar_Medico uC_Mostrar_Medico1;
     }
 }

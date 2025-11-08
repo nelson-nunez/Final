@@ -2,13 +2,6 @@
 using SiAP.Abstracciones;
 using SiAP.MPP.Base;
 using Policonsultorio.BE;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using SiAP.Abstracciones;
-using SiAP.MPP.Base;
-using Policonsultorio.BE;
 
 namespace SiAP.MPP
 {

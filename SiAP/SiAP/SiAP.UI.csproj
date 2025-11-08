@@ -17,6 +17,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Controles\UC_Mostrar_Medico.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Controles\UC_Mostrar_Paciente.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Update="Form_Agenda.cs">
       <SubType>Form</SubType>
     </Compile>

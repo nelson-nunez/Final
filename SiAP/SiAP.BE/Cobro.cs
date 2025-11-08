@@ -9,7 +9,6 @@ namespace SiAP.BE
 {
     public class Cobro: ClaseBase
     {
-        public int Id { get; set; }
         public DateTime FechaHora { get; set; }
         public string TipoPago { get; set; }
         public decimal Monto { get; set; }

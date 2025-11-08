@@ -2,7 +2,7 @@
 using System;
 using System.IO;
 
-namespace SiAP.Extensions
+namespace SiAP.UI.Impresiones
 {
     public class CustomFontResolver : IFontResolver
     {

@@ -9,7 +9,7 @@ using SiAP.BLL;
 using SiAP.BLL.Seguridad;
 using SiAP.UI.Extensiones;
 using SiAP.UI.Forms_Seguridad;
-using SiAP.Extensions;
+using SiAP.UI.Impresiones;
 
 namespace SiAP.UI
 {
@@ -21,7 +21,6 @@ namespace SiAP.UI
         private readonly BLL_Medico _bllMedico;
         private readonly BLL_Receta _bllReceta;
         private readonly BLL_Medicamento _bllMedicamento;
-        private readonly UC_Buscar_Paciente _userControl;
 
         private Form_CRUD_Pacientes form_paciente;
         private Paciente pacienteSeleccionado;
@@ -41,10 +40,6 @@ namespace SiAP.UI
             _bllMedico = BLL_Medico.ObtenerInstancia();
             _bllReceta = BLL_Receta.ObtenerInstancia();
             _bllMedicamento = BLL_Medicamento.ObtenerInstancia();
-
-            _userControl = this.FindUserControl<UC_Buscar_Paciente>("uC_Buscar_Paciente1");
-            _userControl.Visible = false;
-            _userControl.ShouldUpdate += OnPacienteSeleccionado;
 
             var useractual = GestionUsuario.UsuarioLogueado;
             medicoLoggeado = _bllMedico.LeerPorPersonId((long)useractual.PersonaId);
@@ -106,12 +101,12 @@ namespace SiAP.UI
         {
             try
             {
-                _userControl.Visible = true;
-                _userControl.BringToFront();
-                _userControl.Location = new Point(
-                    (this.ClientSize.Width - _userControl.Width) / 2,
-                    (this.ClientSize.Height - _userControl.Height) / 2
-                );
+                //_userControl.Visible = true;
+                //_userControl.BringToFront();
+                //_userControl.Location = new Point(
+                //    (this.ClientSize.Width - _userControl.Width) / 2,
+                //    (this.ClientSize.Height - _userControl.Height) / 2
+                //);
             }
             catch (Exception ex)
             {
@@ -123,8 +118,8 @@ namespace SiAP.UI
         {
             try
             {
-                _userControl.Visible = false;
-                pacienteSeleccionado = _userControl.itemSeleccionado;
+                //_userControl.Visible = false;
+                //pacienteSeleccionado = _userControl.itemSeleccionado;
                 CargarDatosPaciente();
                 CargarHistoria();
                 CargarConsultas();
@@ -141,10 +136,10 @@ namespace SiAP.UI
         {
             if (pacienteSeleccionado == null) return;
 
-            label_nombre_completo.Text = pacienteSeleccionado.ToString();
-            label_ooss.Text = pacienteSeleccionado.ObraSocial;
-            label_PLAN.Text = pacienteSeleccionado.Plan;
-            label_nro_socio.Text = pacienteSeleccionado.NumeroSocio.ToString();
+            //label_nombre_completo.Text = pacienteSeleccionado.ToString();
+            //label_ooss.Text = pacienteSeleccionado.ObraSocial;
+            //label_PLAN.Text = pacienteSeleccionado.Plan;
+            //label_nro_socio.Text = pacienteSeleccionado.NumeroSocio.ToString();
         }
 
         #endregion
@@ -384,14 +379,7 @@ namespace SiAP.UI
 
                 richTextBox_observ.Text = recetaSeleccionada?.Observaciones.ToString();
                 textBox_fecha.Text = DateTime.Now.ToShortDateString() ?? "";
-                textBox_nom_pac.Text = pacienteSeleccionado?.ToString() ?? "";
-                textBox_dni_pac.Text = pacienteSeleccionado?.Dni.ToString() ?? "";
-                textBox_oss_pac.Text = pacienteSeleccionado?.ObraSocial ?? "";
-                textBox_nrosoc_pac.Text = pacienteSeleccionado?.NumeroSocio.ToString() ?? "";
-                textBox_plan_pac.Text = pacienteSeleccionado?.Plan;
-                textBox_nombre_med.Text = medicoLoggeado?.ToString() ?? "";
-                textBox_esp_med.Text = medicoLoggeado?.Especialidad?.ToString() ?? "";
-                textBox_mat_med.Text = medicoLoggeado?.Titulo ?? ""; 
+
             }
             catch (Exception ex)
             {
@@ -482,12 +470,12 @@ namespace SiAP.UI
                 recetaSeleccionada = new Receta
                 {
                     Fecha = DateTime.Now.Date,
-                    Observaciones = richTextBox_observ.Text,                    
+                    Observaciones = richTextBox_observ.Text,
                     Profesional = medicoLoggeado.NombreCompleto,
                     EsCronica = checkBox_cronico.Checked,
                     Consulta = consultaSeleccionada,
                     Medicamentos = medicamentosSeleccionados.ToList(),
-                    
+
                     Obra_social = pacienteSeleccionado.ObraSocial,
                     Nro_Socio = pacienteSeleccionado.NumeroSocio,
                     Plan = pacienteSeleccionado.Plan,
@@ -519,15 +507,15 @@ namespace SiAP.UI
                 if (medicamentosSeleccionados == null || medicamentosSeleccionados.Count == 0)
                     throw new InvalidOperationException("Debe agregar al menos un medicamento a la receta.");
 
-
-                recetaSeleccionada.GenerarYAbrirPDF(pacienteSeleccionado, medicoLoggeado);
+                var generator = new RecetaPDFGenerator(recetaSeleccionada, pacienteSeleccionado, medicoLoggeado);
+                generator.GenerarYAbrirPDF();
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Error al generar el PDF: {ex.Message}", "⛔ Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-           
+
         #endregion
     }
 }
