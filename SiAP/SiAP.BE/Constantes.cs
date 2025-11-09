@@ -49,6 +49,7 @@ namespace SiAP.UI
             
             new Menu(11, "Cobros", "TAG11"),
             new Menu(12, "Reportes", "TAG12"),
+            new Menu(13, "Respaldos", "TAG13"),
         };
 
         public static IReadOnlyList<Menu> ObtenerTodos() => _menus;
@@ -68,6 +69,23 @@ namespace SiAP.UI
         };
 
         public static IReadOnlyList<Menu> ObtenerTodos() => _menus;
+    }
+
+    public static class TipoCertificados
+    {
+        private static readonly List<string> _menus = new()
+        {
+            "AltaMedica",
+            "AptitudFisica",
+            "CertificadoNacimiento",
+            "ControlSalud",
+            "Defuncion",
+            "Discapacidad",
+            "ReposoMedico",
+            "Vacunacion",
+        };
+
+        public static IReadOnlyList<string> ObtenerTodos() => _menus;
     }
 
     public static class ConfiguracionCalendario

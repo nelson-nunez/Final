@@ -33,7 +33,7 @@ namespace SiAP.MPP
         public void Modificar(Certificado entidad)
         {
             ArgumentNullException.ThrowIfNull(entidad);
-            ModificarEntidad(entidad, AsignarDatos);
+            ModificarEntidad(entidad, ModificarDatos);
         }
 
         public void Eliminar(Certificado entidad)
@@ -132,12 +132,23 @@ namespace SiAP.MPP
                     .OrderBy(c => c.FechaVigenciaHasta).ToList();
         }
 
+        private void ModificarDatos(DataRow dr, Certificado entidad)
+        {
+            dr["Fecha"] = entidad.Fecha;
+            dr["TipoCertificado"] = entidad.TipoCertificado ?? string.Empty;
+            dr["Descripcion"] = entidad.Descripcion ?? string.Empty;
+            dr["Observaciones"] = entidad.Observaciones ?? string.Empty;
+            dr["FechaVigenciaDesde"] = entidad.FechaVigenciaDesde != default(DateTime) ? entidad.FechaVigenciaDesde : (object)DBNull.Value;
+            dr["FechaVigenciaHasta"] = entidad.FechaVigenciaHasta != default(DateTime) ? entidad.FechaVigenciaHasta : (object)DBNull.Value;
+        }
+
         private void AsignarDatos(DataRow dr, Certificado entidad)
         {
             dr["ConsultaId"] = entidad.Consulta?.Id ?? (object)DBNull.Value;
             dr["Fecha"] = entidad.Fecha;
             dr["TipoCertificado"] = entidad.TipoCertificado ?? string.Empty;
             dr["Descripcion"] = entidad.Descripcion ?? string.Empty;
+            dr["Profesional"] = entidad.Profesional ?? string.Empty;
             dr["Observaciones"] = entidad.Observaciones ?? string.Empty;
             dr["FechaVigenciaDesde"] = entidad.FechaVigenciaDesde != default(DateTime) ? entidad.FechaVigenciaDesde : (object)DBNull.Value;
             dr["FechaVigenciaHasta"] = entidad.FechaVigenciaHasta != default(DateTime) ? entidad.FechaVigenciaHasta : (object)DBNull.Value;
@@ -152,6 +163,7 @@ namespace SiAP.MPP
                 TipoCertificado = r["TipoCertificado"]?.ToString() ?? string.Empty,
                 Descripcion = r["Descripcion"]?.ToString() ?? string.Empty,
                 Observaciones = r["Observaciones"]?.ToString() ?? string.Empty,
+                Profesional = r["Profesional"]?.ToString() ?? string.Empty,
                 FechaVigenciaDesde = r["FechaVigenciaDesde"] != DBNull.Value ? Convert.ToDateTime(r["FechaVigenciaDesde"]) : default(DateTime),
                 FechaVigenciaHasta = r["FechaVigenciaHasta"] != DBNull.Value ? Convert.ToDateTime(r["FechaVigenciaHasta"]) : default(DateTime)
             };

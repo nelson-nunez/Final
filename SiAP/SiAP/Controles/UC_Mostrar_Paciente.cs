@@ -8,9 +8,10 @@ namespace SiAP.UI.Forms_Seguridad
     public partial class UC_Mostrar_Paciente : UserControl
     {
         private UC_Buscar_Paciente _userControl;
-        private Paciente pacienteSeleccionado;
+        public Paciente pacienteSeleccionado;
         private Form_CRUD_Pacientes form_paciente;
         private Panel _panelOverlay;
+        public event EventHandler<EventArgs> ShouldUpdate;
 
         public UC_Mostrar_Paciente()
         {
@@ -46,7 +47,6 @@ namespace SiAP.UI.Forms_Seguridad
             try
             {
                 if (_userControl == null) return;
-
                 OcultarUserControlEnFormPadre();
                 pacienteSeleccionado = _userControl.itemSeleccionado;
                 CargarDatosPaciente();
@@ -66,6 +66,8 @@ namespace SiAP.UI.Forms_Seguridad
             textBox_ooss.Text = pacienteSeleccionado.ObraSocial;
             textBox_plan.Text = pacienteSeleccionado.Plan;
             textBox_nro_socio.Text = pacienteSeleccionado.NumeroSocio.ToString();
+            //Invoco porque se selecciono algo
+            ShouldUpdate?.Invoke(null, new EventArgs());
         }
 
         private void button_Buscar_Click(object sender, EventArgs e)

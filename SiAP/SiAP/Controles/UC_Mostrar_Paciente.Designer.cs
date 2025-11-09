@@ -200,8 +200,8 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Transparent;
-            Controls.Add(uC_Buscar_Paciente1);
             Controls.Add(groupBox1);
+            Controls.Add(uC_Buscar_Paciente1);
             Name = "UC_Mostrar_Paciente";
             Size = new Size(900, 275);
             groupBox1.ResumeLayout(false);

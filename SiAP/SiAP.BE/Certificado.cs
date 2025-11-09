@@ -14,6 +14,7 @@ namespace Policonsultorio.BE
         public string TipoCertificado { get; set; }
         public DateTime FechaVigenciaDesde { get; set; }
         public DateTime FechaVigenciaHasta { get; set; }
+        public string Profesional { get; set; }
         public Consulta Consulta { get; set; }
 
 

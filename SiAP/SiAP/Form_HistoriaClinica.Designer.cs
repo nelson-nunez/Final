@@ -40,11 +40,11 @@
             tabPage2 = new TabPage();
             treeView_historia_cli = new TreeView();
             label4 = new Label();
-            richTextBox_tratamiento = new RichTextBox();
+            richTextBox_tratamiento_consulta = new RichTextBox();
             label2 = new Label();
-            richTextBox_observaciones = new RichTextBox();
+            richTextBox_observaciones_consulta = new RichTextBox();
             label1 = new Label();
-            richTextBox_motivo = new RichTextBox();
+            richTextBox_motivo_consulta = new RichTextBox();
             flowLayoutPanel1 = new FlowLayoutPanel();
             button_Limpiar = new Button();
             button_Editar = new Button();
@@ -58,29 +58,35 @@
             groupBox2 = new GroupBox();
             uC_Mostrar_Medico2 = new Forms_Seguridad.UC_Mostrar_Medico();
             label19 = new Label();
-            richTextBox_observ = new RichTextBox();
-            checkBox_cronico = new CheckBox();
-            textBox_fecha = new TextBox();
+            richTextBox_observ_receta = new RichTextBox();
+            checkBox_cronico_receta = new CheckBox();
+            textBox_fecha_receta = new TextBox();
             label5 = new Label();
             dataGridView_medicamentos = new DataGridView();
             label7 = new Label();
             treeView_recetas = new TreeView();
             tabPage4 = new TabPage();
-            treeView1 = new TreeView();
+            treeView_certificados = new TreeView();
             flowLayoutPanel4 = new FlowLayoutPanel();
-            button3 = new Button();
-            button5 = new Button();
-            button6 = new Button();
-            button7 = new Button();
+            button_limpiar_certif = new Button();
+            button_editar_certif = new Button();
+            button_guardar_certif = new Button();
+            button_imprimir_certif = new Button();
             groupBox4 = new GroupBox();
+            dateTimePicker_hasta = new DateTimePicker();
+            dateTimePicker_desde = new DateTimePicker();
+            label9 = new Label();
+            label8 = new Label();
+            label3 = new Label();
+            comboBox_tipo_certificado = new ComboBox();
+            uC_Mostrar_Medico1 = new Forms_Seguridad.UC_Mostrar_Medico();
             label32 = new Label();
-            richTextBox2 = new RichTextBox();
+            richTextBox_descrip_certificado = new RichTextBox();
             label21 = new Label();
-            richTextBox1 = new RichTextBox();
-            textBox6 = new TextBox();
+            richTextBox_observaciones_certif = new RichTextBox();
+            textBox_fecha_certif = new TextBox();
             label27 = new Label();
             uC_Buscar_Paciente1 = new Forms_Seguridad.UC_Buscar_Paciente();
-            uC_Mostrar_Medico1 = new Forms_Seguridad.UC_Mostrar_Medico();
             groupBox1.SuspendLayout();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
@@ -204,11 +210,11 @@
             tabPage2.BackColor = Color.WhiteSmoke;
             tabPage2.Controls.Add(treeView_historia_cli);
             tabPage2.Controls.Add(label4);
-            tabPage2.Controls.Add(richTextBox_tratamiento);
+            tabPage2.Controls.Add(richTextBox_tratamiento_consulta);
             tabPage2.Controls.Add(label2);
-            tabPage2.Controls.Add(richTextBox_observaciones);
+            tabPage2.Controls.Add(richTextBox_observaciones_consulta);
             tabPage2.Controls.Add(label1);
-            tabPage2.Controls.Add(richTextBox_motivo);
+            tabPage2.Controls.Add(richTextBox_motivo_consulta);
             tabPage2.Controls.Add(flowLayoutPanel1);
             tabPage2.Location = new Point(4, 24);
             tabPage2.Name = "tabPage2";
@@ -234,13 +240,13 @@
             label4.TabIndex = 66;
             label4.Text = "Tratamiento";
             // 
-            // richTextBox_tratamiento
+            // richTextBox_tratamiento_consulta
             // 
-            richTextBox_tratamiento.Location = new Point(253, 374);
-            richTextBox_tratamiento.Name = "richTextBox_tratamiento";
-            richTextBox_tratamiento.Size = new Size(934, 124);
-            richTextBox_tratamiento.TabIndex = 65;
-            richTextBox_tratamiento.Text = "";
+            richTextBox_tratamiento_consulta.Location = new Point(253, 374);
+            richTextBox_tratamiento_consulta.Name = "richTextBox_tratamiento_consulta";
+            richTextBox_tratamiento_consulta.Size = new Size(934, 124);
+            richTextBox_tratamiento_consulta.TabIndex = 65;
+            richTextBox_tratamiento_consulta.Text = "";
             // 
             // label2
             // 
@@ -251,13 +257,13 @@
             label2.TabIndex = 64;
             label2.Text = "Observaciones";
             // 
-            // richTextBox_observaciones
+            // richTextBox_observaciones_consulta
             // 
-            richTextBox_observaciones.Location = new Point(250, 203);
-            richTextBox_observaciones.Name = "richTextBox_observaciones";
-            richTextBox_observaciones.Size = new Size(934, 150);
-            richTextBox_observaciones.TabIndex = 63;
-            richTextBox_observaciones.Text = "";
+            richTextBox_observaciones_consulta.Location = new Point(250, 203);
+            richTextBox_observaciones_consulta.Name = "richTextBox_observaciones_consulta";
+            richTextBox_observaciones_consulta.Size = new Size(934, 150);
+            richTextBox_observaciones_consulta.TabIndex = 63;
+            richTextBox_observaciones_consulta.Text = "";
             // 
             // label1
             // 
@@ -268,13 +274,13 @@
             label1.TabIndex = 62;
             label1.Text = "Motivo";
             // 
-            // richTextBox_motivo
+            // richTextBox_motivo_consulta
             // 
-            richTextBox_motivo.Location = new Point(250, 32);
-            richTextBox_motivo.Name = "richTextBox_motivo";
-            richTextBox_motivo.Size = new Size(934, 150);
-            richTextBox_motivo.TabIndex = 61;
-            richTextBox_motivo.Text = "";
+            richTextBox_motivo_consulta.Location = new Point(250, 32);
+            richTextBox_motivo_consulta.Name = "richTextBox_motivo_consulta";
+            richTextBox_motivo_consulta.Size = new Size(934, 150);
+            richTextBox_motivo_consulta.TabIndex = 61;
+            richTextBox_motivo_consulta.Text = "";
             // 
             // flowLayoutPanel1
             // 
@@ -349,7 +355,7 @@
             flowLayoutPanel3.Controls.Add(button_rec_editar);
             flowLayoutPanel3.Controls.Add(button_rec_guardar);
             flowLayoutPanel3.Controls.Add(button_rec_imprimir);
-            flowLayoutPanel3.Location = new Point(584, 503);
+            flowLayoutPanel3.Location = new Point(546, 503);
             flowLayoutPanel3.Margin = new Padding(5);
             flowLayoutPanel3.Name = "flowLayoutPanel3";
             flowLayoutPanel3.Size = new Size(350, 35);
@@ -424,9 +430,9 @@
             groupBox2.BackColor = Color.WhiteSmoke;
             groupBox2.Controls.Add(uC_Mostrar_Medico2);
             groupBox2.Controls.Add(label19);
-            groupBox2.Controls.Add(richTextBox_observ);
-            groupBox2.Controls.Add(checkBox_cronico);
-            groupBox2.Controls.Add(textBox_fecha);
+            groupBox2.Controls.Add(richTextBox_observ_receta);
+            groupBox2.Controls.Add(checkBox_cronico_receta);
+            groupBox2.Controls.Add(textBox_fecha_receta);
             groupBox2.Controls.Add(label5);
             groupBox2.Controls.Add(dataGridView_medicamentos);
             groupBox2.Controls.Add(label7);
@@ -454,32 +460,32 @@
             label19.TabIndex = 116;
             label19.Text = "Observaciones:";
             // 
-            // richTextBox_observ
+            // richTextBox_observ_receta
             // 
-            richTextBox_observ.Location = new Point(9, 284);
-            richTextBox_observ.Name = "richTextBox_observ";
-            richTextBox_observ.Size = new Size(803, 80);
-            richTextBox_observ.TabIndex = 115;
-            richTextBox_observ.Text = "";
+            richTextBox_observ_receta.Location = new Point(9, 284);
+            richTextBox_observ_receta.Name = "richTextBox_observ_receta";
+            richTextBox_observ_receta.Size = new Size(803, 80);
+            richTextBox_observ_receta.TabIndex = 115;
+            richTextBox_observ_receta.Text = "";
             // 
-            // checkBox_cronico
+            // checkBox_cronico_receta
             // 
-            checkBox_cronico.AutoSize = true;
-            checkBox_cronico.CheckAlign = ContentAlignment.MiddleRight;
-            checkBox_cronico.Location = new Point(17, 379);
-            checkBox_cronico.Name = "checkBox_cronico";
-            checkBox_cronico.Size = new Size(83, 19);
-            checkBox_cronico.TabIndex = 114;
-            checkBox_cronico.Text = "Es crónico:";
-            checkBox_cronico.UseVisualStyleBackColor = true;
+            checkBox_cronico_receta.AutoSize = true;
+            checkBox_cronico_receta.CheckAlign = ContentAlignment.MiddleRight;
+            checkBox_cronico_receta.Location = new Point(17, 379);
+            checkBox_cronico_receta.Name = "checkBox_cronico_receta";
+            checkBox_cronico_receta.Size = new Size(83, 19);
+            checkBox_cronico_receta.TabIndex = 114;
+            checkBox_cronico_receta.Text = "Es crónico:";
+            checkBox_cronico_receta.UseVisualStyleBackColor = true;
             // 
-            // textBox_fecha
+            // textBox_fecha_receta
             // 
-            textBox_fecha.Enabled = false;
-            textBox_fecha.Location = new Point(688, 16);
-            textBox_fecha.Name = "textBox_fecha";
-            textBox_fecha.Size = new Size(124, 23);
-            textBox_fecha.TabIndex = 101;
+            textBox_fecha_receta.Enabled = false;
+            textBox_fecha_receta.Location = new Point(688, 16);
+            textBox_fecha_receta.Name = "textBox_fecha_receta";
+            textBox_fecha_receta.Size = new Size(124, 23);
+            textBox_fecha_receta.TabIndex = 101;
             // 
             // label5
             // 
@@ -518,7 +524,7 @@
             // tabPage4
             // 
             tabPage4.BackColor = Color.WhiteSmoke;
-            tabPage4.Controls.Add(treeView1);
+            tabPage4.Controls.Add(treeView_certificados);
             tabPage4.Controls.Add(flowLayoutPanel4);
             tabPage4.Controls.Add(groupBox4);
             tabPage4.Location = new Point(4, 24);
@@ -527,94 +533,105 @@
             tabPage4.TabIndex = 3;
             tabPage4.Text = "Certificados";
             // 
-            // treeView1
+            // treeView_certificados
             // 
-            treeView1.Location = new Point(3, 3);
-            treeView1.Name = "treeView1";
-            treeView1.Size = new Size(355, 492);
-            treeView1.TabIndex = 90;
+            treeView_certificados.Location = new Point(3, 3);
+            treeView_certificados.Name = "treeView_certificados";
+            treeView_certificados.Size = new Size(355, 492);
+            treeView_certificados.TabIndex = 90;
+            treeView_certificados.AfterSelect += treeView_certificados_AfterSelect;
             // 
             // flowLayoutPanel4
             // 
-            flowLayoutPanel4.Controls.Add(button3);
-            flowLayoutPanel4.Controls.Add(button5);
-            flowLayoutPanel4.Controls.Add(button6);
-            flowLayoutPanel4.Controls.Add(button7);
-            flowLayoutPanel4.Location = new Point(606, 503);
+            flowLayoutPanel4.Controls.Add(button_limpiar_certif);
+            flowLayoutPanel4.Controls.Add(button_editar_certif);
+            flowLayoutPanel4.Controls.Add(button_guardar_certif);
+            flowLayoutPanel4.Controls.Add(button_imprimir_certif);
+            flowLayoutPanel4.Location = new Point(546, 503);
             flowLayoutPanel4.Margin = new Padding(5);
             flowLayoutPanel4.Name = "flowLayoutPanel4";
             flowLayoutPanel4.Size = new Size(350, 35);
             flowLayoutPanel4.TabIndex = 89;
             // 
-            // button3
+            // button_limpiar_certif
             // 
-            button3.BackColor = Color.SandyBrown;
-            button3.Font = new Font("Calibri", 9.75F, FontStyle.Bold);
-            button3.Image = Properties.Resources.clear;
-            button3.ImageAlign = ContentAlignment.MiddleRight;
-            button3.Location = new Point(5, 5);
-            button3.Margin = new Padding(5);
-            button3.Name = "button3";
-            button3.Size = new Size(77, 27);
-            button3.TabIndex = 23;
-            button3.Text = "Limpiar";
-            button3.TextAlign = ContentAlignment.MiddleLeft;
-            button3.UseVisualStyleBackColor = false;
+            button_limpiar_certif.BackColor = Color.SandyBrown;
+            button_limpiar_certif.Font = new Font("Calibri", 9.75F, FontStyle.Bold);
+            button_limpiar_certif.Image = Properties.Resources.clear;
+            button_limpiar_certif.ImageAlign = ContentAlignment.MiddleRight;
+            button_limpiar_certif.Location = new Point(5, 5);
+            button_limpiar_certif.Margin = new Padding(5);
+            button_limpiar_certif.Name = "button_limpiar_certif";
+            button_limpiar_certif.Size = new Size(77, 27);
+            button_limpiar_certif.TabIndex = 23;
+            button_limpiar_certif.Text = "Limpiar";
+            button_limpiar_certif.TextAlign = ContentAlignment.MiddleLeft;
+            button_limpiar_certif.UseVisualStyleBackColor = false;
+            button_limpiar_certif.Click += button_rec_limpiar_CertificadoClick;
             // 
-            // button5
+            // button_editar_certif
             // 
-            button5.BackColor = SystemColors.ActiveCaption;
-            button5.Font = new Font("Calibri", 9.75F, FontStyle.Bold);
-            button5.Image = Properties.Resources.edit;
-            button5.ImageAlign = ContentAlignment.MiddleRight;
-            button5.Location = new Point(92, 5);
-            button5.Margin = new Padding(5);
-            button5.Name = "button5";
-            button5.Size = new Size(77, 27);
-            button5.TabIndex = 24;
-            button5.Text = "Editar";
-            button5.TextAlign = ContentAlignment.MiddleLeft;
-            button5.UseVisualStyleBackColor = false;
+            button_editar_certif.BackColor = SystemColors.ActiveCaption;
+            button_editar_certif.Font = new Font("Calibri", 9.75F, FontStyle.Bold);
+            button_editar_certif.Image = Properties.Resources.edit;
+            button_editar_certif.ImageAlign = ContentAlignment.MiddleRight;
+            button_editar_certif.Location = new Point(92, 5);
+            button_editar_certif.Margin = new Padding(5);
+            button_editar_certif.Name = "button_editar_certif";
+            button_editar_certif.Size = new Size(77, 27);
+            button_editar_certif.TabIndex = 24;
+            button_editar_certif.Text = "Editar";
+            button_editar_certif.TextAlign = ContentAlignment.MiddleLeft;
+            button_editar_certif.UseVisualStyleBackColor = false;
+            button_editar_certif.Click += button_rec_editar_CertificadoClick;
             // 
-            // button6
+            // button_guardar_certif
             // 
-            button6.BackColor = Color.DarkSeaGreen;
-            button6.Font = new Font("Calibri", 9.75F, FontStyle.Bold);
-            button6.Image = Properties.Resources.save;
-            button6.ImageAlign = ContentAlignment.MiddleRight;
-            button6.Location = new Point(179, 5);
-            button6.Margin = new Padding(5);
-            button6.Name = "button6";
-            button6.Size = new Size(77, 27);
-            button6.TabIndex = 25;
-            button6.Text = "Guardar";
-            button6.TextAlign = ContentAlignment.MiddleLeft;
-            button6.UseVisualStyleBackColor = false;
+            button_guardar_certif.BackColor = Color.DarkSeaGreen;
+            button_guardar_certif.Font = new Font("Calibri", 9.75F, FontStyle.Bold);
+            button_guardar_certif.Image = Properties.Resources.save;
+            button_guardar_certif.ImageAlign = ContentAlignment.MiddleRight;
+            button_guardar_certif.Location = new Point(179, 5);
+            button_guardar_certif.Margin = new Padding(5);
+            button_guardar_certif.Name = "button_guardar_certif";
+            button_guardar_certif.Size = new Size(77, 27);
+            button_guardar_certif.TabIndex = 25;
+            button_guardar_certif.Text = "Guardar";
+            button_guardar_certif.TextAlign = ContentAlignment.MiddleLeft;
+            button_guardar_certif.UseVisualStyleBackColor = false;
+            button_guardar_certif.Click += button_rec_guardar_CertificadoClick;
             // 
-            // button7
+            // button_imprimir_certif
             // 
-            button7.BackColor = Color.Ivory;
-            button7.Font = new Font("Calibri", 9.75F, FontStyle.Bold);
-            button7.Image = Properties.Resources.printer;
-            button7.ImageAlign = ContentAlignment.MiddleRight;
-            button7.Location = new Point(266, 5);
-            button7.Margin = new Padding(5);
-            button7.Name = "button7";
-            button7.Size = new Size(77, 27);
-            button7.TabIndex = 29;
-            button7.Text = "Imprimir";
-            button7.TextAlign = ContentAlignment.MiddleLeft;
-            button7.UseVisualStyleBackColor = false;
+            button_imprimir_certif.BackColor = Color.Ivory;
+            button_imprimir_certif.Font = new Font("Calibri", 9.75F, FontStyle.Bold);
+            button_imprimir_certif.Image = Properties.Resources.printer;
+            button_imprimir_certif.ImageAlign = ContentAlignment.MiddleRight;
+            button_imprimir_certif.Location = new Point(266, 5);
+            button_imprimir_certif.Margin = new Padding(5);
+            button_imprimir_certif.Name = "button_imprimir_certif";
+            button_imprimir_certif.Size = new Size(77, 27);
+            button_imprimir_certif.TabIndex = 29;
+            button_imprimir_certif.Text = "Imprimir";
+            button_imprimir_certif.TextAlign = ContentAlignment.MiddleLeft;
+            button_imprimir_certif.UseVisualStyleBackColor = false;
+            button_imprimir_certif.Click += button_rec_imprimir_CertificadoClick;
             // 
             // groupBox4
             // 
             groupBox4.BackColor = Color.WhiteSmoke;
+            groupBox4.Controls.Add(dateTimePicker_hasta);
+            groupBox4.Controls.Add(dateTimePicker_desde);
+            groupBox4.Controls.Add(label9);
+            groupBox4.Controls.Add(label8);
+            groupBox4.Controls.Add(label3);
+            groupBox4.Controls.Add(comboBox_tipo_certificado);
             groupBox4.Controls.Add(uC_Mostrar_Medico1);
             groupBox4.Controls.Add(label32);
-            groupBox4.Controls.Add(richTextBox2);
+            groupBox4.Controls.Add(richTextBox_descrip_certificado);
             groupBox4.Controls.Add(label21);
-            groupBox4.Controls.Add(richTextBox1);
-            groupBox4.Controls.Add(textBox6);
+            groupBox4.Controls.Add(richTextBox_observaciones_certif);
+            groupBox4.Controls.Add(textBox_fecha_certif);
             groupBox4.Controls.Add(label27);
             groupBox4.Location = new Point(364, 3);
             groupBox4.Name = "groupBox4";
@@ -623,47 +640,108 @@
             groupBox4.TabStop = false;
             groupBox4.Text = "Certificado Med.";
             // 
+            // dateTimePicker_hasta
+            // 
+            dateTimePicker_hasta.Format = DateTimePickerFormat.Short;
+            dateTimePicker_hasta.Location = new Point(330, 85);
+            dateTimePicker_hasta.Name = "dateTimePicker_hasta";
+            dateTimePicker_hasta.Size = new Size(110, 23);
+            dateTimePicker_hasta.TabIndex = 127;
+            // 
+            // dateTimePicker_desde
+            // 
+            dateTimePicker_desde.Format = DateTimePickerFormat.Short;
+            dateTimePicker_desde.Location = new Point(108, 85);
+            dateTimePicker_desde.Name = "dateTimePicker_desde";
+            dateTimePicker_desde.Size = new Size(110, 23);
+            dateTimePicker_desde.TabIndex = 126;
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            label9.Location = new Point(235, 91);
+            label9.Name = "label9";
+            label9.Size = new Size(89, 15);
+            label9.TabIndex = 125;
+            label9.Text = "Vigencia Hasta:";
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            label8.Location = new Point(12, 91);
+            label8.Name = "label8";
+            label8.Size = new Size(90, 15);
+            label8.TabIndex = 123;
+            label8.Text = "Vigencia desde:";
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(9, 53);
+            label3.Name = "label3";
+            label3.Size = new Size(94, 15);
+            label3.TabIndex = 121;
+            label3.Text = "Tipo Certificado:";
+            // 
+            // comboBox_tipo_certificado
+            // 
+            comboBox_tipo_certificado.FormattingEnabled = true;
+            comboBox_tipo_certificado.Location = new Point(109, 50);
+            comboBox_tipo_certificado.Name = "comboBox_tipo_certificado";
+            comboBox_tipo_certificado.Size = new Size(331, 23);
+            comboBox_tipo_certificado.TabIndex = 120;
+            // 
+            // uC_Mostrar_Medico1
+            // 
+            uC_Mostrar_Medico1.BackColor = Color.WhiteSmoke;
+            uC_Mostrar_Medico1.Location = new Point(561, 376);
+            uC_Mostrar_Medico1.Name = "uC_Mostrar_Medico1";
+            uC_Mostrar_Medico1.Size = new Size(251, 116);
+            uC_Mostrar_Medico1.TabIndex = 119;
+            // 
             // label32
             // 
             label32.AutoSize = true;
-            label32.Location = new Point(9, 44);
+            label32.Location = new Point(10, 122);
             label32.Name = "label32";
             label32.Size = new Size(54, 15);
             label32.TabIndex = 118;
             label32.Text = "Certifico:";
             // 
-            // richTextBox2
+            // richTextBox_descrip_certificado
             // 
-            richTextBox2.Location = new Point(9, 62);
-            richTextBox2.Name = "richTextBox2";
-            richTextBox2.Size = new Size(803, 163);
-            richTextBox2.TabIndex = 117;
-            richTextBox2.Text = "";
+            richTextBox_descrip_certificado.Location = new Point(9, 140);
+            richTextBox_descrip_certificado.Name = "richTextBox_descrip_certificado";
+            richTextBox_descrip_certificado.Size = new Size(803, 136);
+            richTextBox_descrip_certificado.TabIndex = 117;
+            richTextBox_descrip_certificado.Text = "";
             // 
             // label21
             // 
             label21.AutoSize = true;
-            label21.Location = new Point(9, 238);
+            label21.Location = new Point(10, 279);
             label21.Name = "label21";
             label21.Size = new Size(87, 15);
             label21.TabIndex = 116;
             label21.Text = "Observaciones:";
             // 
-            // richTextBox1
+            // richTextBox_observaciones_certif
             // 
-            richTextBox1.Location = new Point(9, 256);
-            richTextBox1.Name = "richTextBox1";
-            richTextBox1.Size = new Size(803, 108);
-            richTextBox1.TabIndex = 115;
-            richTextBox1.Text = "";
+            richTextBox_observaciones_certif.Location = new Point(10, 297);
+            richTextBox_observaciones_certif.Name = "richTextBox_observaciones_certif";
+            richTextBox_observaciones_certif.Size = new Size(803, 73);
+            richTextBox_observaciones_certif.TabIndex = 115;
+            richTextBox_observaciones_certif.Text = "";
             // 
-            // textBox6
+            // textBox_fecha_certif
             // 
-            textBox6.Enabled = false;
-            textBox6.Location = new Point(688, 16);
-            textBox6.Name = "textBox6";
-            textBox6.Size = new Size(124, 23);
-            textBox6.TabIndex = 101;
+            textBox_fecha_certif.Enabled = false;
+            textBox_fecha_certif.Location = new Point(688, 16);
+            textBox_fecha_certif.Name = "textBox_fecha_certif";
+            textBox_fecha_certif.Size = new Size(124, 23);
+            textBox_fecha_certif.TabIndex = 101;
             // 
             // label27
             // 
@@ -681,14 +759,6 @@
             uC_Buscar_Paciente1.Name = "uC_Buscar_Paciente1";
             uC_Buscar_Paciente1.Size = new Size(444, 226);
             uC_Buscar_Paciente1.TabIndex = 56;
-            // 
-            // uC_Mostrar_Medico1
-            // 
-            uC_Mostrar_Medico1.BackColor = Color.WhiteSmoke;
-            uC_Mostrar_Medico1.Location = new Point(561, 370);
-            uC_Mostrar_Medico1.Name = "uC_Mostrar_Medico1";
-            uC_Mostrar_Medico1.Size = new Size(251, 116);
-            uC_Mostrar_Medico1.TabIndex = 119;
             // 
             // Form_HistoriaClinica
             // 
@@ -726,11 +796,11 @@
         private TabPage tabPage2;
         private TreeView treeView_historia_cli;
         private Label label4;
-        private RichTextBox richTextBox_tratamiento;
+        private RichTextBox richTextBox_tratamiento_consulta;
         private Label label2;
-        private RichTextBox richTextBox_observaciones;
+        private RichTextBox richTextBox_observaciones_consulta;
         private Label label1;
-        private RichTextBox richTextBox_motivo;
+        private RichTextBox richTextBox_motivo_consulta;
         private FlowLayoutPanel flowLayoutPanel1;
         private Button button_Limpiar;
         private Button button_Editar;
@@ -746,32 +816,38 @@
         private DataGridView dataGridView_medicamentos;
         private Label label7;
         private Label label5;
-        private TextBox textBox6;
-        private TextBox textBox_fecha;
+        private TextBox textBox_fecha_certif;
+        private TextBox textBox_fecha_receta;
         private Forms_Seguridad.UC_Buscar_Paciente uC_Buscar_Paciente1;
-        private CheckBox checkBox_cronico;
+        private CheckBox checkBox_cronico_receta;
         private FlowLayoutPanel flowLayoutPanel3;
         private Button button_rec_limpiar;
         private Button button_rec_editar;
         private Button button_rec_guardar;
         private Button button_rec_imprimir;
         private Label label19;
-        private RichTextBox richTextBox_observ;
+        private RichTextBox richTextBox_observ_receta;
         private TabPage tabPage4;
         private GroupBox groupBox4;
         private Label label21;
-        private RichTextBox richTextBox1;
+        private RichTextBox richTextBox_observaciones_certif;
         private Label label27;
         private FlowLayoutPanel flowLayoutPanel4;
-        private Button button3;
-        private Button button5;
-        private Button button6;
-        private Button button7;
-        private TreeView treeView1;
+        private Button button_limpiar_certif;
+        private Button button_editar_certif;
+        private Button button_guardar_certif;
+        private Button button_imprimir_certif;
+        private TreeView treeView_certificados;
         private Label label32;
-        private RichTextBox richTextBox2;
+        private RichTextBox richTextBox_descrip_certificado;
         private Forms_Seguridad.UC_Mostrar_Paciente uC_Mostrar_Paciente1;
         private Forms_Seguridad.UC_Mostrar_Medico uC_Mostrar_Medico2;
         private Forms_Seguridad.UC_Mostrar_Medico uC_Mostrar_Medico1;
+        private Label label3;
+        private ComboBox comboBox_tipo_certificado;
+        private Label label9;
+        private Label label8;
+        private DateTimePicker dateTimePicker_hasta;
+        private DateTimePicker dateTimePicker_desde;
     }
 }

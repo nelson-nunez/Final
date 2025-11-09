@@ -15,20 +15,28 @@ namespace SiAP.UI
 {
     public partial class Form_HistoriaClinica : Form
     {
+        #region Vars
+
         private readonly BLL_Paciente _bllPacientes;
         private readonly BLL_HistoriaClinica _bllHistoriaClinica;
         private readonly BLL_Consulta _bllConsulta;
         private readonly BLL_Medico _bllMedico;
         private readonly BLL_Receta _bllReceta;
         private readonly BLL_Medicamento _bllMedicamento;
+        private readonly BLL_Certificado _bllCertificado;
 
-        private Form_CRUD_Pacientes form_paciente;
         private Paciente pacienteSeleccionado;
         private HistoriaClinica historiaClinicaSeleccionada;
         private Consulta consultaSeleccionada;
         private Receta recetaSeleccionada;
+        private Certificado certificadoSeleccionada;
         private Medico medicoLoggeado;
-        private BindingList<Medicamento> medicamentosSeleccionados;
+        private BindingList<Medicamento> medicamentosSeleccionados = new BindingList<Medicamento>();
+
+        //Control
+        private UC_Mostrar_Paciente _userControl;
+
+        #endregion
 
         public Form_HistoriaClinica()
         {
@@ -40,106 +48,39 @@ namespace SiAP.UI
             _bllMedico = BLL_Medico.ObtenerInstancia();
             _bllReceta = BLL_Receta.ObtenerInstancia();
             _bllMedicamento = BLL_Medicamento.ObtenerInstancia();
+            _bllCertificado = BLL_Certificado.ObtenerInstancia();
 
+            //Componentes
             var useractual = GestionUsuario.UsuarioLogueado;
             medicoLoggeado = _bllMedico.LeerPorPersonId((long)useractual.PersonaId);
+            _userControl = this.FindUserControl<UC_Mostrar_Paciente>("uC_Mostrar_Paciente1");
+            if (_userControl != null)
+                _userControl.ShouldUpdate += OnPacienteSeleccionado;
 
-            medicamentosSeleccionados = new BindingList<Medicamento>();
+            //Grid
             ConfigurarDataGridMedicamentos();
+            CargarTiposenCombo();
         }
 
-        #region Configuración DataGrid medicamentosSeleccionados
-
-        private void ConfigurarDataGridMedicamentos()
-        {
-            // Inicializamos la lista enlazable si aún no existe
-            if (medicamentosSeleccionados == null)
-                medicamentosSeleccionados = new BindingList<Medicamento>();
-
-            dataGridView_medicamentos.AllowUserToAddRows = true;
-            dataGridView_medicamentos.AllowUserToDeleteRows = true;
-            dataGridView_medicamentos.AutoGenerateColumns = false;
-            dataGridView_medicamentos.EditMode = DataGridViewEditMode.EditOnEnter;
-            dataGridView_medicamentos.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridView_medicamentos.MultiSelect = false;
-            dataGridView_medicamentos.Columns.Clear();
-
-            // Definir columnas manualmente
-            dataGridView_medicamentos.Columns.Add(new DataGridViewTextBoxColumn
-            {
-                Name = "NombreComercial",
-                HeaderText = "Nombre Comercial",
-                DataPropertyName = "NombreComercial",
-                Width = 200
-            });
-
-            dataGridView_medicamentos.Columns.Add(new DataGridViewTextBoxColumn
-            {
-                Name = "NombreMonodroga",
-                HeaderText = "Nombre Monodroga",
-                DataPropertyName = "NombreMonodroga",
-                Width = 200
-            });
-
-            dataGridView_medicamentos.Columns.Add(new DataGridViewTextBoxColumn
-            {
-                Name = "Cantidad",
-                HeaderText = "Cantidad",
-                DataPropertyName = "Cantidad",
-                Width = 100
-            });
-
-            // Establecemos la fuente de datos enlazable
-            dataGridView_medicamentos.DataSource = medicamentosSeleccionados;
-        }
-
-        #endregion
-
-        #region Selección de Paciente
-
-        private void button_seleccionar_paciente_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                //_userControl.Visible = true;
-                //_userControl.BringToFront();
-                //_userControl.Location = new Point(
-                //    (this.ClientSize.Width - _userControl.Width) / 2,
-                //    (this.ClientSize.Height - _userControl.Height) / 2
-                //);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "⛔ Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
+        #region Sseleccion Paciente
 
         private void OnPacienteSeleccionado(object sender, EventArgs e)
         {
             try
             {
-                //_userControl.Visible = false;
-                //pacienteSeleccionado = _userControl.itemSeleccionado;
-                CargarDatosPaciente();
+                pacienteSeleccionado = _userControl.pacienteSeleccionado;
                 CargarHistoria();
                 CargarConsultas();
                 CargarArbolRecetas();
                 CargarReceta();
+
+                CargarArbolCertificados();
+                CargarCertificado();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "⛔ Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
-
-        private void CargarDatosPaciente()
-        {
-            if (pacienteSeleccionado == null) return;
-
-            //label_nombre_completo.Text = pacienteSeleccionado.ToString();
-            //label_ooss.Text = pacienteSeleccionado.ObraSocial;
-            //label_PLAN.Text = pacienteSeleccionado.Plan;
-            //label_nro_socio.Text = pacienteSeleccionado.NumeroSocio.ToString();
         }
 
         #endregion
@@ -243,9 +184,9 @@ namespace SiAP.UI
 
         private void CargarDatosConsulta()
         {
-            richTextBox_motivo.Text = consultaSeleccionada?.Motivo ?? "";
-            richTextBox_observaciones.Text = consultaSeleccionada?.Observaciones ?? "";
-            richTextBox_tratamiento.Text = consultaSeleccionada?.Tratamiento ?? "";
+            richTextBox_motivo_consulta.Text = consultaSeleccionada?.Motivo ?? "";
+            richTextBox_observaciones_consulta.Text = consultaSeleccionada?.Observaciones ?? "";
+            richTextBox_tratamiento_consulta.Text = consultaSeleccionada?.Tratamiento ?? "";
         }
 
         private void button_Limpiar_Click(object sender, EventArgs e)
@@ -270,9 +211,9 @@ namespace SiAP.UI
 
                 InputsExtensions.PedirConfirmacion("¿Desea guardar la modificación en la consulta del paciente?");
 
-                consultaSeleccionada.Motivo = richTextBox_motivo.Text;
-                consultaSeleccionada.Observaciones = richTextBox_observaciones.Text;
-                consultaSeleccionada.Tratamiento = richTextBox_tratamiento.Text;
+                consultaSeleccionada.Motivo = richTextBox_motivo_consulta.Text;
+                consultaSeleccionada.Observaciones = richTextBox_observaciones_consulta.Text;
+                consultaSeleccionada.Tratamiento = richTextBox_tratamiento_consulta.Text;
 
                 _bllConsulta.Modificar(consultaSeleccionada);
                 MessageBox.Show("Se guardaron los cambios con éxito", "✔ Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -294,9 +235,9 @@ namespace SiAP.UI
 
                 consultaSeleccionada = new Consulta
                 {
-                    Motivo = richTextBox_motivo.Text,
-                    Observaciones = richTextBox_observaciones.Text,
-                    Tratamiento = richTextBox_tratamiento.Text,
+                    Motivo = richTextBox_motivo_consulta.Text,
+                    Observaciones = richTextBox_observaciones_consulta.Text,
+                    Tratamiento = richTextBox_tratamiento_consulta.Text,
                     HistoriaClinica = historiaClinicaSeleccionada ?? new HistoriaClinica()
                 };
 
@@ -314,33 +255,47 @@ namespace SiAP.UI
         #endregion
 
         #region Recetas
-
-        private void button_editar_pac_Click(object sender, EventArgs e)
+        private void ConfigurarDataGridMedicamentos()
         {
-            try
+            // Inicializamos la lista enlazable si aún no existe
+            if (medicamentosSeleccionados == null)
+                medicamentosSeleccionados = new BindingList<Medicamento>();
+
+            dataGridView_medicamentos.AllowUserToAddRows = true;
+            dataGridView_medicamentos.AllowUserToDeleteRows = true;
+            dataGridView_medicamentos.AutoGenerateColumns = false;
+            dataGridView_medicamentos.EditMode = DataGridViewEditMode.EditOnEnter;
+            dataGridView_medicamentos.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridView_medicamentos.MultiSelect = false;
+            dataGridView_medicamentos.Columns.Clear();
+
+            // Definir columnas manualmente
+            dataGridView_medicamentos.Columns.Add(new DataGridViewTextBoxColumn
             {
-                if (form_paciente == null || form_paciente.IsDisposed)
-                {
-                    form_paciente = new Form_CRUD_Pacientes
-                    {
-                        TopLevel = false,
-                        MaximizeBox = false,
-                        MinimizeBox = false,
-                        ControlBox = true,
-                        FormBorderStyle = FormBorderStyle.FixedSingle,
-                        Width = this.ClientSize.Width,
-                        Height = this.ClientSize.Height,
-                        Location = new Point(0, 0)
-                    };
-                    this.Controls.Add(form_paciente);
-                }
-                form_paciente.Show();
-                form_paciente.BringToFront();
-            }
-            catch (Exception ex)
+                Name = "NombreComercial",
+                HeaderText = "Nombre Comercial",
+                DataPropertyName = "NombreComercial",
+                Width = 200
+            });
+
+            dataGridView_medicamentos.Columns.Add(new DataGridViewTextBoxColumn
             {
-                MessageBox.Show(ex.Message, "⛔ Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+                Name = "NombreMonodroga",
+                HeaderText = "Nombre Monodroga",
+                DataPropertyName = "NombreMonodroga",
+                Width = 200
+            });
+
+            dataGridView_medicamentos.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "Cantidad",
+                HeaderText = "Cantidad",
+                DataPropertyName = "Cantidad",
+                Width = 100
+            });
+
+            // Establecemos la fuente de datos enlazable
+            dataGridView_medicamentos.DataSource = medicamentosSeleccionados;
         }
 
         private void CargarArbolRecetas()
@@ -363,6 +318,9 @@ namespace SiAP.UI
             try
             {
                 medicamentosSeleccionados.Clear();
+                richTextBox_observ_receta.Text = recetaSeleccionada?.Observaciones ?? string.Empty;
+                textBox_fecha_receta.Text = recetaSeleccionada?.Fecha.ToShortDateString() ?? string.Empty;
+                checkBox_cronico_receta.Checked = recetaSeleccionada?.EsCronica ?? false;
 
                 if (recetaSeleccionada?.Medicamentos != null)
                 {
@@ -376,10 +334,6 @@ namespace SiAP.UI
                         });
                     }
                 }
-
-                richTextBox_observ.Text = recetaSeleccionada?.Observaciones.ToString();
-                textBox_fecha.Text = DateTime.Now.ToShortDateString() ?? "";
-
             }
             catch (Exception ex)
             {
@@ -433,8 +387,8 @@ namespace SiAP.UI
                 InputsExtensions.PedirConfirmacion("¿Desea guardar los datos de la receta?");
 
                 recetaSeleccionada.Fecha = DateTime.Now.Date;
-                recetaSeleccionada.Observaciones = richTextBox_observ.Text;
-                recetaSeleccionada.EsCronica = checkBox_cronico.Checked;
+                recetaSeleccionada.Observaciones = richTextBox_observ_receta.Text;
+                recetaSeleccionada.EsCronica = checkBox_cronico_receta.Checked;
                 recetaSeleccionada.Medicamentos = medicamentosSeleccionados.ToList();
 
                 _bllReceta.Modificar(recetaSeleccionada);
@@ -460,8 +414,8 @@ namespace SiAP.UI
                     throw new InvalidOperationException("Debe limpiar los datos antes de guardar un nuevo registro.");
                 if (pacienteSeleccionado == null)
                     throw new InvalidOperationException("Debe seleccionar un paciente para guardar la receta.");
-                if (consultaSeleccionada == null)
-                    throw new InvalidOperationException("Debe seleccionar una consulta para guardar la receta.");
+                if (consultaSeleccionada == null || consultaSeleccionada?.Medico.Id != medicoLoggeado.Id)
+                    throw new InvalidOperationException("Debe seleccionar una consulta propia para guardar la receta.");
                 if (medicamentosSeleccionados == null || medicamentosSeleccionados.Count == 0)
                     throw new InvalidOperationException("Debe agregar al menos un medicamento a la receta.");
                 //Confirmar
@@ -470,9 +424,9 @@ namespace SiAP.UI
                 recetaSeleccionada = new Receta
                 {
                     Fecha = DateTime.Now.Date,
-                    Observaciones = richTextBox_observ.Text,
+                    Observaciones = richTextBox_observ_receta.Text,
                     Profesional = medicoLoggeado.NombreCompleto,
-                    EsCronica = checkBox_cronico.Checked,
+                    EsCronica = checkBox_cronico_receta.Checked,
                     Consulta = consultaSeleccionada,
                     Medicamentos = medicamentosSeleccionados.ToList(),
 
@@ -517,5 +471,209 @@ namespace SiAP.UI
         }
 
         #endregion
+
+        #region Certificados
+        
+        private void treeView_certificados_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            try
+            {
+                if (e.Node.ForeColor != Color.DarkGreen)
+                {
+                    treeView_certificados.SelectedNode = null;
+                    return;
+                }
+                certificadoSeleccionada = e.Node?.Tag as Certificado;
+                CargarCertificado();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "⛔ Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void CargarTiposenCombo()
+        {
+            comboBox_tipo_certificado.Items.Clear();
+            comboBox_tipo_certificado.DataSource = TipoCertificados.ObtenerTodos();
+            comboBox_tipo_certificado.SelectedItem = TipoCertificados.ObtenerTodos().FirstOrDefault();
+        }
+
+        private void CargarArbolCertificados()
+        {
+            try
+            {
+                if (historiaClinicaSeleccionada == null) return;
+
+                var lista = _bllConsulta.BuscarPorHistoriaClinica(historiaClinicaSeleccionada.Id);
+                treeView_certificados.ArmarArbolCertificados(lista.ToList());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "⛔ Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void CargarCertificado()
+        {
+            try
+            {
+                if (certificadoSeleccionada != null)
+                {
+                    textBox_fecha_certif.Text = certificadoSeleccionada?.Fecha.ToShortDateString();
+                    richTextBox_observaciones_certif.Text = certificadoSeleccionada?.Observaciones;
+                    richTextBox_descrip_certificado.Text = certificadoSeleccionada?.Descripcion;
+                    var tiposelecc = TipoCertificados.ObtenerTodos().ToList().FirstOrDefault(x => x == certificadoSeleccionada?.TipoCertificado);
+                    comboBox_tipo_certificado.SelectedItem = tiposelecc;
+                    dateTimePicker_desde.Value = certificadoSeleccionada.FechaVigenciaDesde;
+                    dateTimePicker_hasta.Value = certificadoSeleccionada.FechaVigenciaHasta;
+                }
+                else
+                {
+                    comboBox_tipo_certificado.SelectedItem = TipoCertificados.ObtenerTodos().FirstOrDefault();
+                    textBox_fecha_certif.Text = string.Empty;
+                    richTextBox_observaciones_certif.Text = string.Empty;
+                    richTextBox_descrip_certificado.Text = string.Empty;
+                    dateTimePicker_desde.Value = DateTime.Now;
+                    dateTimePicker_hasta.Value = DateTime.Now;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "⛔ Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void treeView_Certificado_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            try
+            {
+                if (e.Node.ForeColor != Color.DarkGreen)
+                {
+                    treeView_certificados.SelectedNode = null;
+                    return;
+                }
+                certificadoSeleccionada = e.Node?.Tag as Certificado;
+                CargarCertificado();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "⛔ Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void button_rec_limpiar_CertificadoClick(object sender, EventArgs e)
+        {
+            try
+            {
+                certificadoSeleccionada = null;
+                CargarCertificado();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "⛔ Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void button_rec_editar_CertificadoClick(object sender, EventArgs e)
+        {
+            try
+            {
+                //Verificaciones
+                if (certificadoSeleccionada == null)
+                    throw new InvalidOperationException("Debe seleccionar un certificado para editarla.");
+                if (certificadoSeleccionada?.Profesional != medicoLoggeado.NombreCompleto)
+                    throw new InvalidOperationException("No se puede editar un certificado emitido por otro médico.");
+
+                //Confirmar
+                InputsExtensions.PedirConfirmacion("¿Desea guardar los datos del certificado?");
+
+                certificadoSeleccionada.Fecha = DateTime.Now.Date;
+                certificadoSeleccionada.Observaciones = richTextBox_observaciones_certif.Text;
+                certificadoSeleccionada.Descripcion = richTextBox_descrip_certificado.Text;
+                certificadoSeleccionada.TipoCertificado = comboBox_tipo_certificado.SelectedItem.ToString();
+                certificadoSeleccionada.FechaVigenciaDesde = dateTimePicker_desde.Value;
+                certificadoSeleccionada.FechaVigenciaHasta = dateTimePicker_hasta.Value;
+
+                _bllCertificado.Modificar(certificadoSeleccionada);
+                MessageBox.Show("Se guardaron los cambios con éxito", "✔ Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                //Recaargo todo
+                certificadoSeleccionada = null;
+                CargarArbolCertificados();
+                CargarCertificado();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "⛔ Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void button_rec_guardar_CertificadoClick(object sender, EventArgs e)
+        {
+            try
+            {
+                //Verificaciones
+                if (certificadoSeleccionada != null)
+                    throw new InvalidOperationException("Debe limpiar los datos antes de guardar un nuevo registro.");
+                if (pacienteSeleccionado == null)
+                    throw new InvalidOperationException("Debe seleccionar un paciente para guardar el certificado.");
+                if (consultaSeleccionada == null || consultaSeleccionada?.Medico.Id != medicoLoggeado.Id)
+                    throw new InvalidOperationException("Debe seleccionar una consulta propia para guardar el certificado.");
+                if (comboBox_tipo_certificado.SelectedItem == null)
+                    throw new InvalidOperationException("Debe seleccionar un tipo de certificado.");
+                if (dateTimePicker_desde.Value > dateTimePicker_hasta.Value)
+                    throw new InvalidOperationException("La fecha de Vigencia 'hasta' debe ser mayor a fecha 'desde'.");
+
+                //Confirmar
+                InputsExtensions.PedirConfirmacion("¿Desea guardar los datos del certificado?");
+
+                certificadoSeleccionada = new Certificado
+                {
+                    Fecha = DateTime.Now.Date,
+                    Observaciones = richTextBox_observaciones_certif.Text,
+                    Descripcion = richTextBox_descrip_certificado.Text,
+                    TipoCertificado = comboBox_tipo_certificado.SelectedItem.ToString(),
+                    FechaVigenciaDesde = dateTimePicker_desde.Value,
+                    FechaVigenciaHasta = dateTimePicker_hasta.Value,
+                    Consulta = consultaSeleccionada,
+                    Profesional = medicoLoggeado.NombreCompleto,
+                };
+
+                _bllCertificado.Agregar(certificadoSeleccionada);
+                MessageBox.Show("Se guardaron los cambios con éxito", "✔ Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                //Recaargo todo
+                certificadoSeleccionada = null;
+                CargarArbolCertificados();
+                CargarCertificado();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "⛔ Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void button_rec_imprimir_CertificadoClick(object sender, EventArgs e)
+        {
+            try
+            {
+                // Validar
+                if (pacienteSeleccionado == null)
+                    throw new InvalidOperationException("Debe seleccionar un paciente para imprimir el certificado.");
+                if (certificadoSeleccionada == null)
+                    throw new InvalidOperationException("Debe seleccionar un certificado para imprimir.");
+
+                var generator = new CertificadoPDFGenerator(certificadoSeleccionada, pacienteSeleccionado, medicoLoggeado);
+                generator.GenerarYAbrirPDF();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al generar el PDF: {ex.Message}", "⛔ Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        #endregion
+
     }
 }

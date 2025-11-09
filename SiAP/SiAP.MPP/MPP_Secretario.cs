@@ -64,7 +64,7 @@ namespace SiAP.MPP
 
         public bool TieneDependencias(Secretario entidad)
         {
-            return _mppPersona.TieneDependencias(entidad.Persona);
+            return false;
         }
 
         public IList<Secretario> ObtenerTodos()

@@ -43,7 +43,7 @@ namespace SiAP.MPP
         public void Modificar(Receta entidad)
         {
             ArgumentNullException.ThrowIfNull(entidad);
-            ModificarEntidad(entidad, AsignarDatos);
+            ModificarEntidad(entidad, ModificarDatos);
 
             _mppMedicamento.EliminarPorRecetaId(entidad.Id);
 
@@ -140,9 +140,17 @@ namespace SiAP.MPP
                 .ToList();
         }
 
+        private void ModificarDatos(DataRow dr, Receta entidad)
+        {
+            dr["Fecha"] = entidad.Fecha;
+            dr["Profesional"] = entidad.Profesional ?? string.Empty;
+            dr["Observaciones"] = entidad.Observaciones ?? string.Empty;
+            dr["EsCronica"] = entidad.EsCronica;
+        }
+
         private void AsignarDatos(DataRow dr, Receta entidad)
         {
-            dr["ConsultaId"] = entidad.ConsultaId;
+            dr["ConsultaId"] = entidad.Consulta?.Id ?? (object)DBNull.Value;
             dr["Fecha"] = entidad.Fecha;
             dr["Profesional"] = entidad.Profesional ?? string.Empty;
             dr["Nro_Socio"] = entidad.Nro_Socio;

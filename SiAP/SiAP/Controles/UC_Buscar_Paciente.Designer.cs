@@ -40,15 +40,16 @@
             // 
             // groupBox1
             // 
-            groupBox1.BackColor = SystemColors.ButtonFace;
+            groupBox1.BackColor = Color.WhiteSmoke;
             groupBox1.Controls.Add(label1);
             groupBox1.Controls.Add(dataGridView_paciente);
             groupBox1.Controls.Add(label5);
             groupBox1.Controls.Add(button1);
             groupBox1.Controls.Add(textBox_Buscar);
-            groupBox1.Location = new Point(3, 3);
+            groupBox1.FlatStyle = FlatStyle.Flat;
+            groupBox1.Location = new Point(0, 0);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(437, 220);
+            groupBox1.Size = new Size(442, 226);
             groupBox1.TabIndex = 2;
             groupBox1.TabStop = false;
             groupBox1.Text = "Paciente";
@@ -71,7 +72,7 @@
             dataGridView_paciente.Location = new Point(6, 69);
             dataGridView_paciente.Name = "dataGridView_paciente";
             dataGridView_paciente.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridView_paciente.Size = new Size(418, 141);
+            dataGridView_paciente.Size = new Size(430, 151);
             dataGridView_paciente.TabIndex = 3;
             dataGridView_paciente.CellClick += dataGridView1_CellClick;
             dataGridView_paciente.CellContentClick += dataGridView1_CellClick;
@@ -92,7 +93,7 @@
             button1.ImageAlign = ContentAlignment.MiddleLeft;
             button1.Location = new Point(324, 39);
             button1.Name = "button1";
-            button1.Size = new Size(100, 24);
+            button1.Size = new Size(112, 24);
             button1.TabIndex = 2;
             button1.Text = "Buscar";
             button1.UseVisualStyleBackColor = false;
@@ -109,9 +110,10 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.DarkGray;
             Controls.Add(groupBox1);
             Name = "UC_Buscar_Paciente";
-            Size = new Size(444, 226);
+            Size = new Size(443, 226);
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView_paciente).EndInit();

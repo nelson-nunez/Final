@@ -20,6 +20,7 @@ namespace SiAP.UI
         private Form_Agenda form_Agenda;
         private Form_Receta form_receta;
         private Form_DashBoard form_reportes;
+        private Form_Respaldos form_respaldos;
         //Componentes
         private UC_Login UC_Login;
 
@@ -221,6 +222,11 @@ namespace SiAP.UI
         private void pacientesToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
             AbrirFormGeneral(ref form_paciente);
+        }
+
+        private void respaldoDeDatosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AbrirFormGeneral(ref form_respaldos);
         }
 
         #endregion

@@ -288,7 +288,7 @@ namespace SiAP.UI.Forms_Seguridad
                 checkBox1.Checked = true;
 
                 button_Borrar.Visible = false;
-                button_Limpiar.Visible = false;
+                button_Limpiar.Visible = true;
                 button_Editar.Visible = false;
                 button_Blanqueo.Visible = false;
             }

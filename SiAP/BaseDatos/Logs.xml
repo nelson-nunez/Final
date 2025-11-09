@@ -24,20 +24,110 @@
   </xs:schema>
   <Log>
     <Id>1</Id>
-    <Fecha>2025-10-26T21:06:25.7925391-03:00</Fecha>
+    <Fecha>2025-11-08T20:28:34.2582863-03:00</Fecha>
     <Usuario>admin</Usuario>
-    <Operacion>Consulta agregada - Médico: Sistema, Admin, Fecha: 26/10/2025</Operacion>
+    <Operacion>Consulta agregada - Médico: Sistema, Admin, Fecha: 8/11/2025</Operacion>
   </Log>
   <Log>
     <Id>2</Id>
-    <Fecha>2025-10-26T21:08:26.869935-03:00</Fecha>
+    <Fecha>2025-11-08T20:29:32.1082927-03:00</Fecha>
     <Usuario>admin</Usuario>
-    <Operacion>Receta agregada - Profesional: Sistema, Admin, Fecha: 26/10/2025</Operacion>
+    <Operacion>Certificado agregado - Tipo: ReposoMedico, Fecha: 8/11/2025</Operacion>
   </Log>
   <Log>
     <Id>3</Id>
-    <Fecha>2025-10-30T19:22:25.7430861-03:00</Fecha>
+    <Fecha>2025-11-08T20:32:27.1303585-03:00</Fecha>
     <Usuario>admin</Usuario>
-    <Operacion>Receta modificada - ID: 2</Operacion>
+    <Operacion>Certificado modificado - ID: 2</Operacion>
+  </Log>
+  <Log>
+    <Id>4</Id>
+    <Fecha>2025-11-08T20:33:04.8271799-03:00</Fecha>
+    <Usuario>admin</Usuario>
+    <Operacion>Receta agregada - Profesional: Sistema, Admin, Fecha: 8/11/2025</Operacion>
+  </Log>
+  <Log>
+    <Id>5</Id>
+    <Fecha>2025-11-08T20:35:28.7559695-03:00</Fecha>
+    <Usuario>admin</Usuario>
+    <Operacion>Certificado agregado - Tipo: AptitudFisica, Fecha: 8/11/2025</Operacion>
+  </Log>
+  <Log>
+    <Id>6</Id>
+    <Fecha>2025-11-08T20:36:25.0148303-03:00</Fecha>
+    <Usuario>admin</Usuario>
+    <Operacion>Certificado modificado - ID: 3</Operacion>
+  </Log>
+  <Log>
+    <Id>7</Id>
+    <Fecha>2025-11-08T20:37:07.4184851-03:00</Fecha>
+    <Usuario>admin</Usuario>
+    <Operacion>Certificado agregado - Tipo: AltaMedica, Fecha: 8/11/2025</Operacion>
+  </Log>
+  <Log>
+    <Id>8</Id>
+    <Fecha>2025-11-08T20:38:07.456069-03:00</Fecha>
+    <Usuario>admin</Usuario>
+    <Operacion>Certificado modificado - ID: 4</Operacion>
+  </Log>
+  <Log>
+    <Id>9</Id>
+    <Fecha>2025-11-08T20:50:58.0365907-03:00</Fecha>
+    <Usuario>admin</Usuario>
+    <Operacion>Certificado agregado - Tipo: ReposoMedico, Fecha: 8/11/2025</Operacion>
+  </Log>
+  <Log>
+    <Id>10</Id>
+    <Fecha>2025-11-08T20:51:07.5504179-03:00</Fecha>
+    <Usuario>admin</Usuario>
+    <Operacion>Certificado modificado - ID: 5</Operacion>
+  </Log>
+  <Log>
+    <Id>11</Id>
+    <Fecha>2025-11-08T20:51:26.8509592-03:00</Fecha>
+    <Usuario>admin</Usuario>
+    <Operacion>Receta agregada - Profesional: Sistema, Admin, Fecha: 8/11/2025</Operacion>
+  </Log>
+  <Log>
+    <Id>12</Id>
+    <Fecha>2025-11-08T20:52:32.6928177-03:00</Fecha>
+    <Usuario>admin</Usuario>
+    <Operacion>Receta agregada - Profesional: Sistema, Admin, Fecha: 8/11/2025</Operacion>
+  </Log>
+  <Log>
+    <Id>13</Id>
+    <Fecha>2025-11-08T20:53:21.6395638-03:00</Fecha>
+    <Usuario>admin</Usuario>
+    <Operacion>Receta agregada - Profesional: Sistema, Admin, Fecha: 8/11/2025</Operacion>
+  </Log>
+  <Log>
+    <Id>14</Id>
+    <Fecha>2025-11-08T20:55:28.0422218-03:00</Fecha>
+    <Usuario>admin</Usuario>
+    <Operacion>Receta agregada - Profesional: Sistema, Admin, Fecha: 8/11/2025</Operacion>
+  </Log>
+  <Log>
+    <Id>15</Id>
+    <Fecha>2025-11-08T20:55:55.9929744-03:00</Fecha>
+    <Usuario>admin</Usuario>
+    <Operacion>Receta agregada - Profesional: Sistema, Admin, Fecha: 8/11/2025</Operacion>
+  </Log>
+  <Log>
+    <Id>16</Id>
+    <Fecha>2025-11-08T20:58:08.1991275-03:00</Fecha>
+    <Usuario>admin</Usuario>
+    <Operacion>Receta agregada - Profesional: Sistema, Admin, Fecha: 8/11/2025</Operacion>
+  </Log>
+  <Log>
+    <Id>17</Id>
+    <Fecha>2025-11-08T20:58:21.9170433-03:00</Fecha>
+    <Usuario>admin</Usuario>
+    <Operacion>Receta modificada - ID: 8</Operacion>
+  </Log>
+  <Log>
+    <Id>18</Id>
+    <Fecha>2025-11-08T20:58:38.8023678-03:00</Fecha>
+    <Usuario>admin</Usuario>
+    <Operacion>Certificado modificado - ID: 5</Operacion>
   </Log>
 </NewDataSet>

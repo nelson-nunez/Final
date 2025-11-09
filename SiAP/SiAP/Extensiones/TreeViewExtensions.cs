@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -221,6 +222,7 @@ namespace SiAP.UI.Extensiones
         #endregion
 
         #region Pacientes
+        
         public static void ArmarArbolConsultas(this TreeView treeView, List<Consulta> consultas)
         {
             ArgumentNullException.ThrowIfNull(treeView);
@@ -349,6 +351,58 @@ namespace SiAP.UI.Extensiones
             return nombre;
         }
 
+        public static void ArmarArbolCertificados(this TreeView treeView, List<Consulta> consultas)
+        {
+            ArgumentNullException.ThrowIfNull(treeView);
+
+            treeView.Nodes.Clear();
+
+            if (consultas == null)
+                return;
+
+            var todosCertificados = consultas.Where(c => c.Certificados != null && c.Certificados.Any()).SelectMany(c => c.Certificados).ToList();
+
+            if (!todosCertificados.Any())
+            {
+                treeView.Nodes.Add(new TreeNode("No hay certificados registrados")
+                {
+                    ForeColor = Color.Gray
+                });
+                return;
+            }
+
+            var grupos = todosCertificados.GroupBy(cert => new { cert.Fecha.Year, cert.Fecha.Month })
+                .OrderByDescending(g => g.Key.Year).ThenByDescending(g => g.Key.Month);
+
+            foreach (var grupo in grupos)
+            {
+                string nombreMes = new DateTime(grupo.Key.Year, grupo.Key.Month, 1).ToString("MMMM yyyy", CultureInfo.CurrentCulture);
+                var nodoMes = new TreeNode($"📅 {nombreMes} ({grupo.Count()} certificados)")
+                {
+                    Name = $"{grupo.Key.Year}_{grupo.Key.Month}",
+                    ForeColor = Color.DarkBlue
+                };
+
+                foreach (var certificado in grupo.OrderByDescending(c => c.Fecha))
+                {
+                    string tipoCertificado = certificado.TipoCertificado ?? "Sin tipo";
+                    string descripcion = certificado.Descripcion ?? "Sin descripción";
+                    string textoNodo = $"{certificado.Fecha:dd/MM/yyyy} - {tipoCertificado} - {descripcion}";
+
+                    var nodoCertificado = new TreeNode(textoNodo)
+                    {
+                        Name = $"Certificado_{certificado.Id}",
+                        Tag = certificado,
+                        ForeColor = Color.DarkGreen
+                    };
+
+                    nodoMes.Nodes.Add(nodoCertificado);
+                }
+
+                treeView.Nodes.Add(nodoMes);
+            }
+        }
+        
         #endregion
     }
 }

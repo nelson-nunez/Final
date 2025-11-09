@@ -43,11 +43,11 @@
             historialMédicoToolStripMenuItem = new ToolStripMenuItem();
             pacientesToolStripMenuItem = new ToolStripMenuItem();
             historialMédicoToolStripMenuItem1 = new ToolStripMenuItem();
-            recetasToolStripMenuItem = new ToolStripMenuItem();
             salirToolStripMenuItem = new ToolStripMenuItem();
             toolStripMenuItem1 = new ToolStripMenuItem();
             reportesToolStripMenuItem = new ToolStripMenuItem();
             toolStrip_logged_User = new ToolStripMenuItem();
+            respaldoDeDatosToolStripMenuItem = new ToolStripMenuItem();
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -55,7 +55,7 @@
             // 
             menuStrip1.BackColor = SystemColors.GrayText;
             menuStrip1.Font = new Font("Calibri", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            menuStrip1.Items.AddRange(new ToolStripItem[] { administradorToolStripMenuItem, aBMPersonalToolStripMenuItem, permisosToolStripMenuItem, turnosToolStripMenuItem, historialMédicoToolStripMenuItem, salirToolStripMenuItem, toolStripMenuItem1, reportesToolStripMenuItem, toolStrip_logged_User });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { administradorToolStripMenuItem, aBMPersonalToolStripMenuItem, turnosToolStripMenuItem, historialMédicoToolStripMenuItem, salirToolStripMenuItem, toolStripMenuItem1, reportesToolStripMenuItem, toolStrip_logged_User, permisosToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Size = new Size(1238, 30);
@@ -77,7 +77,7 @@
             // 
             miCuentaToolStripMenuItem.Image = Properties.Resources.usuario;
             miCuentaToolStripMenuItem.Name = "miCuentaToolStripMenuItem";
-            miCuentaToolStripMenuItem.Size = new Size(140, 22);
+            miCuentaToolStripMenuItem.Size = new Size(180, 22);
             miCuentaToolStripMenuItem.Tag = "TAG01";
             miCuentaToolStripMenuItem.Text = "Mi Cuenta";
             miCuentaToolStripMenuItem.Click += miCuentaToolStripMenuItem_Click;
@@ -86,16 +86,17 @@
             // 
             aBMPersonalToolStripMenuItem.BackColor = Color.Gainsboro;
             aBMPersonalToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { médicosToolStripMenuItem, secretariosToolStripMenuItem });
+            aBMPersonalToolStripMenuItem.Image = Properties.Resources.cuenta;
             aBMPersonalToolStripMenuItem.Margin = new Padding(2);
             aBMPersonalToolStripMenuItem.Name = "aBMPersonalToolStripMenuItem";
-            aBMPersonalToolStripMenuItem.Size = new Size(107, 22);
-            aBMPersonalToolStripMenuItem.Text = "ABM Personal";
+            aBMPersonalToolStripMenuItem.Size = new Size(90, 22);
+            aBMPersonalToolStripMenuItem.Text = "Personal";
             // 
             // médicosToolStripMenuItem
             // 
             médicosToolStripMenuItem.Image = Properties.Resources.medica;
             médicosToolStripMenuItem.Name = "médicosToolStripMenuItem";
-            médicosToolStripMenuItem.Size = new Size(145, 22);
+            médicosToolStripMenuItem.Size = new Size(180, 22);
             médicosToolStripMenuItem.Tag = "TAG02";
             médicosToolStripMenuItem.Text = "Médicos";
             médicosToolStripMenuItem.Click += médicosToolStripMenuItem_Click;
@@ -104,7 +105,7 @@
             // 
             secretariosToolStripMenuItem.Image = Properties.Resources.calendario;
             secretariosToolStripMenuItem.Name = "secretariosToolStripMenuItem";
-            secretariosToolStripMenuItem.Size = new Size(145, 22);
+            secretariosToolStripMenuItem.Size = new Size(180, 22);
             secretariosToolStripMenuItem.Tag = "TAG03";
             secretariosToolStripMenuItem.Text = "Secretarios";
             secretariosToolStripMenuItem.Click += secretariosToolStripMenuItem_Click;
@@ -112,17 +113,18 @@
             // permisosToolStripMenuItem
             // 
             permisosToolStripMenuItem.BackColor = Color.Gainsboro;
-            permisosToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { usuariosToolStripMenuItem, rolesToolStripMenuItem });
+            permisosToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { usuariosToolStripMenuItem, rolesToolStripMenuItem, respaldoDeDatosToolStripMenuItem });
+            permisosToolStripMenuItem.Image = Properties.Resources.proteger;
             permisosToolStripMenuItem.Margin = new Padding(2);
             permisosToolStripMenuItem.Name = "permisosToolStripMenuItem";
-            permisosToolStripMenuItem.Size = new Size(77, 22);
-            permisosToolStripMenuItem.Text = "Permisos";
+            permisosToolStripMenuItem.Size = new Size(90, 22);
+            permisosToolStripMenuItem.Text = "SISTEMA";
             // 
             // usuariosToolStripMenuItem
             // 
             usuariosToolStripMenuItem.Image = Properties.Resources.nueva_cuenta;
             usuariosToolStripMenuItem.Name = "usuariosToolStripMenuItem";
-            usuariosToolStripMenuItem.Size = new Size(133, 22);
+            usuariosToolStripMenuItem.Size = new Size(190, 22);
             usuariosToolStripMenuItem.Tag = "TAG05";
             usuariosToolStripMenuItem.Text = "Usuarios";
             usuariosToolStripMenuItem.Click += usuariosToolStripMenuItem_Click;
@@ -131,7 +133,7 @@
             // 
             rolesToolStripMenuItem.Image = Properties.Resources.configuracion_del_usuario;
             rolesToolStripMenuItem.Name = "rolesToolStripMenuItem";
-            rolesToolStripMenuItem.Size = new Size(133, 22);
+            rolesToolStripMenuItem.Size = new Size(190, 22);
             rolesToolStripMenuItem.Tag = "TAG06";
             rolesToolStripMenuItem.Text = "Permisos";
             rolesToolStripMenuItem.Click += rolesToolStripMenuItem_Click;
@@ -168,7 +170,7 @@
             // historialMédicoToolStripMenuItem
             // 
             historialMédicoToolStripMenuItem.BackColor = Color.Gainsboro;
-            historialMédicoToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { pacientesToolStripMenuItem, historialMédicoToolStripMenuItem1, recetasToolStripMenuItem });
+            historialMédicoToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { pacientesToolStripMenuItem, historialMédicoToolStripMenuItem1 });
             historialMédicoToolStripMenuItem.Image = Properties.Resources.reporte;
             historialMédicoToolStripMenuItem.Margin = new Padding(2);
             historialMédicoToolStripMenuItem.Name = "historialMédicoToolStripMenuItem";
@@ -193,15 +195,6 @@
             historialMédicoToolStripMenuItem1.Tag = "TAG09";
             historialMédicoToolStripMenuItem1.Text = "Historial y Consultas";
             historialMédicoToolStripMenuItem1.Click += historialMédicoToolStripMenuItem1_Click;
-            // 
-            // recetasToolStripMenuItem
-            // 
-            recetasToolStripMenuItem.Image = Properties.Resources.reporte;
-            recetasToolStripMenuItem.Name = "recetasToolStripMenuItem";
-            recetasToolStripMenuItem.Size = new Size(201, 22);
-            recetasToolStripMenuItem.Tag = "TAG10";
-            recetasToolStripMenuItem.Text = "Recetas";
-            recetasToolStripMenuItem.Click += recetasToolStripMenuItem_Click;
             // 
             // salirToolStripMenuItem
             // 
@@ -249,6 +242,15 @@
             toolStrip_logged_User.Tag = "EXIT";
             toolStrip_logged_User.Text = "Usuario";
             // 
+            // respaldoDeDatosToolStripMenuItem
+            // 
+            respaldoDeDatosToolStripMenuItem.Image = Properties.Resources.guardar;
+            respaldoDeDatosToolStripMenuItem.Name = "respaldoDeDatosToolStripMenuItem";
+            respaldoDeDatosToolStripMenuItem.Size = new Size(190, 22);
+            respaldoDeDatosToolStripMenuItem.Tag = "TAG13";
+            respaldoDeDatosToolStripMenuItem.Text = "Respaldo de Datos";
+            respaldoDeDatosToolStripMenuItem.Click += respaldoDeDatosToolStripMenuItem_Click;
+            // 
             // Form_Menu
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -291,5 +293,6 @@
         private ToolStripMenuItem recetasToolStripMenuItem;
         private ToolStripMenuItem pacientesToolStripMenuItem;
         private ToolStripMenuItem toolStrip_logged_User;
+        private ToolStripMenuItem respaldoDeDatosToolStripMenuItem;
     }
 }

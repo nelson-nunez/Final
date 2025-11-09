@@ -139,7 +139,7 @@ namespace SiAP.UI
             dateTime_feccha_nac.Value.ValidarMayorEdad("Fecha Nac.");
             textBox_email.Text.ValidarEmail("Email");
             textBox_telefono.Text.ValidarSoloNumeros("Teléfono");
-            textBox_legajo.Text.ValidarSoloTexto("Legajo");
+            textBox_legajo.Text.Validar("Legajo");
         }
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)

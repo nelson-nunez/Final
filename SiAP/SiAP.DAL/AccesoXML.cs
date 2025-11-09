@@ -554,6 +554,7 @@ namespace SiAP.DAL
             tabla.Columns.Add("Id", typeof(long));
             tabla.Columns.Add("ConsultaId", typeof(long));
             tabla.Columns.Add("Fecha", typeof(DateTime));
+            tabla.Columns.Add("Profesional", typeof(string));
             tabla.Columns.Add("TipoCertificado", typeof(string));
             tabla.Columns.Add("Descripcion", typeof(string));
             tabla.Columns.Add("Observaciones", typeof(string));
@@ -566,7 +567,8 @@ namespace SiAP.DAL
                 1, // Id
                 1, // ConsultaId
                 new DateTime(2024, 6, 15), // Fecha
-                "Certificado Médico de Aptitud Física", // TipoCertificado
+                "Dra. Ana Pérez - Cardióloga",
+                "Aptitud", // TipoCertificado
                 "El paciente Juan Gómez (DNI 87654321) se encuentra bajo tratamiento por hipertensión leve. " +
                 "Se recomienda evitar actividades físicas de alta intensidad hasta nuevo control médico. " +
                 "Puede realizar actividades físicas moderadas con autorización médica.", // Descripcion
