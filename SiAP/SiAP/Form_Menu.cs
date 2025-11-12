@@ -18,7 +18,6 @@ namespace SiAP.UI
         private Form_CRUD_Secretario form_secretario;
         private Form_Cobros form_cobros;
         private Form_Agenda form_Agenda;
-        private Form_Receta form_receta;
         private Form_DashBoard form_reportes;
         private Form_Respaldos form_respaldos;
         //Componentes
@@ -206,7 +205,6 @@ namespace SiAP.UI
 
         private void recetasToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AbrirFormGeneral(ref form_receta);
         }
 
         private void toolStripMenuItem1_Click(object sender, EventArgs e)

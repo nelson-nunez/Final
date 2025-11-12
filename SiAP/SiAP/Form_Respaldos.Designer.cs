@@ -28,273 +28,287 @@
         /// </summary>
         private void InitializeComponent()
         {
-            uC_Buscar_Paciente1 = new Forms_Seguridad.UC_Buscar_Paciente();
-            groupBox1 = new GroupBox();
-            groupBox2 = new GroupBox();
+            treeView_respaldos = new TreeView();
+            groupBox4 = new GroupBox();
+            dateTimePicker_hasta = new DateTimePicker();
+            dateTimePicker_desde = new DateTimePicker();
             label9 = new Label();
-            textBox_paciente_seleccionado = new TextBox();
-            richTextBox_descripcion = new RichTextBox();
             label8 = new Label();
-            label7 = new Label();
-            textBox_turno = new TextBox();
-            label6 = new Label();
-            textBox_estado = new TextBox();
-            label5 = new Label();
-            textBox_importe = new TextBox();
-            label4 = new Label();
-            textBox_nro_factura = new TextBox();
-            label3 = new Label();
-            textBox_fecha_emision = new TextBox();
-            dataGridView1 = new DataGridView();
-            label2 = new Label();
-            dateTimePicker2 = new DateTimePicker();
+            button6 = new Button();
+            button4 = new Button();
+            button3 = new Button();
+            button1 = new Button();
+            flowLayoutPanel2 = new FlowLayoutPanel();
             label1 = new Label();
-            dateTimePicker1 = new DateTimePicker();
+            richTextBox_motivo_consulta = new RichTextBox();
+            textBox_nombre_completo = new TextBox();
+            textBox_ooss = new TextBox();
+            label28 = new Label();
+            label30 = new Label();
+            textBox1 = new TextBox();
+            label2 = new Label();
+            groupBox1 = new GroupBox();
+            groupBox4.SuspendLayout();
+            flowLayoutPanel2.SuspendLayout();
             groupBox1.SuspendLayout();
-            groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
-            // uC_Buscar_Paciente1
+            // treeView_respaldos
             // 
-            uC_Buscar_Paciente1.Location = new Point(12, 12);
-            uC_Buscar_Paciente1.Name = "uC_Buscar_Paciente1";
-            uC_Buscar_Paciente1.Size = new Size(444, 226);
-            uC_Buscar_Paciente1.TabIndex = 1;
+            treeView_respaldos.Location = new Point(6, 78);
+            treeView_respaldos.Name = "treeView_respaldos";
+            treeView_respaldos.Size = new Size(355, 623);
+            treeView_respaldos.TabIndex = 92;
             // 
-            // groupBox1
+            // groupBox4
             // 
-            groupBox1.Controls.Add(groupBox2);
-            groupBox1.Controls.Add(dataGridView1);
-            groupBox1.Controls.Add(label2);
-            groupBox1.Controls.Add(dateTimePicker2);
-            groupBox1.Controls.Add(label1);
-            groupBox1.Controls.Add(dateTimePicker1);
-            groupBox1.Location = new Point(462, 12);
-            groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(760, 294);
-            groupBox1.TabIndex = 2;
-            groupBox1.TabStop = false;
-            groupBox1.Text = "Pagos y Devoluciones";
+            groupBox4.BackColor = Color.WhiteSmoke;
+            groupBox4.Controls.Add(groupBox1);
+            groupBox4.Controls.Add(button6);
+            groupBox4.Controls.Add(treeView_respaldos);
+            groupBox4.Controls.Add(dateTimePicker_hasta);
+            groupBox4.Controls.Add(dateTimePicker_desde);
+            groupBox4.Controls.Add(label9);
+            groupBox4.Controls.Add(label8);
+            groupBox4.Location = new Point(12, 12);
+            groupBox4.Name = "groupBox4";
+            groupBox4.Size = new Size(1210, 707);
+            groupBox4.TabIndex = 91;
+            groupBox4.TabStop = false;
+            groupBox4.Text = "Respaldos:";
+            groupBox4.Enter += groupBox4_Enter;
             // 
-            // groupBox2
+            // dateTimePicker_hasta
             // 
-            groupBox2.Controls.Add(label9);
-            groupBox2.Controls.Add(textBox_paciente_seleccionado);
-            groupBox2.Controls.Add(richTextBox_descripcion);
-            groupBox2.Controls.Add(label8);
-            groupBox2.Controls.Add(label7);
-            groupBox2.Controls.Add(textBox_turno);
-            groupBox2.Controls.Add(label6);
-            groupBox2.Controls.Add(textBox_estado);
-            groupBox2.Controls.Add(label5);
-            groupBox2.Controls.Add(textBox_importe);
-            groupBox2.Controls.Add(label4);
-            groupBox2.Controls.Add(textBox_nro_factura);
-            groupBox2.Controls.Add(label3);
-            groupBox2.Controls.Add(textBox_fecha_emision);
-            groupBox2.Location = new Point(396, 14);
-            groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(358, 274);
-            groupBox2.TabIndex = 5;
-            groupBox2.TabStop = false;
-            groupBox2.Text = "Detalles";
+            dateTimePicker_hasta.Format = DateTimePickerFormat.Short;
+            dateTimePicker_hasta.Location = new Point(133, 47);
+            dateTimePicker_hasta.Name = "dateTimePicker_hasta";
+            dateTimePicker_hasta.Size = new Size(110, 23);
+            dateTimePicker_hasta.TabIndex = 127;
+            // 
+            // dateTimePicker_desde
+            // 
+            dateTimePicker_desde.Format = DateTimePickerFormat.Short;
+            dateTimePicker_desde.Location = new Point(6, 47);
+            dateTimePicker_desde.Name = "dateTimePicker_desde";
+            dateTimePicker_desde.Size = new Size(110, 23);
+            dateTimePicker_desde.TabIndex = 126;
             // 
             // label9
             // 
             label9.AutoSize = true;
-            label9.Location = new Point(37, 37);
+            label9.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            label9.Location = new Point(133, 29);
             label9.Name = "label9";
-            label9.Size = new Size(55, 15);
-            label9.TabIndex = 14;
-            label9.Text = "Paciente:";
-            // 
-            // textBox_paciente_seleccionado
-            // 
-            textBox_paciente_seleccionado.Location = new Point(98, 34);
-            textBox_paciente_seleccionado.Name = "textBox_paciente_seleccionado";
-            textBox_paciente_seleccionado.Size = new Size(254, 23);
-            textBox_paciente_seleccionado.TabIndex = 13;
-            // 
-            // richTextBox_descripcion
-            // 
-            richTextBox_descripcion.Location = new Point(98, 180);
-            richTextBox_descripcion.Name = "richTextBox_descripcion";
-            richTextBox_descripcion.Size = new Size(254, 89);
-            richTextBox_descripcion.TabIndex = 12;
-            richTextBox_descripcion.Text = "";
+            label9.Size = new Size(89, 15);
+            label9.TabIndex = 125;
+            label9.Text = "Vigencia Hasta:";
             // 
             // label8
             // 
             label8.AutoSize = true;
-            label8.Location = new Point(20, 183);
+            label8.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            label8.Location = new Point(6, 29);
             label8.Name = "label8";
-            label8.Size = new Size(72, 15);
-            label8.TabIndex = 11;
-            label8.Text = "Descripción:";
+            label8.Size = new Size(90, 15);
+            label8.TabIndex = 123;
+            label8.Text = "Vigencia desde:";
             // 
-            // label7
+            // button6
             // 
-            label7.AutoSize = true;
-            label7.Location = new Point(48, 154);
-            label7.Name = "label7";
-            label7.Size = new Size(44, 15);
-            label7.TabIndex = 9;
-            label7.Text = "Turno: ";
+            button6.BackColor = SystemColors.ActiveCaption;
+            button6.Image = Properties.Resources.lupa;
+            button6.ImageAlign = ContentAlignment.MiddleLeft;
+            button6.Location = new Point(249, 47);
+            button6.Name = "button6";
+            button6.Size = new Size(112, 25);
+            button6.TabIndex = 130;
+            button6.Text = "Filtrar";
+            button6.UseVisualStyleBackColor = false;
             // 
-            // textBox_turno
+            // button4
             // 
-            textBox_turno.Location = new Point(98, 150);
-            textBox_turno.Name = "textBox_turno";
-            textBox_turno.Size = new Size(254, 23);
-            textBox_turno.TabIndex = 8;
+            button4.BackColor = Color.DarkSeaGreen;
+            button4.Font = new Font("Calibri", 9.75F, FontStyle.Bold);
+            button4.Image = Properties.Resources.save;
+            button4.ImageAlign = ContentAlignment.MiddleLeft;
+            button4.Location = new Point(5, 42);
+            button4.Margin = new Padding(5);
+            button4.Name = "button4";
+            button4.Size = new Size(218, 27);
+            button4.TabIndex = 25;
+            button4.Text = "Guardar Nuevo Respaldo";
+            button4.TextAlign = ContentAlignment.MiddleRight;
+            button4.UseVisualStyleBackColor = false;
             // 
-            // label6
+            // button3
             // 
-            label6.AutoSize = true;
-            label6.Location = new Point(209, 95);
-            label6.Name = "label6";
-            label6.Size = new Size(45, 15);
-            label6.TabIndex = 7;
-            label6.Text = "Estado:";
+            button3.BackColor = SystemColors.ActiveCaption;
+            button3.Font = new Font("Calibri", 9.75F, FontStyle.Bold);
+            button3.Image = Properties.Resources.respaldo_3_;
+            button3.ImageAlign = ContentAlignment.MiddleLeft;
+            button3.Location = new Point(5, 79);
+            button3.Margin = new Padding(5);
+            button3.Name = "button3";
+            button3.Size = new Size(218, 27);
+            button3.TabIndex = 24;
+            button3.Text = "Restaurar Respaldo Seleccionado";
+            button3.TextAlign = ContentAlignment.MiddleRight;
+            button3.UseVisualStyleBackColor = false;
             // 
-            // textBox_estado
+            // button1
             // 
-            textBox_estado.Location = new Point(260, 92);
-            textBox_estado.Name = "textBox_estado";
-            textBox_estado.Size = new Size(92, 23);
-            textBox_estado.TabIndex = 6;
+            button1.BackColor = Color.IndianRed;
+            button1.Font = new Font("Calibri", 9.75F, FontStyle.Bold);
+            button1.Image = Properties.Resources.delete;
+            button1.ImageAlign = ContentAlignment.MiddleLeft;
+            button1.Location = new Point(5, 5);
+            button1.Margin = new Padding(5);
+            button1.Name = "button1";
+            button1.Size = new Size(218, 27);
+            button1.TabIndex = 22;
+            button1.Text = "Eliminar  Respaldo Seleccionado";
+            button1.TextAlign = ContentAlignment.MiddleRight;
+            button1.UseVisualStyleBackColor = false;
             // 
-            // label5
+            // flowLayoutPanel2
             // 
-            label5.AutoSize = true;
-            label5.Location = new Point(37, 124);
-            label5.Name = "label5";
-            label5.Size = new Size(55, 15);
-            label5.TabIndex = 5;
-            label5.Text = "Importe: ";
-            // 
-            // textBox_importe
-            // 
-            textBox_importe.Location = new Point(98, 121);
-            textBox_importe.Name = "textBox_importe";
-            textBox_importe.Size = new Size(254, 23);
-            textBox_importe.TabIndex = 4;
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Location = new Point(19, 95);
-            label4.Name = "label4";
-            label4.Size = new Size(73, 15);
-            label4.TabIndex = 3;
-            label4.Text = "Nro. factura:";
-            // 
-            // textBox_nro_factura
-            // 
-            textBox_nro_factura.Location = new Point(98, 92);
-            textBox_nro_factura.Name = "textBox_nro_factura";
-            textBox_nro_factura.Size = new Size(105, 23);
-            textBox_nro_factura.TabIndex = 2;
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Location = new Point(6, 66);
-            label3.Name = "label3";
-            label3.Size = new Size(86, 15);
-            label3.TabIndex = 1;
-            label3.Text = "Fecha Emisión:";
-            // 
-            // textBox_fecha_emision
-            // 
-            textBox_fecha_emision.Location = new Point(98, 63);
-            textBox_fecha_emision.Name = "textBox_fecha_emision";
-            textBox_fecha_emision.Size = new Size(254, 23);
-            textBox_fecha_emision.TabIndex = 0;
-            // 
-            // dataGridView1
-            // 
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(6, 54);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(384, 234);
-            dataGridView1.TabIndex = 4;
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Location = new Point(176, 31);
-            label2.Name = "label2";
-            label2.Size = new Size(43, 15);
-            label2.TabIndex = 3;
-            label2.Text = "Hasta: ";
-            // 
-            // dateTimePicker2
-            // 
-            dateTimePicker2.Format = DateTimePickerFormat.Short;
-            dateTimePicker2.Location = new Point(225, 25);
-            dateTimePicker2.Name = "dateTimePicker2";
-            dateTimePicker2.Size = new Size(102, 23);
-            dateTimePicker2.TabIndex = 2;
+            flowLayoutPanel2.Controls.Add(button1);
+            flowLayoutPanel2.Controls.Add(button4);
+            flowLayoutPanel2.Controls.Add(button3);
+            flowLayoutPanel2.FlowDirection = FlowDirection.TopDown;
+            flowLayoutPanel2.Location = new Point(176, 313);
+            flowLayoutPanel2.Margin = new Padding(5);
+            flowLayoutPanel2.Name = "flowLayoutPanel2";
+            flowLayoutPanel2.Size = new Size(228, 114);
+            flowLayoutPanel2.TabIndex = 129;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(6, 31);
+            label1.Location = new Point(39, 132);
             label1.Name = "label1";
-            label1.Size = new Size(45, 15);
-            label1.TabIndex = 1;
-            label1.Text = "Desde: ";
+            label1.Size = new Size(72, 15);
+            label1.TabIndex = 93;
+            label1.Text = "Descripcion:";
             // 
-            // dateTimePicker1
+            // richTextBox_motivo_consulta
             // 
-            dateTimePicker1.Format = DateTimePickerFormat.Short;
-            dateTimePicker1.Location = new Point(57, 25);
-            dateTimePicker1.Name = "dateTimePicker1";
-            dateTimePicker1.Size = new Size(102, 23);
-            dateTimePicker1.TabIndex = 0;
+            richTextBox_motivo_consulta.Location = new Point(117, 129);
+            richTextBox_motivo_consulta.Name = "richTextBox_motivo_consulta";
+            richTextBox_motivo_consulta.Size = new Size(359, 176);
+            richTextBox_motivo_consulta.TabIndex = 92;
+            richTextBox_motivo_consulta.Text = "";
+            // 
+            // textBox_nombre_completo
+            // 
+            textBox_nombre_completo.Enabled = false;
+            textBox_nombre_completo.Location = new Point(117, 42);
+            textBox_nombre_completo.Name = "textBox_nombre_completo";
+            textBox_nombre_completo.Size = new Size(359, 23);
+            textBox_nombre_completo.TabIndex = 136;
+            // 
+            // textBox_ooss
+            // 
+            textBox_ooss.Enabled = false;
+            textBox_ooss.Location = new Point(117, 71);
+            textBox_ooss.Name = "textBox_ooss";
+            textBox_ooss.Size = new Size(359, 23);
+            textBox_ooss.TabIndex = 133;
+            // 
+            // label28
+            // 
+            label28.AutoSize = true;
+            label28.Enabled = false;
+            label28.Location = new Point(42, 45);
+            label28.Name = "label28";
+            label28.Size = new Size(69, 15);
+            label28.TabIndex = 131;
+            label28.Text = "Creado por:";
+            // 
+            // label30
+            // 
+            label30.AutoSize = true;
+            label30.Enabled = false;
+            label30.Location = new Point(13, 74);
+            label30.Name = "label30";
+            label30.Size = new Size(98, 15);
+            label30.TabIndex = 132;
+            label30.Text = "Nombre Archivo:";
+            // 
+            // textBox1
+            // 
+            textBox1.Enabled = false;
+            textBox1.Location = new Point(117, 100);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(359, 23);
+            textBox1.TabIndex = 138;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Enabled = false;
+            label2.Location = new Point(20, 103);
+            label2.Name = "label2";
+            label2.Size = new Size(91, 15);
+            label2.TabIndex = 137;
+            label2.Text = "Fecha Creación:";
+            // 
+            // groupBox1
+            // 
+            groupBox1.Controls.Add(richTextBox_motivo_consulta);
+            groupBox1.Controls.Add(textBox1);
+            groupBox1.Controls.Add(flowLayoutPanel2);
+            groupBox1.Controls.Add(label2);
+            groupBox1.Controls.Add(label1);
+            groupBox1.Controls.Add(textBox_nombre_completo);
+            groupBox1.Controls.Add(label30);
+            groupBox1.Controls.Add(textBox_ooss);
+            groupBox1.Controls.Add(label28);
+            groupBox1.Location = new Point(367, 78);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new Size(489, 443);
+            groupBox1.TabIndex = 139;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "Respaldo";
             // 
             // Form_Respaldos
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1234, 731);
-            Controls.Add(groupBox1);
-            Controls.Add(uC_Buscar_Paciente1);
+            Controls.Add(groupBox4);
             Name = "Form_Respaldos";
             Text = "Form_Respaldos";
+            groupBox4.ResumeLayout(false);
+            groupBox4.PerformLayout();
+            flowLayoutPanel2.ResumeLayout(false);
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
-            groupBox2.ResumeLayout(false);
-            groupBox2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
 
-        private Forms_Seguridad.UC_Buscar_Paciente uC_Buscar_Paciente1;
-        private GroupBox groupBox1;
-        private GroupBox groupBox2;
+        private TreeView treeView_respaldos;
+        private GroupBox groupBox4;
+        private DateTimePicker dateTimePicker_hasta;
+        private DateTimePicker dateTimePicker_desde;
         private Label label9;
-        private TextBox textBox_paciente_seleccionado;
-        private RichTextBox richTextBox_descripcion;
         private Label label8;
-        private Label label7;
-        private TextBox textBox_turno;
-        private Label label6;
-        private TextBox textBox_estado;
-        private Label label5;
-        private TextBox textBox_importe;
-        private Label label4;
-        private TextBox textBox_nro_factura;
-        private Label label3;
-        private TextBox textBox_fecha_emision;
-        private DataGridView dataGridView1;
-        private Label label2;
-        private DateTimePicker dateTimePicker2;
+        private Button button6;
+        private FlowLayoutPanel flowLayoutPanel2;
+        private Button button1;
+        private Button button4;
+        private Button button3;
         private Label label1;
-        private DateTimePicker dateTimePicker1;
+        private RichTextBox richTextBox_motivo_consulta;
+        private TextBox textBox_nombre_completo;
+        private TextBox textBox_ooss;
+        private Label label28;
+        private Label label30;
+        private TextBox textBox1;
+        private Label label2;
+        private GroupBox groupBox1;
     }
 }

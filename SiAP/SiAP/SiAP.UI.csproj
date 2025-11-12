@@ -32,9 +32,6 @@
     <Compile Update="Form_Respaldos.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Form_Receta.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Update="UPersonas\Form_CRUD_Secretario.cs">
       <SubType>Form</SubType>
     </Compile>

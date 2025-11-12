@@ -130,4 +130,100 @@
     <Usuario>admin</Usuario>
     <Operacion>Certificado modificado - ID: 5</Operacion>
   </Log>
+  <Log>
+    <Id>19</Id>
+    <Fecha>2025-11-11T20:40:56.422043-03:00</Fecha>
+    <Usuario>admin</Usuario>
+    <Operacion>Agenda agregada: Médico ID 4, Fecha 14/11/2025</Operacion>
+  </Log>
+  <Log>
+    <Id>20</Id>
+    <Fecha>2025-11-11T20:40:56.4232629-03:00</Fecha>
+    <Usuario>admin</Usuario>
+    <Operacion>Agenda agregada: Médico ID 4, Fecha 14/11/2025</Operacion>
+  </Log>
+  <Log>
+    <Id>21</Id>
+    <Fecha>2025-11-11T20:40:56.4237009-03:00</Fecha>
+    <Usuario>admin</Usuario>
+    <Operacion>Agenda agregada: Médico ID 4, Fecha 14/11/2025</Operacion>
+  </Log>
+  <Log>
+    <Id>22</Id>
+    <Fecha>2025-11-11T20:41:01.6734887-03:00</Fecha>
+    <Usuario>admin</Usuario>
+    <Operacion>Agenda agregada: Médico ID 4, Fecha 14/11/2025</Operacion>
+  </Log>
+  <Log>
+    <Id>23</Id>
+    <Fecha>2025-11-11T20:41:01.6739129-03:00</Fecha>
+    <Usuario>admin</Usuario>
+    <Operacion>Agenda agregada: Médico ID 4, Fecha 13/11/2025</Operacion>
+  </Log>
+  <Log>
+    <Id>24</Id>
+    <Fecha>2025-11-11T20:41:01.6742904-03:00</Fecha>
+    <Usuario>admin</Usuario>
+    <Operacion>Agenda agregada: Médico ID 4, Fecha 14/11/2025</Operacion>
+  </Log>
+  <Log>
+    <Id>25</Id>
+    <Fecha>2025-11-11T20:41:01.674667-03:00</Fecha>
+    <Usuario>admin</Usuario>
+    <Operacion>Agenda agregada: Médico ID 4, Fecha 13/11/2025</Operacion>
+  </Log>
+  <Log>
+    <Id>26</Id>
+    <Fecha>2025-11-11T20:41:01.6750617-03:00</Fecha>
+    <Usuario>admin</Usuario>
+    <Operacion>Agenda agregada: Médico ID 4, Fecha 14/11/2025</Operacion>
+  </Log>
+  <Log>
+    <Id>27</Id>
+    <Fecha>2025-11-11T20:41:01.6754356-03:00</Fecha>
+    <Usuario>admin</Usuario>
+    <Operacion>Agenda agregada: Médico ID 4, Fecha 13/11/2025</Operacion>
+  </Log>
+  <Log>
+    <Id>28</Id>
+    <Fecha>2025-11-11T20:41:01.675846-03:00</Fecha>
+    <Usuario>admin</Usuario>
+    <Operacion>Agenda agregada: Médico ID 4, Fecha 14/11/2025</Operacion>
+  </Log>
+  <Log>
+    <Id>29</Id>
+    <Fecha>2025-11-11T20:41:01.6762559-03:00</Fecha>
+    <Usuario>admin</Usuario>
+    <Operacion>Agenda agregada: Médico ID 4, Fecha 13/11/2025</Operacion>
+  </Log>
+  <Log>
+    <Id>30</Id>
+    <Fecha>2025-11-11T20:41:01.6767087-03:00</Fecha>
+    <Usuario>admin</Usuario>
+    <Operacion>Agenda agregada: Médico ID 4, Fecha 14/11/2025</Operacion>
+  </Log>
+  <Log>
+    <Id>31</Id>
+    <Fecha>2025-11-11T20:41:01.6771606-03:00</Fecha>
+    <Usuario>admin</Usuario>
+    <Operacion>Agenda agregada: Médico ID 4, Fecha 13/11/2025</Operacion>
+  </Log>
+  <Log>
+    <Id>32</Id>
+    <Fecha>2025-11-11T20:41:01.6862162-03:00</Fecha>
+    <Usuario>admin</Usuario>
+    <Operacion>Agenda agregada: Médico ID 4, Fecha 13/11/2025</Operacion>
+  </Log>
+  <Log>
+    <Id>33</Id>
+    <Fecha>2025-11-11T20:41:01.6869327-03:00</Fecha>
+    <Usuario>admin</Usuario>
+    <Operacion>Agenda agregada: Médico ID 4, Fecha 14/11/2025</Operacion>
+  </Log>
+  <Log>
+    <Id>34</Id>
+    <Fecha>2025-11-11T20:41:32.089498-03:00</Fecha>
+    <Usuario>admin</Usuario>
+    <Operacion>Turno agregado: Médico ID 4, Paciente ID 1, Fecha 14/11/2025</Operacion>
+  </Log>
 </NewDataSet>

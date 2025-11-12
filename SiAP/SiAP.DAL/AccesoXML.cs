@@ -156,7 +156,8 @@ namespace SiAP.DAL
                 { "Consulta", CrearTablaConsulta },
                 { "Receta", CrearTablaReceta },
                 { "Certificado", CrearTablaCertificado },
-                { "Medicamento", CrearTablaMedicamento }
+                { "Medicamento", CrearTablaMedicamento },
+                { "Respaldo", CrearTablaRespaldo },
             };
 
             foreach (var tabla in tablas)
@@ -178,6 +179,35 @@ namespace SiAP.DAL
             }
         }
 
+        #endregion
+
+        #region Arq base
+
+        private DataTable CrearTablaLog()
+        {
+            var tabla = new DataTable("Log");
+            tabla.Columns.Add("Id", typeof(long));
+            tabla.Columns.Add("Fecha", typeof(DateTime));
+            tabla.Columns.Add("Usuario", typeof(string));
+            tabla.Columns.Add("Operacion", typeof(string));
+            tabla.PrimaryKey = new[] { tabla.Columns["Id"] };
+            return tabla;
+        }
+
+        private DataTable CrearTablaRespaldo()
+        {
+            var tabla = new DataTable("Respaldo");
+            tabla.Columns.Add("Id", typeof(long));
+            tabla.Columns.Add("NombreArchivo", typeof(string));
+            tabla.Columns.Add("Descripcion", typeof(string));
+            tabla.Columns.Add("FechaCreacion", typeof(DateTime));
+            tabla.Columns.Add("CreadoPor", typeof(string));
+            tabla.Columns.Add("TamanioKB", typeof(long));
+
+            tabla.PrimaryKey = new[] { tabla.Columns["Id"] };
+
+            return tabla;
+        }
         #endregion
 
         #region Tabla Persona (Base)
@@ -583,20 +613,6 @@ namespace SiAP.DAL
 
         #endregion
 
-        #region Logs
-
-        private DataTable CrearTablaLog()
-        {
-            var tabla = new DataTable("Log");
-            tabla.Columns.Add("Id", typeof(long));
-            tabla.Columns.Add("Fecha", typeof(DateTime));
-            tabla.Columns.Add("Usuario", typeof(string));
-            tabla.Columns.Add("Operacion", typeof(string));
-            tabla.PrimaryKey = new[] { tabla.Columns["Id"] };
-            return tabla;
-        }
-
-        #endregion
     }
 }
 

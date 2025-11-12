@@ -1284,6 +1284,111 @@
     <HoraFin>PT13H</HoraFin>
     <MedicoId>3</MedicoId>
   </Agenda>
+  <Agenda>
+    <Id>106</Id>
+    <Fecha>2025-11-14T00:00:00-03:00</Fecha>
+    <HoraInicio>PT10H</HoraInicio>
+    <HoraFin>PT10H30M</HoraFin>
+    <MedicoId>4</MedicoId>
+  </Agenda>
+  <Agenda>
+    <Id>107</Id>
+    <Fecha>2025-11-14T00:00:00-03:00</Fecha>
+    <HoraInicio>PT9H30M</HoraInicio>
+    <HoraFin>PT10H</HoraFin>
+    <MedicoId>4</MedicoId>
+  </Agenda>
+  <Agenda>
+    <Id>108</Id>
+    <Fecha>2025-11-14T00:00:00-03:00</Fecha>
+    <HoraInicio>PT9H</HoraInicio>
+    <HoraFin>PT9H30M</HoraFin>
+    <MedicoId>4</MedicoId>
+  </Agenda>
+  <Agenda>
+    <Id>109</Id>
+    <Fecha>2025-11-14T00:00:00-03:00</Fecha>
+    <HoraInicio>PT13H</HoraInicio>
+    <HoraFin>PT13H30M</HoraFin>
+    <MedicoId>4</MedicoId>
+  </Agenda>
+  <Agenda>
+    <Id>110</Id>
+    <Fecha>2025-11-13T00:00:00-03:00</Fecha>
+    <HoraInicio>PT13H</HoraInicio>
+    <HoraFin>PT13H30M</HoraFin>
+    <MedicoId>4</MedicoId>
+  </Agenda>
+  <Agenda>
+    <Id>111</Id>
+    <Fecha>2025-11-14T00:00:00-03:00</Fecha>
+    <HoraInicio>PT12H30M</HoraInicio>
+    <HoraFin>PT13H</HoraFin>
+    <MedicoId>4</MedicoId>
+  </Agenda>
+  <Agenda>
+    <Id>112</Id>
+    <Fecha>2025-11-13T00:00:00-03:00</Fecha>
+    <HoraInicio>PT12H30M</HoraInicio>
+    <HoraFin>PT13H</HoraFin>
+    <MedicoId>4</MedicoId>
+  </Agenda>
+  <Agenda>
+    <Id>113</Id>
+    <Fecha>2025-11-14T00:00:00-03:00</Fecha>
+    <HoraInicio>PT12H</HoraInicio>
+    <HoraFin>PT12H30M</HoraFin>
+    <MedicoId>4</MedicoId>
+  </Agenda>
+  <Agenda>
+    <Id>114</Id>
+    <Fecha>2025-11-13T00:00:00-03:00</Fecha>
+    <HoraInicio>PT12H</HoraInicio>
+    <HoraFin>PT12H30M</HoraFin>
+    <MedicoId>4</MedicoId>
+  </Agenda>
+  <Agenda>
+    <Id>115</Id>
+    <Fecha>2025-11-14T00:00:00-03:00</Fecha>
+    <HoraInicio>PT11H30M</HoraInicio>
+    <HoraFin>PT12H</HoraFin>
+    <MedicoId>4</MedicoId>
+  </Agenda>
+  <Agenda>
+    <Id>116</Id>
+    <Fecha>2025-11-13T00:00:00-03:00</Fecha>
+    <HoraInicio>PT11H30M</HoraInicio>
+    <HoraFin>PT12H</HoraFin>
+    <MedicoId>4</MedicoId>
+  </Agenda>
+  <Agenda>
+    <Id>117</Id>
+    <Fecha>2025-11-14T00:00:00-03:00</Fecha>
+    <HoraInicio>PT11H</HoraInicio>
+    <HoraFin>PT11H30M</HoraFin>
+    <MedicoId>4</MedicoId>
+  </Agenda>
+  <Agenda>
+    <Id>118</Id>
+    <Fecha>2025-11-13T00:00:00-03:00</Fecha>
+    <HoraInicio>PT11H</HoraInicio>
+    <HoraFin>PT11H30M</HoraFin>
+    <MedicoId>4</MedicoId>
+  </Agenda>
+  <Agenda>
+    <Id>119</Id>
+    <Fecha>2025-11-13T00:00:00-03:00</Fecha>
+    <HoraInicio>PT10H30M</HoraInicio>
+    <HoraFin>PT11H</HoraFin>
+    <MedicoId>4</MedicoId>
+  </Agenda>
+  <Agenda>
+    <Id>120</Id>
+    <Fecha>2025-11-14T00:00:00-03:00</Fecha>
+    <HoraInicio>PT10H30M</HoraInicio>
+    <HoraFin>PT11H</HoraFin>
+    <MedicoId>4</MedicoId>
+  </Agenda>
   <Turno>
     <Id>1</Id>
     <Fecha>2025-07-08T00:00:00-03:00</Fecha>
@@ -1294,6 +1399,16 @@
     <MedicoId>1</MedicoId>
     <PacienteId>1</PacienteId>
     <AgendaId>12</AgendaId>
+  </Turno>
+  <Turno>
+    <Id>2</Id>
+    <Fecha>2025-11-14T00:00:00-03:00</Fecha>
+    <HoraInicio>PT10H30M</HoraInicio>
+    <HoraFin>PT11H</HoraFin>
+    <Estado>Asignado</Estado>
+    <MedicoId>4</MedicoId>
+    <PacienteId>1</PacienteId>
+    <AgendaId>120</AgendaId>
   </Turno>
   <Factura>
     <Id>1</Id>

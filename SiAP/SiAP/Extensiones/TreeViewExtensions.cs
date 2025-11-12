@@ -402,7 +402,63 @@ namespace SiAP.UI.Extensiones
                 treeView.Nodes.Add(nodoMes);
             }
         }
-        
+
+        #endregion
+
+        #region Respaldos
+
+        public static void ArmarArbolRespaldosSimple(this TreeView treeView, List<Respaldo> respaldos)
+        {
+            ArgumentNullException.ThrowIfNull(treeView);
+            if (respaldos == null) return;
+
+            treeView.Nodes.Clear();
+
+            // Agrupar respaldos por año
+            var grupos = respaldos
+                .GroupBy(r => r.FechaCreacion.Year)
+                .OrderByDescending(g => g.Key);
+
+            foreach (var grupo in grupos)
+            {
+                var cantidadRespaldos = grupo.Count();
+                var tamanioTotalMB = grupo.Sum(r => r.TamanioKB) / 1024.0;
+
+                var nodoAnio = new TreeNode($"Año {grupo.Key} ({cantidadRespaldos} respaldos - {tamanioTotalMB:F2} MB)")
+                {
+                    Name = $"Anio_{grupo.Key}",
+                    Tag = grupo.Key
+                };
+
+                foreach (var respaldo in grupo.OrderByDescending(r => r.FechaCreacion))
+                {
+                    var tamanioMB = respaldo.TamanioKB / 1024.0;
+                    var textoRespaldo = $"{respaldo.NombreArchivo} - " +
+                                      $"{respaldo.FechaCreacion:dd/MM/yyyy HH:mm} - " +
+                                      $"{tamanioMB:F2} MB";
+
+                    if (!string.IsNullOrWhiteSpace(respaldo.Descripcion))
+                        textoRespaldo += $" - {respaldo.Descripcion}";
+
+                    var nodoRespaldo = new TreeNode(textoRespaldo)
+                    {
+                        Name = $"Respaldo_{respaldo.Id}",
+                        Tag = respaldo,
+                        ForeColor = Color.DarkGreen,
+                        ToolTipText = $"Creado por: {respaldo.CreadoPor}"
+                    };
+
+                    nodoAnio.Nodes.Add(nodoRespaldo);
+                }
+
+                treeView.Nodes.Add(nodoAnio);
+            }
+
+            // Expandir el año actual por defecto
+            var nodoAnioActual = treeView.Nodes.Find($"Anio_{DateTime.Now.Year}", false).FirstOrDefault();
+            nodoAnioActual?.Expand();
+        }
+
         #endregion
     }
 }
