@@ -48,7 +48,7 @@ namespace SiAP.MPP
         {
             ArgumentNullException.ThrowIfNull(entidad);
 
-            var ds = _datos.Obtener_Datos();
+            var ds = _datos.ObtenerDatos_BDSiAP();
             var dr = ds.Tables[NombreTabla].AsEnumerable().FirstOrDefault(r => Convert.ToInt64(r["Id"]) == entidad.Id);
 
             if (dr != null)

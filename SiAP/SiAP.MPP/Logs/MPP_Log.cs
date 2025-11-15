@@ -18,7 +18,7 @@ namespace SiAP.MPP.Logs
 
         public IList<Log> ObtenerLog()
         {
-            var ds = _datos.Obtener_Logs();
+            var ds = _datos.ObtenerDatos_BDLogs();
             return ds.Tables[NombreTabla].AsEnumerable()
                 .Select(HidratarObjeto)
                 .Where(log => log != null)
@@ -28,7 +28,7 @@ namespace SiAP.MPP.Logs
 
         public IList<Log> ObtenerLog(DateTime desde, DateTime hasta, string propiedad, string texto)
         {
-            var ds = _datos.Obtener_Logs();
+            var ds = _datos.ObtenerDatos_BDLogs();
             var dt = ds.Tables[NombreTabla];
             var filtro = ConstruirFiltro(desde, hasta, propiedad, texto);
             var filas = dt.Select(filtro);
@@ -44,7 +44,7 @@ namespace SiAP.MPP.Logs
         {
             ArgumentNullException.ThrowIfNull(log);
 
-            var ds = _datos.Obtener_Logs();
+            var ds = _datos.ObtenerDatos_BDLogs();
             var dt = ds.Tables[NombreTabla];
             var dr = dt.NewRow();
 
@@ -63,7 +63,7 @@ namespace SiAP.MPP.Logs
             if (string.IsNullOrWhiteSpace(usernameActual) || string.IsNullOrWhiteSpace(usernameNuevo))
                 throw new ArgumentException("Los valores de usuario no pueden estar vacíos.");
 
-            var ds = _datos.Obtener_Logs();
+            var ds = _datos.ObtenerDatos_BDLogs();
             var dt = ds.Tables[NombreTabla];
             var registros = dt.Select($"Usuario = '{usernameActual.Replace("'", "''")}'");
 

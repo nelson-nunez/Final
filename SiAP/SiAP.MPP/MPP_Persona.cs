@@ -75,7 +75,7 @@ namespace SiAP.MPP
 
         public Persona LeerPorIdSinUsuario(object id)
         {
-            var ds = _datos.Obtener_Datos();
+            var ds = _datos.ObtenerDatos_BDSiAP();
             var row = ds.Tables[NombreTabla].AsEnumerable().FirstOrDefault(r => Convert.ToInt64(r["Id"]) == Convert.ToInt64(id));
 
             if (row == null) 

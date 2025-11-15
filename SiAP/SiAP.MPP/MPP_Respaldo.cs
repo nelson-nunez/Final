@@ -77,7 +77,7 @@ namespace SiAP.MPP
             if (entidad == null)
                 return false;
 
-            var ds = _datos.Obtener_Datos();
+            var ds = _datos.ObtenerDatos_BDSiAP();
             return ds.Tables[NombreTabla].AsEnumerable().Any(r => r["NombreArchivo"].ToString() == entidad.NombreArchivo);
         }
 

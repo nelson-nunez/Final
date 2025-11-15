@@ -94,7 +94,7 @@ namespace SiAP.MPP
         /// Busca todas las consultas de una historia clínica específica
         public IList<Consulta> BuscarPorHistoriaClinicaId(long historiaClinicaId)
         {
-            var ds = _datos.Obtener_Datos();
+            var ds = _datos.ObtenerDatos_BDSiAP();
             var consultas = ds.Tables[NombreTabla].AsEnumerable()
                 .Where(r => Convert.ToInt64(r["HistoriaClinicaId"]) == historiaClinicaId)
                 .Select(HidratarObjeto)

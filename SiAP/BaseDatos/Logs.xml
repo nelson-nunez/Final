@@ -226,4 +226,22 @@
     <Usuario>admin</Usuario>
     <Operacion>Turno agregado: Médico ID 4, Paciente ID 1, Fecha 14/11/2025</Operacion>
   </Log>
+  <Log>
+    <Id>35</Id>
+    <Fecha>2025-11-15T20:18:02.6422938-03:00</Fecha>
+    <Usuario>admin</Usuario>
+    <Operacion>Usuario agregado: aperez</Operacion>
+  </Log>
+  <Log>
+    <Id>36</Id>
+    <Fecha>2025-11-15T20:18:56.8802532-03:00</Fecha>
+    <Usuario>admin</Usuario>
+    <Operacion>Permiso agregado: Test</Operacion>
+  </Log>
+  <Log>
+    <Id>37</Id>
+    <Fecha>2025-11-15T20:19:06.0446398-03:00</Fecha>
+    <Usuario>admin</Usuario>
+    <Operacion>Permiso asignado: TAG02 - Médicos a Test - test</Operacion>
+  </Log>
 </NewDataSet>

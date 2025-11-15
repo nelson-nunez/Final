@@ -28,7 +28,7 @@ namespace SiAP.MPP.Base
         {
             ArgumentNullException.ThrowIfNull(entidad);
 
-            var ds = _datos.Obtener_Datos();
+            var ds = _datos.ObtenerDatos_BDSiAP();
             var dt = ds.Tables[NombreTabla];
             var dr = dt.NewRow();
 
@@ -37,7 +37,7 @@ namespace SiAP.MPP.Base
             asignarDatos(dr, entidad);
 
             dt.Rows.Add(dr);
-            _datos.Actualizar_BD(ds);
+            _datos.Actualizar_BDSiAP(ds);
 
             entidad.Id = nuevoId;
         }
@@ -46,22 +46,22 @@ namespace SiAP.MPP.Base
         {
             ArgumentNullException.ThrowIfNull(entidad);
 
-            var ds = _datos.Obtener_Datos();
+            var ds = _datos.ObtenerDatos_BDSiAP();
             var dr = ds.Tables[NombreTabla].AsEnumerable().FirstOrDefault(r => Convert.ToInt64(r["Id"]) == entidad.Id)?? throw new Exception($"{typeof(T).Name} no encontrado.");
 
             asignarDatos(dr, entidad);
-            _datos.Actualizar_BD(ds);
+            _datos.Actualizar_BDSiAP(ds);
         }
 
         protected void EliminarEntidad(T entidad)
         {
             ArgumentNullException.ThrowIfNull(entidad);
 
-            var ds = _datos.Obtener_Datos();
+            var ds = _datos.ObtenerDatos_BDSiAP();
             var dr = ds.Tables[NombreTabla].AsEnumerable().FirstOrDefault(r => Convert.ToInt64(r["Id"]) == entidad.Id);
 
             dr?.Delete();
-            _datos.Actualizar_BD(ds);
+            _datos.Actualizar_BDSiAP(ds);
         }
 
         protected bool ExisteEntidad(T entidad)
@@ -69,21 +69,21 @@ namespace SiAP.MPP.Base
             if (entidad == null) 
                 return false;
 
-            var ds = _datos.Obtener_Datos();
+            var ds = _datos.ObtenerDatos_BDSiAP();
             var result = ds.Tables[NombreTabla].AsEnumerable().Any(r => Convert.ToInt64(r["Id"]) == entidad.Id);
             return result;
         }
 
         protected IList<T> ObtenerTodasEntidades(Func<DataRow, T> hidratarObjeto)
         {
-            var ds = _datos.Obtener_Datos();
+            var ds = _datos.ObtenerDatos_BDSiAP();
             var result = ds.Tables[NombreTabla].AsEnumerable().Select(hidratarObjeto).ToList();
             return result;
         }
 
         protected T LeerEntidadPorId(object id, Func<DataRow, T> hidratarObjeto)
         {
-            var ds = _datos.Obtener_Datos();
+            var ds = _datos.ObtenerDatos_BDSiAP();
             var dr = ds.Tables[NombreTabla].AsEnumerable().FirstOrDefault(r => Convert.ToInt64(r["Id"]) == Convert.ToInt64(id));
 
             return dr != null ? hidratarObjeto(dr) : null;
@@ -91,7 +91,7 @@ namespace SiAP.MPP.Base
 
         protected bool TieneDependenciasEnTabla(long entidadId, string tablaRelacionada, string campoFK)
         {
-            var ds = _datos.Obtener_Datos();
+            var ds = _datos.ObtenerDatos_BDSiAP();
 
             if (!ds.Tables.Contains(tablaRelacionada))
                 return false;

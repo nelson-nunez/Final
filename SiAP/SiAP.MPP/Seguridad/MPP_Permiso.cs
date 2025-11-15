@@ -23,7 +23,7 @@ namespace SiAP.MPP.Seguridad
 
         public void Agregar(Permiso entidad)
         {
-            var ds = _datos.Obtener_Datos();
+            var ds = _datos.ObtenerDatos_BDSiAP();
             var dt = ds.Tables["Permiso"];
 
             //if (Existe(entidad) || ExistePorCodigo(entidad.Codigo)) throw new Exception("El permiso ya existe");
@@ -36,12 +36,12 @@ namespace SiAP.MPP.Seguridad
             dr["EsCompuesto"] = entidad is PermisoCompuesto;
             dt.Rows.Add(dr);
 
-            _datos.Actualizar_BD(ds);
+            _datos.Actualizar_BDSiAP(ds);
         }
 
         public void Modificar(Permiso entidad)
         {
-            var ds = _datos.Obtener_Datos();
+            var ds = _datos.ObtenerDatos_BDSiAP();
             var dt = ds.Tables["Permiso"];
             var dr = dt.AsEnumerable().FirstOrDefault(r => Convert.ToInt64(r["Id"]) == entidad.Id);
 
@@ -51,12 +51,12 @@ namespace SiAP.MPP.Seguridad
             dr["Descripcion"] = entidad.Descripcion;
             dr["EsCompuesto"] = entidad is PermisoCompuesto;
 
-            _datos.Actualizar_BD(ds);
+            _datos.Actualizar_BDSiAP(ds);
         }
 
         public void Eliminar(Permiso entidad)
         {
-            var ds = _datos.Obtener_Datos();
+            var ds = _datos.ObtenerDatos_BDSiAP();
             var dt = ds.Tables["Permiso"];
             var dr = dt.AsEnumerable().FirstOrDefault(r => Convert.ToInt64(r["Id"]) == entidad.Id);
 
@@ -69,31 +69,31 @@ namespace SiAP.MPP.Seguridad
             foreach (var rel in relaciones)
                 rel.Delete();
 
-            _datos.Actualizar_BD(ds);
+            _datos.Actualizar_BDSiAP(ds);
         }
 
         public bool Existe(Permiso entidad)
         {
-            var ds = _datos.Obtener_Datos();
+            var ds = _datos.ObtenerDatos_BDSiAP();
             return ds.Tables["Permiso"].AsEnumerable().Any(r => Convert.ToInt64(r["Id"]) == entidad.Id);
         }
 
         public bool ExistePorCodigo(string codigo)
         {
-            var ds = _datos.Obtener_Datos();
+            var ds = _datos.ObtenerDatos_BDSiAP();
             return ds.Tables["Permiso"].AsEnumerable().Any(r => r["Codigo"].ToString() == codigo);
         }
 
         public bool TieneDependencias(Permiso entidad)
         {
-            var ds = _datos.Obtener_Datos();
+            var ds = _datos.ObtenerDatos_BDSiAP();
             var rel = ds.Tables["PermisoHijo"];
             return rel.Select($"PadreId = {entidad.Id} OR HijoId = {entidad.Id}").Length > 0;
         }
 
         public IList<Permiso> ObtenerTodos()
         {
-            var ds = _datos.Obtener_Datos();
+            var ds = _datos.ObtenerDatos_BDSiAP();
             var dt = ds.Tables["Permiso"];
 
             var permisos = dt.AsEnumerable()
@@ -150,7 +150,7 @@ namespace SiAP.MPP.Seguridad
                 throw new Exception("El permiso ya se encuentra asignado");
             
 
-            var ds = _datos.Obtener_Datos();
+            var ds = _datos.ObtenerDatos_BDSiAP();
             var dt = ds.Tables["PermisoHijo"];
 
             var dr = dt.NewRow();
@@ -158,12 +158,12 @@ namespace SiAP.MPP.Seguridad
             dr["HijoId"] = hijo.Id;
             dt.Rows.Add(dr);
 
-            _datos.Actualizar_BD(ds);
+            _datos.Actualizar_BDSiAP(ds);
         }
 
         public void Desasignar(Permiso padre, Permiso hijo)
         {
-            var ds = _datos.Obtener_Datos();
+            var ds = _datos.ObtenerDatos_BDSiAP();
             var dt = ds.Tables["PermisoHijo"];
 
             var row = dt.AsEnumerable().FirstOrDefault(r => Convert.ToInt64(r["PadreId"]) == padre.Id && Convert.ToInt64(r["HijoId"]) == hijo.Id);
@@ -171,7 +171,7 @@ namespace SiAP.MPP.Seguridad
             if (row != null)
             {
                 row.Delete();
-                _datos.Actualizar_BD(ds);
+                _datos.Actualizar_BDSiAP(ds);
             }
             else
                 throw new Exception("El permiso no se encuentraba asignado");
@@ -186,7 +186,7 @@ namespace SiAP.MPP.Seguridad
 
         public bool ExisteAsignacion(Permiso padre, Permiso hijo)
         {
-            var ds = _datos.Obtener_Datos();
+            var ds = _datos.ObtenerDatos_BDSiAP();
             var dt = ds.Tables["PermisoHijo"];
             return dt.AsEnumerable().Any(r =>
                 Convert.ToInt64(r["PadreId"]) == padre.Id &&

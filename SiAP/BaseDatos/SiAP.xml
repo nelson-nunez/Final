@@ -217,6 +217,18 @@
               </xs:sequence>
             </xs:complexType>
           </xs:element>
+          <xs:element name="Respaldo">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="Id" type="xs:long" />
+                <xs:element name="NombreArchivo" type="xs:string" minOccurs="0" />
+                <xs:element name="Descripcion" type="xs:string" minOccurs="0" />
+                <xs:element name="FechaCreacion" type="xs:dateTime" minOccurs="0" />
+                <xs:element name="CreadoPor" type="xs:string" minOccurs="0" />
+                <xs:element name="TamanioKB" type="xs:long" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
         </xs:choice>
       </xs:complexType>
       <xs:unique name="Constraint1" msdata:PrimaryKey="true">
@@ -291,6 +303,10 @@
       </xs:unique>
       <xs:unique name="Medicamento_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
         <xs:selector xpath=".//Medicamento" />
+        <xs:field xpath="Id" />
+      </xs:unique>
+      <xs:unique name="Respaldo_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+        <xs:selector xpath=".//Respaldo" />
         <xs:field xpath="Id" />
       </xs:unique>
     </xs:element>
@@ -433,6 +449,12 @@
     <Descripcion>Respaldos</Descripcion>
     <EsCompuesto>false</EsCompuesto>
   </Permiso>
+  <Permiso>
+    <Id>24</Id>
+    <Codigo>Test</Codigo>
+    <Descripcion>test</Descripcion>
+    <EsCompuesto>true</EsCompuesto>
+  </Permiso>
   <PermisoHijo>
     <PadreId>10</PadreId>
     <HijoId>11</HijoId>
@@ -485,6 +507,10 @@
     <PadreId>10</PadreId>
     <HijoId>23</HijoId>
   </PermisoHijo>
+  <PermisoHijo>
+    <PadreId>24</PadreId>
+    <HijoId>12</HijoId>
+  </PermisoHijo>
   <Usuario>
     <Id>1</Id>
     <Username>admin</Username>
@@ -495,6 +521,16 @@
     <Bloqueado>false</Bloqueado>
     <Activo>true</Activo>
     <PersonaId>1</PersonaId>
+  </Usuario>
+  <Usuario>
+    <Id>2</Id>
+    <Username>aperez</Username>
+    <Password>Rbz+CKvCfbsXmT0tM84XAA==</Password>
+    <PalabraClave>basico</PalabraClave>
+    <RespuestaClave />
+    <Bloqueado>false</Bloqueado>
+    <Activo>true</Activo>
+    <PersonaId>3</PersonaId>
   </Usuario>
   <UsuarioPermiso>
     <UsuarioId>1</UsuarioId>

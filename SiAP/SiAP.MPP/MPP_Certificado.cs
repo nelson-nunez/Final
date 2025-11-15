@@ -81,7 +81,7 @@ namespace SiAP.MPP
         // Busca todos los certificados de una consulta específica
         public IList<Certificado> BuscarPorConsultaId(long consultaId)
         {
-            var ds = _datos.Obtener_Datos();
+            var ds = _datos.ObtenerDatos_BDSiAP();
             var certificados = ds.Tables[NombreTabla].AsEnumerable()
                 .Where(r => r["ConsultaId"] != DBNull.Value &&
                            Convert.ToInt64(r["ConsultaId"]) == consultaId)

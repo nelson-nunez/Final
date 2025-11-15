@@ -25,7 +25,7 @@ namespace SiAP.MPP
 
         public void AgregarAgendas(List<Agenda> entidades)
         {
-            var ds = _datos.Obtener_Datos();
+            var ds = _datos.ObtenerDatos_BDSiAP();
             var dt = ds.Tables[NombreTabla];
 
             foreach (var entidad in entidades)
@@ -40,7 +40,7 @@ namespace SiAP.MPP
                 dt.Rows.Add(dr);
                 entidad.Id = nuevoId;
             }
-            _datos.Actualizar_BD(ds);
+            _datos.Actualizar_BDSiAP(ds);
         }
 
         public void Modificar(Agenda entidad)
@@ -55,7 +55,7 @@ namespace SiAP.MPP
 
         public void EliminarAgendas(List<Agenda> entidades)
         {
-            var ds = _datos.Obtener_Datos();
+            var ds = _datos.ObtenerDatos_BDSiAP();
 
             foreach (var entidad in entidades)
             {
@@ -64,12 +64,12 @@ namespace SiAP.MPP
                 dr?.Delete();
             }
 
-            _datos.Actualizar_BD(ds);
+            _datos.Actualizar_BDSiAP(ds);
         }
 
         public bool Existe(Agenda entidad)
         {
-            var ds = _datos.Obtener_Datos();
+            var ds = _datos.ObtenerDatos_BDSiAP();
             return ds.Tables[NombreTabla].AsEnumerable()
                 .Any(r =>
                     Convert.ToDateTime(r["Fecha"]) == entidad.Fecha &&

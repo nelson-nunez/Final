@@ -11,13 +11,17 @@ namespace SiAP.DAL
     public class AccesoXML : IAccesoDatos
     {
         private static AccesoXML _acceso = null;
-        private DataSet _dataSet;
-        private DataSet _dataSetLogs;
+        private DataSet _dataSet_Siap;
+        private DataSet _dataSet_Logs;
+        private DataSet _dataSet_Respaldos;
 
+        #region Constructor e Instancia
+        
         private AccesoXML()
         {
-            _dataSet = ObtenerODatosOInicializar();
-            _dataSetLogs = ObtenerLOGDatosOInicializar();
+            _dataSet_Siap = InicializarBD(ReferenciasBD.BD_Siap);
+            _dataSet_Logs = InicializarBD(ReferenciasBD.BD_Log);
+            _dataSet_Respaldos = InicializarBD(ReferenciasBD.BD_Respaldo);
         }
 
         public static AccesoXML ObtenerInstancia()
@@ -25,163 +29,198 @@ namespace SiAP.DAL
             return _acceso ??= new AccesoXML();
         }
 
-        #region Helpers
+        #endregion
 
-        private void AsegurarExistenciaArchivo(string path, string nodoRaiz)
+        #region Leer y Grabar BD
+
+        public DataSet InicializarBD(ReferenciaBD item)
         {
-            string directorio = Path.GetDirectoryName(path);
+            AsegurarExistenciaArchivo(item);
+            var ds = new DataSet();
+            ds.ReadXml(item.Path_BD, XmlReadMode.ReadSchema);
+            InicializarTablas(ds, item);
+            return ds;
+        }
+
+        private void AsegurarExistenciaArchivo(ReferenciaBD item)
+        {
+            string directorio = Path.GetDirectoryName(item.Path_BD);
 
             if (!Directory.Exists(directorio))
                 Directory.CreateDirectory(directorio);
 
-            if (!File.Exists(path))
+            if (!File.Exists(item.Path_BD))
             {
-                using (var writer = XmlWriter.Create(path, new XmlWriterSettings { Indent = true }))
+                using (var writer = XmlWriter.Create(item.Path_BD, new XmlWriterSettings { Indent = true }))
                 {
                     writer.WriteStartDocument();
-                    writer.WriteStartElement(nodoRaiz);
+                    writer.WriteStartElement(item.NombreBD);
                     writer.WriteEndElement();
                     writer.WriteEndDocument();
                 }
             }
         }
-
-        #endregion
-
-        #region Leer y Grabar BD
-
-        private DataSet ObtenerODatosOInicializar()
+       
+        public void Actualizar_BDSiAP(DataSet ds)
         {
-            AsegurarExistenciaArchivo(ReferenciasBD.Path_BD, "SiAP");
-            var ds = new DataSet();
-            ds.ReadXml(ReferenciasBD.Path_BD, XmlReadMode.ReadSchema);
-            InicializarTablas(ds);
-            return ds;
+            ds.WriteXml(ReferenciasBD.BD_Siap.Path_BD, XmlWriteMode.WriteSchema);
         }
-
-        public DataSet Obtener_Datos() => _dataSet;
-
-        public void Actualizar_BD(DataSet ds)
-        {
-            ds.WriteXml(ReferenciasBD.Path_BD, XmlWriteMode.WriteSchema);
-        }
-
-        #endregion
-
-        #region Leer y Grabar Logs
-
-        private DataSet ObtenerLOGDatosOInicializar()
-        {
-            AsegurarExistenciaArchivo(ReferenciasBD.Path_BDLogs, "Log");
-            var ds = new DataSet();
-            ds.ReadXml(ReferenciasBD.Path_BDLogs, XmlReadMode.ReadSchema);
-            InicializarTablasLog(ds);
-            return ds;
-        }
-
-        public DataSet Obtener_Logs() => _dataSetLogs;
-
+        
         public void Actualizar_BDLogs(DataSet ds)
         {
-            ds.WriteXml(ReferenciasBD.Path_BDLogs, XmlWriteMode.WriteSchema);
+            ds.WriteXml(ReferenciasBD.BD_Log.Path_BD, XmlWriteMode.WriteSchema);
         }
 
+        public void Actualizar_BDRespaldos(DataSet ds)
+        {
+            ds.WriteXml(ReferenciasBD.BD_Respaldo.Path_BD, XmlWriteMode.WriteSchema);
+        }
+
+        public DataSet ObtenerDatos_BDSiAP() => _dataSet_Siap;
+
+        public DataSet ObtenerDatos_BDLogs() => _dataSet_Logs;
+
+        public DataSet ObtenerDatos_BDRespaldos() => _dataSet_Respaldos;
+        
+        
         #endregion
 
         #region Respaldos
 
         public void CrearBackup(string nombre_Backup)
         {
-            string backupDir = ReferenciasBD.NombreCarpetaBackUp;
-            string backupFileBD = Path.Combine(backupDir, $"{nombre_Backup}_SiAP.xml");
-            string backupFileLogs = Path.Combine(backupDir, $"{nombre_Backup}_Logs.xml");
+            //AsegurarExistenciaArchivo(ReferenciasBD.BD_Respaldo);
+            //AsegurarExistenciaArchivo(ReferenciasBD.BD_Siap);
+            //AsegurarExistenciaArchivo(ReferenciasBD.BD_Log);
 
-            AsegurarExistenciaArchivo(ReferenciasBD.Path_BD, "SiAP");
-            AsegurarExistenciaArchivo(ReferenciasBD.Path_BDLogs, "Log");
+            //File.Copy(ReferenciasBD.Path_BD, backupFileBD, true);
+            //File.Copy(ReferenciasBD.Path_BDLogs, backupFileLogs, true);
 
-            File.Copy(ReferenciasBD.Path_BD, backupFileBD, true);
-            File.Copy(ReferenciasBD.Path_BDLogs, backupFileLogs, true);
+            //if (_dataSet_Respaldos == null)
+            //    _dataSet_Respaldos = InicializarBD(ReferenciasBD.Path_BDRespaldos, "Backups");
+            //if (!_dataSet_Respaldos.Tables.Contains("Respaldo"))
+            //    _dataSet_Respaldos.Tables.Add(CrearTablaRespaldo());
+
+            //var tabla = _dataSet_Respaldos.Tables["Respaldo"];
+            //// Calcular nuevo Id (simple: max + 1)
+            //long nuevoId = 1;
+            //if (tabla.Rows.Count > 0)
+            //{
+            //    nuevoId = Convert.ToInt64(tabla.AsEnumerable().Max(r => r.Field<long>("Id"))) + 1;
+            //}
+
+            //var info = new FileInfo(backupFileBD);
+            //long tamanioKb = info.Exists ? info.Length / 1024 : 0;
+            //tabla.Rows.Add(nuevoId, Path.GetFileName(backupFileBD), "", DateTime.Now, Environment.UserName, tamanioKb);
+            //// Persistir DataSet de respaldos en su archivo correspondiente
+            //_dataSet_Respaldos.WriteXml(ReferenciasBD.Path_BDRespaldos, XmlWriteMode.WriteSchema);
         }
 
         public void EliminarBackup(string nombre_Backup)
         {
-            string backupDir = ReferenciasBD.NombreCarpetaBackUp;
-            string backupFileBD = Path.Combine(backupDir, $"{nombre_Backup}_SiAP.xml");
-            string backupFileLogs = Path.Combine(backupDir, $"{nombre_Backup}_Logs.xml");
+            //string backupDir = Path.GetDirectoryName(ReferenciasBD.Path_BDRespaldos)
+            //                   ?? throw new InvalidOperationException("No se pudo determinar el directorio de respaldos.");
 
-            if (File.Exists(backupFileBD)) File.Delete(backupFileBD);
-            if (File.Exists(backupFileLogs)) File.Delete(backupFileLogs);
+            //string backupFileBD = Path.Combine(backupDir, $"{nombre_Backup}_SiAP.xml");
+            //string backupFileLogs = Path.Combine(backupDir, $"{nombre_Backup}_Logs.xml");
+
+            //if (File.Exists(backupFileBD)) File.Delete(backupFileBD);
+            //if (File.Exists(backupFileLogs)) File.Delete(backupFileLogs);
+
+            //// Actualizar tabla de respaldos en memoria (si existe) y persistir cambios
+            //if (_dataSet_Respaldos == null && File.Exists(ReferenciasBD.Path_BDRespaldos))
+            //    _dataSet_Respaldos = InicializarBD(ReferenciasBD.Path_BDRespaldos, "Backups");
+            //if (_dataSet_Respaldos != null && _dataSet_Respaldos.Tables.Contains("Respaldo"))
+            //{
+            //    var tabla = _dataSet_Respaldos.Tables["Respaldo"];
+            //    var filas = tabla.Select($"NombreArchivo = '{nombre_Backup}_SiAP.xml'");
+            //    foreach (var fila in filas)
+            //        tabla.Rows.Remove(fila);
+            //    // Persistir cambios
+            //    _dataSet_Respaldos.WriteXml(ReferenciasBD.Path_BDRespaldos, XmlWriteMode.WriteSchema);
+            //}
         }
 
         public void RestaurarBackup(string nombre_Backup)
         {
-            string backupDir = ReferenciasBD.NombreCarpetaBackUp;
-            string backupFileBD = Path.Combine(backupDir, $"{nombre_Backup}_SiAP.xml");
-            string backupFileLogs = Path.Combine(backupDir, $"{nombre_Backup}_Logs.xml");
+            //string backupDir = Path.GetDirectoryName(ReferenciasBD.Path_BDRespaldos)
+            //                   ?? throw new InvalidOperationException("No se pudo determinar el directorio de respaldos.");
 
-            if (!File.Exists(backupFileBD))
-                throw new FileNotFoundException("No se encontró el backup de la base de datos principal.");
+            //string backupFileBD = Path.Combine(backupDir, $"{nombre_Backup}_SiAP.xml");
+            //string backupFileLogs = Path.Combine(backupDir, $"{nombre_Backup}_Logs.xml");
 
-            if (!File.Exists(backupFileLogs))
-                throw new FileNotFoundException("No se encontró el backup de la base de datos de logs.");
-
-            File.Copy(backupFileBD, ReferenciasBD.Path_BD, true);
-            File.Copy(backupFileLogs, ReferenciasBD.Path_BDLogs, true);
-
-            _dataSet = ObtenerODatosOInicializar();
+            //if (!File.Exists(backupFileBD))
+            //    throw new FileNotFoundException("No se encontró el backup de la base de datos principal.", backupFileBD);
+            //if (!File.Exists(backupFileLogs))
+            //    throw new FileNotFoundException("No se encontró el backup de la base de datos de logs.", backupFileLogs);
+            //// Copiamos los archivos de backup sobre las rutas principales
+            //File.Copy(backupFileBD, ReferenciasBD.Path_BD, true);
+            //File.Copy(backupFileLogs, ReferenciasBD.Path_BDLogs, true);
+            //// Re-inicializamos los DataSets en memoria
+            //_dataSet_Siap = InicializarBD(ReferenciasBD.Path_BD, "SiAP");
+            //_dataSet_Logs = InicializarBD(ReferenciasBD.Path_BDLogs, "Log");
+            //// Opcional: refrescar lista de respaldos desde archivo de respaldos (si existe)
+            //if (File.Exists(ReferenciasBD.Path_BDRespaldos))
+            //    _dataSet_Respaldos = InicializarBD(ReferenciasBD.Path_BDRespaldos, "Backups");
         }
 
         #endregion
 
-        #region Inicializar Tablas
-
-        private void InicializarTablas(DataSet ds)
+        #region TODAS LAS TABLAS ACA
+       
+        private void InicializarTablas(DataSet ds, ReferenciaBD item)
         {
-            var tablas = new Dictionary<string, Func<DataTable>>
+            if (item == ReferenciasBD.BD_Siap)
             {
-                { "Persona", CrearTablaPersona },
-                { "Permiso", CrearTablaPermiso },
-                { "PermisoHijo", CrearTablaPermisoHijo },
-                { "Usuario", CrearTablaUsuario },
-                { "UsuarioPermiso", CrearTablaUsuarioPermiso },
-                { "Administrador", CrearTablaAdministrador },
-                { "Secretario", CrearTablaSecretario },
-                { "Medico", CrearTablaMedico },
-                { "Paciente", CrearTablaPaciente },
-                { "Agenda", CrearTablaAgenda },
-                { "Turno", CrearTablaTurno },
-                { "Factura", CrearTablaFactura },
-                { "Cobro", CrearTablaCobro },
-                { "HistoriaClinica", CrearTablaHistoriaClinica },
-                { "Consulta", CrearTablaConsulta },
-                { "Receta", CrearTablaReceta },
-                { "Certificado", CrearTablaCertificado },
-                { "Medicamento", CrearTablaMedicamento },
-                { "Respaldo", CrearTablaRespaldo },
-            };
-
-            foreach (var tabla in tablas)
-            {
-                if (!ds.Tables.Contains(tabla.Key))
+                var tablas = new Dictionary<string, Func<DataTable>>
                 {
-                    ds.Tables.Add(tabla.Value());
-                    Actualizar_BD(ds);
+                    { "Persona", CrearTablaPersona },
+                    { "Permiso", CrearTablaPermiso },
+                    { "PermisoHijo", CrearTablaPermisoHijo },
+                    { "Usuario", CrearTablaUsuario },
+                    { "UsuarioPermiso", CrearTablaUsuarioPermiso },
+                    { "Administrador", CrearTablaAdministrador },
+                    { "Secretario", CrearTablaSecretario },
+                    { "Medico", CrearTablaMedico },
+                    { "Paciente", CrearTablaPaciente },
+                    { "Agenda", CrearTablaAgenda },
+                    { "Turno", CrearTablaTurno },
+                    { "Factura", CrearTablaFactura },
+                    { "Cobro", CrearTablaCobro },
+                    { "HistoriaClinica", CrearTablaHistoriaClinica },
+                    { "Consulta", CrearTablaConsulta },
+                    { "Receta", CrearTablaReceta },
+                    { "Certificado", CrearTablaCertificado },
+                    { "Medicamento", CrearTablaMedicamento },
+                    { "Respaldo", CrearTablaRespaldo },
+                };
+
+                foreach (var tabla in tablas)
+                {
+                    if (!ds.Tables.Contains(tabla.Key))
+                    {
+                        ds.Tables.Add(tabla.Value());
+                        Actualizar_BDSiAP(ds);
+                    }
+                }
+            }
+            else if (item == ReferenciasBD.BD_Log)
+            {
+                if (!ds.Tables.Contains("Log"))
+                {
+                    ds.Tables.Add(CrearTablaLog());
+                    Actualizar_BDLogs(ds);
+                }
+            }
+            else if (item == ReferenciasBD.BD_Respaldo)
+            {
+                if (!ds.Tables.Contains("Respaldo"))
+                {
+                    ds.Tables.Add(CrearTablaRespaldo());
+                    Actualizar_BDRespaldos(ds);
                 }
             }
         }
-
-        private void InicializarTablasLog(DataSet ds)
-        {
-            if (!ds.Tables.Contains("Log"))
-            {
-                ds.Tables.Add(CrearTablaLog());
-                Actualizar_BDLogs(ds);
-            }
-        }
-
-        #endregion
-
-        #region Arq base
 
         private DataTable CrearTablaLog()
         {
@@ -208,9 +247,6 @@ namespace SiAP.DAL
 
             return tabla;
         }
-        #endregion
-
-        #region Tabla Persona (Base)
 
         private DataTable CrearTablaPersona()
         {
@@ -236,10 +272,6 @@ namespace SiAP.DAL
 
             return tabla;
         }
-
-        #endregion
-
-        #region Tablas Especializadas (referencian a Persona)
 
         private DataTable CrearTablaAdministrador()
         {
@@ -296,10 +328,6 @@ namespace SiAP.DAL
             tabla.Rows.Add(1, 6, "OSDE", "210", 445566);
             return tabla;
         }
-
-        #endregion
-
-        #region Usuarios y Permisos
 
         private DataTable CrearTablaUsuario()
         {
@@ -370,10 +398,6 @@ namespace SiAP.DAL
             tabla.Rows.Add(1, 10); // Admin tiene permiso Administrador
             return tabla;
         }
-
-        #endregion
-
-        #region Tablas de Negocio
 
         private DataTable CrearTablaAgenda()
         {
@@ -464,10 +488,6 @@ namespace SiAP.DAL
 
             return tabla;
         }
-
-        #endregion
-
-        #region Tablas Historia Clínica
 
         private DataTable CrearTablaHistoriaClinica()
         {
@@ -610,9 +630,7 @@ namespace SiAP.DAL
             return tabla;
         }
 
-
         #endregion
-
     }
 }
 

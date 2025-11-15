@@ -34,9 +34,9 @@ namespace SiAP.MPP.Seguridad
             AgregarEntidad(entidad, AsignarDatosUsuario);
 
             // Guardar permisos después de agregar
-            var ds = _datos.Obtener_Datos();
+            var ds = _datos.ObtenerDatos_BDSiAP();
             GuardarPermisosUsuario(entidad, ds);
-            _datos.Actualizar_BD(ds);
+            _datos.Actualizar_BDSiAP(ds);
         }
 
         public void Modificar(Usuario entidad)
@@ -45,16 +45,16 @@ namespace SiAP.MPP.Seguridad
             ModificarEntidad(entidad, AsignarDatosUsuario);
 
             // Actualizar permisos
-            var ds = _datos.Obtener_Datos();
+            var ds = _datos.ObtenerDatos_BDSiAP();
             ActualizarPermisos(entidad, ds);
-            _datos.Actualizar_BD(ds);
+            _datos.Actualizar_BDSiAP(ds);
         }
 
         public void Eliminar(Usuario entidad)
         {
             ArgumentNullException.ThrowIfNull(entidad);
 
-            var ds = _datos.Obtener_Datos();
+            var ds = _datos.ObtenerDatos_BDSiAP();
 
             // Eliminar permisos antes de eliminar usuario
             EliminarPermisosUsuario(entidad.Id, ds);
@@ -80,7 +80,7 @@ namespace SiAP.MPP.Seguridad
 
         public IList<Usuario> ObtenerTodos()
         {
-            var ds = _datos.Obtener_Datos();
+            var ds = _datos.ObtenerDatos_BDSiAP();
             var lista = ds.Tables[NombreTabla].AsEnumerable().Select(r => HidratarObjeto(r, ds)).ToList();
             return lista;
         }
@@ -116,7 +116,7 @@ namespace SiAP.MPP.Seguridad
 
         public Usuario LeerPorUsername(string username)
         {
-            var ds = _datos.Obtener_Datos();
+            var ds = _datos.ObtenerDatos_BDSiAP();
             var row = ds.Tables[NombreTabla].AsEnumerable().FirstOrDefault(dr => dr["Username"].ToString().Equals(username, StringComparison.OrdinalIgnoreCase));
 
             return row != null ? HidratarObjeto(row, ds) : null;
@@ -145,7 +145,7 @@ namespace SiAP.MPP.Seguridad
             if (permiso == null || string.IsNullOrWhiteSpace(permiso.Codigo))
                 throw new ArgumentException("Permiso inválido.");
 
-            var ds = _datos.Obtener_Datos();
+            var ds = _datos.ObtenerDatos_BDSiAP();
             var dtUsuarioPermiso = ds.Tables["UsuarioPermiso"];
 
             // Verificar si ya existe la relación
@@ -160,7 +160,7 @@ namespace SiAP.MPP.Seguridad
             nuevaFila["PermisoId"] = permiso.Codigo;
             dtUsuarioPermiso.Rows.Add(nuevaFila);
 
-            _datos.Actualizar_BD(ds);
+            _datos.Actualizar_BDSiAP(ds);
         }
 
         public void QuitarPermiso(Usuario usuario, Permiso permiso)
@@ -171,7 +171,7 @@ namespace SiAP.MPP.Seguridad
             if (permiso == null || string.IsNullOrWhiteSpace(permiso.Codigo))
                 throw new ArgumentException("Permiso inválido.");
 
-            var ds = _datos.Obtener_Datos();
+            var ds = _datos.ObtenerDatos_BDSiAP();
             var dtUsuarioPermiso = ds.Tables["UsuarioPermiso"];
 
             // Buscar y eliminar la relación
@@ -183,7 +183,7 @@ namespace SiAP.MPP.Seguridad
                 throw new InvalidOperationException("La relación usuario-permiso no existe.");
 
             relacion.Delete();
-            _datos.Actualizar_BD(ds);
+            _datos.Actualizar_BDSiAP(ds);
         }
 
         #endregion
