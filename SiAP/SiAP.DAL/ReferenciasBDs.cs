@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using System;
 using System.IO;
+using SiAP.BE.Logs;
 
 namespace SiAP.DAL
 {
@@ -19,10 +20,8 @@ namespace SiAP.DAL
             Carpeta_BD = carpeta;
         }
         
-        public string NombreBD { get; set; }
-
+        public string NombreBD { get; set; }    
         public string Carpeta_BD { get; set; }
-       
         public string Archivo_BD
         {
             get
@@ -30,7 +29,6 @@ namespace SiAP.DAL
                 return this.NombreBD + ".xml";
             }
         }
-
         public string Path_BD
         {
             get
@@ -43,6 +41,16 @@ namespace SiAP.DAL
                 return Path.Combine(path, Archivo_BD);
             }
         }
+
+        public string Path_ArchivoBackup(string nombre)
+        {
+            string path = Path.Combine(directorioProyecto, this.Carpeta_BD);
+
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
+
+            return Path.Combine(path, NombreBD + "_Respaldo_" + nombre + ".xml");
+        }
     }
 
     public static class ReferenciasBD
@@ -50,5 +58,10 @@ namespace SiAP.DAL
         public static ReferenciaBD BD_Siap = new ReferenciaBD("SiAP", "BaseDatos");
         public static ReferenciaBD BD_Log = new ReferenciaBD("Logs", "BaseDatos");
         public static ReferenciaBD BD_Respaldo = new ReferenciaBD("Respaldos", "Backups");
+
+        public static List<string> Todos()
+        {
+            return new List<string> { BD_Siap.NombreBD, BD_Log.NombreBD };
+        }
     }
 }

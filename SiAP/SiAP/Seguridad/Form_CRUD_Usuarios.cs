@@ -1,10 +1,8 @@
-﻿using System.Data;
-using SiAP.BE;
+﻿using SiAP.BE;
 using SiAP.BE.Seguridad;
 using SiAP.BLL;
 using SiAP.BLL.Seguridad;
 using SiAP.UI.Extensiones;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace SiAP.UI.Forms_Seguridad
 {

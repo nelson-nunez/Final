@@ -9,6 +9,8 @@
               <xs:sequence>
                 <xs:element name="Id" type="xs:long" />
                 <xs:element name="NombreArchivo" type="xs:string" minOccurs="0" />
+                <xs:element name="NombreBD" type="xs:string" minOccurs="0" />
+                <xs:element name="Tipo" type="xs:string" minOccurs="0" />
                 <xs:element name="Descripcion" type="xs:string" minOccurs="0" />
                 <xs:element name="FechaCreacion" type="xs:dateTime" minOccurs="0" />
                 <xs:element name="CreadoPor" type="xs:string" minOccurs="0" />
@@ -24,4 +26,24 @@
       </xs:unique>
     </xs:element>
   </xs:schema>
+  <Respaldo>
+    <Id>2</Id>
+    <NombreArchivo>BBBB</NombreArchivo>
+    <NombreBD>SiAP</NombreBD>
+    <Tipo>Restore</Tipo>
+    <Descripcion>BBBB</Descripcion>
+    <FechaCreacion>2025-11-16T02:54:09.5639549-03:00</FechaCreacion>
+    <CreadoPor>admin</CreadoPor>
+    <TamanioKB>45</TamanioKB>
+  </Respaldo>
+  <Respaldo>
+    <Id>3</Id>
+    <NombreArchivo>CCCC</NombreArchivo>
+    <NombreBD>Logs</NombreBD>
+    <Tipo>Backup</Tipo>
+    <Descripcion>CCCCC</Descripcion>
+    <FechaCreacion>2025-11-16T02:54:16.6537157-03:00</FechaCreacion>
+    <CreadoPor>admin</CreadoPor>
+    <TamanioKB>1</TamanioKB>
+  </Respaldo>
 </NewDataSet>

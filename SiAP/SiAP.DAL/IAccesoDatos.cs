@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SiAP.BE;
 
 namespace SiAP.DAL
 {
@@ -20,8 +21,8 @@ namespace SiAP.DAL
         void Actualizar_BDLogs(DataSet ds);
         void Actualizar_BDRespaldos(DataSet ds);
         //Respaldos
-        void CrearBackup(string nombre_Backup);
-        void EliminarBackup(string nombre_Backup);
-        void RestaurarBackup(string nombre_Backup);
+        Respaldo CrearRespaldo(Respaldo item);
+        void EliminarRespaldo(Respaldo item);
+        void RestaurarRespaldo(Respaldo item);
     }
 }

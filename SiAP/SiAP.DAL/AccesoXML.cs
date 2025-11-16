@@ -87,81 +87,73 @@ namespace SiAP.DAL
 
         #region Respaldos
 
-        public void CrearBackup(string nombre_Backup)
+        public Respaldo CrearRespaldo(Respaldo item)
         {
-            //AsegurarExistenciaArchivo(ReferenciasBD.BD_Respaldo);
-            //AsegurarExistenciaArchivo(ReferenciasBD.BD_Siap);
-            //AsegurarExistenciaArchivo(ReferenciasBD.BD_Log);
+            var nuevorespaldo= new Respaldo();
+            if (item.NombreBD == ReferenciasBD.BD_Siap.NombreBD)
+                nuevorespaldo = CrearBackup(item, ReferenciasBD.BD_Siap);
+            else if (item.NombreBD == ReferenciasBD.BD_Log.NombreBD)
+                nuevorespaldo = CrearBackup(item, ReferenciasBD.BD_Log);
 
-            //File.Copy(ReferenciasBD.Path_BD, backupFileBD, true);
-            //File.Copy(ReferenciasBD.Path_BDLogs, backupFileLogs, true);
-
-            //if (_dataSet_Respaldos == null)
-            //    _dataSet_Respaldos = InicializarBD(ReferenciasBD.Path_BDRespaldos, "Backups");
-            //if (!_dataSet_Respaldos.Tables.Contains("Respaldo"))
-            //    _dataSet_Respaldos.Tables.Add(CrearTablaRespaldo());
-
-            //var tabla = _dataSet_Respaldos.Tables["Respaldo"];
-            //// Calcular nuevo Id (simple: max + 1)
-            //long nuevoId = 1;
-            //if (tabla.Rows.Count > 0)
-            //{
-            //    nuevoId = Convert.ToInt64(tabla.AsEnumerable().Max(r => r.Field<long>("Id"))) + 1;
-            //}
-
-            //var info = new FileInfo(backupFileBD);
-            //long tamanioKb = info.Exists ? info.Length / 1024 : 0;
-            //tabla.Rows.Add(nuevoId, Path.GetFileName(backupFileBD), "", DateTime.Now, Environment.UserName, tamanioKb);
-            //// Persistir DataSet de respaldos en su archivo correspondiente
-            //_dataSet_Respaldos.WriteXml(ReferenciasBD.Path_BDRespaldos, XmlWriteMode.WriteSchema);
+            return nuevorespaldo;
         }
 
-        public void EliminarBackup(string nombre_Backup)
+        public void EliminarRespaldo(Respaldo item)
         {
-            //string backupDir = Path.GetDirectoryName(ReferenciasBD.Path_BDRespaldos)
-            //                   ?? throw new InvalidOperationException("No se pudo determinar el directorio de respaldos.");
-
-            //string backupFileBD = Path.Combine(backupDir, $"{nombre_Backup}_SiAP.xml");
-            //string backupFileLogs = Path.Combine(backupDir, $"{nombre_Backup}_Logs.xml");
-
-            //if (File.Exists(backupFileBD)) File.Delete(backupFileBD);
-            //if (File.Exists(backupFileLogs)) File.Delete(backupFileLogs);
-
-            //// Actualizar tabla de respaldos en memoria (si existe) y persistir cambios
-            //if (_dataSet_Respaldos == null && File.Exists(ReferenciasBD.Path_BDRespaldos))
-            //    _dataSet_Respaldos = InicializarBD(ReferenciasBD.Path_BDRespaldos, "Backups");
-            //if (_dataSet_Respaldos != null && _dataSet_Respaldos.Tables.Contains("Respaldo"))
-            //{
-            //    var tabla = _dataSet_Respaldos.Tables["Respaldo"];
-            //    var filas = tabla.Select($"NombreArchivo = '{nombre_Backup}_SiAP.xml'");
-            //    foreach (var fila in filas)
-            //        tabla.Rows.Remove(fila);
-            //    // Persistir cambios
-            //    _dataSet_Respaldos.WriteXml(ReferenciasBD.Path_BDRespaldos, XmlWriteMode.WriteSchema);
-            //}
+            if (item.NombreBD == ReferenciasBD.BD_Siap.NombreBD)
+                EliminarBackup(item, ReferenciasBD.BD_Siap);
+            else if (item.NombreBD == ReferenciasBD.BD_Log.NombreBD)
+                EliminarBackup(item, ReferenciasBD.BD_Log);
         }
 
-        public void RestaurarBackup(string nombre_Backup)
+        public void RestaurarRespaldo(Respaldo item)
         {
-            //string backupDir = Path.GetDirectoryName(ReferenciasBD.Path_BDRespaldos)
-            //                   ?? throw new InvalidOperationException("No se pudo determinar el directorio de respaldos.");
+            if (item.NombreBD == ReferenciasBD.BD_Siap.NombreBD)
+                RestaurarBackup(item, ReferenciasBD.BD_Siap);
+            else if (item.NombreBD == ReferenciasBD.BD_Log.NombreBD)
+                RestaurarBackup(item, ReferenciasBD.BD_Log);
+        }
 
-            //string backupFileBD = Path.Combine(backupDir, $"{nombre_Backup}_SiAP.xml");
-            //string backupFileLogs = Path.Combine(backupDir, $"{nombre_Backup}_Logs.xml");
+        public Respaldo CrearBackup(Respaldo item, ReferenciaBD referencia)
+        {
+            AsegurarExistenciaArchivo(ReferenciasBD.BD_Respaldo);
+            AsegurarExistenciaArchivo(referencia);
+            //Copio
+            File.Copy(referencia.Path_BD, referencia.Path_ArchivoBackup(item.NombreArchivo), true);
+            //ASigno datos    
+            FileInfo infoSiap = new FileInfo(referencia.Path_ArchivoBackup(item.NombreArchivo));
+            long tamanioBytes = infoSiap.Length;
+            item.TamanioKB = (int)(tamanioBytes / 1024);               
+            item.FechaCreacion = DateTime.Now;
+            //Devuelvo para guardar en la tabla respaldos
+            return item;
+        }
 
-            //if (!File.Exists(backupFileBD))
-            //    throw new FileNotFoundException("No se encontró el backup de la base de datos principal.", backupFileBD);
-            //if (!File.Exists(backupFileLogs))
-            //    throw new FileNotFoundException("No se encontró el backup de la base de datos de logs.", backupFileLogs);
-            //// Copiamos los archivos de backup sobre las rutas principales
-            //File.Copy(backupFileBD, ReferenciasBD.Path_BD, true);
-            //File.Copy(backupFileLogs, ReferenciasBD.Path_BDLogs, true);
-            //// Re-inicializamos los DataSets en memoria
-            //_dataSet_Siap = InicializarBD(ReferenciasBD.Path_BD, "SiAP");
-            //_dataSet_Logs = InicializarBD(ReferenciasBD.Path_BDLogs, "Log");
-            //// Opcional: refrescar lista de respaldos desde archivo de respaldos (si existe)
-            //if (File.Exists(ReferenciasBD.Path_BDRespaldos))
-            //    _dataSet_Respaldos = InicializarBD(ReferenciasBD.Path_BDRespaldos, "Backups");
+        public Respaldo EliminarBackup(Respaldo item, ReferenciaBD referencia)
+        {
+            if (File.Exists(referencia.Path_ArchivoBackup(item.NombreArchivo) ))
+                File.Delete(referencia.Path_ArchivoBackup(item.NombreArchivo) );
+            else
+                throw new FileNotFoundException("No se encontró el backup: " + referencia.NombreBD);
+            //devuelvo para guardar en la tabla respaldos
+            return item;
+        }
+
+        public Respaldo RestaurarBackup(Respaldo item, ReferenciaBD referencia)
+        {
+            AsegurarExistenciaArchivo(ReferenciasBD.BD_Respaldo);
+            
+            if (File.Exists(referencia.Path_ArchivoBackup(item.NombreArchivo)))
+                File.Copy(referencia.Path_ArchivoBackup(item.NombreArchivo), referencia.Path_BD, true);
+            else
+                throw new FileNotFoundException("No se encontró el backup: " + referencia.NombreBD);
+            //Recargo sino no levanta los cambios
+            _dataSet_Siap = InicializarBD(ReferenciasBD.BD_Siap);
+            _dataSet_Logs = InicializarBD(ReferenciasBD.BD_Log);
+            _dataSet_Respaldos = InicializarBD(ReferenciasBD.BD_Respaldo);
+
+            //devuelvo para guardar en la tabla respaldos
+            return item;
         }
 
         #endregion
@@ -238,6 +230,8 @@ namespace SiAP.DAL
             var tabla = new DataTable("Respaldo");
             tabla.Columns.Add("Id", typeof(long));
             tabla.Columns.Add("NombreArchivo", typeof(string));
+            tabla.Columns.Add("NombreBD", typeof(string));
+            tabla.Columns.Add("Tipo", typeof(string));
             tabla.Columns.Add("Descripcion", typeof(string));
             tabla.Columns.Add("FechaCreacion", typeof(DateTime));
             tabla.Columns.Add("CreadoPor", typeof(string));

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using SiAP.Abstracciones;
 using SiAP.BE;
 using SiAP.BLL.Logs;
+using SiAP.BLL.Seguridad;
 using SiAP.MPP;
 
 namespace SiAP.BLL
@@ -32,14 +33,17 @@ namespace SiAP.BLL
 
         public void Agregar(Respaldo respaldo)
         {
-            if (!EsValido(respaldo))
-                throw new ArgumentException(MensajeError);
-
-            if (_mppRespaldo.Existe(respaldo))
-                throw new InvalidOperationException("Ya existe un respaldo con ese nombre.");
-
             try
             {
+                respaldo.CreadoPor = GestionUsuario.UsuarioLogueado.Username;
+                respaldo.FechaCreacion = DateTime.Now;
+
+                if (!EsValido(respaldo))
+                    throw new ArgumentException(MensajeError);
+
+                if (_mppRespaldo.Existe(respaldo))
+                    throw new InvalidOperationException("Ya existe un respaldo con ese nombre.");
+
                 _mppRespaldo.Agregar(respaldo);
                 _logger.GenerarLog($"Respaldo creado: {respaldo.NombreArchivo} - {respaldo.Descripcion}");
             }
