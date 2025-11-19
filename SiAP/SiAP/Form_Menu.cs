@@ -127,20 +127,19 @@ namespace SiAP.UI
 
         private void AbrirFormGeneral<T>(ref T formulario) where T : Form, new()
         {
-            if (formulario == null || formulario.IsDisposed)
+            //Cambie porque no me actulizaba en cambios en otrs forms
+            // Cerrar y liberar el form. 
+            if (formulario != null && !formulario.IsDisposed)
             {
-                T nuevoFormulario = new T();
-                //Dentro del padre
-                nuevoFormulario.MdiParent = this;
-                //Sin controles de cerrar
-                nuevoFormulario.ControlBox = false;
-                //Sin bordes
-                nuevoFormulario.FormBorderStyle = FormBorderStyle.None;
-                // Establecer la ubicación centrada
-                nuevoFormulario.StartPosition = FormStartPosition.Manual;
-                formulario = nuevoFormulario;
+                formulario.Close();
+                formulario.Dispose();
             }
-
+            T nuevoFormulario = new T();
+            nuevoFormulario.MdiParent = this;
+            nuevoFormulario.ControlBox = false;
+            nuevoFormulario.FormBorderStyle = FormBorderStyle.None;
+            nuevoFormulario.StartPosition = FormStartPosition.Manual;
+            formulario = nuevoFormulario;
             formulario.Show();
             formulario.BringToFront();
         }
@@ -228,6 +227,5 @@ namespace SiAP.UI
         }
 
         #endregion
-
     }
 }

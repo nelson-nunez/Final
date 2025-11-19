@@ -14,7 +14,6 @@ namespace SiAP.Abstracciones
         bool Existe(T entidad);
         bool TieneDependencias(T entidad); // 
         IList<T> ObtenerTodos();
-        IList<T> Buscar(string campo = "", string valor = "", bool incluirInactivos = true);
         T LeerPorId(object id); 
     }
 

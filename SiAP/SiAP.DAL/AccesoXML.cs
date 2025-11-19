@@ -429,17 +429,22 @@ namespace SiAP.DAL
             tabla.Columns.Add("Id", typeof(long));
             tabla.Columns.Add("Fecha", typeof(DateTime));
             tabla.Columns.Add("HoraInicio", typeof(TimeSpan));
-            tabla.Columns.Add("HoraFin", typeof(TimeSpan));
+            tabla.Columns.Add("HoraFin", typeof(TimeSpan));          
             tabla.Columns.Add("TipoAtencion", typeof(string));
             tabla.Columns.Add("Estado", typeof(string));
+            
             tabla.Columns.Add("MedicoId", typeof(long));
             tabla.Columns.Add("PacienteId", typeof(long));
             tabla.Columns.Add("AgendaId", typeof(long));
+            tabla.Columns.Add("CobroId", typeof(long));
+            
             tabla.PrimaryKey = new[] { tabla.Columns["Id"] };
 
-            tabla.Rows.Add(1, new DateTime(2025, 7, 8), new TimeSpan(9, 0, 0),
-                new TimeSpan(10, 0, 0), "Consulta general", EstadoTurno.Asignado.ToString(),
-                1, 1, 12);
+            tabla.Rows.Add(1, new DateTime(2025, 7, 8), new TimeSpan(9, 0, 0), new TimeSpan(10, 0, 0), "Consulta general", EstadoTurno.Asignado.ToString(),
+                1, 1, 12,1);
+            
+            tabla.Rows.Add(2, new DateTime(2025, 5, 8), new TimeSpan(9, 0, 0), new TimeSpan(10, 0, 0),  "Consulta pediátrica", EstadoTurno.Asignado.ToString(),
+                2, 1, 12,2);
 
             return tabla;
         }
@@ -453,12 +458,11 @@ namespace SiAP.DAL
             tabla.Columns.Add("Importe", typeof(decimal));
             tabla.Columns.Add("Descripcion", typeof(string));
             tabla.Columns.Add("Estado", typeof(string));
-            tabla.Columns.Add("TurnoId", typeof(long));
-            tabla.Columns.Add("PacienteId", typeof(long));
+
             tabla.PrimaryKey = new[] { tabla.Columns["Id"] };
 
-            tabla.Rows.Add(1, new DateTime(2025, 7, 8), "F0001-00000001", 10000m, "Consulta médica general", EstadoFactura.Emitida.ToString(), 1, 1);
-            tabla.Rows.Add(2, new DateTime(2025, 7, 9), "F0001-00000002", 12000m, "Consulta pediátrica", EstadoFactura.Pagada.ToString(), 1, 1);
+            tabla.Rows.Add(1, new DateTime(2025, 7, 8), "F0001-00000001", 50000, "Consulta médica general", EstadoFactura.Emitida.ToString());
+            tabla.Rows.Add(2, new DateTime(2025, 7, 9), "F0001-00000002", 120000, "Consulta pediátrica", EstadoFactura.Pagada.ToString());
 
             return tabla;
         }
@@ -471,14 +475,14 @@ namespace SiAP.DAL
             tabla.Columns.Add("TipoPago", typeof(string));
             tabla.Columns.Add("Monto", typeof(decimal));
             tabla.Columns.Add("Estado", typeof(string));
+
             tabla.Columns.Add("FacturaId", typeof(long));
+            tabla.Columns.Add("TurnoId", typeof(long));
             tabla.Columns.Add("FormaPagoId", typeof(long));
             tabla.PrimaryKey = new[] { tabla.Columns["Id"] };
 
-            tabla.Rows.Add(1, new DateTime(2025, 7, 8, 10, 30, 0), "Efectivo", 5000m,
-                EstadoCobro.Registrado.ToString(), 1, 1);
-            tabla.Rows.Add(2, new DateTime(2025, 7, 9, 12, 0, 0), "Transferencia", 12000m,
-                EstadoCobro.Confirmado.ToString(), 2, 4);
+            tabla.Rows.Add(1, new DateTime(2025, 7, 8, 10, 1, 0), "Efectivo", 50000, EstadoCobro.PagoParcial.ToString(), 1, 1, 1);
+            tabla.Rows.Add(2, new DateTime(2025, 7, 9, 12, 2, 0), "Transferencia", 12000,  EstadoCobro.PagoTotal.ToString(), 2, 2, 4);
 
             return tabla;
         }

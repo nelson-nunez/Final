@@ -8,9 +8,13 @@ namespace SiAP.MPP
     public class MPP_Turno : MapperBase<Turno>, IMapper<Turno>
     {
         private static MPP_Turno _instancia;
+        private readonly MPP_Cobro _mppCobro;
         protected override string NombreTabla => "Turno";
 
-        private MPP_Turno() : base() { }
+        private MPP_Turno() : base() 
+        {
+            _mppCobro = MPP_Cobro.ObtenerInstancia();
+        }
 
         public static MPP_Turno ObtenerInstancia()
         {
@@ -52,29 +56,10 @@ namespace SiAP.MPP
             return LeerEntidadPorId(id, HidratarObjeto);
         }
 
-        public IList<Turno> Buscar(string campo = "", string valor = "", bool incluirInactivos = true)
+        public IList<Turno> BuscarTurnoPorpaciente(long pacienteId)
         {
-            var lista = ObtenerTodos();
-            if (string.IsNullOrWhiteSpace(campo) || string.IsNullOrWhiteSpace(valor))
-                return lista;
-
-            return campo.ToLower() switch
-            {
-                "medicoid" => lista.Where(a => a.MedicoId == Convert.ToInt64(valor)).ToList(),
-                "fecha" => lista.Where(a => a.Fecha.ToShortDateString().Contains(valor)).ToList(),
-                _ => throw new ArgumentException($"Campo '{campo}' inválido.")
-            };
-        }
-
-        public Turno BuscarTurnoPorMedIdyRangoHorario(long medicoId, DateTime fecha, TimeSpan horaDesde, TimeSpan horaHasta)
-        {
-            var lista = ObtenerTodos();
-            return lista.FirstOrDefault(
-                t => t.MedicoId == medicoId &&
-                t.Fecha.Date == fecha.Date &&
-                (t.HoraInicio >= horaDesde && t.HoraInicio < horaHasta ||
-                 t.HoraFin > horaDesde && t.HoraFin <= horaHasta)
-            );
+            var lista = ObtenerTodos().Where(t => t.PacienteId == pacienteId).ToList();
+            return lista;
         }
 
         public IList<Turno> BuscarPorMedicoyRango(long medicoId, DateTime fechadesde, DateTime fechahasta)
@@ -101,7 +86,7 @@ namespace SiAP.MPP
 
         private Turno HidratarObjeto(DataRow r)
         {
-            return new Turno
+            var turno =  new Turno
             {
                 Id = Convert.ToInt64(r["Id"]),
                 Fecha = Convert.ToDateTime(r["Fecha"]),
@@ -111,8 +96,12 @@ namespace SiAP.MPP
                 Estado = Enum.Parse<EstadoTurno>(r["Estado"].ToString()),
                 MedicoId = Convert.ToInt64(r["MedicoId"]),
                 PacienteId = Convert.ToInt64(r["PacienteId"]),
-                AgendaId = Convert.ToInt64(r["AgendaId"])
+                AgendaId = Convert.ToInt64(r["AgendaId"]),
+                CobroId = Convert.ToInt64(r["CobroId"]),
+                Cobro = new Cobro()
             };
+            turno.Cobro = _mppCobro.LeerPorId(turno.CobroId);
+            return turno;
         }
     }
 }

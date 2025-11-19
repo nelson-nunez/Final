@@ -28,337 +28,276 @@
         /// </summary>
         private void InitializeComponent()
         {
-            groupBox3 = new GroupBox();
-            button2 = new Button();
-            button1 = new Button();
-            groupBox5 = new GroupBox();
-            button_Borrar = new Button();
-            label18 = new Label();
-            button_Guardar = new Button();
-            label17 = new Label();
-            dataGridView2 = new DataGridView();
-            textBox4 = new TextBox();
-            label16 = new Label();
-            comboBox2 = new ComboBox();
-            label13 = new Label();
-            textBox3 = new TextBox();
             groupBox4 = new GroupBox();
-            label12 = new Label();
-            richTextBox1 = new RichTextBox();
-            label14 = new Label();
-            textBox5 = new TextBox();
-            comboBox1 = new ComboBox();
-            label15 = new Label();
-            textBox1 = new TextBox();
-            label11 = new Label();
-            textBox2 = new TextBox();
-            label10 = new Label();
-            groupBox3.SuspendLayout();
-            groupBox5.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
+            uC_Mostrar_Paciente1 = new Forms_Seguridad.UC_Mostrar_Paciente();
+            dataGrid_cobros = new DataGridView();
+            groupBox1 = new GroupBox();
+            label3 = new Label();
+            comboBox_NombreBD = new ComboBox();
+            richTextBox_descripcion = new RichTextBox();
+            textBox_nombre_archivo = new TextBox();
+            flowLayoutPanel2 = new FlowLayoutPanel();
+            button_eliminar = new Button();
+            button2 = new Button();
+            button_guardar = new Button();
+            button_restaurar = new Button();
+            label2 = new Label();
+            label1 = new Label();
+            textBox_creador = new TextBox();
+            label30 = new Label();
+            textBox_fecha = new TextBox();
+            label28 = new Label();
             groupBox4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGrid_cobros).BeginInit();
+            groupBox1.SuspendLayout();
+            flowLayoutPanel2.SuspendLayout();
             SuspendLayout();
-            // 
-            // groupBox3
-            // 
-            groupBox3.BackColor = SystemColors.ActiveCaption;
-            groupBox3.Controls.Add(button2);
-            groupBox3.Controls.Add(button1);
-            groupBox3.Controls.Add(groupBox5);
-            groupBox3.Controls.Add(groupBox4);
-            groupBox3.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            groupBox3.Location = new Point(12, 12);
-            groupBox3.Name = "groupBox3";
-            groupBox3.Size = new Size(851, 466);
-            groupBox3.TabIndex = 2;
-            groupBox3.TabStop = false;
-            groupBox3.Text = "Pagar";
-            // 
-            // button2
-            // 
-            button2.BackColor = Color.IndianRed;
-            button2.Font = new Font("Calibri", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button2.Image = Properties.Resources.reembolso;
-            button2.ImageAlign = ContentAlignment.MiddleRight;
-            button2.Location = new Point(278, 420);
-            button2.Name = "button2";
-            button2.Size = new Size(140, 40);
-            button2.TabIndex = 32;
-            button2.Text = "Reembolso";
-            button2.TextAlign = ContentAlignment.MiddleLeft;
-            button2.UseVisualStyleBackColor = false;
-            // 
-            // button1
-            // 
-            button1.BackColor = Color.DarkSeaGreen;
-            button1.Font = new Font("Calibri", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button1.Image = Properties.Resources.ingresos;
-            button1.ImageAlign = ContentAlignment.MiddleRight;
-            button1.Location = new Point(428, 420);
-            button1.Name = "button1";
-            button1.Size = new Size(140, 40);
-            button1.TabIndex = 31;
-            button1.Text = "Pagar";
-            button1.UseVisualStyleBackColor = false;
-            // 
-            // groupBox5
-            // 
-            groupBox5.Controls.Add(button_Borrar);
-            groupBox5.Controls.Add(label18);
-            groupBox5.Controls.Add(button_Guardar);
-            groupBox5.Controls.Add(label17);
-            groupBox5.Controls.Add(dataGridView2);
-            groupBox5.Controls.Add(textBox4);
-            groupBox5.Controls.Add(label16);
-            groupBox5.Controls.Add(comboBox2);
-            groupBox5.Controls.Add(label13);
-            groupBox5.Controls.Add(textBox3);
-            groupBox5.Location = new Point(428, 22);
-            groupBox5.Name = "groupBox5";
-            groupBox5.Size = new Size(412, 392);
-            groupBox5.TabIndex = 28;
-            groupBox5.TabStop = false;
-            groupBox5.Text = "Detalles de Pago";
-            // 
-            // button_Borrar
-            // 
-            button_Borrar.BackColor = Color.IndianRed;
-            button_Borrar.Font = new Font("Calibri", 9.75F, FontStyle.Bold);
-            button_Borrar.Image = Properties.Resources.delete;
-            button_Borrar.ImageAlign = ContentAlignment.MiddleRight;
-            button_Borrar.Location = new Point(101, 83);
-            button_Borrar.Name = "button_Borrar";
-            button_Borrar.Size = new Size(74, 27);
-            button_Borrar.TabIndex = 29;
-            button_Borrar.Text = "Quitar";
-            button_Borrar.TextAlign = ContentAlignment.MiddleLeft;
-            button_Borrar.UseVisualStyleBackColor = false;
-            // 
-            // label18
-            // 
-            label18.AutoSize = true;
-            label18.Location = new Point(41, 114);
-            label18.Name = "label18";
-            label18.Size = new Size(55, 15);
-            label18.TabIndex = 31;
-            label18.Text = "Detalles: ";
-            // 
-            // button_Guardar
-            // 
-            button_Guardar.BackColor = Color.DarkSeaGreen;
-            button_Guardar.Font = new Font("Calibri", 9.75F, FontStyle.Bold);
-            button_Guardar.Image = Properties.Resources.mas;
-            button_Guardar.ImageAlign = ContentAlignment.MiddleRight;
-            button_Guardar.Location = new Point(323, 82);
-            button_Guardar.Name = "button_Guardar";
-            button_Guardar.Size = new Size(74, 27);
-            button_Guardar.TabIndex = 30;
-            button_Guardar.Text = "Agregar";
-            button_Guardar.TextAlign = ContentAlignment.MiddleLeft;
-            button_Guardar.UseVisualStyleBackColor = false;
-            // 
-            // label17
-            // 
-            label17.AutoSize = true;
-            label17.Location = new Point(50, 273);
-            label17.Name = "label17";
-            label17.Size = new Size(48, 15);
-            label17.TabIndex = 30;
-            label17.Text = "TOTAL: ";
-            // 
-            // dataGridView2
-            // 
-            dataGridView2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView2.Location = new Point(101, 114);
-            dataGridView2.Name = "dataGridView2";
-            dataGridView2.Size = new Size(296, 146);
-            dataGridView2.TabIndex = 21;
-            // 
-            // textBox4
-            // 
-            textBox4.Location = new Point(101, 270);
-            textBox4.Name = "textBox4";
-            textBox4.Size = new Size(296, 23);
-            textBox4.TabIndex = 29;
-            // 
-            // label16
-            // 
-            label16.AutoSize = true;
-            label16.Location = new Point(3, 60);
-            label16.Name = "label16";
-            label16.Size = new Size(93, 15);
-            label16.TabIndex = 20;
-            label16.Text = "Medio de Pago: ";
-            // 
-            // comboBox2
-            // 
-            comboBox2.FormattingEnabled = true;
-            comboBox2.Location = new Point(101, 57);
-            comboBox2.Name = "comboBox2";
-            comboBox2.Size = new Size(296, 23);
-            comboBox2.TabIndex = 19;
-            // 
-            // label13
-            // 
-            label13.AutoSize = true;
-            label13.Location = new Point(40, 31);
-            label13.Name = "label13";
-            label13.Size = new Size(56, 15);
-            label13.TabIndex = 18;
-            label13.Text = "Importe: ";
-            // 
-            // textBox3
-            // 
-            textBox3.Location = new Point(101, 28);
-            textBox3.Name = "textBox3";
-            textBox3.Size = new Size(296, 23);
-            textBox3.TabIndex = 17;
             // 
             // groupBox4
             // 
-            groupBox4.Controls.Add(label12);
-            groupBox4.Controls.Add(richTextBox1);
-            groupBox4.Controls.Add(label14);
-            groupBox4.Controls.Add(textBox5);
-            groupBox4.Controls.Add(comboBox1);
-            groupBox4.Controls.Add(label15);
-            groupBox4.Controls.Add(textBox1);
-            groupBox4.Controls.Add(label11);
-            groupBox4.Controls.Add(textBox2);
-            groupBox4.Controls.Add(label10);
-            groupBox4.Location = new Point(6, 22);
+            groupBox4.BackColor = Color.WhiteSmoke;
+            groupBox4.Controls.Add(uC_Mostrar_Paciente1);
+            groupBox4.Controls.Add(dataGrid_cobros);
+            groupBox4.Controls.Add(groupBox1);
+            groupBox4.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            groupBox4.Location = new Point(12, 12);
             groupBox4.Name = "groupBox4";
-            groupBox4.Size = new Size(412, 392);
-            groupBox4.TabIndex = 27;
+            groupBox4.Size = new Size(1210, 707);
+            groupBox4.TabIndex = 92;
             groupBox4.TabStop = false;
-            groupBox4.Text = "Servicio";
-            groupBox4.Enter += groupBox4_Enter;
+            groupBox4.Text = "Cobros";
             // 
-            // label12
+            // uC_Mostrar_Paciente1
             // 
-            label12.AutoSize = true;
-            label12.Location = new Point(48, 31);
-            label12.Name = "label12";
-            label12.Size = new Size(46, 15);
-            label12.TabIndex = 16;
-            label12.Text = "Cliente:";
+            uC_Mostrar_Paciente1.BackColor = Color.Transparent;
+            uC_Mostrar_Paciente1.Location = new Point(6, 22);
+            uC_Mostrar_Paciente1.Name = "uC_Mostrar_Paciente1";
+            uC_Mostrar_Paciente1.Size = new Size(900, 109);
+            uC_Mostrar_Paciente1.TabIndex = 141;
             // 
-            // richTextBox1
+            // dataGrid_cobros
             // 
-            richTextBox1.BorderStyle = BorderStyle.FixedSingle;
-            richTextBox1.Location = new Point(101, 86);
-            richTextBox1.Name = "richTextBox1";
-            richTextBox1.Size = new Size(296, 174);
-            richTextBox1.TabIndex = 24;
-            richTextBox1.Text = "";
+            dataGrid_cobros.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGrid_cobros.Location = new Point(6, 137);
+            dataGrid_cobros.Name = "dataGrid_cobros";
+            dataGrid_cobros.Size = new Size(603, 564);
+            dataGrid_cobros.TabIndex = 140;
             // 
-            // label14
+            // groupBox1
             // 
-            label14.AutoSize = true;
-            label14.Location = new Point(29, 305);
-            label14.Name = "label14";
-            label14.Size = new Size(65, 15);
-            label14.TabIndex = 26;
-            label14.Text = "Cobertura: ";
+            groupBox1.Controls.Add(label3);
+            groupBox1.Controls.Add(comboBox_NombreBD);
+            groupBox1.Controls.Add(richTextBox_descripcion);
+            groupBox1.Controls.Add(textBox_nombre_archivo);
+            groupBox1.Controls.Add(flowLayoutPanel2);
+            groupBox1.Controls.Add(label2);
+            groupBox1.Controls.Add(label1);
+            groupBox1.Controls.Add(textBox_creador);
+            groupBox1.Controls.Add(label30);
+            groupBox1.Controls.Add(textBox_fecha);
+            groupBox1.Controls.Add(label28);
+            groupBox1.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            groupBox1.Location = new Point(615, 143);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new Size(589, 564);
+            groupBox1.TabIndex = 139;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "Cobro Seleccionado";
             // 
-            // textBox5
+            // label3
             // 
-            textBox5.Location = new Point(101, 57);
-            textBox5.Name = "textBox5";
-            textBox5.Size = new Size(296, 23);
-            textBox5.TabIndex = 13;
+            label3.AutoSize = true;
+            label3.Location = new Point(26, 103);
+            label3.Name = "label3";
+            label3.Size = new Size(84, 15);
+            label3.TabIndex = 140;
+            label3.Text = "Base de Datos:";
             // 
-            // comboBox1
+            // comboBox_NombreBD
             // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(101, 302);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(296, 23);
-            comboBox1.TabIndex = 25;
+            comboBox_NombreBD.FormattingEnabled = true;
+            comboBox_NombreBD.Location = new Point(117, 100);
+            comboBox_NombreBD.Name = "comboBox_NombreBD";
+            comboBox_NombreBD.Size = new Size(359, 23);
+            comboBox_NombreBD.TabIndex = 139;
             // 
-            // label15
+            // richTextBox_descripcion
             // 
-            label15.AutoSize = true;
-            label15.Location = new Point(9, 60);
-            label15.Name = "label15";
-            label15.Size = new Size(86, 15);
-            label15.TabIndex = 14;
-            label15.Text = "Fecha Emisión:";
+            richTextBox_descripcion.Location = new Point(117, 158);
+            richTextBox_descripcion.Name = "richTextBox_descripcion";
+            richTextBox_descripcion.Size = new Size(359, 176);
+            richTextBox_descripcion.TabIndex = 92;
+            richTextBox_descripcion.Text = "";
             // 
-            // textBox1
+            // textBox_nombre_archivo
             // 
-            textBox1.Location = new Point(101, 270);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(296, 23);
-            textBox1.TabIndex = 21;
+            textBox_nombre_archivo.Location = new Point(117, 129);
+            textBox_nombre_archivo.Name = "textBox_nombre_archivo";
+            textBox_nombre_archivo.Size = new Size(359, 23);
+            textBox_nombre_archivo.TabIndex = 138;
             // 
-            // label11
+            // flowLayoutPanel2
             // 
-            label11.AutoSize = true;
-            label11.Location = new Point(17, 273);
-            label11.Name = "label11";
-            label11.Size = new Size(78, 15);
-            label11.TabIndex = 22;
-            label11.Text = "Fecha Turno: ";
+            flowLayoutPanel2.Controls.Add(button_eliminar);
+            flowLayoutPanel2.Controls.Add(button2);
+            flowLayoutPanel2.Controls.Add(button_guardar);
+            flowLayoutPanel2.Controls.Add(button_restaurar);
+            flowLayoutPanel2.Location = new Point(8, 515);
+            flowLayoutPanel2.Margin = new Padding(5);
+            flowLayoutPanel2.Name = "flowLayoutPanel2";
+            flowLayoutPanel2.Size = new Size(573, 41);
+            flowLayoutPanel2.TabIndex = 129;
             // 
-            // textBox2
+            // button_eliminar
             // 
-            textBox2.Location = new Point(101, 28);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(296, 23);
-            textBox2.TabIndex = 15;
+            button_eliminar.BackColor = Color.IndianRed;
+            button_eliminar.Font = new Font("Calibri", 9.75F, FontStyle.Bold);
+            button_eliminar.Image = Properties.Resources.delete;
+            button_eliminar.ImageAlign = ContentAlignment.MiddleLeft;
+            button_eliminar.Location = new Point(5, 5);
+            button_eliminar.Margin = new Padding(5);
+            button_eliminar.Name = "button_eliminar";
+            button_eliminar.Size = new Size(130, 30);
+            button_eliminar.TabIndex = 22;
+            button_eliminar.Text = "Eliminar  Respaldo";
+            button_eliminar.TextAlign = ContentAlignment.MiddleRight;
+            button_eliminar.UseVisualStyleBackColor = false;
             // 
-            // label10
+            // button2
             // 
-            label10.AutoSize = true;
-            label10.Location = new Point(23, 88);
-            label10.Name = "label10";
-            label10.Size = new Size(73, 15);
-            label10.TabIndex = 23;
-            label10.Text = "Descripción:";
+            button2.BackColor = Color.SandyBrown;
+            button2.Font = new Font("Calibri", 9.75F, FontStyle.Bold);
+            button2.Image = Properties.Resources.clear;
+            button2.ImageAlign = ContentAlignment.MiddleLeft;
+            button2.Location = new Point(145, 5);
+            button2.Margin = new Padding(5);
+            button2.Name = "button2";
+            button2.Size = new Size(130, 30);
+            button2.TabIndex = 26;
+            button2.Text = "Limpiar";
+            button2.TextAlign = ContentAlignment.MiddleRight;
+            button2.UseVisualStyleBackColor = false;
+            // 
+            // button_guardar
+            // 
+            button_guardar.BackColor = Color.DarkSeaGreen;
+            button_guardar.Font = new Font("Calibri", 9.75F, FontStyle.Bold);
+            button_guardar.Image = Properties.Resources.save;
+            button_guardar.ImageAlign = ContentAlignment.MiddleLeft;
+            button_guardar.Location = new Point(285, 5);
+            button_guardar.Margin = new Padding(5);
+            button_guardar.Name = "button_guardar";
+            button_guardar.Size = new Size(130, 30);
+            button_guardar.TabIndex = 25;
+            button_guardar.Text = "Guardar Nuevo";
+            button_guardar.TextAlign = ContentAlignment.MiddleRight;
+            button_guardar.UseVisualStyleBackColor = false;
+            // 
+            // button_restaurar
+            // 
+            button_restaurar.BackColor = SystemColors.ActiveCaption;
+            button_restaurar.Font = new Font("Calibri", 9.75F, FontStyle.Bold);
+            button_restaurar.Image = Properties.Resources.respaldo_3_;
+            button_restaurar.ImageAlign = ContentAlignment.MiddleLeft;
+            button_restaurar.Location = new Point(425, 5);
+            button_restaurar.Margin = new Padding(5);
+            button_restaurar.Name = "button_restaurar";
+            button_restaurar.Size = new Size(140, 30);
+            button_restaurar.TabIndex = 24;
+            button_restaurar.Text = "Restaurar Respaldo";
+            button_restaurar.TextAlign = ContentAlignment.MiddleRight;
+            button_restaurar.UseVisualStyleBackColor = false;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Enabled = false;
+            label2.Location = new Point(20, 74);
+            label2.Name = "label2";
+            label2.Size = new Size(90, 15);
+            label2.TabIndex = 137;
+            label2.Text = "Fecha Creación:";
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(37, 158);
+            label1.Name = "label1";
+            label1.Size = new Size(73, 15);
+            label1.TabIndex = 93;
+            label1.Text = "Descripcion:";
+            // 
+            // textBox_creador
+            // 
+            textBox_creador.Enabled = false;
+            textBox_creador.Location = new Point(117, 42);
+            textBox_creador.Name = "textBox_creador";
+            textBox_creador.Size = new Size(359, 23);
+            textBox_creador.TabIndex = 136;
+            // 
+            // label30
+            // 
+            label30.AutoSize = true;
+            label30.Location = new Point(12, 132);
+            label30.Name = "label30";
+            label30.Size = new Size(98, 15);
+            label30.TabIndex = 132;
+            label30.Text = "Nombre Archivo:";
+            // 
+            // textBox_fecha
+            // 
+            textBox_fecha.Enabled = false;
+            textBox_fecha.Location = new Point(117, 71);
+            textBox_fecha.Name = "textBox_fecha";
+            textBox_fecha.Size = new Size(359, 23);
+            textBox_fecha.TabIndex = 133;
+            // 
+            // label28
+            // 
+            label28.AutoSize = true;
+            label28.Enabled = false;
+            label28.Location = new Point(42, 45);
+            label28.Name = "label28";
+            label28.Size = new Size(68, 15);
+            label28.TabIndex = 131;
+            label28.Text = "Creado por:";
             // 
             // Form_Cobros
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1234, 731);
-            Controls.Add(groupBox3);
+            Controls.Add(groupBox4);
             Name = "Form_Cobros";
             Text = "Form_Cobros";
-            groupBox3.ResumeLayout(false);
-            groupBox5.ResumeLayout(false);
-            groupBox5.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView2).EndInit();
             groupBox4.ResumeLayout(false);
-            groupBox4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGrid_cobros).EndInit();
+            groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
+            flowLayoutPanel2.ResumeLayout(false);
             ResumeLayout(false);
         }
 
         #endregion
-        private GroupBox groupBox3;
-        private RichTextBox richTextBox1;
-        private Label label10;
-        private Label label11;
-        private TextBox textBox1;
-        private Label label13;
-        private TextBox textBox3;
-        private Label label15;
-        private TextBox textBox5;
-        private Label label14;
-        private ComboBox comboBox1;
-        private Label label12;
-        private TextBox textBox2;
+
         private GroupBox groupBox4;
-        private GroupBox groupBox5;
-        private DataGridView dataGridView2;
-        private Label label16;
-        private ComboBox comboBox2;
-        private Label label18;
-        private Label label17;
-        private TextBox textBox4;
-        private Button button_Borrar;
-        private Button button_Guardar;
+        private DataGridView dataGrid_cobros;
+        private GroupBox groupBox1;
+        private Label label3;
+        private ComboBox comboBox_NombreBD;
+        private RichTextBox richTextBox_descripcion;
+        private TextBox textBox_nombre_archivo;
+        private FlowLayoutPanel flowLayoutPanel2;
+        private Button button_eliminar;
         private Button button2;
-        private Button button1;
+        private Button button_guardar;
+        private Button button_restaurar;
+        private Label label2;
+        private Label label1;
+        private TextBox textBox_creador;
+        private Label label30;
+        private TextBox textBox_fecha;
+        private Label label28;
+        private Forms_Seguridad.UC_Mostrar_Paciente uC_Mostrar_Paciente1;
     }
 }

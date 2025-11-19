@@ -24,68 +24,8 @@
   </xs:schema>
   <Log>
     <Id>1</Id>
-    <Fecha>2025-11-16T02:54:01.3237219-03:00</Fecha>
+    <Fecha>2025-11-18T23:31:10.9434006-03:00</Fecha>
     <Usuario>admin</Usuario>
-    <Operacion>Respaldo creado: AAAA - AAAA</Operacion>
-  </Log>
-  <Log>
-    <Id>2</Id>
-    <Fecha>2025-11-16T02:54:09.5708378-03:00</Fecha>
-    <Usuario>admin</Usuario>
-    <Operacion>Respaldo creado: BBBB - BBBB</Operacion>
-  </Log>
-  <Log>
-    <Id>3</Id>
-    <Fecha>2025-11-16T02:54:16.6543896-03:00</Fecha>
-    <Usuario>admin</Usuario>
-    <Operacion>Respaldo creado: CCCC - CCCCC</Operacion>
-  </Log>
-  <Log>
-    <Id>4</Id>
-    <Fecha>2025-11-16T02:54:24.4215054-03:00</Fecha>
-    <Usuario>admin</Usuario>
-    <Operacion>Respaldo creado: DDDD - DDDDDD</Operacion>
-  </Log>
-  <Log>
-    <Id>5</Id>
-    <Fecha>2025-11-16T02:54:47.3007793-03:00</Fecha>
-    <Usuario>admin</Usuario>
-    <Operacion>Turno agregado: Médico ID 1, Paciente ID 1, Fecha 18/11/2025</Operacion>
-  </Log>
-  <Log>
-    <Id>6</Id>
-    <Fecha>2025-11-16T02:55:09.234322-03:00</Fecha>
-    <Usuario>admin</Usuario>
-    <Operacion>Respaldo eliminado: AAAA</Operacion>
-  </Log>
-  <Log>
-    <Id>7</Id>
-    <Fecha>2025-11-16T02:55:19.2045532-03:00</Fecha>
-    <Usuario>admin</Usuario>
-    <Operacion>Respaldo eliminado: DDDD</Operacion>
-  </Log>
-  <Log>
-    <Id>8</Id>
-    <Fecha>2025-11-16T02:55:54.0053624-03:00</Fecha>
-    <Usuario>admin</Usuario>
-    <Operacion>Respaldo restaurado: BBBB</Operacion>
-  </Log>
-  <Log>
-    <Id>9</Id>
-    <Fecha>2025-11-16T02:56:02.6354047-03:00</Fecha>
-    <Usuario>admin</Usuario>
-    <Operacion>Error al eliminar respaldo BBBB: Error al eliminar el respaldo: No se pueden eliminar acciones de restauración</Operacion>
-  </Log>
-  <Log>
-    <Id>10</Id>
-    <Fecha>2025-11-16T02:56:39.9125834-03:00</Fecha>
-    <Usuario>admin</Usuario>
-    <Operacion>Turno agregado: Médico ID 1, Paciente ID 1, Fecha 22/11/2025</Operacion>
-  </Log>
-  <Log>
-    <Id>11</Id>
-    <Fecha>2025-11-16T02:57:35.1538269-03:00</Fecha>
-    <Usuario>admin</Usuario>
-    <Operacion>Respaldo restaurado: BBBB</Operacion>
+    <Operacion>Paciente agregado: qweqweq eqweqweq</Operacion>
   </Log>
 </NewDataSet>

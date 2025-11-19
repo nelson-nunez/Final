@@ -69,7 +69,7 @@ namespace SiAP.UI
                 CargarDatos();
             }
         }
-        
+
         private void button2_Click(object sender, EventArgs e)
         {
             LimpiarSeleccion();
@@ -125,6 +125,25 @@ namespace SiAP.UI
             }
         }
 
+        private void button_filtrar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                LimpiarSeleccion();
+                var listafiltrada = _bllRespaldo.FiltrarPorFecha(dateTimePicker_desde.Value, dateTimePicker_hasta.Value).ToList();
+                dataGrid_respaldos.CargarGrid(campos, listafiltrada);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "⛔ Error");
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            LimpiarSeleccion();
+        }
+
         #endregion
 
         #region Acctions
@@ -163,6 +182,8 @@ namespace SiAP.UI
         }
 
         #endregion
+
+
 
     }
 }

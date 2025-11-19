@@ -61,13 +61,7 @@ namespace SiAP.BLL
 
         public IList<Paciente> Buscar(string parametro)
         {
-            var pacientes = _mppPaciente.ObtenerTodos()
-                .Where(x => string.IsNullOrWhiteSpace(parametro)
-                         || x.Persona.Nombre.Contains(parametro, StringComparison.OrdinalIgnoreCase)
-                         || x.Persona.Apellido.Contains(parametro, StringComparison.OrdinalIgnoreCase)
-                         || x.Persona.Dni.Contains(parametro, StringComparison.OrdinalIgnoreCase)
-                      )
-                .ToList();
+            var pacientes = _mppPaciente.Buscar(parametro).ToList();
             return pacientes;
         }
 

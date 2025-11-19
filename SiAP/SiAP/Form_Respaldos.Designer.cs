@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             groupBox4 = new GroupBox();
+            button1 = new Button();
             dataGrid_respaldos = new DataGridView();
             groupBox1 = new GroupBox();
             label3 = new Label();
@@ -60,6 +61,7 @@
             // groupBox4
             // 
             groupBox4.BackColor = Color.WhiteSmoke;
+            groupBox4.Controls.Add(button1);
             groupBox4.Controls.Add(dataGrid_respaldos);
             groupBox4.Controls.Add(groupBox1);
             groupBox4.Controls.Add(button_filtrar);
@@ -74,6 +76,19 @@
             groupBox4.TabIndex = 91;
             groupBox4.TabStop = false;
             groupBox4.Text = "Respaldos:";
+            // 
+            // button1
+            // 
+            button1.BackColor = SystemColors.ActiveCaption;
+            button1.Image = Properties.Resources.lupa;
+            button1.ImageAlign = ContentAlignment.MiddleLeft;
+            button1.Location = new Point(442, 47);
+            button1.Name = "button1";
+            button1.Size = new Size(120, 25);
+            button1.TabIndex = 141;
+            button1.Text = "Ver todos";
+            button1.UseVisualStyleBackColor = false;
+            button1.Click += button1_Click;
             // 
             // dataGrid_respaldos
             // 
@@ -272,19 +287,20 @@
             button_filtrar.BackColor = SystemColors.ActiveCaption;
             button_filtrar.Image = Properties.Resources.lupa;
             button_filtrar.ImageAlign = ContentAlignment.MiddleLeft;
-            button_filtrar.Location = new Point(402, 47);
+            button_filtrar.Location = new Point(298, 47);
             button_filtrar.Name = "button_filtrar";
-            button_filtrar.Size = new Size(160, 25);
+            button_filtrar.Size = new Size(120, 25);
             button_filtrar.TabIndex = 130;
             button_filtrar.Text = "Filtrar";
             button_filtrar.UseVisualStyleBackColor = false;
+            button_filtrar.Click += button_filtrar_Click;
             // 
             // dateTimePicker_hasta
             // 
             dateTimePicker_hasta.Format = DateTimePickerFormat.Short;
-            dateTimePicker_hasta.Location = new Point(206, 47);
+            dateTimePicker_hasta.Location = new Point(141, 47);
             dateTimePicker_hasta.Name = "dateTimePicker_hasta";
-            dateTimePicker_hasta.Size = new Size(160, 23);
+            dateTimePicker_hasta.Size = new Size(120, 23);
             dateTimePicker_hasta.TabIndex = 127;
             // 
             // dateTimePicker_desde
@@ -292,14 +308,14 @@
             dateTimePicker_desde.Format = DateTimePickerFormat.Short;
             dateTimePicker_desde.Location = new Point(6, 47);
             dateTimePicker_desde.Name = "dateTimePicker_desde";
-            dateTimePicker_desde.Size = new Size(160, 23);
+            dateTimePicker_desde.Size = new Size(120, 23);
             dateTimePicker_desde.TabIndex = 126;
             // 
             // label9
             // 
             label9.AutoSize = true;
             label9.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            label9.Location = new Point(206, 29);
+            label9.Location = new Point(141, 29);
             label9.Name = "label9";
             label9.Size = new Size(89, 15);
             label9.TabIndex = 125;
@@ -356,5 +372,6 @@
         private Label label3;
         private ComboBox comboBox_NombreBD;
         private Button button2;
+        private Button button1;
     }
 }

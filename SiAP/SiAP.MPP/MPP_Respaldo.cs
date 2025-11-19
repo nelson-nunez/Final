@@ -131,7 +131,7 @@ namespace SiAP.MPP
         public IList<Respaldo> FiltrarPorFecha(DateTime fechaDesde, DateTime fechaHasta)
         {
             return ObtenerTodos()
-                .Where(r => r.FechaCreacion >= fechaDesde && r.FechaCreacion <= fechaHasta)
+                .Where(r => r.FechaCreacion.Date >= fechaDesde.Date && r.FechaCreacion.Date <= fechaHasta.Date)
                 .OrderByDescending(r => r.FechaCreacion)
                 .ToList();
         }

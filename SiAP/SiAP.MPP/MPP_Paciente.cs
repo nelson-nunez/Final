@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Reflection.Metadata;
 using SiAP.Abstracciones;
 using SiAP.BE;
 using SiAP.MPP.Base;
@@ -79,23 +80,16 @@ namespace SiAP.MPP
             return ObtenerTodasEntidades(HidratarObjeto);
         }
 
-        public IList<Paciente> Buscar(string campo = "", string valor = "", bool incluirInactivos = true)
+        public IList<Paciente> Buscar(string parametro)
         {
-            var pacientes = ObtenerTodos();
-
-            if (string.IsNullOrWhiteSpace(campo) || string.IsNullOrWhiteSpace(valor))
-                return pacientes;
-
-            return campo.ToLower() switch
-            {
-                "nombre" => pacientes.Where(p => p.Persona.Nombre.Contains(valor, StringComparison.OrdinalIgnoreCase)).ToList(),
-                "apellido" => pacientes.Where(p => p.Persona.Apellido.Contains(valor, StringComparison.OrdinalIgnoreCase)).ToList(),
-                "dni" => pacientes.Where(p => p.Persona.Dni == valor).ToList(),
-                "email" => pacientes.Where(p => p.Persona.Email.Contains(valor, StringComparison.OrdinalIgnoreCase)).ToList(),
-                "obrasocial" => pacientes.Where(p => p.ObraSocial.Contains(valor, StringComparison.OrdinalIgnoreCase)).ToList(),
-                "numerosocio" => pacientes.Where(p => p.NumeroSocio.ToString().Contains(valor)).ToList(),
-                _ => throw new ArgumentException($"Campo '{campo}' inválido.")
-            };
+            var pacientes = ObtenerTodos()
+                .Where(x => string.IsNullOrWhiteSpace(parametro)
+                         || x.Persona.Nombre.Contains(parametro, StringComparison.OrdinalIgnoreCase)
+                         || x.Persona.Apellido.Contains(parametro, StringComparison.OrdinalIgnoreCase)
+                         || x.Persona.Dni.Contains(parametro, StringComparison.OrdinalIgnoreCase)
+                      )
+                .ToList();
+            return pacientes;
         }
 
         public Paciente LeerPorId(object id)

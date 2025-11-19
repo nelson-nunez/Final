@@ -96,9 +96,9 @@ namespace SiAP.BLL
 
         #endregion
 
-        public Turno BuscarTurnoPorRango(Medico medico, Agenda agenda)
+        public IList<Turno> BuscarTurnoPorPaciente(Paciente paciente)
         {
-            return _mppTurno.BuscarTurnoPorMedIdyRangoHorario(medico.Id, agenda.Fecha, agenda.HoraInicio, agenda.HoraFin);
+            return _mppTurno.BuscarTurnoPorpaciente(paciente.Id);
         }
 
         public IList<Turno> BuscarPorMedicoyRango(Medico medico, DateTime fecha)

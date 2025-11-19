@@ -12,16 +12,17 @@ namespace SiAP.BE
         public DateTime FechaHora { get; set; }
         public string TipoPago { get; set; }
         public decimal Monto { get; set; }
-        public EstadoCobro Estado { get; set; }
-
+        public EstadoCobro Estado { get; set; }       
+        public long TurnoId { get; set; }
         public int FacturaId { get; set; }
         public int FormaPagoId { get; set; }
     }
 
     public enum EstadoCobro
     {
-        Registrado,
-        Confirmado,
-        Rechazado
+        Pendiente,
+        PagoParcial,
+        Reembolsado,
+        PagoTotal
     }
 }
