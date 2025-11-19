@@ -263,6 +263,7 @@ namespace SiAP.DAL
             tabla.Rows.Add(4, "Marcos", "Andrada", "34567890", new DateTime(1981, 8, 20), "marcos@hospital.com", "1122334466");
             tabla.Rows.Add(5, "Marcelo", "Pereira", "45678901", new DateTime(1991, 8, 20), "marcosp@hospital.com", "1122334466");
             tabla.Rows.Add(6, "Juan", "Gómez", "87654321", new DateTime(1990, 3, 20), "juan.gomez@paciente.com", "1133445566");
+            tabla.Rows.Add(7, "Esteban", "Paciente", "47654321", new DateTime(1990, 3, 20), "Esteban@paciente.com", "1133445566");
 
             return tabla;
         }
@@ -320,6 +321,7 @@ namespace SiAP.DAL
             tabla.PrimaryKey = new[] { tabla.Columns["Id"] };
 
             tabla.Rows.Add(1, 6, "OSDE", "210", 445566);
+            tabla.Rows.Add(2, 7, "SWISS", "410", 442566);
             return tabla;
         }
 
@@ -472,8 +474,9 @@ namespace SiAP.DAL
             var tabla = new DataTable("Cobro");
             tabla.Columns.Add("Id", typeof(long));
             tabla.Columns.Add("FechaHora", typeof(DateTime));
-            tabla.Columns.Add("TipoPago", typeof(string));
-            tabla.Columns.Add("Monto", typeof(decimal));
+            tabla.Columns.Add("MediodePago", typeof(string));
+            tabla.Columns.Add("MontoTotal", typeof(decimal));
+            tabla.Columns.Add("MontoPagado", typeof(decimal));
             tabla.Columns.Add("Estado", typeof(string));
 
             tabla.Columns.Add("FacturaId", typeof(long));
@@ -481,8 +484,8 @@ namespace SiAP.DAL
             tabla.Columns.Add("FormaPagoId", typeof(long));
             tabla.PrimaryKey = new[] { tabla.Columns["Id"] };
 
-            tabla.Rows.Add(1, new DateTime(2025, 7, 8, 10, 1, 0), "Efectivo", 50000, EstadoCobro.PagoParcial.ToString(), 1, 1, 1);
-            tabla.Rows.Add(2, new DateTime(2025, 7, 9, 12, 2, 0), "Transferencia", 12000,  EstadoCobro.PagoTotal.ToString(), 2, 2, 4);
+            tabla.Rows.Add(1, new DateTime(2025, 7, 8, 10, 1, 0), MediodePago.Efectivo, 100000,50000, EstadoCobro.PagoParcial.ToString(), 1, 1, 1);
+            tabla.Rows.Add(2, new DateTime(2025, 7, 9, 12, 2, 0), MediodePago.Debito, 12000, 12000, EstadoCobro.PagoTotal.ToString(), 2, 2, 4);
 
             return tabla;
         }

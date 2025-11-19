@@ -111,9 +111,10 @@
             // 
             // uC_Buscar_Paciente1
             // 
+            uC_Buscar_Paciente1.BackColor = Color.DarkGray;
             uC_Buscar_Paciente1.Location = new Point(93, 164);
             uC_Buscar_Paciente1.Name = "uC_Buscar_Paciente1";
-            uC_Buscar_Paciente1.Size = new Size(444, 286);
+            uC_Buscar_Paciente1.Size = new Size(442, 228);
             uC_Buscar_Paciente1.TabIndex = 11;
             // 
             // label1

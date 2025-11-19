@@ -284,6 +284,7 @@ namespace SiAP.UI
                 AgendaId = celda.Agenda.Id,
                 MedicoId = _medicoSeleccionado.Id,
                 PacienteId = _pacienteSeleccionado.Id,
+                TipoAtencion = _medicoSeleccionado.Especialidad.Nombre,
                 Estado = EstadoTurno.Asignado
             };
         }

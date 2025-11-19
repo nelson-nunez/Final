@@ -37,7 +37,7 @@ namespace SiAP.BLL
                 throw new ArgumentException(MensajeError);
 
             _mppCobro.Agregar(cobro);
-            _logger.GenerarLog($"Cobro agregado: Monto {cobro.Monto}, FacturaID {cobro.FacturaId}, FormaPagoID {cobro.FormaPagoId}");
+            _logger.GenerarLog($"Cobro agregado: Monto Pagado {cobro.MontoPagado}, FacturaID {cobro.FacturaId}, FormaPagoID {cobro.FormaPagoId}");
         }
 
         public void Modificar(Cobro cobro)
@@ -65,8 +65,10 @@ namespace SiAP.BLL
 
             if (cobro.FechaHora == default)
                 _mensajeError += "La fecha del cobro es obligatoria. ";
-            if (cobro.Monto <= 0)
-                _mensajeError += "El monto debe ser mayor a cero. ";
+            if (cobro.MontoTotal <= 0)
+                _mensajeError += "El monto total debe ser mayor a cero. ";
+            if (cobro.MontoPagado <= 0)
+                _mensajeError += "El monto pagado debe ser mayor a cero. ";
             if (cobro.FacturaId <= 0)
                 _mensajeError += "Debe estar asociado a una factura válida. ";
             if (cobro.FormaPagoId <= 0)

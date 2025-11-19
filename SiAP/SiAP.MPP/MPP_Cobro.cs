@@ -62,8 +62,9 @@ namespace SiAP.MPP
         private void AsignarDatos(DataRow dr, Cobro entidad)
         {
             dr["FechaHora"] = entidad.FechaHora;
-            dr["TipoPago"] = entidad.TipoPago;
-            dr["Monto"] = entidad.Monto;
+            dr["MediodePago"] = entidad.MediodePago;
+            dr["MontoTotal"] = entidad.MontoTotal;
+            dr["MontoPagado"] = entidad.MontoPagado;
             dr["Estado"] = entidad.Estado.ToString();
             dr["FacturaId"] = entidad.FacturaId;
             dr["TurnoId"] = entidad.TurnoId;
@@ -76,8 +77,9 @@ namespace SiAP.MPP
             {
                 Id = Convert.ToInt32(r["Id"]),
                 FechaHora = Convert.ToDateTime(r["FechaHora"]),
-                TipoPago = r["TipoPago"].ToString(),
-                Monto = Convert.ToDecimal(r["Monto"]),
+                MediodePago = Enum.Parse <MediodePago> (r["MediodePago"].ToString()),
+                MontoTotal = Convert.ToDecimal(r["MontoTotal"]),
+                MontoPagado = Convert.ToDecimal(r["MontoPagado"]),
                 Estado = Enum.Parse<EstadoCobro>(r["Estado"].ToString()),
                 FacturaId = Convert.ToInt32(r["FacturaId"]),
                 TurnoId = Convert.ToInt32(r["TurnoId"]),

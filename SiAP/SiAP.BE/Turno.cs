@@ -21,9 +21,10 @@ namespace SiAP.BE
         public long? CobroId { get; set; }
         public Cobro Cobro { get; set; }
 
-         public string TipoPago => Cobro?.TipoPago ?? "";
-         public decimal Monto => (decimal)(Cobro?.Monto);
-         public EstadoCobro EstadoCobro => (EstadoCobro)(Cobro?.Estado);
+         public string MediodePago => Cobro?.MediodePago.ToString();
+         public decimal MontoTotal => (decimal)(Cobro?.MontoTotal ?? 0);
+         public decimal MontoRestante => (decimal)(Cobro?.MontoRestante ?? 0);
+         public EstadoCobro EstadoCobro => (EstadoCobro)(Cobro?.Estado ?? 0);
     }
 
     public enum EstadoTurno

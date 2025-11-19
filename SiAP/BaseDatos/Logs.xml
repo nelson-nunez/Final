@@ -22,10 +22,4 @@
       </xs:unique>
     </xs:element>
   </xs:schema>
-  <Log>
-    <Id>1</Id>
-    <Fecha>2025-11-18T23:31:10.9434006-03:00</Fecha>
-    <Usuario>admin</Usuario>
-    <Operacion>Paciente agregado: qweqweq eqweqweq</Operacion>
-  </Log>
 </NewDataSet>

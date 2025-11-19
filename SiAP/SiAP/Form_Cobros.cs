@@ -23,8 +23,8 @@ namespace SiAP.UI
 
         BLL_Cobro _bllCobro;
         BLL_Turno _bllTurno;
-        Cobro itemSeleccionado;
-        private List<string> campos = new List<string> { "Fecha", "HoraInicio", "TipoAtencion", "Estado", "TipoPago", "Monto", "EstadoCobro" };
+        Turno itemSeleccionado;
+        private List<string> campos = new List<string> { "Fecha", "HoraInicio", "Estado", "TipoAtencion", "MediodePago", "MontoTotal", "MontoRestante", "EstadoCobro" };
         //Control
         private UC_Mostrar_Paciente _userControl;
         private Paciente pacienteSeleccionado;
@@ -40,6 +40,8 @@ namespace SiAP.UI
             _userControl = this.FindUserControl<UC_Mostrar_Paciente>("uC_Mostrar_Paciente1");
             if (_userControl != null)
                 _userControl.ShouldUpdate += OnPacienteSeleccionado;
+            //Combo
+            comboBox_tipo_pago.DataSource = MediodePagoHelper.mediosdePago;
 
             //Configurar y cargar Grid
             this.Controls.ConfigurarTodosLosGrids();
@@ -74,10 +76,16 @@ namespace SiAP.UI
         {
             dataGrid_cobros.CargarGrid(campos, _bllTurno.ObtenerTodos().ToList());
             itemSeleccionado = null;
-            textBox_creador.Text = GestionUsuario.UsuarioLogueado.Username;
-            textBox_fecha.Text = DateTime.Now.ToShortDateString();
-            textBox_nombre_archivo.Text = "";
-            richTextBox_descripcion.Text = "";
+            textBox_fecha_turno.Text = "";
+            textBox_hora_turno.Text = "";
+            textBox_tipo_atencion_turno.Text = "";
+            textBox_estado_turno.Text = "";
+            textBox_estado_cobro.Text = "";
+            textBox_monto_total.Text = "";
+            textBox_pendiente.Text = "";
+            
+            comboBox_tipo_pago.SelectedItem = MediodePagoHelper.mediosdePago;
+            textBox_importe_pagar.Enabled = true;
         }
 
         private void CargarDatos()
@@ -87,15 +95,67 @@ namespace SiAP.UI
 
             if (itemSeleccionado != null)
             {
-                //textBox_creador.Text = itemSeleccionado.CreadoPor;
-                //textBox_fecha.Text = itemSeleccionado.FechaCreacion.ToShortDateString();
-                //textBox_nombre_archivo.Text = itemSeleccionado.NombreArchivo;
-                //richTextBox_descripcion.Text = itemSeleccionado.Descripcion;
-                //comboBox_NombreBD.SelectedItem = itemSeleccionado.NombreBD;
-                //comboBox_NombreBD.Enabled = false;
+                textBox_fecha_turno.Text = itemSeleccionado.Fecha.ToShortDateString();
+                textBox_hora_turno.Text = itemSeleccionado.HoraInicio.ToString();
+                textBox_tipo_atencion_turno.Text = itemSeleccionado.TipoAtencion;
+                textBox_estado_turno.Text = itemSeleccionado.Estado.ToString();
+                if (itemSeleccionado.Cobro != null)
+                {
+                    textBox_importe_pagar.Enabled = (itemSeleccionado.MontoRestante <= 0) ? false: true;
+                    textBox_estado_cobro.Text = itemSeleccionado.EstadoCobro.ToString();
+                    textBox_monto_total.Text = itemSeleccionado.MontoTotal.ToString();
+                    textBox_pendiente.Text = itemSeleccionado.MontoRestante.ToString();
+                    
+                    comboBox_tipo_pago.SelectedItem = itemSeleccionado.MediodePago.ToString();
+                }
             }
         }
 
         #endregion
+
+        #region Buttons
+
+        #endregion
+        private void button_reembolsar_Click(object sender, EventArgs e)
+        {
+            //Fecha
+            //HoraInicio
+            //HoraFin
+            //TipoAtencion
+            //Estado
+            //Cobro
+            //MediodePago
+            //Monto
+            //EstadoCobro
+            //
+            ////-
+            //FechaHora
+            //MediodePago
+            //Monto
+            //Estado
+
+        }
+
+        private void button_limpiar_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button_guardar_pago_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button_imprimir_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dataGrid_cobros_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            itemSeleccionado = dataGrid_cobros.VerificarYRetornarSeleccion<Turno>();
+
+            CargarDatos();
+        }
     }
 }

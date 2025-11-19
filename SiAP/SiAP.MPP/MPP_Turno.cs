@@ -25,7 +25,6 @@ namespace SiAP.MPP
         {
             ArgumentNullException.ThrowIfNull(entidad);
             if (Existe(entidad)) return;
-
             AgregarEntidad(entidad, AsignarDatos);
         }
 
@@ -82,6 +81,7 @@ namespace SiAP.MPP
             dr["MedicoId"] = entidad.MedicoId;
             dr["PacienteId"] = entidad.PacienteId;
             dr["AgendaId"] = entidad.AgendaId;
+            dr["CobroId"] = entidad.CobroId ?? 0;
         }
 
         private Turno HidratarObjeto(DataRow r)
