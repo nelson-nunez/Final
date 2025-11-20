@@ -283,6 +283,7 @@ namespace SiAP.UI
                 HoraFin = celda.Agenda.HoraFin,
                 AgendaId = celda.Agenda.Id,
                 MedicoId = _medicoSeleccionado.Id,
+                Medico = _medicoSeleccionado,
                 PacienteId = _pacienteSeleccionado.Id,
                 TipoAtencion = _medicoSeleccionado.Especialidad.Nombre,
                 Estado = EstadoTurno.Asignado

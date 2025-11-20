@@ -13,6 +13,7 @@ namespace SiAP.BLL
     public class BLL_Turno : IBLL<Turno>
     {
         private readonly MPP_Turno _mppTurno;
+        private readonly MPP_Cobro _mppCobro;
         private static BLL_Turno _instancia;
         private readonly ILogger _logger;
         private string _mensajeError;
@@ -22,6 +23,7 @@ namespace SiAP.BLL
         private BLL_Turno()
         {
             _mppTurno = MPP_Turno.ObtenerInstancia();
+            _mppCobro = MPP_Cobro.ObtenerInstancia();
             _logger = BLLLog.ObtenerInstancia();
         }
 
@@ -41,6 +43,16 @@ namespace SiAP.BLL
 
             if (_mppTurno.Existe(turno))
                 throw new InvalidOperationException("El turno ya existe.");
+
+            turno.Cobro = new Cobro();
+            turno.Cobro.MontoTotal = turno.Medico.ArancelConsulta;
+            turno.Cobro.Estado = EstadoCobro.PagoParcial;
+            turno.Cobro.TurnoId = turno.Id;
+            _mppCobro.Agregar(turno.Cobro);
+            //Busco de nuevo poco elegante, veeer
+            var item = _mppCobro.LeerPorTurnoId(turno.Id);
+            turno.CobroId = item.Id;
+            turno.Cobro = item;
             _mppTurno.Agregar(turno);
             _logger.GenerarLog($"Turno agregado: Médico ID {turno.MedicoId}, Paciente ID {turno.PacienteId}, Fecha {turno.Fecha:dd/MM/yyyy}");
         }

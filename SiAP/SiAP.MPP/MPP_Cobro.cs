@@ -50,12 +50,18 @@ namespace SiAP.MPP
 
         public IList<Cobro> ObtenerTodos()
         {
-            return ObtenerTodasEntidades(HidratarObjeto).OrderByDescending(x=>x.FechaHora).ToList();
+            return ObtenerTodasEntidades(HidratarObjeto).OrderBy(x=>x.FechaHora).ToList();
         }
 
         public Cobro LeerPorId(object id)
         {
             return LeerEntidadPorId(id, HidratarObjeto);
+        }
+        
+        public Cobro LeerPorTurnoId(long id)
+        {
+            var item = ObtenerTodos().FirstOrDefault(x=>x.TurnoId == id);
+            return item;
         }
 
 
@@ -64,7 +70,8 @@ namespace SiAP.MPP
             dr["FechaHora"] = entidad.FechaHora;
             dr["MediodePago"] = entidad.MediodePago;
             dr["MontoTotal"] = entidad.MontoTotal;
-            dr["MontoPagado"] = entidad.MontoPagado;
+            dr["MontoAcumulado"] = entidad.MontoAcumulado;
+            dr["Importe"] = entidad.Importe;
             dr["Estado"] = entidad.Estado.ToString();
             dr["FacturaId"] = entidad.FacturaId;
             dr["TurnoId"] = entidad.TurnoId;
@@ -79,7 +86,8 @@ namespace SiAP.MPP
                 FechaHora = Convert.ToDateTime(r["FechaHora"]),
                 MediodePago = Enum.Parse <MediodePago> (r["MediodePago"].ToString()),
                 MontoTotal = Convert.ToDecimal(r["MontoTotal"]),
-                MontoPagado = Convert.ToDecimal(r["MontoPagado"]),
+                MontoAcumulado = Convert.ToDecimal(r["MontoAcumulado"]),
+                Importe = Convert.ToDecimal(r["Importe"]),
                 Estado = Enum.Parse<EstadoCobro>(r["Estado"].ToString()),
                 FacturaId = Convert.ToInt32(r["FacturaId"]),
                 TurnoId = Convert.ToInt32(r["TurnoId"]),

@@ -463,7 +463,6 @@ namespace SiAP.DAL
 
             tabla.PrimaryKey = new[] { tabla.Columns["Id"] };
 
-            tabla.Rows.Add(1, new DateTime(2025, 7, 8), "F0001-00000001", 50000, "Consulta médica general", EstadoFactura.Emitida.ToString());
             tabla.Rows.Add(2, new DateTime(2025, 7, 9), "F0001-00000002", 120000, "Consulta pediátrica", EstadoFactura.Pagada.ToString());
 
             return tabla;
@@ -476,7 +475,8 @@ namespace SiAP.DAL
             tabla.Columns.Add("FechaHora", typeof(DateTime));
             tabla.Columns.Add("MediodePago", typeof(string));
             tabla.Columns.Add("MontoTotal", typeof(decimal));
-            tabla.Columns.Add("MontoPagado", typeof(decimal));
+            tabla.Columns.Add("MontoAcumulado", typeof(decimal));
+            tabla.Columns.Add("Importe", typeof(decimal));
             tabla.Columns.Add("Estado", typeof(string));
 
             tabla.Columns.Add("FacturaId", typeof(long));
@@ -484,8 +484,8 @@ namespace SiAP.DAL
             tabla.Columns.Add("FormaPagoId", typeof(long));
             tabla.PrimaryKey = new[] { tabla.Columns["Id"] };
 
-            tabla.Rows.Add(1, new DateTime(2025, 7, 8, 10, 1, 0), MediodePago.Efectivo, 100000,50000, EstadoCobro.PagoParcial.ToString(), 1, 1, 1);
-            tabla.Rows.Add(2, new DateTime(2025, 7, 9, 12, 2, 0), MediodePago.Debito, 12000, 12000, EstadoCobro.PagoTotal.ToString(), 2, 2, 4);
+            tabla.Rows.Add(1, new DateTime(2025, 7, 8, 10, 1, 0), MediodePago.Efectivo, 100000,50000,0, EstadoCobro.PagoParcial.ToString(), 0, 1, 1);
+            tabla.Rows.Add(2, new DateTime(2025, 7, 9, 12, 2, 0), MediodePago.Debito, 12000, 12000,0, EstadoCobro.PagoTotal.ToString(), 2, 2, 4);
 
             return tabla;
         }

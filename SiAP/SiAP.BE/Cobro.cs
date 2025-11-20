@@ -13,7 +13,8 @@ namespace SiAP.BE
         public DateTime FechaHora { get; set; }
         public MediodePago MediodePago { get; set; }
         public decimal MontoTotal { get; set; }
-        public decimal MontoPagado { get; set; }
+        public decimal MontoAcumulado { get; set; }
+        public decimal Importe { get; set; }
         public EstadoCobro Estado { get; set; }       
         public long TurnoId { get; set; }
         public int FacturaId { get; set; }
@@ -23,7 +24,7 @@ namespace SiAP.BE
         {
             get
             {
-                var restante = MontoTotal - MontoPagado > 0 ? MontoTotal - MontoPagado : 0;
+                var restante = (MontoTotal - MontoAcumulado) > 0 ? (MontoTotal - MontoAcumulado) : 0;
                 return restante;
             }            
         }
@@ -39,12 +40,11 @@ namespace SiAP.BE
     }
     public static class MediodePagoHelper
     {
-        public static List<string> mediosdePago => Enum.GetNames(typeof(MediodePago)).ToList();
+        public static List<MediodePago> mediosdePago => Enum.GetValues(typeof(MediodePago)).Cast<MediodePago>().ToList();
     }
 
     public enum EstadoCobro
     {
-        Pendiente,
         PagoParcial,
         Reembolsado,
         PagoTotal

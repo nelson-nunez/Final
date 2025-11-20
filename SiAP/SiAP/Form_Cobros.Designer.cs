@@ -33,7 +33,7 @@
             dataGrid_cobros = new DataGridView();
             groupBox1 = new GroupBox();
             groupBox3 = new GroupBox();
-            textBox_importe_pagar = new TextBox();
+            numeric_importe_pago = new NumericUpDown();
             label7 = new Label();
             textBox_pendiente = new TextBox();
             label6 = new Label();
@@ -61,6 +61,7 @@
             ((System.ComponentModel.ISupportInitialize)dataGrid_cobros).BeginInit();
             groupBox1.SuspendLayout();
             groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)numeric_importe_pago).BeginInit();
             groupBox2.SuspendLayout();
             flowLayoutPanel2.SuspendLayout();
             SuspendLayout();
@@ -111,7 +112,7 @@
             // 
             // groupBox3
             // 
-            groupBox3.Controls.Add(textBox_importe_pagar);
+            groupBox3.Controls.Add(numeric_importe_pago);
             groupBox3.Controls.Add(label7);
             groupBox3.Controls.Add(textBox_pendiente);
             groupBox3.Controls.Add(label6);
@@ -128,13 +129,14 @@
             groupBox3.TabStop = false;
             groupBox3.Text = "Información de Pago";
             // 
-            // textBox_importe_pagar
+            // numeric_importe_pago
             // 
-            textBox_importe_pagar.BackColor = Color.FromArgb(230, 255, 230);
-            textBox_importe_pagar.Location = new Point(142, 158);
-            textBox_importe_pagar.Name = "textBox_importe_pagar";
-            textBox_importe_pagar.Size = new Size(228, 23);
-            textBox_importe_pagar.TabIndex = 151;
+            numeric_importe_pago.BackColor = Color.FromArgb(230, 255, 230);
+            numeric_importe_pago.Location = new Point(142, 159);
+            numeric_importe_pago.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
+            numeric_importe_pago.Name = "numeric_importe_pago";
+            numeric_importe_pago.Size = new Size(228, 23);
+            numeric_importe_pago.TabIndex = 151;
             // 
             // label7
             // 
@@ -322,7 +324,7 @@
             button_reembolsar.Location = new Point(5, 5);
             button_reembolsar.Margin = new Padding(5);
             button_reembolsar.Name = "button_reembolsar";
-            button_reembolsar.Size = new Size(115, 30);
+            button_reembolsar.Size = new Size(125, 30);
             button_reembolsar.TabIndex = 22;
             button_reembolsar.Text = "Reembolsar";
             button_reembolsar.TextAlign = ContentAlignment.MiddleRight;
@@ -335,12 +337,13 @@
             button_limpiar.Font = new Font("Calibri", 9.75F, FontStyle.Bold);
             button_limpiar.Image = Properties.Resources.clear;
             button_limpiar.ImageAlign = ContentAlignment.MiddleLeft;
-            button_limpiar.Location = new Point(130, 5);
+            button_limpiar.Location = new Point(140, 5);
             button_limpiar.Margin = new Padding(5);
             button_limpiar.Name = "button_limpiar";
-            button_limpiar.Size = new Size(115, 30);
+            button_limpiar.Size = new Size(125, 30);
             button_limpiar.TabIndex = 26;
-            button_limpiar.Text = "Limpiar";
+            button_limpiar.Text = "Limpiar Campos";
+            button_limpiar.TextAlign = ContentAlignment.MiddleRight;
             button_limpiar.UseVisualStyleBackColor = false;
             button_limpiar.Click += button_limpiar_Click;
             // 
@@ -350,10 +353,10 @@
             button_guardar_pago.Font = new Font("Calibri", 9.75F, FontStyle.Bold);
             button_guardar_pago.Image = Properties.Resources.pagar;
             button_guardar_pago.ImageAlign = ContentAlignment.MiddleLeft;
-            button_guardar_pago.Location = new Point(255, 5);
+            button_guardar_pago.Location = new Point(275, 5);
             button_guardar_pago.Margin = new Padding(5);
             button_guardar_pago.Name = "button_guardar_pago";
-            button_guardar_pago.Size = new Size(115, 30);
+            button_guardar_pago.Size = new Size(125, 30);
             button_guardar_pago.TabIndex = 25;
             button_guardar_pago.Text = "Guardar Pago";
             button_guardar_pago.TextAlign = ContentAlignment.MiddleRight;
@@ -389,6 +392,7 @@
             groupBox1.ResumeLayout(false);
             groupBox3.ResumeLayout(false);
             groupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)numeric_importe_pago).EndInit();
             groupBox2.ResumeLayout(false);
             groupBox2.PerformLayout();
             flowLayoutPanel2.ResumeLayout(false);
@@ -426,5 +430,6 @@
         private Label label6;
         private TextBox textBox_importe_pagar;
         private Label label7;
+        private NumericUpDown numeric_importe_pago;
     }
 }

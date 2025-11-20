@@ -55,21 +55,15 @@ namespace SiAP.UI
             try
             {
                 pacienteSeleccionado = _userControl.pacienteSeleccionado;
+                if (pacienteSeleccionado != null)
+                    dataGrid_cobros.CargarGrid(campos, _bllTurno.BuscarTurnoPorPaciente(pacienteSeleccionado).ToList());
+                
                 LimpiarSeleccion();
-                CargarDatos();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "⛔ Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
-
-        private void VerificarDatos()
-        {
-            //textBox_nombre_archivo.Text.ValidarSoloTexto("Nombre");
-            //richTextBox_descripcion.Text.ValidarSoloTexto("Descripción");
-            //if (string.IsNullOrEmpty(comboBox_NombreBD.SelectedItem as string))
-            //    throw new ArgumentException($"Debe seleccionar una BD para continuar.");
         }
 
         private void LimpiarSeleccion()
@@ -83,16 +77,15 @@ namespace SiAP.UI
             textBox_estado_cobro.Text = "";
             textBox_monto_total.Text = "";
             textBox_pendiente.Text = "";
-            
-            comboBox_tipo_pago.SelectedItem = MediodePagoHelper.mediosdePago;
-            textBox_importe_pagar.Enabled = true;
+            numeric_importe_pago.Value = 0;
+            comboBox_tipo_pago.DataSource = MediodePagoHelper.mediosdePago;
+            numeric_importe_pago.Enabled = true;
+
+            CargarDatos();
         }
 
         private void CargarDatos()
         {
-            if (pacienteSeleccionado != null)
-                dataGrid_cobros.CargarGrid(campos, _bllTurno.BuscarTurnoPorPaciente(pacienteSeleccionado).ToList());
-
             if (itemSeleccionado != null)
             {
                 textBox_fecha_turno.Text = itemSeleccionado.Fecha.ToShortDateString();
@@ -101,12 +94,13 @@ namespace SiAP.UI
                 textBox_estado_turno.Text = itemSeleccionado.Estado.ToString();
                 if (itemSeleccionado.Cobro != null)
                 {
-                    textBox_importe_pagar.Enabled = (itemSeleccionado.MontoRestante <= 0) ? false: true;
+                    numeric_importe_pago.Enabled = (itemSeleccionado.MontoRestante <= 0) ? false: true;
                     textBox_estado_cobro.Text = itemSeleccionado.EstadoCobro.ToString();
                     textBox_monto_total.Text = itemSeleccionado.MontoTotal.ToString();
                     textBox_pendiente.Text = itemSeleccionado.MontoRestante.ToString();
-                    
-                    comboBox_tipo_pago.SelectedItem = itemSeleccionado.MediodePago.ToString();
+                    comboBox_tipo_pago.SelectedItem = itemSeleccionado.Cobro.MediodePago;                    
+                    if (itemSeleccionado.EstadoCobro != (EstadoCobro.PagoParcial))
+                        comboBox_tipo_pago.Enabled = false;
                 }
             }
         }
@@ -118,32 +112,55 @@ namespace SiAP.UI
         #endregion
         private void button_reembolsar_Click(object sender, EventArgs e)
         {
-            //Fecha
-            //HoraInicio
-            //HoraFin
-            //TipoAtencion
-            //Estado
-            //Cobro
-            //MediodePago
-            //Monto
-            //EstadoCobro
-            //
-            ////-
-            //FechaHora
-            //MediodePago
-            //Monto
-            //Estado
+            try
+            {
+                if (itemSeleccionado == null)
+                    throw new Exception("Seleccione un Turno para continuar.");
 
+                InputsExtensions.PedirConfirmacion($"Desea generar el reembolso?");
+                _bllCobro.Reembolsar(itemSeleccionado);
+
+                MessageBox.Show("Se guardaron los cambios con éxito");
+                LimpiarSeleccion();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "⛔ Error");
+            }
         }
 
         private void button_limpiar_Click(object sender, EventArgs e)
         {
-
+            try
+            {
+                LimpiarSeleccion();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "⛔ Error");
+            }
         }
 
         private void button_guardar_pago_Click(object sender, EventArgs e)
         {
+            try
+            {
+                if (itemSeleccionado == null)
+                    throw new Exception("Seleccione un Turno para continuar.");
 
+                InputsExtensions.PedirConfirmacion($"Desea generar el pago?");
+                itemSeleccionado.Cobro ??= new Cobro();
+                itemSeleccionado.Cobro.MediodePago = (MediodePago)comboBox_tipo_pago.SelectedItem;
+                itemSeleccionado.Cobro.Importe = numeric_importe_pago.Value;
+                _bllCobro.Pagar(itemSeleccionado);
+
+                MessageBox.Show("Se guardaron los cambios con éxito");
+                LimpiarSeleccion();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "⛔ Error");
+            }
         }
 
         private void button_imprimir_Click(object sender, EventArgs e)
