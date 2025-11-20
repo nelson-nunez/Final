@@ -2,6 +2,7 @@
 using SiAP.Abstracciones;
 using SiAP.BE;
 using SiAP.MPP.Base;
+using SiAP.UI;
 
 namespace SiAP.MPP
 {
@@ -20,7 +21,29 @@ namespace SiAP.MPP
         public void Agregar(Factura entidad)
         {
             if (Existe(entidad)) return;
-            AgregarEntidad(entidad, AsignarDatos);
+            ArgumentNullException.ThrowIfNull(entidad);
+
+            var ds = _datos.ObtenerDatos_BDSiAP();
+            var dt = ds.Tables[NombreTabla];
+            var dr = dt.NewRow();
+
+            // Generar nuevo ID
+            long nuevoId = DataRowHelper.ObtenerSiguienteId(dt, "Id");
+            dr["Id"] = nuevoId;
+
+            // Generar número de factura con formato PPPP-NNNNNNNN
+            int puntoVenta = ReferenciasNegocio.PuntoDeVenta;
+            long ultimoNumeroSecuencial = ObtenerUltimoNumeroSecuencial(dt, puntoVenta);
+            long nuevoNumeroSecuencial = ultimoNumeroSecuencial + 1;
+            string numeroFactura = $"{puntoVenta:D4}-{nuevoNumeroSecuencial:D8}";
+
+            dr["NumeroFactura"] = numeroFactura;
+            entidad.NumeroFactura = numeroFactura;
+
+            AsignarDatos(dr, entidad);
+            dt.Rows.Add(dr);
+            _datos.Actualizar_BDSiAP(ds);
+            entidad.Id = nuevoId;
         }
 
         public void Modificar(Factura entidad)
@@ -53,39 +76,25 @@ namespace SiAP.MPP
         {
             return LeerEntidadPorId(id, HidratarObjeto);
         }
-
-        public IList<Factura> Buscar(string campo = "", string valor = "", bool incluirInactivos = true)
+        public Factura LeerPorCobroId(long id)
         {
-            var facturas = ObtenerTodos();
-
-            if (!incluirInactivos)
-                facturas = facturas.Where(f => f.Estado != EstadoFactura.Anulada).ToList();
-
-            if (string.IsNullOrWhiteSpace(campo) || string.IsNullOrWhiteSpace(valor))
-                return facturas;
-
-            valor = valor.ToLower();
-
-            return campo.ToLower() switch
-            {
-                "numerofactura" => BuscarPorCampo(facturas, campo, valor, f => f.NumeroFactura),
-                "descripcion" => BuscarPorCampo(facturas, campo, valor, f => f.Descripcion),
-                "estado" => facturas.Where(f => f.Estado.ToString().ToLower().Contains(valor)).ToList(),
-                "pacienteid" => facturas.Where(f => f.PacienteId.ToString() == valor).ToList(),
-                "turnoid" => facturas.Where(f => f.TurnoId.ToString() == valor).ToList(),
-                _ => facturas
-            };
+            return ObtenerTodos().FirstOrDefault(x=>x.CobroId == id);
         }
 
         private void AsignarDatos(DataRow dr, Factura entidad)
         {
+            dr["RazonSocialEmisor"] = entidad.RazonSocialEmisor;
+            dr["CUITEmisor"] = entidad.CUITEmisor;
+            dr["DomicilioEmisor"] = entidad.DomicilioEmisor;
+            dr["PuntoDeVenta"] = entidad.PuntoDeVenta;
+            dr["RazonSocialReceptor"] = entidad.RazonSocialReceptor;
+
             dr["FechaEmision"] = entidad.FechaEmision;
             dr["NumeroFactura"] = entidad.NumeroFactura;
             dr["Importe"] = entidad.Importe;
             dr["Descripcion"] = entidad.Descripcion;
             dr["Estado"] = entidad.Estado.ToString();
-            dr["TurnoId"] = entidad.TurnoId;
-            dr["PacienteId"] = entidad.PacienteId;
+            dr["CobroId"] = entidad.CobroId;
         }
 
         private Factura HidratarObjeto(DataRow r)
@@ -93,15 +102,47 @@ namespace SiAP.MPP
             return new Factura
             {
                 Id = Convert.ToInt64(r["Id"]),
+
+                RazonSocialEmisor = r["RazonSocialEmisor"].ToString(),
+                CUITEmisor = r["CUITEmisor"].ToString(),
+                DomicilioEmisor = r["DomicilioEmisor"].ToString(),
+                PuntoDeVenta = Convert.ToInt32(r["PuntoDeVenta"]),
+                RazonSocialReceptor = r["RazonSocialReceptor"].ToString(),
+
                 FechaEmision = Convert.ToDateTime(r["FechaEmision"]),
                 NumeroFactura = r["NumeroFactura"].ToString(),
                 Importe = Convert.ToDecimal(r["Importe"]),
                 Descripcion = r["Descripcion"].ToString(),
                 Estado = Enum.Parse<EstadoFactura>(r["Estado"].ToString()),
-                TurnoId = Convert.ToInt32(r["TurnoId"]),
-                PacienteId = Convert.ToInt32(r["PacienteId"]),
-                Cobros = new List<Cobro>() // Se puede cargar luego con MPP_Cobro si es necesario
+                CobroId = Convert.ToInt32(r["CobroId"])
             };
+        }
+        
+        private long ObtenerUltimoNumeroSecuencial(DataTable dt, int puntoVenta)
+        {
+            if (dt.Rows.Count == 0) return 0;
+
+            string prefijo = $"{puntoVenta:D4}-";
+            long maxNumero = 0;
+
+            foreach (DataRow row in dt.Rows)
+            {
+                string numFactura = row["NumeroFactura"]?.ToString() ?? "";
+
+                if (numFactura.StartsWith(prefijo))
+                {
+                    // Extraer la parte numérica después del guion
+                    string parteNumerica = numFactura.Substring(5); // Después de "0001-"
+
+                    if (long.TryParse(parteNumerica, out long numero))
+                    {
+                        if (numero > maxNumero)
+                            maxNumero = numero;
+                    }
+                }
+            }
+
+            return maxNumero;
         }
     }
 }

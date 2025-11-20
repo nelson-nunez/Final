@@ -73,9 +73,8 @@ namespace SiAP.MPP
             dr["MontoAcumulado"] = entidad.MontoAcumulado;
             dr["Importe"] = entidad.Importe;
             dr["Estado"] = entidad.Estado.ToString();
-            dr["FacturaId"] = entidad.FacturaId;
+            //dr["FacturaId"] = entidad.FacturaId;
             dr["TurnoId"] = entidad.TurnoId;
-            dr["FormaPagoId"] = entidad.FormaPagoId;
         }
 
         private Cobro HidratarObjeto(DataRow r)
@@ -89,9 +88,8 @@ namespace SiAP.MPP
                 MontoAcumulado = Convert.ToDecimal(r["MontoAcumulado"]),
                 Importe = Convert.ToDecimal(r["Importe"]),
                 Estado = Enum.Parse<EstadoCobro>(r["Estado"].ToString()),
-                FacturaId = Convert.ToInt32(r["FacturaId"]),
+                //FacturaId = Convert.ToInt32(r["FacturaId"]),
                 TurnoId = Convert.ToInt32(r["TurnoId"]),
-                FormaPagoId = Convert.ToInt32(r["FormaPagoId"])
             };
         }
     }

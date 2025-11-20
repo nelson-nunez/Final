@@ -17,9 +17,6 @@ namespace SiAP.BE
         public decimal Importe { get; set; }
         public EstadoCobro Estado { get; set; }       
         public long TurnoId { get; set; }
-        public int FacturaId { get; set; }
-        public int FormaPagoId { get; set; }
-
         public decimal MontoRestante
         {
             get
@@ -42,7 +39,6 @@ namespace SiAP.BE
     {
         public static List<MediodePago> mediosdePago => Enum.GetValues(typeof(MediodePago)).Cast<MediodePago>().ToList();
     }
-
     public enum EstadoCobro
     {
         PagoParcial,

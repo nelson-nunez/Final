@@ -49,7 +49,7 @@ namespace SiAP.BLL
             turno.Cobro.Estado = EstadoCobro.PagoParcial;
             turno.Cobro.TurnoId = turno.Id;
             _mppCobro.Agregar(turno.Cobro);
-            //Busco de nuevo poco elegante, veeer
+            //poco elegante, veeer
             var item = _mppCobro.LeerPorTurnoId(turno.Id);
             turno.CobroId = item.Id;
             turno.Cobro = item;

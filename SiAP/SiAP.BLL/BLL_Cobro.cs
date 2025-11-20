@@ -9,12 +9,14 @@ using SiAP.Abstracciones;
 using SiAP.BE;
 using SiAP.BLL.Logs;
 using SiAP.MPP;
+using SiAP.UI;
 
 namespace SiAP.BLL
 {
     public class BLL_Cobro : IBLL<Cobro>
     {
         private readonly MPP_Cobro _mppCobro;
+        private readonly MPP_Factura _mppFactura;
         private static BLL_Cobro _instancia;
         private readonly ILogger _logger;
         private string _mensajeError;
@@ -24,6 +26,7 @@ namespace SiAP.BLL
         private BLL_Cobro()
         {
             _mppCobro = MPP_Cobro.ObtenerInstancia();
+            _mppFactura = MPP_Factura.ObtenerInstancia();
             _logger = BLLLog.ObtenerInstancia();
         }
 
@@ -38,7 +41,7 @@ namespace SiAP.BLL
                 throw new ArgumentException(MensajeError);
 
             _mppCobro.Agregar(cobro);
-            _logger.GenerarLog($"Cobro agregado: Monto Pagado {cobro.Importe}, FacturaID {cobro.FacturaId}, FormaPagoID {cobro.FormaPagoId}");
+            _logger.GenerarLog($"Cobro agregado: Monto Pagado {cobro.Importe}, FacturaID {cobro.TurnoId}, MedioPagoID {cobro.MediodePago}");
         }
 
         public void Modificar(Cobro cobro)
@@ -57,7 +60,7 @@ namespace SiAP.BLL
                 throw new Exception("El cobro ya fué reembolsado, no puede realizar otro pago.");
             if (itemSeleccionado?.Fecha.Date < DateTime.Now.Date)
                 throw new Exception("La fecha del turno es anterior a la actual y no se puede realizar un cobro.");
-            if (itemSeleccionado.Cobro.Estado == EstadoCobro.PagoTotal || itemSeleccionado.Cobro.FacturaId > 0)
+            if (itemSeleccionado.Cobro.Estado == EstadoCobro.PagoTotal)
                 throw new Exception("El cobro total ya fue completado y facturado.");
             if (itemSeleccionado.Cobro.Importe <= 0)
                 throw new Exception("El importe debe ser mayor a cero.");
@@ -67,6 +70,8 @@ namespace SiAP.BLL
             // Acumular el monto 
             itemSeleccionado.Cobro.MontoAcumulado += itemSeleccionado.Cobro.Importe;
             itemSeleccionado.Cobro.FechaHora = DateTime.Now;
+            itemSeleccionado.Cobro.TurnoId = itemSeleccionado.Id;
+
             // DESPUS determinar el estado
             if (itemSeleccionado.Cobro.MontoRestante > 0)
                 itemSeleccionado.Cobro.Estado = EstadoCobro.PagoParcial;
@@ -78,6 +83,25 @@ namespace SiAP.BLL
             else
                 Agregar(itemSeleccionado.Cobro);
 
+            if (itemSeleccionado.Cobro.Estado == EstadoCobro.PagoTotal)
+            {
+                //Creo factura
+                var cobro = LeerPorTurnoId(itemSeleccionado.Id);
+                var factura = new Factura();
+                factura.RazonSocialEmisor = ReferenciasNegocio.RazonSocialEmisor;
+                factura.CUITEmisor = ReferenciasNegocio.CUITEmisor;
+                factura.DomicilioEmisor = ReferenciasNegocio.DomicilioEmisor;
+                factura.PuntoDeVenta = ReferenciasNegocio.PuntoDeVenta;
+                factura.RazonSocialReceptor = itemSeleccionado.NombrePaciente;
+
+                factura.FechaEmision = DateTime.Now;
+                factura.Importe = cobro.MontoTotal;
+                factura.Descripcion = "Consulta particular: " + itemSeleccionado.TipoAtencion;
+                factura.Estado = EstadoFactura.Emitida;
+                factura.CobroId = cobro.Id;
+                _mppFactura.Agregar(factura);
+            }
+
             _logger.GenerarLog($"Cobro registrado: ID {itemSeleccionado.Cobro.Id}, Importe {itemSeleccionado.Cobro.Importe:C}, Estado {itemSeleccionado.Cobro.Estado}");
         }
 
@@ -86,7 +110,7 @@ namespace SiAP.BLL
             //Validar
             if (itemSeleccionado.Cobro == null || itemSeleccionado.Cobro.MontoAcumulado <= 0)
                 throw new Exception("No hay un cobro registrado para reembolsar.");
-            if (itemSeleccionado.Cobro.Estado == EstadoCobro.PagoTotal && itemSeleccionado.Cobro.FacturaId > 0)
+            if (itemSeleccionado.Cobro.Estado == EstadoCobro.PagoTotal)
                 throw new Exception("El cobro ya se facturó y no se puede reembolsar.");
             if (itemSeleccionado?.Fecha.Date < DateTime.Now.Date)
                 throw new Exception("El plazo máximo para reembolso ya expiró.");
@@ -114,6 +138,7 @@ namespace SiAP.BLL
         public IList<Cobro> ObtenerTodos() => _mppCobro.ObtenerTodos();
 
         public Cobro Leer(long cobroId) => _mppCobro.LeerPorId(cobroId);
+        public Cobro LeerPorTurnoId(long id) => _mppCobro.LeerPorTurnoId(id);
 
         public bool EsValido(Cobro cobro)
         {
@@ -129,8 +154,6 @@ namespace SiAP.BLL
                 _mensajeError += "El monto pagado no debe exceder el pago total. ";
             //if (cobro.FacturaId <= 0)
             //    _mensajeError += "Debe estar asociado a una factura válida. ";
-            if (cobro.FormaPagoId < 0)
-                _mensajeError += "Debe seleccionar una forma de pago válida. ";
             if (!Enum.IsDefined(typeof(EstadoCobro), cobro.Estado))
                 _mensajeError += "El estado del cobro no es válido. ";
 

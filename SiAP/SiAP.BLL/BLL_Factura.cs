@@ -36,7 +36,7 @@ namespace SiAP.BLL
                 throw new ArgumentException(MensajeError);
 
             _mppFactura.Agregar(factura);
-            _logger.GenerarLog($"Factura agregada: Nº {factura.NumeroFactura}, Importe {factura.Importe}, TurnoID {factura.TurnoId}");
+            _logger.GenerarLog($"Factura agregada: Nº {factura.NumeroFactura}, Importe {factura.Importe}");
         }
 
         public void Modificar(Factura factura)
@@ -60,6 +60,7 @@ namespace SiAP.BLL
         public IList<Factura> ObtenerTodos() => _mppFactura.ObtenerTodos();
 
         public Factura Leer(long facturaId) => _mppFactura.LeerPorId(facturaId);
+        public Factura LeerPorCobroId(long id) => _mppFactura.LeerPorCobroId(id);
 
         public bool EsValido(Factura factura)
         {
@@ -71,8 +72,6 @@ namespace SiAP.BLL
                 _mensajeError += "El número de factura es obligatorio. ";
             if (factura.Importe <= 0)
                 _mensajeError += "El importe debe ser mayor a cero. ";
-            if (factura.TurnoId <= 0)
-                _mensajeError += "Debe asociarse a un turno válido. ";
             if (!Enum.IsDefined(typeof(EstadoFactura), factura.Estado))
                 _mensajeError += "El estado de la factura no es válido. ";
 

@@ -9,11 +9,13 @@ namespace SiAP.MPP
     {
         private static MPP_Turno _instancia;
         private readonly MPP_Cobro _mppCobro;
+        private readonly MPP_Paciente _mppPaciente;
         protected override string NombreTabla => "Turno";
 
         private MPP_Turno() : base() 
         {
             _mppCobro = MPP_Cobro.ObtenerInstancia();
+            _mppPaciente = MPP_Paciente.ObtenerInstancia();
         }
 
         public static MPP_Turno ObtenerInstancia()
@@ -98,9 +100,11 @@ namespace SiAP.MPP
                 PacienteId = Convert.ToInt64(r["PacienteId"]),
                 AgendaId = Convert.ToInt64(r["AgendaId"]),
                 CobroId = Convert.ToInt64(r["CobroId"]),
-                Cobro = new Cobro()
+                Cobro = new Cobro(),
+                Paciente = new Paciente()
             };
             turno.Cobro = _mppCobro.LeerPorId(turno.CobroId);
+            turno.Paciente = _mppPaciente.LeerPorId(turno.PacienteId);
             return turno;
         }
     }

@@ -13,6 +13,7 @@ using SiAP.BLL.Seguridad;
 using SiAP.DAL;
 using SiAP.UI.Extensiones;
 using SiAP.UI.Forms_Seguridad;
+using SiAP.UI.Impresiones;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace SiAP.UI
@@ -23,6 +24,7 @@ namespace SiAP.UI
 
         BLL_Cobro _bllCobro;
         BLL_Turno _bllTurno;
+        BLL_Factura _bllFactura;
         Turno itemSeleccionado;
         private List<string> campos = new List<string> { "Fecha", "HoraInicio", "Estado", "TipoAtencion", "MediodePago", "MontoTotal", "MontoRestante", "EstadoCobro" };
         //Control
@@ -36,6 +38,7 @@ namespace SiAP.UI
             InitializeComponent();
             _bllCobro = BLL_Cobro.ObtenerInstancia();
             _bllTurno = BLL_Turno.ObtenerInstancia();
+            _bllFactura = BLL_Factura.ObtenerInstancia();
 
             _userControl = this.FindUserControl<UC_Mostrar_Paciente>("uC_Mostrar_Paciente1");
             if (_userControl != null)
@@ -155,17 +158,42 @@ namespace SiAP.UI
                 _bllCobro.Pagar(itemSeleccionado);
 
                 MessageBox.Show("Se guardaron los cambios con éxito");
-                LimpiarSeleccion();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "⛔ Error");
             }
+            finally
+            {
+                LimpiarSeleccion();
+            }
         }
 
         private void button_imprimir_Click(object sender, EventArgs e)
         {
+            try
+            {
+                if (itemSeleccionado == null)
+                    throw new Exception("Seleccione un Turno para continuar.");
+                
+                if (itemSeleccionado.Cobro.Estado != EstadoCobro.PagoTotal)
+                    throw new Exception("Solo puede imprimir facturas de pagos completados.");
 
+                InputsExtensions.PedirConfirmacion($"Desea imprimir la factura?");
+                var factura = _bllFactura.LeerPorCobroId(itemSeleccionado.Cobro.Id);
+
+                if (factura == null)
+                    throw new Exception("No existe factura generada para el turno seleccionado.");
+
+                MessageBox.Show("Se guardaron los cambios con éxito");
+
+                var generator = new FacturaPDFGenerator(factura);
+                generator.GenerarYAbrirPDF();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al generar el PDF: {ex.Message}", "⛔ Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void dataGrid_cobros_CellClick(object sender, DataGridViewCellEventArgs e)

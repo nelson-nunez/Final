@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 using System.Collections.Generic;
 using SiAP.BE.Base;
+using SiAP.BE;
 
 namespace SiAP.UI
 {
@@ -105,5 +106,14 @@ namespace SiAP.UI
         public static readonly TimeSpan HoraFin = TimeSpan.FromHours(20);
         public static readonly TimeSpan BloqueHorarioMinimo = TimeSpan.FromMinutes(30);
     }
+
+    public static class ReferenciasNegocio
+    {
+        public static string RazonSocialEmisor = "Policonsultorio Centro";
+        public static string CUITEmisor = "11-20154248-8";
+        public static string DomicilioEmisor = "Laprida 1532";
+        public static int PuntoDeVenta = 1;
+    }
+
 }
 

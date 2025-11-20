@@ -454,7 +454,16 @@ namespace SiAP.DAL
         private DataTable CrearTablaFactura()
         {
             var tabla = new DataTable("Factura");
+            // Datos del Emisor
             tabla.Columns.Add("Id", typeof(long));
+            tabla.Columns.Add("RazonSocialEmisor", typeof(string));
+            tabla.Columns.Add("CUITEmisor", typeof(string));
+            tabla.Columns.Add("DomicilioEmisor", typeof(string));
+            tabla.Columns.Add("PuntoDeVenta", typeof(int));
+            // Datos del Receptor
+            tabla.Columns.Add("RazonSocialReceptor", typeof(string));
+            // Datos de la factura
+            tabla.Columns.Add("CobroId", typeof(long));
             tabla.Columns.Add("FechaEmision", typeof(DateTime));
             tabla.Columns.Add("NumeroFactura", typeof(string));
             tabla.Columns.Add("Importe", typeof(decimal));
@@ -463,7 +472,20 @@ namespace SiAP.DAL
 
             tabla.PrimaryKey = new[] { tabla.Columns["Id"] };
 
-            tabla.Rows.Add(2, new DateTime(2025, 7, 9), "F0001-00000002", 120000, "Consulta pediátrica", EstadoFactura.Pagada.ToString());
+            tabla.Rows.Add(
+                2,                                  
+                ReferenciasNegocio.RazonSocialEmisor,
+                ReferenciasNegocio.CUITEmisor,
+                ReferenciasNegocio.DomicilioEmisor,                  
+                1,
+                "Juan Gómez - DNI:12345678",   
+                2, //Solo por CobroTotal
+                new DateTime(2025, 7, 9),           
+                "F0001-00000002",                   
+                120000m,                            
+                "Consulta pediátrica",              
+                EstadoFactura.Emitida.ToString()    
+            );
 
             return tabla;
         }
@@ -478,14 +500,12 @@ namespace SiAP.DAL
             tabla.Columns.Add("MontoAcumulado", typeof(decimal));
             tabla.Columns.Add("Importe", typeof(decimal));
             tabla.Columns.Add("Estado", typeof(string));
-
-            tabla.Columns.Add("FacturaId", typeof(long));
             tabla.Columns.Add("TurnoId", typeof(long));
             tabla.Columns.Add("FormaPagoId", typeof(long));
             tabla.PrimaryKey = new[] { tabla.Columns["Id"] };
 
-            tabla.Rows.Add(1, new DateTime(2025, 7, 8, 10, 1, 0), MediodePago.Efectivo, 100000,50000,0, EstadoCobro.PagoParcial.ToString(), 0, 1, 1);
-            tabla.Rows.Add(2, new DateTime(2025, 7, 9, 12, 2, 0), MediodePago.Debito, 12000, 12000,0, EstadoCobro.PagoTotal.ToString(), 2, 2, 4);
+            tabla.Rows.Add(1, new DateTime(2025, 7, 8, 10, 1, 0), MediodePago.Efectivo, 100000,50000,0, EstadoCobro.PagoParcial.ToString(), 1, 1);
+            tabla.Rows.Add(2, new DateTime(2025, 7, 9, 12, 2, 0), MediodePago.Debito, 12000, 12000,0, EstadoCobro.PagoTotal.ToString(), 2, 4);
 
             return tabla;
         }

@@ -18,15 +18,20 @@ namespace SiAP.BE
         public long MedicoId { get; set; }
         public Medico Medico { get; set; }
         public long PacienteId { get; set; }
+        public Paciente Paciente { get; set; }
         public long? AgendaId { get; set; }
         public long? CobroId { get; set; }
         public Cobro Cobro { get; set; }
 
-         public string MediodePago => Cobro?.MediodePago.ToString();
-         public decimal MontoTotal => (decimal)(Cobro?.MontoTotal ?? 0);
-         public decimal MontoRestante => (decimal)(Cobro?.MontoRestante ?? 0);
-         public decimal Importe => (decimal)(Cobro?.Importe ?? 0);
-         public EstadoCobro EstadoCobro => (EstadoCobro)(Cobro?.Estado ?? 0);
+
+
+        public string MediodePago => Cobro?.MediodePago.ToString();
+        public decimal MontoTotal => (decimal)(Cobro?.MontoTotal ?? 0);
+        public decimal MontoRestante => (decimal)(Cobro?.MontoRestante ?? 0);
+        public decimal Importe => (decimal)(Cobro?.Importe ?? 0);
+        public EstadoCobro EstadoCobro => (EstadoCobro)(Cobro?.Estado ?? 0);
+        public string NombrePaciente => Paciente?.ToString();
+
     }
 
     public enum EstadoTurno
