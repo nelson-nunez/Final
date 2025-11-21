@@ -1,7 +1,9 @@
 ﻿using SiAP.BE;
 using SiAP.BLL;
+using SiAP.Services.PDF;
 using SiAP.UI.Extensiones;
 using SiAP.UI.Forms_Seguridad;
+using SiAP.UI.Impresiones;
 
 namespace SiAP.UI
 {
@@ -44,15 +46,6 @@ namespace SiAP.UI
             treeView1.ArmarArbolMedicos(_bllMedicos.ObtenerTodos().ToList());
             comboBox1.CargarMesesRelativos();
             _fechaSeleccionada = DateTime.Now;
-            OcultarTodosBotones();
-        }
-
-        private void OcultarTodosBotones()
-        {
-            button_seleccionar_paciente.Visible = false;
-            button_asignar_turno.Visible = false;
-            button_eliminar_turno.Visible = false;
-            //button_cobrar.Visible = false;
         }
 
         #endregion
@@ -181,7 +174,6 @@ namespace SiAP.UI
 
         private void LimpiarFormulario()
         {
-            OcultarTodosBotones();
             textBox_medico.Text = _medicoSeleccionado?.ToString();
             textBox_fecha.Clear();
             textBox_hora_inicio.Clear();
@@ -310,24 +302,6 @@ namespace SiAP.UI
             }
         }
 
-        private void button_cobrar_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                var celda = dataGridView1.ObtenerCeldaSeleccionada();
-
-                if (celda == null || !celda.TieneTurno)
-                    throw new InvalidOperationException("Debe seleccionar un turno para cobrar.");
-
-                // TODO: Implementar lógica de cobro
-                MessageBox.Show("Funcionalidad de cobro pendiente de implementación");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "⛔ Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
         #endregion
 
         #region Métodos Auxiliares
@@ -340,5 +314,72 @@ namespace SiAP.UI
         }
 
         #endregion
+
+        private void button_imprimir_Click(object sender, EventArgs e)
+        {
+
+            try
+            {
+                // Validar
+                if (_medicoSeleccionado == null)
+                    throw new InvalidOperationException("Debe seleccionar un médico.");
+
+                var lista = _bllTurnos.BuscarPorMedicoyRango(_medicoSeleccionado, _fechaSeleccionada).ToList();
+
+                var generator = new TurnosPDFGenerator(lista);
+                generator.GenerarYAbrirPDF();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al generar el PDF: {ex.Message}", "⛔ Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void button_marcar_asistencia_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var celda = dataGridView1.ObtenerCeldaSeleccionada();
+                if (celda == null || !celda.TieneTurno)
+                    throw new Exception("Debe seleccionar un turno para eliminar.");
+                if (celda.Turno.Estado != EstadoTurno.Asignado)
+                    throw new Exception($"No se puede marcar asistencia a un turno con estado: {celda.Turno.Estado}");
+
+                InputsExtensions.PedirConfirmacion("¿Desea marcar la asistencia?");
+                
+                celda.Turno.Estado = EstadoTurno.Confirmado;
+                _bllTurnos.Modificar(celda.Turno);
+                
+                MessageBox.Show("Se marcó la asistencia con éxito", "✔ Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                CargarAgenda();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "⛔ Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void button_marcar_ausencia_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var celda = dataGridView1.ObtenerCeldaSeleccionada();
+                if (celda == null || !celda.TieneTurno)
+                    throw new InvalidOperationException("Debe seleccionar un turno para eliminar.");
+                if (celda.Turno.Estado != EstadoTurno.Asignado)
+                    throw new Exception($"No se puede marcar inasistencia a un turno con estado: {celda.Turno.Estado}");
+                InputsExtensions.PedirConfirmacion("¿Desea marcar la inasistencia?");
+
+                celda.Turno.Estado = EstadoTurno.Ausente;
+                _bllTurnos.Modificar(celda.Turno);
+
+                MessageBox.Show("Se marcó la inasistencia con éxito", "✔ Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                CargarAgenda();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "⛔ Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 }

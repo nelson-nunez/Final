@@ -40,6 +40,9 @@
             button_sem_actual = new Button();
             button_sem_anterior = new Button();
             groupBox_turno = new GroupBox();
+            button_marcar_ausencia = new Button();
+            button_marcar_asistencia = new Button();
+            button_imprimir = new Button();
             textBox_hora_fin = new TextBox();
             textBox_hora_inicio = new TextBox();
             textBox_fecha = new TextBox();
@@ -181,6 +184,9 @@
             // 
             // groupBox_turno
             // 
+            groupBox_turno.Controls.Add(button_marcar_ausencia);
+            groupBox_turno.Controls.Add(button_marcar_asistencia);
+            groupBox_turno.Controls.Add(button_imprimir);
             groupBox_turno.Controls.Add(textBox_hora_fin);
             groupBox_turno.Controls.Add(textBox_hora_inicio);
             groupBox_turno.Controls.Add(textBox_fecha);
@@ -201,6 +207,45 @@
             groupBox_turno.TabIndex = 5;
             groupBox_turno.TabStop = false;
             groupBox_turno.Text = "Turno Seleccionado";
+            // 
+            // button_marcar_ausencia
+            // 
+            button_marcar_ausencia.BackColor = Color.IndianRed;
+            button_marcar_ausencia.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            button_marcar_ausencia.Location = new Point(878, 49);
+            button_marcar_ausencia.Name = "button_marcar_ausencia";
+            button_marcar_ausencia.Size = new Size(140, 30);
+            button_marcar_ausencia.TabIndex = 29;
+            button_marcar_ausencia.Text = "Marcar Ausencia";
+            button_marcar_ausencia.UseVisualStyleBackColor = false;
+            button_marcar_ausencia.Click += button_marcar_ausencia_Click;
+            // 
+            // button_marcar_asistencia
+            // 
+            button_marcar_asistencia.BackColor = Color.DarkSeaGreen;
+            button_marcar_asistencia.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            button_marcar_asistencia.Location = new Point(732, 49);
+            button_marcar_asistencia.Name = "button_marcar_asistencia";
+            button_marcar_asistencia.Size = new Size(140, 30);
+            button_marcar_asistencia.TabIndex = 28;
+            button_marcar_asistencia.Text = "Marcar Asistencia";
+            button_marcar_asistencia.UseVisualStyleBackColor = false;
+            button_marcar_asistencia.Click += button_marcar_asistencia_Click;
+            // 
+            // button_imprimir
+            // 
+            button_imprimir.BackColor = SystemColors.ActiveCaption;
+            button_imprimir.Font = new Font("Calibri", 9.75F, FontStyle.Bold);
+            button_imprimir.Image = Properties.Resources.printer;
+            button_imprimir.ImageAlign = ContentAlignment.MiddleLeft;
+            button_imprimir.Location = new Point(584, 48);
+            button_imprimir.Margin = new Padding(5);
+            button_imprimir.Name = "button_imprimir";
+            button_imprimir.Size = new Size(140, 30);
+            button_imprimir.TabIndex = 27;
+            button_imprimir.Text = "Imprimir Turnos";
+            button_imprimir.UseVisualStyleBackColor = false;
+            button_imprimir.Click += button_imprimir_Click;
             // 
             // textBox_hora_fin
             // 
@@ -310,7 +355,7 @@
             // 
             button_eliminar_turno.BackColor = Color.IndianRed;
             button_eliminar_turno.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            button_eliminar_turno.Location = new Point(1077, 20);
+            button_eliminar_turno.Location = new Point(1072, 15);
             button_eliminar_turno.Name = "button_eliminar_turno";
             button_eliminar_turno.Size = new Size(115, 40);
             button_eliminar_turno.TabIndex = 9;
@@ -320,9 +365,9 @@
             // 
             // button_asignar_turno
             // 
-            button_asignar_turno.BackColor = Color.MediumSeaGreen;
+            button_asignar_turno.BackColor = Color.DarkSeaGreen;
             button_asignar_turno.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            button_asignar_turno.Location = new Point(1077, 64);
+            button_asignar_turno.Location = new Point(1072, 61);
             button_asignar_turno.Name = "button_asignar_turno";
             button_asignar_turno.Size = new Size(115, 40);
             button_asignar_turno.TabIndex = 10;
@@ -386,5 +431,8 @@
         private TextBox textBox_estado;
         private TextBox textBox_paciente;
         private TextBox textBox_medico;
+        private Button button_imprimir;
+        private Button button_marcar_ausencia;
+        private Button button_marcar_asistencia;
     }
 }
