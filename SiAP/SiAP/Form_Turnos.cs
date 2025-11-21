@@ -52,7 +52,7 @@ namespace SiAP.UI
             button_seleccionar_paciente.Visible = false;
             button_asignar_turno.Visible = false;
             button_eliminar_turno.Visible = false;
-            button_cobrar.Visible = false;
+            //button_cobrar.Visible = false;
         }
 
         #endregion
@@ -174,9 +174,9 @@ namespace SiAP.UI
             button_seleccionar_paciente.Visible = esDisponible;
             button_asignar_turno.Visible = esDisponible && hayPaciente;
             button_eliminar_turno.Visible = celda.TieneTurno;
-            button_cobrar.Visible = celda.TieneTurno &&
-                (celda.Turno.Estado == EstadoTurno.Asignado ||
-                 celda.Turno.Estado == EstadoTurno.Confirmado);
+            //button_cobrar.Visible = celda.TieneTurno &&
+            //    (celda.Turno.Estado == EstadoTurno.Asignado ||
+            //     celda.Turno.Estado == EstadoTurno.Confirmado);
         }
 
         private void LimpiarFormulario()

@@ -46,7 +46,6 @@
             textBox_estado = new TextBox();
             textBox_paciente = new TextBox();
             textBox_medico = new TextBox();
-            button_cobrar = new Button();
             label5 = new Label();
             label6 = new Label();
             label7 = new Label();
@@ -188,7 +187,6 @@
             groupBox_turno.Controls.Add(textBox_estado);
             groupBox_turno.Controls.Add(textBox_paciente);
             groupBox_turno.Controls.Add(textBox_medico);
-            groupBox_turno.Controls.Add(button_cobrar);
             groupBox_turno.Controls.Add(label5);
             groupBox_turno.Controls.Add(label6);
             groupBox_turno.Controls.Add(label7);
@@ -257,21 +255,6 @@
             textBox_medico.Name = "textBox_medico";
             textBox_medico.Size = new Size(219, 23);
             textBox_medico.TabIndex = 21;
-            // 
-            // button_cobrar
-            // 
-            button_cobrar.BackColor = Color.DarkSeaGreen;
-            button_cobrar.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            button_cobrar.Image = Properties.Resources.pagar;
-            button_cobrar.ImageAlign = ContentAlignment.MiddleLeft;
-            button_cobrar.Location = new Point(616, 48);
-            button_cobrar.Name = "button_cobrar";
-            button_cobrar.Size = new Size(108, 33);
-            button_cobrar.TabIndex = 8;
-            button_cobrar.Text = "Cobrar Turno";
-            button_cobrar.TextAlign = ContentAlignment.MiddleRight;
-            button_cobrar.UseVisualStyleBackColor = false;
-            button_cobrar.Click += button_cobrar_Click;
             // 
             // label5
             // 
@@ -397,7 +380,6 @@
         private Label label3;
         private Label label4;
         private Forms_Seguridad.UC_Buscar_Paciente uC_Buscar_Paciente1;
-        private Button button_cobrar;
         private TextBox textBox_hora_fin;
         private TextBox textBox_hora_inicio;
         private TextBox textBox_fecha;

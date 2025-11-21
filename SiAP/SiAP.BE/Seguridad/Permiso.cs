@@ -23,19 +23,5 @@ namespace SiAP.BE.Seguridad
         public abstract List<Permiso> ObtenerPermisos();
         public abstract void AgregarPermiso(Permiso permiso);
 
-        public override string ToString()
-        {
-            return $"{Codigo ?? "[Sin Codigo]"} - {Descripcion ?? "[Sin Descripcion]"}";
-        }
-
-        public override bool Equals(object obj)
-        {
-            return obj is Permiso other && Codigo != null && Codigo.Equals(other.Codigo);
-        }
-
-        public override int GetHashCode()
-        {
-            return Codigo != null ? Codigo.GetHashCode() : base.GetHashCode();
-        }
     }
 }

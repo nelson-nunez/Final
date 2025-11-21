@@ -29,6 +29,7 @@ namespace SiAP.UI.Forms_Seguridad
         public Permiso permiso_Seleccionado = new PermisoSimple("0", null);
 
         #region Cargas
+       
         public Form_Roles()
         {
             InitializeComponent();
@@ -60,7 +61,8 @@ namespace SiAP.UI.Forms_Seguridad
         private void CargarDatos()
         {
             //Cargando trees
-            treeView_Users.ArmarArbolDeUsuariosConRoles(_bllUsuario.ObtenerTodos().ToList());
+            var lista = _bllUsuario.ObtenerTodos().ToList();
+            treeView_Users.ArmarArbolDeUsuariosConRoles(lista);
             treeView_Roles.ArmarArbolDeRoles(_bllPermiso.ObtenerTodos().ToList());
             treeView_Permisos.ArmarArbolPermisosSimples(_bllPermiso.ObtenerTodos().ToList());
         }

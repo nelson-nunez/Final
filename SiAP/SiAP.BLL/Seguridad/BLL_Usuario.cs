@@ -36,8 +36,12 @@ namespace SiAP.BLL.Seguridad
             if (_mppUsuario.Existe(usuario))
                 throw new InvalidOperationException("El usuario ya existe.");
 
-            //Pass inicial es Cambiar_username
-            usuario.Password = _encriptacion.Encriptar3DES("Cambiar_"+ usuario.Username);
+            // Pass inicial es Cambiar_username
+            usuario.Password = _encriptacion.Encriptar3DES("Cambiar_" + usuario.Username);
+
+            // Inicializar la lista de permisos si es null
+            usuario.Permisos ??= new List<Permiso>();
+
             _mppUsuario.Agregar(usuario);
             _logger.GenerarLog($"Usuario agregado: {usuario.Username}");
         }
@@ -46,8 +50,11 @@ namespace SiAP.BLL.Seguridad
         {
             if (!EsValido(usuario))
                 throw new ArgumentException(MensajeError);
-            if (string.IsNullOrEmpty(usuario.Password))
+
+            // Corregida la lógica: encriptar solo si NO está vacía
+            if (!string.IsNullOrEmpty(usuario.Password))
                 usuario.Password = _encriptacion.Encriptar3DES(usuario.Password);
+
             _mppUsuario.Modificar(usuario);
             _logger.GenerarLog($"Usuario modificado: {usuario.Username}");
         }
@@ -70,11 +77,10 @@ namespace SiAP.BLL.Seguridad
         {
             return _mppUsuario.LeerPorId(usuarioId);
         }
-        
+
         public Usuario BuscarPorIdPersona(long personaId)
         {
-            var lista = _mppUsuario.BuscarPorIdPersona(personaId);
-            return lista;
+            return _mppUsuario.BuscarPorIdPersona(personaId);
         }
 
         public bool EsValido(Usuario usuario)
@@ -91,40 +97,47 @@ namespace SiAP.BLL.Seguridad
         }
 
         #region Ops especiales
+
         public bool Ingresar(string username, string password)
-        {                    
+        {
             Usuario usr = _mppUsuario.LeerPorUsername(username);
-            //Busco Usuario
+
+            // Busco Usuario
             if (usr == null)
                 throw new Exception("Nombre de Usuario o Contraseña incorrectos");
-            //Verifico Password 
-            //TODO: Sacar lo de admin de pruebas porque lo guarde sin encriptar
+
+            // Verifico Password 
             string passEncripted = _encriptacion.Encriptar3DES(password);
             if (!passEncripted.Equals(usr.Password))
                 throw new Exception("Nombre de Usuario o Contraseña incorrectos");
-            //Activo
+
+            // Activo
             if (!usr.Activo)
                 throw new Exception("El usuario está deshabilitado.");
-            //Bloqueado
+
+            // Bloqueado
             if (usr.Bloqueado)
                 throw new Exception("El usuario está bloqueado, debe contactar al administrador.");
-            //Aca otra verificaciones relacionadas a intentos o bloqueos
-            //{
-            //    if (!usr.FechaUltimoCambioPassword.HasValue)
-            //        if (FlagsSeguridad.DiasVigenciaPassword > 0 &&
-            //}
 
-            //Si todo Ok, lo asigno a Gestion
-            GestionUsuario.UsuarioLogueado= usr;
+            // Aca otra verificaciones relacionadas a intentos o bloqueos
+            // {
+            //     if (!usr.FechaUltimoCambioPassword.HasValue)
+            //         if (FlagsSeguridad.DiasVigenciaPassword > 0 &&
+            // }
+
+            // Si todo Ok, lo asigno a Gestion
+            GestionUsuario.UsuarioLogueado = usr;
             return GestionUsuario.UsuarioLogueado != null;
         }
 
         public void Blanqueo(Usuario usuario)
         {
-            if (!EsValido(usuario)) throw new ArgumentException(MensajeError);
+            if (!EsValido(usuario))
+                throw new ArgumentException(MensajeError);
+
             usuario.Password = _encriptacion.Encriptar3DES(usuario.Password);
             _mppUsuario.Modificar(usuario);
-            _logger.GenerarLog($"Usuario modificado: {usuario.Username}");
+            _logger.GenerarLog($"Contraseña blanqueada para usuario: {usuario.Username}");
         }
 
         #endregion
@@ -133,14 +146,15 @@ namespace SiAP.BLL.Seguridad
 
         public void AgregarPermiso(Usuario usuario, Permiso permiso)
         {
-            if (!EsValido(usuario))
-                throw new ArgumentException(MensajeError);
+            if (usuario == null || usuario.Id == 0)
+                throw new ArgumentException("Usuario inválido.");
 
             if (permiso == null)
                 throw new ArgumentNullException(nameof(permiso));
 
-            if (usuario.TienePermiso(permiso) || usuario.Permiso != null )
-                throw new InvalidOperationException($"El usuario ya tiene asignado el permiso: {permiso.Descripcion}");
+            // Verificar que el usuario no tenga ya el permiso
+            if (usuario.Permisos != null && usuario.Permisos.Any(p => p.Id == permiso.Id))
+                throw new InvalidOperationException($"El usuario ya tiene el permiso: {permiso.Descripcion}");
 
             _mppUsuario.AgregarPermiso(usuario, permiso);
             _logger.GenerarLog($"Permiso agregado al usuario {usuario.Username}: {permiso.Descripcion}");
@@ -148,19 +162,20 @@ namespace SiAP.BLL.Seguridad
 
         public void QuitarPermiso(Usuario usuario, Permiso permiso)
         {
-            if (!EsValido(usuario))
-                throw new ArgumentException(MensajeError);
+            if (usuario == null || usuario.Id == 0)
+                throw new ArgumentException("Usuario inválido.");
 
             if (permiso == null)
                 throw new ArgumentNullException(nameof(permiso));
 
-            if (!usuario.TienePermiso(permiso) || usuario.Permiso == null)
-                throw new InvalidOperationException($"El usuario no tiene asignado el permiso: {permiso.Descripcion}");
+            // Verificar que el usuario tenga el permiso
+            if (usuario.Permisos == null || !usuario.Permisos.Any(p => p.Id == permiso.Id))
+                throw new InvalidOperationException($"El usuario no tiene el permiso: {permiso.Descripcion}");
 
             _mppUsuario.QuitarPermiso(usuario, permiso);
             _logger.GenerarLog($"Permiso removido del usuario {usuario.Username}: {permiso.Descripcion}");
         }
-        
+
         #endregion
     }
 }

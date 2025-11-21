@@ -174,7 +174,7 @@ namespace SiAP.MPP.Seguridad
                 _datos.Actualizar_BDSiAP(ds);
             }
             else
-                throw new Exception("El permiso no se encuentraba asignado");
+                throw new Exception("El permiso no se encontraba asignado");
 
         }
 

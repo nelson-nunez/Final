@@ -26,4 +26,24 @@
       </xs:unique>
     </xs:element>
   </xs:schema>
+  <Respaldo>
+    <Id>1</Id>
+    <NombreArchivo>test</NombreArchivo>
+    <NombreBD>SiAP</NombreBD>
+    <Tipo>Backup</Tipo>
+    <Descripcion>test</Descripcion>
+    <FechaCreacion>2025-11-21T05:52:10.504522-03:00</FechaCreacion>
+    <CreadoPor>admin</CreadoPor>
+    <TamanioKB>49</TamanioKB>
+  </Respaldo>
+  <Respaldo>
+    <Id>2</Id>
+    <NombreArchivo>post fix permisos</NombreArchivo>
+    <NombreBD>SiAP</NombreBD>
+    <Tipo>Backup</Tipo>
+    <Descripcion>asdasd</Descripcion>
+    <FechaCreacion>2025-11-21T07:09:04.812551-03:00</FechaCreacion>
+    <CreadoPor>admin</CreadoPor>
+    <TamanioKB>50</TamanioKB>
+  </Respaldo>
 </NewDataSet>

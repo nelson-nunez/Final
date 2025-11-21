@@ -1,4 +1,5 @@
-﻿using SiAP.BE.Seguridad;
+﻿using System.Text.Json;
+using SiAP.BE.Seguridad;
 using SiAP.BLL.Seguridad;
 using SiAP.UI.Controles;
 using SiAP.UI.Forms_Seguridad;
@@ -7,6 +8,8 @@ namespace SiAP.UI
 {
     public partial class Form_Menu : Form
     {
+        #region Vars
+
         //Formularios
         private Form_Turnos form_turnos;
         private Form_HistoriaClinica form_historia;
@@ -22,6 +25,7 @@ namespace SiAP.UI
         private Form_Respaldos form_respaldos;
         //Componentes
         private UC_Login UC_Login;
+        #endregion
 
         public Form_Menu()
         {
@@ -57,8 +61,10 @@ namespace SiAP.UI
             if (useractual != null)
             {
                 MessageBox.Show($"Bienvenido {useractual.Persona.Nombre}", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                var permisos = useractual.Permisos?.SelectMany(p => p.ObtenerPermisos()).ToList();
                 menuStrip1.Visible = true;
-                CambiarVisibilidadMenu(menuStrip1.Items, useractual.Permiso.ObtenerPermisos());
+                CambiarVisibilidadMenu(menuStrip1.Items, permisos);
                 UC_Login.Visible = false;
                 toolStrip_logged_User.Text = useractual.Persona.NombreCompleto.ToString();
             }

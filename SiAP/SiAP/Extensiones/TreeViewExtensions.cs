@@ -31,28 +31,31 @@ namespace SiAP.UI.Extensiones
         {
             ArgumentNullException.ThrowIfNull(treeView);
             treeView.Nodes.Clear();
-
             foreach (var usuario in usuarios)
             {
-                var nodoUsuario = new TreeNode($"👤 {usuario.Username} - {usuario.Persona.Nombre} {usuario.Persona.Apellido}")
+                var nodoUsuario = new TreeNode($"👤 {usuario.Username} - {usuario.Persona?.Nombre} {usuario.Persona?.Apellido}")
                 {
                     Name = usuario.Id.ToString(),
                     Tag = usuario,
                     ForeColor = Color.DarkBlue
                 };
-
-                if (usuario.Permiso is PermisoCompuesto rol)
+                // Verificar si el usuario tiene permisos
+                if (usuario.Permisos != null && usuario.Permisos.Any())
                 {
-                    // Reutilizamos el método ya implementado
-                    var nodoRol = CrearNodoCompuesto(rol, esRaiz: true);
-                    nodoUsuario.Nodes.Add(nodoRol);
+                    foreach (var permiso in usuario.Permisos)
+                    {
+                        TreeNode nodoPermiso;
+                        if (permiso is PermisoCompuesto permisoCompuesto)
+                        {
+                            nodoPermiso = CrearNodoCompuesto(permisoCompuesto, esRaiz: true);
+                        }
+                        else
+                        {
+                            nodoPermiso = CrearNodoSimple(permiso);
+                        }
+                        nodoUsuario.Nodes.Add(nodoPermiso);
+                    }
                 }
-                else if (usuario.Permiso != null)
-                {
-                    var nodoPermiso = CrearNodoSimple(usuario.Permiso);
-                    nodoUsuario.Nodes.Add(nodoPermiso);
-                }
-
                 treeView.Nodes.Add(nodoUsuario);
             }
         }

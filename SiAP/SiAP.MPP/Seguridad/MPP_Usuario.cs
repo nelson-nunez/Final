@@ -85,29 +85,11 @@ namespace SiAP.MPP.Seguridad
             return lista;
         }
 
-        public IList<Usuario> Buscar(string campo = "", string valor = "", bool incluirInactivos = true)
-        {
-            var usuarios = ObtenerTodos();
-
-            if (!incluirInactivos)
-                usuarios = usuarios.Where(u => u.Activo).ToList();
-
-            if (string.IsNullOrWhiteSpace(campo) || string.IsNullOrWhiteSpace(valor))
-                return usuarios;
-
-            return campo.ToLower() switch
-            {
-                "id" => usuarios.Where(u => u.Id == Convert.ToInt64(valor)).ToList(),
-                "username" => usuarios.Where(u => u.Username.Contains(valor, StringComparison.OrdinalIgnoreCase)).ToList(),
-                _ => throw new ArgumentException($"Campo '{campo}' inválido.")
-            };
-        }
-
         public Usuario LeerPorId(object id)
         {
             return ObtenerTodos().FirstOrDefault(u => u.Id == Convert.ToInt64(id));
         }
-        
+
         public Usuario BuscarPorIdPersona(long personId)
         {
             var result = ObtenerTodos().FirstOrDefault(u => u.PersonaId == Convert.ToInt64(personId));
@@ -128,13 +110,19 @@ namespace SiAP.MPP.Seguridad
 
         private void GuardarPermisosUsuario(Usuario entidad, DataSet ds)
         {
-            if (entidad.Permiso is not PermisoCompuesto compuesto) return;
+            // Verificar que la lista de permisos no sea null o vacía
+            if (entidad.Permisos == null || entidad.Permisos.Count == 0) return;
 
             var dt = ds.Tables["UsuarioPermiso"];
-            var dr = dt.NewRow();
-            dr["UsuarioId"] = entidad.Id;
-            dr["PermisoId"] = compuesto.Id;
-            dt.Rows.Add(dr);
+
+            // Iterar sobre todos los permisos del usuario
+            foreach (var permiso in entidad.Permisos)
+            {
+                var dr = dt.NewRow();
+                dr["UsuarioId"] = entidad.Id;
+                dr["PermisoId"] = permiso.Id;
+                dt.Rows.Add(dr);
+            }
         }
 
         public void AgregarPermiso(Usuario usuario, Permiso permiso)
@@ -142,14 +130,16 @@ namespace SiAP.MPP.Seguridad
             if (usuario == null || usuario.Id == 0)
                 throw new ArgumentException("Usuario inválido.");
 
-            if (permiso == null || string.IsNullOrWhiteSpace(permiso.Codigo))
+            if (permiso == null || permiso.Id == 0)
                 throw new ArgumentException("Permiso inválido.");
 
             var ds = _datos.ObtenerDatos_BDSiAP();
             var dtUsuarioPermiso = ds.Tables["UsuarioPermiso"];
 
             // Verificar si ya existe la relación
-            var existeRelacion = dtUsuarioPermiso.AsEnumerable().Any(r => Convert.ToInt64(r["UsuarioId"]) == usuario.Id && r["PermisoId"].ToString() == permiso.Codigo);
+            var existeRelacion = dtUsuarioPermiso.AsEnumerable().Any(r =>
+                Convert.ToInt64(r["UsuarioId"]) == usuario.Id &&
+                Convert.ToInt64(r["PermisoId"]) == permiso.Id);
 
             if (existeRelacion)
                 throw new InvalidOperationException("La relación usuario-permiso ya existe.");
@@ -157,7 +147,7 @@ namespace SiAP.MPP.Seguridad
             // Agregar nueva relación
             var nuevaFila = dtUsuarioPermiso.NewRow();
             nuevaFila["UsuarioId"] = usuario.Id;
-            nuevaFila["PermisoId"] = permiso.Codigo;
+            nuevaFila["PermisoId"] = permiso.Id;
             dtUsuarioPermiso.Rows.Add(nuevaFila);
 
             _datos.Actualizar_BDSiAP(ds);
@@ -168,16 +158,16 @@ namespace SiAP.MPP.Seguridad
             if (usuario == null || usuario.Id == 0)
                 throw new ArgumentException("Usuario inválido.");
 
-            if (permiso == null || string.IsNullOrWhiteSpace(permiso.Codigo))
+            if (permiso == null || permiso.Id == 0)
                 throw new ArgumentException("Permiso inválido.");
 
             var ds = _datos.ObtenerDatos_BDSiAP();
             var dtUsuarioPermiso = ds.Tables["UsuarioPermiso"];
 
             // Buscar y eliminar la relación
-            var relacion = dtUsuarioPermiso.AsEnumerable()
-                .FirstOrDefault(r => Convert.ToInt64(r["UsuarioId"]) == usuario.Id &&
-                                    r["PermisoId"].ToString() == permiso.Codigo);
+            var relacion = dtUsuarioPermiso.AsEnumerable().FirstOrDefault(r =>
+                Convert.ToInt64(r["UsuarioId"]) == usuario.Id &&
+                Convert.ToInt64(r["PermisoId"]) == permiso.Id);
 
             if (relacion == null)
                 throw new InvalidOperationException("La relación usuario-permiso no existe.");
@@ -213,22 +203,19 @@ namespace SiAP.MPP.Seguridad
                     Password = r["Password"]?.ToString() ?? string.Empty,
                     Bloqueado = r["Bloqueado"] != DBNull.Value && Convert.ToBoolean(r["Bloqueado"]),
                     Activo = r["Activo"] != DBNull.Value && Convert.ToBoolean(r["Activo"]),
-                    FechaUltimoCambioPassword = r["FechaUltimoCambioPassword"] != DBNull.Value
-                        ? Convert.ToDateTime(r["FechaUltimoCambioPassword"])
-                        : null,
+                    FechaUltimoCambioPassword = r["FechaUltimoCambioPassword"] != DBNull.Value ? Convert.ToDateTime(r["FechaUltimoCambioPassword"]) : null,
                     PalabraClave = r["PalabraClave"]?.ToString() ?? string.Empty,
                     RespuestaClave = r["RespuestaClave"]?.ToString() ?? string.Empty,
-                    PersonaId = r["PersonaId"] != DBNull.Value ? Convert.ToInt64(r["PersonaId"]) : 0
+                    PersonaId = r["PersonaId"] != DBNull.Value ? Convert.ToInt64(r["PersonaId"]) : 0,
+                    Permisos = new List<Permiso>() // Inicializar la lista
                 };
 
                 CargarPersonaCompleta(usuario);
                 CargarPermisosUsuario(usuario, ds);
-
                 return usuario;
             }
             catch (Exception ex)
             {
-                // Lanzar una excepción más informativa para debugging
                 throw new Exception($"Error al hidratar el objeto Usuario: {ex.Message}", ex);
             }
         }
@@ -241,16 +228,19 @@ namespace SiAP.MPP.Seguridad
 
         private void CargarPermisosUsuario(Usuario usuario, DataSet ds)
         {
+            if (usuario == null) throw new ArgumentNullException(nameof(usuario));
+
             var permisos = _instanciaPermiso.ObtenerTodos().ToDictionary(p => p.Id);
-            var relaciones = ds.Tables["UsuarioPermiso"].Select($"UsuarioId = '{usuario.Id}'");
+            var dtrelaciones = ds.Tables["UsuarioPermiso"];
+            var relaciones = dtrelaciones.AsEnumerable().Where(r => Convert.ToInt64(r["UsuarioId"]) == usuario.Id);
 
             foreach (var rel in relaciones)
             {
                 var permisoId = Convert.ToInt64(rel["PermisoId"]);
-                if (permisos.TryGetValue(permisoId, out var permiso) && permiso is PermisoCompuesto compuesto)
+
+                if (permisos.TryGetValue(permisoId, out var permiso))
                 {
-                    usuario.Permiso = compuesto;
-                    break; // Solo uno por usuario según la lógica actual
+                    usuario.Permisos.Add(permiso);
                 }
             }
         }

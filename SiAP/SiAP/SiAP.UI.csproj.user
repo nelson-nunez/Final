@@ -4,6 +4,9 @@
     <Compile Update="Form_HistoriaClinica.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Form_Menu.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Seguridad\Form_CRUD_Usuarios.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -35,9 +38,6 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="UPersonas\Form_CRUD_Medicos.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Form_Menu.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Form_Turnos.cs">

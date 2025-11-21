@@ -33,24 +33,28 @@ namespace SiAP.UI
     {
         private static readonly List<Menu> _menus = new()
         {
-            new Menu(1, "MiCuenta", "TAG01"),
+            //new Menu(1, "Inicio", "TAG01"),
+            new Menu(2, "MiCuenta", "TAG02"),
+             
+            //new Menu(3, "Personal", "TAG03"),
+            new Menu(4, "Medicos", "TAG04"),
+            new Menu(5, "Secretarios", "TAG05"),
             
-            new Menu(2, "Médicos", "TAG02"),
-            new Menu(3, "Secretarios", "TAG03"),
-            new Menu(4, "Pacientes", "TAG04"),
+            //new Menu(6, "Turnos", "TAG06"),
+            new Menu(7, "Agenda Medica", "TAG07"),
+            new Menu(8, "Turnos Pacientes", "TAG08"),
             
-            new Menu(5, "Usuarios", "TAG05"),
-            new Menu(6, "Permisos", "TAG06"),
+            //new Menu(9, "Pacientas", "TAG09"),
+            new Menu(10, "Alta Pacientes", "TAG10"),
+            new Menu(11, "Historias y Consultas", "TAG11"),
+            
+            new Menu(12, "Cobros", "TAG12"),
+            new Menu(12, "Reportes", "TAG13"),
 
-            new Menu(7, "Agenda", "TAG07"),
-            new Menu(8, "Turnos", "TAG08"),
-            
-            new Menu(9, "HistorialMedico", "TAG09"),
-            new Menu(10, "Recetas", "TAG10"),
-            
-            new Menu(11, "Cobros", "TAG11"),
-            new Menu(12, "Reportes", "TAG12"),
-            new Menu(13, "Respaldos", "TAG13"),
+            //new Menu(14, "Sistema", "TAG14"),
+            new Menu(15, "Usuarios", "TAG15"),
+            new Menu(16, "Permisos", "TAG16"),
+            new Menu(17, "Respaldos", "TAG17"),
         };
 
         public static IReadOnlyList<Menu> ObtenerTodos() => _menus;
