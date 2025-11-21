@@ -92,15 +92,6 @@ namespace SiAP.BLL
             return string.IsNullOrEmpty(_mensajeError);
         }
 
-        public IList<Agenda> BuscarPorMedicoyRango(Medico medico, DateTime fecha)
-        {
-            // Calcular el inicio de semana (lunes)
-            var diasDesdeLunes = (int)fecha.DayOfWeek - (int)DayOfWeek.Monday;
-            if (diasDesdeLunes < 0) diasDesdeLunes += 7;
-            var desde = fecha.Date.AddDays(-diasDesdeLunes);
-            var hasta = desde.AddDays(6);
-            return _mppAgenda.BuscarPorMedicoyRango(medico.Id, desde, hasta);
-        }
 
         public void AgregarAgendas(List<Agenda> agendas)
         {
@@ -128,6 +119,26 @@ namespace SiAP.BLL
             _mppAgenda.EliminarAgendas(agendas);
             foreach (var agenda in agendas)
                 _logger.GenerarLog($"Agenda eliminada: Médico ID {agenda.MedicoId}, Fecha {agenda.Fecha:dd/MM/yyyy}");
+        }
+        
+        public IList<Agenda> BuscarPorMedicoyRango(Medico medico, DateTime fecha)
+        {
+            // Calcular el inicio de semana (lunes)
+            var diasDesdeLunes = (int)fecha.DayOfWeek - (int)DayOfWeek.Monday;
+            if (diasDesdeLunes < 0) diasDesdeLunes += 7;
+            var desde = fecha.Date.AddDays(-diasDesdeLunes);
+            var hasta = desde.AddDays(6);
+            return _mppAgenda.BuscarPorMedicoyRango(medico.Id, desde, hasta);
+        }
+
+        public IList<Agenda> BuscarAgendasdelMes(DateTime fecha)
+        {
+            return _mppAgenda.BuscarAgendasdelMes(fecha);
+        }
+
+        public IList<Agenda> BuscarAgendasdelAño(DateTime fecha)
+        {
+            return _mppAgenda.BuscarAgendasdelAño(fecha);
         }
     }
 }

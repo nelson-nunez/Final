@@ -92,21 +92,6 @@ namespace SiAP.MPP
             return LeerEntidadPorId(id, HidratarObjeto);
         }
 
-        public IList<Agenda> Buscar(string campo = "", string valor = "", bool incluirInactivos = true)
-        {
-            var lista = ObtenerTodos();
-
-            if (string.IsNullOrWhiteSpace(campo) || string.IsNullOrWhiteSpace(valor))
-                return lista;
-
-            return campo.ToLower() switch
-            {
-                "medicoid" => lista.Where(a => a.MedicoId == Convert.ToInt64(valor)).ToList(),
-                "fecha" => lista.Where(a => a.Fecha.ToShortDateString().Contains(valor)).ToList(),
-                _ => throw new ArgumentException($"Campo '{campo}' inválido.")
-            };
-        }
-
         public IList<Agenda> BuscarPorMedicoyRango(long medicoId, DateTime fechadesde, DateTime fechahasta)
         {
             return ObtenerTodos()
@@ -114,6 +99,26 @@ namespace SiAP.MPP
                             a.Fecha >= fechadesde &&
                             a.Fecha <= fechahasta)
                 .ToList();
+        }
+
+        public IList<Agenda> BuscarAgendasdelMes(DateTime fechadesde)
+        {
+            var lista = new List<Agenda>();
+            if (fechadesde == DateTime.MinValue)
+                lista = ObtenerTodos().ToList();
+            else
+                lista = ObtenerTodos().Where(t => t.Fecha.Month == fechadesde.Month).ToList();
+            return lista;
+        }
+
+        public IList<Agenda> BuscarAgendasdelAño(DateTime fechadesde)
+        {
+            var lista = new List<Agenda>();
+            if (fechadesde == DateTime.MinValue)
+                lista = ObtenerTodos().ToList();
+            else
+                lista = ObtenerTodos().Where(t => t.Fecha.Year == fechadesde.Year).ToList();
+            return lista;
         }
 
         private void AsignarDatos(DataRow dr, Agenda entidad)

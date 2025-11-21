@@ -185,8 +185,6 @@ namespace SiAP.UI
                 if (factura == null)
                     throw new Exception("No existe factura generada para el turno seleccionado.");
 
-                MessageBox.Show("Se guardaron los cambios con éxito");
-
                 var generator = new FacturaPDFGenerator(factura);
                 generator.GenerarYAbrirPDF();
             }

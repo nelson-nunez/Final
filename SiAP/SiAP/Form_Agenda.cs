@@ -142,7 +142,7 @@ namespace SiAP.UI
             CargarAgendaMedica();
         }
 
-        private void button_sem_actual_Click(object sender, EventArgs e)
+        private void button_mes_actual_Click(object sender, EventArgs e)
         {
             fechaseleccionada = DateTime.Now;
             CargarAgendaMedica();

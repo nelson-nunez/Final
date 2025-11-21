@@ -37,9 +37,6 @@
     <Compile Update="UPersonas\Form_CRUD_Medicos.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Form_Facturas.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Update="Form_Menu.cs">
       <SubType>Form</SubType>
     </Compile>

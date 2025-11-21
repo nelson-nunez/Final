@@ -10,12 +10,14 @@ namespace SiAP.MPP
         private static MPP_Turno _instancia;
         private readonly MPP_Cobro _mppCobro;
         private readonly MPP_Paciente _mppPaciente;
+        private readonly MPP_Medico _mppMedico;
         protected override string NombreTabla => "Turno";
 
         private MPP_Turno() : base() 
         {
             _mppCobro = MPP_Cobro.ObtenerInstancia();
             _mppPaciente = MPP_Paciente.ObtenerInstancia();
+            _mppMedico = MPP_Medico.ObtenerInstancia();
         }
 
         public static MPP_Turno ObtenerInstancia()
@@ -63,6 +65,26 @@ namespace SiAP.MPP
             return lista;
         }
 
+        public IList<Turno> BuscarTurnodelMes(DateTime fechadesde)
+        {
+            var lista = new List<Turno>();
+            if (fechadesde == DateTime.MinValue)
+                lista = ObtenerTodos().ToList();
+            else
+                lista = ObtenerTodos().Where(t => t.Fecha.Month == fechadesde.Month).ToList();
+            return lista;
+        }
+        
+        public IList<Turno> BuscarTurnosdelAño(DateTime fechadesde)
+        {
+            var lista = new List<Turno>();
+            if (fechadesde == DateTime.MinValue)
+                lista = ObtenerTodos().ToList();
+            else
+                lista = ObtenerTodos().Where(t => t.Fecha.Year == fechadesde.Year).ToList();
+            return lista;
+        }
+
         public IList<Turno> BuscarPorMedicoyRango(long medicoId, DateTime fechadesde, DateTime fechahasta)
         {
             var lista = ObtenerTodos()
@@ -105,6 +127,7 @@ namespace SiAP.MPP
             };
             turno.Cobro = _mppCobro.LeerPorId(turno.CobroId);
             turno.Paciente = _mppPaciente.LeerPorId(turno.PacienteId);
+            turno.Medico = _mppMedico.LeerPorId(turno.MedicoId);
             return turno;
         }
     }

@@ -14,6 +14,8 @@ namespace SiAP.BLL
     {
         private readonly MPP_Turno _mppTurno;
         private readonly MPP_Cobro _mppCobro;
+
+
         private static BLL_Turno _instancia;
         private readonly ILogger _logger;
         private string _mensajeError;
@@ -111,6 +113,16 @@ namespace SiAP.BLL
         public IList<Turno> BuscarTurnoPorPaciente(Paciente paciente)
         {
             return _mppTurno.BuscarTurnoPorpaciente(paciente.Id);
+        }
+        
+        public IList<Turno> BuscarTurnodelMes(DateTime fecha)
+        {
+            return _mppTurno.BuscarTurnodelMes(fecha);
+        }
+                
+        public IList<Turno> BuscarTurnosdelAño(DateTime fecha)
+        {
+            return _mppTurno.BuscarTurnosdelAño(fecha);
         }
 
         public IList<Turno> BuscarPorMedicoyRango(Medico medico, DateTime fecha)

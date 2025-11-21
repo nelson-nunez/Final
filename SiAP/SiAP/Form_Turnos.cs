@@ -209,7 +209,7 @@ namespace SiAP.UI
             CargarAgenda();
         }
 
-        private void button_sem_actual_Click(object sender, EventArgs e)
+        private void button_mes_actual_Click(object sender, EventArgs e)
         {
             _fechaSeleccionada = DateTime.Now;
             CargarAgenda();

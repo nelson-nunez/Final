@@ -167,7 +167,7 @@
             button_sem_actual.TabIndex = 4;
             button_sem_actual.Text = "Semana Actual";
             button_sem_actual.UseVisualStyleBackColor = false;
-            button_sem_actual.Click += button_sem_actual_Click;
+            button_sem_actual.Click += button_mes_actual_Click;
             // 
             // button_sem_anterior
             // 
