@@ -7,7 +7,7 @@ using SiAP.Abstracciones;
 
 namespace SiAP.BE.Base
 {
-    public abstract class ClaseBase : IEntidad
+    public abstract class ClaseBase
     {
         public long Id { get; set; }
     }

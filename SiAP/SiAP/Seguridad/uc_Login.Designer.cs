@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             groupBox1 = new GroupBox();
+            checkBox1 = new CheckBox();
             button1 = new Button();
             password = new TextBox();
             email = new TextBox();
@@ -39,7 +40,8 @@
             // 
             // groupBox1
             // 
-            groupBox1.BackColor = SystemColors.ActiveCaption;
+            groupBox1.BackColor = Color.Gainsboro;
+            groupBox1.Controls.Add(checkBox1);
             groupBox1.Controls.Add(button1);
             groupBox1.Controls.Add(password);
             groupBox1.Controls.Add(email);
@@ -51,28 +53,43 @@
             groupBox1.Size = new Size(329, 211);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
-            groupBox1.Text = "Ingresar";
+            groupBox1.Text = "  Ingresar";
+            // 
+            // checkBox1
+            // 
+            checkBox1.AutoSize = true;
+            checkBox1.Font = new Font("Calibri", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            checkBox1.Location = new Point(29, 137);
+            checkBox1.Name = "checkBox1";
+            checkBox1.Size = new Size(106, 18);
+            checkBox1.TabIndex = 6;
+            checkBox1.Text = "Mostrar/Ocultar";
+            checkBox1.UseVisualStyleBackColor = true;
+            checkBox1.CheckedChanged += checkBox1_CheckedChanged_1;
             // 
             // button1
             // 
-            button1.Location = new Point(115, 159);
+            button1.BackColor = SystemColors.ActiveCaption;
+            button1.Image = Properties.Resources.entrar;
+            button1.ImageAlign = ContentAlignment.MiddleLeft;
+            button1.Location = new Point(102, 171);
             button1.Name = "button1";
-            button1.Size = new Size(92, 34);
+            button1.Size = new Size(129, 34);
             button1.TabIndex = 3;
             button1.Text = "Ingresar";
-            button1.UseVisualStyleBackColor = true;
+            button1.UseVisualStyleBackColor = false;
             button1.Click += button1_Click;
             // 
             // password
             // 
-            password.Location = new Point(27, 113);
+            password.Location = new Point(29, 105);
             password.Name = "password";
             password.Size = new Size(271, 26);
             password.TabIndex = 2;
             // 
             // email
             // 
-            email.Location = new Point(27, 55);
+            email.Location = new Point(29, 47);
             email.Name = "email";
             email.Size = new Size(271, 26);
             email.TabIndex = 1;
@@ -80,7 +97,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(27, 95);
+            label2.Location = new Point(29, 87);
             label2.Name = "label2";
             label2.Size = new Size(78, 18);
             label2.TabIndex = 2;
@@ -89,7 +106,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(27, 37);
+            label1.Location = new Point(29, 29);
             label1.Name = "label1";
             label1.Size = new Size(56, 18);
             label1.TabIndex = 1;
@@ -115,5 +132,6 @@
         private Label label2;
         private Label label1;
         private Button button1;
+        private CheckBox checkBox1;
     }
 }

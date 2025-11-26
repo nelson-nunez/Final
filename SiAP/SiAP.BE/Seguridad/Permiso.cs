@@ -8,8 +8,9 @@ using SiAP.BE.Base;
 
 namespace SiAP.BE.Seguridad
 {
-    public abstract class Permiso : ClaseBase, IAuditable
+    public abstract class Permiso
     {
+        public long Id { get; set; }
         public Permiso(string codigo, string descripcion)
         {
             Codigo = codigo;

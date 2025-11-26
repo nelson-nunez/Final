@@ -28,6 +28,7 @@ namespace SiAP.BE
 
     }
 
+
     public enum MediodePago
     {
         Efectivo,
@@ -39,12 +40,14 @@ namespace SiAP.BE
     {
         public static List<MediodePago> mediosdePago => Enum.GetValues(typeof(MediodePago)).Cast<MediodePago>().ToList();
     }
+
     public enum EstadoCobro
     {
         PagoParcial,
         Reembolsado,
         PagoTotal
     }
+
     public static class EstadoCobroHelper
     {
         public static List<string> Estados => Enum.GetNames(typeof(EstadoCobro)).ToList();

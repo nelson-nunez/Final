@@ -240,9 +240,9 @@ namespace SiAP.UI.Forms_Seguridad
 
                 VerificarDatos();
                 textBox_password.Text = "Cambiar_" + textBox_username.Text;
-
+                usuarioSeleccionado.Password = "Cambiar_" + textBox_username.Text;
                 InputsExtensions.PedirConfirmacion($"Desea restablecer la contraseña del usuario '{usuarioSeleccionado.Username}'?");
-                _bllUsuario.Modificar(usuarioSeleccionado);
+                _bllUsuario.Blanqueo(usuarioSeleccionado);
 
                 MessageBox.Show("Se guardaron los cambios con éxito");
                 LimpiarSeleccion();

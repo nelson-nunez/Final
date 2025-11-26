@@ -42,8 +42,7 @@ namespace SiAP.MPP
         {
             return TieneDependenciasEnTabla(entidad.Id, "Medico", "PersonaId") ||
                    TieneDependenciasEnTabla(entidad.Id, "Paciente", "PersonaId") ||
-                   TieneDependenciasEnTabla(entidad.Id, "Secretario", "PersonaId") ||
-                   TieneDependenciasEnTabla(entidad.Id, "Administrador", "PersonaId");
+                   TieneDependenciasEnTabla(entidad.Id, "Secretario", "PersonaId");
         }
 
         public IList<Persona> ObtenerTodos()

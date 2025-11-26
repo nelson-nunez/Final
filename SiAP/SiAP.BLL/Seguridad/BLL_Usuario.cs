@@ -51,10 +51,6 @@ namespace SiAP.BLL.Seguridad
             if (!EsValido(usuario))
                 throw new ArgumentException(MensajeError);
 
-            // Corregida la lógica: encriptar solo si NO está vacía
-            if (!string.IsNullOrEmpty(usuario.Password))
-                usuario.Password = _encriptacion.Encriptar3DES(usuario.Password);
-
             _mppUsuario.Modificar(usuario);
             _logger.GenerarLog($"Usuario modificado: {usuario.Username}");
         }

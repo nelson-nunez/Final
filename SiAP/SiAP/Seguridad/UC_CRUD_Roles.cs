@@ -154,7 +154,10 @@ namespace SiAP.UI.Forms_Seguridad
                 //Validaciones
                 itemSeleccionado = treeView_Roles.VerificarYRetornarSeleccion<PermisoCompuesto>();
                 var itemhijo = comboBox_roles.SelectedItem as Permiso;
-                InputsExtensions.OnlySelected(itemhijo, "un rol a asociar ");
+
+                if (itemhijo == null || itemhijo.Id == 0)
+                    throw new Exception($"Debe seleccionar un rol a asociar para continuar");
+
                 if (itemSeleccionado.ObtenerPermisos().Any(x=>x.Codigo== itemhijo.Codigo))
                 {
                     InputsExtensions.PedirConfirmacion("Desea desasociar este rol?");

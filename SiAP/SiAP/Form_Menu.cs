@@ -239,31 +239,6 @@ namespace SiAP.UI
 
         #endregion
 
-
-        //pruebaaaa
-        public string SerializarMenuItems(MenuStrip menu)
-        {
-            var options = new JsonSerializerOptions
-            {
-                WriteIndented = true,
-                ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve,
-                DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull,
-                IgnoreReadOnlyProperties = true,
-                IncludeFields = true
-            };
-
-            List<string> lista = new();
-
-            foreach (ToolStripItem item in menu.Items)
-            {
-                string json = JsonSerializer.Serialize(item, options);
-                lista.Add(json);
-            }
-
-            // Devuelve un JSON con todos los items serializados individualmente
-            return "[" + string.Join(",", lista) + "]";
-        }
-
         #region CREAR MENU
 
         private void CrearMenu()

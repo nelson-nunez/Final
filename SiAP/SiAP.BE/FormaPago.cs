@@ -11,7 +11,7 @@ namespace SiAP.BE
     {
         public string Nombre { get; init; }
         public string Codigo { get; init; }              // Código interno o abreviado (Ej: "EF", "MP")
-        public TipoFormaPago Tipo { get; init; }         // Ej: Manual, Electrónica, etc.
+        public TipoFormaPago Tipo { get; init; }         // Manual, Electrónica, etc.
         public bool EsElectronico => Tipo == TipoFormaPago.Electronico;
 
         public override string ToString()

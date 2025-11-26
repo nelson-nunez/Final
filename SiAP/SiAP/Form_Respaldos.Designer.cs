@@ -52,23 +52,20 @@
             dateTimePicker_desde = new DateTimePicker();
             label9 = new Label();
             label8 = new Label();
+            groupBox100 = new GroupBox();
             groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGrid_respaldos).BeginInit();
             groupBox1.SuspendLayout();
             flowLayoutPanel2.SuspendLayout();
+            groupBox100.SuspendLayout();
             SuspendLayout();
             // 
             // groupBox4
             // 
             groupBox4.BackColor = Color.WhiteSmoke;
-            groupBox4.Controls.Add(button1);
+            groupBox4.Controls.Add(groupBox100);
             groupBox4.Controls.Add(dataGrid_respaldos);
             groupBox4.Controls.Add(groupBox1);
-            groupBox4.Controls.Add(button_filtrar);
-            groupBox4.Controls.Add(dateTimePicker_hasta);
-            groupBox4.Controls.Add(dateTimePicker_desde);
-            groupBox4.Controls.Add(label9);
-            groupBox4.Controls.Add(label8);
             groupBox4.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
             groupBox4.Location = new Point(12, 12);
             groupBox4.Name = "groupBox4";
@@ -82,9 +79,9 @@
             button1.BackColor = SystemColors.ActiveCaption;
             button1.Image = Properties.Resources.lupa;
             button1.ImageAlign = ContentAlignment.MiddleLeft;
-            button1.Location = new Point(442, 47);
+            button1.Location = new Point(418, 37);
             button1.Name = "button1";
-            button1.Size = new Size(120, 25);
+            button1.Size = new Size(120, 23);
             button1.TabIndex = 141;
             button1.Text = "Ver todos";
             button1.UseVisualStyleBackColor = false;
@@ -93,9 +90,9 @@
             // dataGrid_respaldos
             // 
             dataGrid_respaldos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGrid_respaldos.Location = new Point(6, 78);
+            dataGrid_respaldos.Location = new Point(6, 95);
             dataGrid_respaldos.Name = "dataGrid_respaldos";
-            dataGrid_respaldos.Size = new Size(556, 623);
+            dataGrid_respaldos.Size = new Size(556, 606);
             dataGrid_respaldos.TabIndex = 140;
             dataGrid_respaldos.CellClick += dataGrid_respaldos_CellClick;
             // 
@@ -113,9 +110,9 @@
             groupBox1.Controls.Add(textBox_fecha);
             groupBox1.Controls.Add(label28);
             groupBox1.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            groupBox1.Location = new Point(568, 78);
+            groupBox1.Location = new Point(568, 95);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(589, 623);
+            groupBox1.Size = new Size(589, 606);
             groupBox1.TabIndex = 139;
             groupBox1.TabStop = false;
             groupBox1.Text = "Respaldo";
@@ -158,7 +155,7 @@
             flowLayoutPanel2.Controls.Add(button2);
             flowLayoutPanel2.Controls.Add(button_guardar);
             flowLayoutPanel2.Controls.Add(button_restaurar);
-            flowLayoutPanel2.Location = new Point(8, 574);
+            flowLayoutPanel2.Location = new Point(8, 557);
             flowLayoutPanel2.Margin = new Padding(5);
             flowLayoutPanel2.Name = "flowLayoutPanel2";
             flowLayoutPanel2.Size = new Size(573, 41);
@@ -287,9 +284,9 @@
             button_filtrar.BackColor = SystemColors.ActiveCaption;
             button_filtrar.Image = Properties.Resources.lupa;
             button_filtrar.ImageAlign = ContentAlignment.MiddleLeft;
-            button_filtrar.Location = new Point(298, 47);
+            button_filtrar.Location = new Point(280, 37);
             button_filtrar.Name = "button_filtrar";
-            button_filtrar.Size = new Size(120, 25);
+            button_filtrar.Size = new Size(120, 23);
             button_filtrar.TabIndex = 130;
             button_filtrar.Text = "Filtrar";
             button_filtrar.UseVisualStyleBackColor = false;
@@ -298,7 +295,7 @@
             // dateTimePicker_hasta
             // 
             dateTimePicker_hasta.Format = DateTimePickerFormat.Short;
-            dateTimePicker_hasta.Location = new Point(141, 47);
+            dateTimePicker_hasta.Location = new Point(135, 37);
             dateTimePicker_hasta.Name = "dateTimePicker_hasta";
             dateTimePicker_hasta.Size = new Size(120, 23);
             dateTimePicker_hasta.TabIndex = 127;
@@ -306,7 +303,7 @@
             // dateTimePicker_desde
             // 
             dateTimePicker_desde.Format = DateTimePickerFormat.Short;
-            dateTimePicker_desde.Location = new Point(6, 47);
+            dateTimePicker_desde.Location = new Point(6, 37);
             dateTimePicker_desde.Name = "dateTimePicker_desde";
             dateTimePicker_desde.Size = new Size(120, 23);
             dateTimePicker_desde.TabIndex = 126;
@@ -315,7 +312,7 @@
             // 
             label9.AutoSize = true;
             label9.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            label9.Location = new Point(141, 29);
+            label9.Location = new Point(135, 19);
             label9.Name = "label9";
             label9.Size = new Size(89, 15);
             label9.TabIndex = 125;
@@ -325,11 +322,25 @@
             // 
             label8.AutoSize = true;
             label8.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            label8.Location = new Point(6, 29);
+            label8.Location = new Point(6, 19);
             label8.Name = "label8";
             label8.Size = new Size(90, 15);
             label8.TabIndex = 123;
             label8.Text = "Vigencia desde:";
+            // 
+            // groupBox100
+            // 
+            groupBox100.Controls.Add(button1);
+            groupBox100.Controls.Add(label8);
+            groupBox100.Controls.Add(label9);
+            groupBox100.Controls.Add(dateTimePicker_desde);
+            groupBox100.Controls.Add(button_filtrar);
+            groupBox100.Controls.Add(dateTimePicker_hasta);
+            groupBox100.Location = new Point(6, 22);
+            groupBox100.Name = "groupBox100";
+            groupBox100.Size = new Size(556, 67);
+            groupBox100.TabIndex = 142;
+            groupBox100.TabStop = false;
             // 
             // Form_Respaldos
             // 
@@ -340,11 +351,12 @@
             Name = "Form_Respaldos";
             Text = "Form_Respaldos";
             groupBox4.ResumeLayout(false);
-            groupBox4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dataGrid_respaldos).EndInit();
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             flowLayoutPanel2.ResumeLayout(false);
+            groupBox100.ResumeLayout(false);
+            groupBox100.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -373,5 +385,6 @@
         private ComboBox comboBox_NombreBD;
         private Button button2;
         private Button button1;
+        private GroupBox groupBox100;
     }
 }

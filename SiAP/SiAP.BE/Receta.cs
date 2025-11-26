@@ -21,21 +21,11 @@ namespace Policonsultorio.BE
         public bool EsCronica { get; set; }
         public List<Medicamento> Medicamentos { get; set; }
 
-        #region Constructor
         public Receta()
         {
             Fecha = DateTime.Now;
             EsCronica = false;
             Medicamentos = new List<Medicamento>();
-        }
-        #endregion
-
-        #region Métodos Principales
-        public void CrearReceta()
-        {
-            if (!ValidarReceta())
-                throw new InvalidOperationException("Datos de receta incompletos");
-            Fecha = DateTime.Now;
         }
 
         public bool ValidarReceta()
@@ -73,65 +63,11 @@ namespace Policonsultorio.BE
             return recetaRenovada;
         }
 
-        public void MarcarComoCronica()
-        {
-            EsCronica = true;
-        }
-
         public bool ValidarVigencia()
         {
             int diasVigencia = EsCronica ? 180 : 30;
             return (DateTime.Now - Fecha).Days <= diasVigencia;
         }
 
-        public void AgregarMedicamento(Medicamento Medicamento)
-        {
-            if (Medicamento == null)
-                throw new ArgumentNullException(nameof(Medicamento));
-
-            if (string.IsNullOrWhiteSpace(Medicamento.NombreComercial) &&
-                string.IsNullOrWhiteSpace(Medicamento.NombreMonodroga))
-                throw new ArgumentException("El medicamento debe tener al menos un nombre");
-
-            if (Medicamentos == null)
-                Medicamentos = new List<Medicamento>();
-
-            Medicamentos.Add(Medicamento);
-        }
-
-        public void AgregarMedicamento(string nombreComercial, string nombreMonodroga, int cantidad)
-        {
-            var Medicamento = new Medicamento
-            {
-                NombreComercial = nombreComercial,
-                NombreMonodroga = nombreMonodroga,
-                Cantidad = cantidad
-            };
-            AgregarMedicamento(Medicamento);
-        }
-
-        public void EliminarMedicamento(Medicamento Medicamento)
-        {
-            if (Medicamentos != null && Medicamento != null)
-                Medicamentos.Remove(Medicamento);
-        }
-
-        public List<Medicamento> ObtenerMedicamentos()
-        {
-            return Medicamentos ?? new List<Medicamento>();
-        }
-
-        public int CantidadMedicamentos()
-        {
-            return Medicamentos?.Count ?? 0;
-        }
-        #endregion
-
-        #region Métodos Override
-        public override string ToString()
-        {
-            return $"Receta #{Id} - {Fecha.ToShortDateString()} - {Profesional}";
-        }
-        #endregion
     }
 }

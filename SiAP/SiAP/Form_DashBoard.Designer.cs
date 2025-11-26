@@ -45,11 +45,19 @@
             textBox_total_turnos = new TextBox();
             label2 = new Label();
             button_historico = new Button();
+            groupBox100 = new GroupBox();
+            button1 = new Button();
+            label8 = new Label();
+            label9 = new Label();
+            dateTimePicker_desde = new DateTimePicker();
+            button_filtrar = new Button();
+            dateTimePicker_hasta = new DateTimePicker();
             groupBox1.SuspendLayout();
             groupBox5.SuspendLayout();
             groupBox4.SuspendLayout();
             groupBox3.SuspendLayout();
             groupBox2.SuspendLayout();
+            groupBox100.SuspendLayout();
             SuspendLayout();
             // 
             // formsPlot_especialidades
@@ -93,6 +101,7 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(groupBox100);
             groupBox1.Controls.Add(groupBox5);
             groupBox1.Controls.Add(groupBox4);
             groupBox1.Controls.Add(groupBox3);
@@ -227,6 +236,80 @@
             button_historico.UseVisualStyleBackColor = false;
             button_historico.Click += button_historico_Click;
             // 
+            // groupBox100
+            // 
+            groupBox100.Controls.Add(button1);
+            groupBox100.Controls.Add(label8);
+            groupBox100.Controls.Add(label9);
+            groupBox100.Controls.Add(dateTimePicker_desde);
+            groupBox100.Controls.Add(button_filtrar);
+            groupBox100.Controls.Add(dateTimePicker_hasta);
+            groupBox100.Location = new Point(613, 10);
+            groupBox100.Name = "groupBox100";
+            groupBox100.Size = new Size(556, 67);
+            groupBox100.TabIndex = 143;
+            groupBox100.TabStop = false;
+            // 
+            // button1
+            // 
+            button1.BackColor = SystemColors.ActiveCaption;
+            button1.Image = Properties.Resources.lupa;
+            button1.ImageAlign = ContentAlignment.MiddleLeft;
+            button1.Location = new Point(418, 37);
+            button1.Name = "button1";
+            button1.Size = new Size(120, 23);
+            button1.TabIndex = 141;
+            button1.Text = "Ver todos";
+            button1.UseVisualStyleBackColor = false;
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            label8.Location = new Point(6, 19);
+            label8.Name = "label8";
+            label8.Size = new Size(90, 15);
+            label8.TabIndex = 123;
+            label8.Text = "Vigencia desde:";
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            label9.Location = new Point(135, 19);
+            label9.Name = "label9";
+            label9.Size = new Size(89, 15);
+            label9.TabIndex = 125;
+            label9.Text = "Vigencia Hasta:";
+            // 
+            // dateTimePicker_desde
+            // 
+            dateTimePicker_desde.Format = DateTimePickerFormat.Short;
+            dateTimePicker_desde.Location = new Point(6, 37);
+            dateTimePicker_desde.Name = "dateTimePicker_desde";
+            dateTimePicker_desde.Size = new Size(120, 23);
+            dateTimePicker_desde.TabIndex = 126;
+            // 
+            // button_filtrar
+            // 
+            button_filtrar.BackColor = SystemColors.ActiveCaption;
+            button_filtrar.Image = Properties.Resources.lupa;
+            button_filtrar.ImageAlign = ContentAlignment.MiddleLeft;
+            button_filtrar.Location = new Point(280, 37);
+            button_filtrar.Name = "button_filtrar";
+            button_filtrar.Size = new Size(120, 23);
+            button_filtrar.TabIndex = 130;
+            button_filtrar.Text = "Filtrar";
+            button_filtrar.UseVisualStyleBackColor = false;
+            // 
+            // dateTimePicker_hasta
+            // 
+            dateTimePicker_hasta.Format = DateTimePickerFormat.Short;
+            dateTimePicker_hasta.Location = new Point(135, 37);
+            dateTimePicker_hasta.Name = "dateTimePicker_hasta";
+            dateTimePicker_hasta.Size = new Size(120, 23);
+            dateTimePicker_hasta.TabIndex = 127;
+            // 
             // Form_DashBoard
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -242,6 +325,8 @@
             groupBox3.ResumeLayout(false);
             groupBox2.ResumeLayout(false);
             groupBox2.PerformLayout();
+            groupBox100.ResumeLayout(false);
+            groupBox100.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -264,5 +349,12 @@
         private ScottPlot.WinForms.FormsPlot formsPlot_disponibilidad;
         private GroupBox groupBox5;
         private ScottPlot.WinForms.FormsPlot formsPlot_ingresos_especialidad;
+        private GroupBox groupBox100;
+        private Button button1;
+        private Label label8;
+        private Label label9;
+        private DateTimePicker dateTimePicker_desde;
+        private Button button_filtrar;
+        private DateTimePicker dateTimePicker_hasta;
     }
 }

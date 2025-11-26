@@ -12,7 +12,7 @@ namespace SiAP.Abstracciones
         void Modificar(T entidad);
         void Eliminar(T entidad);
         bool Existe(T entidad);
-        bool TieneDependencias(T entidad); // 
+        bool TieneDependencias(T entidad); 
         IList<T> ObtenerTodos();
         T LeerPorId(object id); 
     }

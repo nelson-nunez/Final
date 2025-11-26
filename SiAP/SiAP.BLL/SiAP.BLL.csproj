@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SiAP.MPP\SiAP.MPP.csproj" />
-    <ProjectReference Include="..\SiAP.Vistas\SiAP.BE_Vistas.csproj" />
   </ItemGroup>
 
 </Project>

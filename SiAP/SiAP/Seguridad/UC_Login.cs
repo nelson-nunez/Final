@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using SiAP.Abstracciones;
 using SiAP.BLL.Seguridad;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
@@ -17,6 +18,7 @@ namespace SiAP.UI.Controles
     {
         BLL_Usuario bllusuario;
         public event EventHandler<EventArgs> LoginSuccess;
+        bool mostrar = false;
 
         public UC_Login()
         {
@@ -24,8 +26,7 @@ namespace SiAP.UI.Controles
             bllusuario = BLL_Usuario.ObtenerInstancia();
             //Prueba borrar
             password.UseSystemPasswordChar = true;
-            email.Text = "admin";
-            password.Text = "admin";
+            checkBox1.Text = mostrar ? "Ocultar contraseña" : "Mostrar contraseña";
         }
 
         private void VerificarDatos()
@@ -35,6 +36,13 @@ namespace SiAP.UI.Controles
                 MessageBox.Show("Complete todos los campos para continuar", "Atención");
                 return;
             }
+        }
+
+        private void checkBox1_CheckedChanged_1(object sender, EventArgs e)
+        {
+            mostrar = checkBox1.Checked;
+            password.UseSystemPasswordChar = !mostrar;
+            checkBox1.Text = mostrar ? "Ocultar contraseña" : "Mostrar contraseña";
         }
 
         private void button1_Click(object sender, EventArgs e)

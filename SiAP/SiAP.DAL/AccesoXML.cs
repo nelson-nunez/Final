@@ -171,7 +171,6 @@ namespace SiAP.DAL
                     { "PermisoHijo", CrearTablaPermisoHijo },
                     { "Usuario", CrearTablaUsuario },
                     { "UsuarioPermiso", CrearTablaUsuarioPermiso },
-                    { "Administrador", CrearTablaAdministrador },
                     { "Secretario", CrearTablaSecretario },
                     { "Medico", CrearTablaMedico },
                     { "Paciente", CrearTablaPaciente },
@@ -265,18 +264,6 @@ namespace SiAP.DAL
             tabla.Rows.Add(6, "Juan", "Gómez", "87654321", new DateTime(1990, 3, 20), "juan.gomez@paciente.com", "1133445566");
             tabla.Rows.Add(7, "Esteban", "Paciente", "47654321", new DateTime(1990, 3, 20), "Esteban@paciente.com", "1133445566");
 
-            return tabla;
-        }
-
-        private DataTable CrearTablaAdministrador()
-        {
-            var tabla = new DataTable("Administrador");
-            tabla.Columns.Add("Id", typeof(long));
-            tabla.Columns.Add("PersonaId", typeof(long)); // FK a Persona
-            tabla.Columns.Add("Area", typeof(string));
-            tabla.PrimaryKey = new[] { tabla.Columns["Id"] };
-
-            tabla.Rows.Add(1, 1, "Desarrollo"); // Referencia a Persona Id=1
             return tabla;
         }
 

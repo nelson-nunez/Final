@@ -22,6 +22,7 @@ namespace SiAP.UI
         Usuario useractual = new Usuario();
         private IEncriptacion _encriptacion;
         bool mostrar = false;
+        
         public Form_Config_Usuario()
         {
             InitializeComponent();

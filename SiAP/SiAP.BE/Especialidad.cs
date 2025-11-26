@@ -38,10 +38,6 @@ namespace SiAP.BE
             new(15, "Gastroenterología", "Gastroenterología")
         };
 
-        public static Especialidad Obtener(string cod)
-        {
-            return _todas.FirstOrDefault(x => x.Etiqueta == cod);
-        }
         public static IReadOnlyList<Especialidad> ObtenerTodas() => _todas;
     }
 }

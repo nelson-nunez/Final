@@ -9,22 +9,15 @@ using SiAP.BE.Base;
 
 namespace SiAP.BE.Seguridad
 {
-    public class Usuario : ClaseBase, IAuditable
+    public class Usuario : ClaseBase
     {
         #region Contructor
 
-        //1 Vacio
         public Usuario(){}
-        //2 Datos
         public Usuario(string username, string password)
         {
             Username = username;
             Password = password;
-        }
-        //3 Con rol
-        public Usuario(string username, string password, PermisoCompuesto rol) : this(username, password)
-        {
-            //Permiso = rol;
         }
 
         #endregion

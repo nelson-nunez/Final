@@ -9,6 +9,5 @@ namespace SiAP.Abstracciones
     public interface ILogger
     {
         void GenerarLog(string detalle, string usuario = default);
-        void GenerarLog(IAuditable entidad, string tipoAccion, string textoAdicional = "");
     }
 }

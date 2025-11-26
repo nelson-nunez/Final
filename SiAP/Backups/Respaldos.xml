@@ -46,4 +46,24 @@
     <CreadoPor>admin</CreadoPor>
     <TamanioKB>50</TamanioKB>
   </Respaldo>
+  <Respaldo>
+    <Id>3</Id>
+    <NombreArchivo>mmaxi</NombreArchivo>
+    <NombreBD>SiAP</NombreBD>
+    <Tipo>Backup</Tipo>
+    <Descripcion>sdasdad</Descripcion>
+    <FechaCreacion>2025-11-21T17:54:11.6717175-03:00</FechaCreacion>
+    <CreadoPor>mmaxi</CreadoPor>
+    <TamanioKB>51</TamanioKB>
+  </Respaldo>
+  <Respaldo>
+    <Id>4</Id>
+    <NombreArchivo>Borea admnistrador</NombreArchivo>
+    <NombreBD>SiAP</NombreBD>
+    <Tipo>Backup</Tipo>
+    <Descripcion>sdasdad</Descripcion>
+    <FechaCreacion>2025-11-26T20:00:45.3715682-03:00</FechaCreacion>
+    <CreadoPor>admin</CreadoPor>
+    <TamanioKB>51</TamanioKB>
+  </Respaldo>
 </NewDataSet>

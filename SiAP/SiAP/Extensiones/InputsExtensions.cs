@@ -99,9 +99,6 @@ namespace SiAP.UI.Extensiones
 
             if (valor.Length < 5)
                 throw new ArgumentException($"El campo '{nombreCampo}' debe tener al menos 5 caracteres.");
-
-            if (!Regex.IsMatch(valor, @"^[a-zA-Z0-9]+$"))
-                throw new ArgumentException($"El campo '{nombreCampo}' solo puede contener letras y números sin espacios ni símbolos.");
         }
 
         public static void ValidarMayorEdad(this DateTime fechaNacimiento, string nombreCampo)
