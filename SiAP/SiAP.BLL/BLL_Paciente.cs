@@ -58,16 +58,16 @@ namespace SiAP.BLL
         {
             return _mppPaciente.ObtenerTodos();
         }
+        
+        public Paciente Leer(long pacienteId)
+        {
+            return _mppPaciente.LeerPorId(pacienteId);
+        }
 
         public IList<Paciente> Buscar(string parametro)
         {
             var pacientes = _mppPaciente.Buscar(parametro).ToList();
             return pacientes;
-        }
-
-        public Paciente Leer(long pacienteId)
-        {
-            return _mppPaciente.LeerPorId(pacienteId);
         }
 
         public bool EsValido(Paciente paciente)

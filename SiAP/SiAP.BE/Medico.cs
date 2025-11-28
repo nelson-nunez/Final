@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SiAP.Abstracciones;
-using SiAP.BE.Seguridad;
-using System.Xml.Serialization;
 using SiAP.BE.Base;
 
 namespace SiAP.BE
@@ -19,6 +12,7 @@ namespace SiAP.BE
         // Persona
         public long PersonaId { get; set; }
         public Persona Persona { get; set; }
+        
         // Expongo props
         public string Nombre => Persona?.Nombre ?? "";
         public string Apellido => Persona?.Apellido ?? "";

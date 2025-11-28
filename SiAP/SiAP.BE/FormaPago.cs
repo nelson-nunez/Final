@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SiAP.BE.Base;
 
 namespace SiAP.BE
@@ -10,8 +6,8 @@ namespace SiAP.BE
     public class FormaPago : ClaseBase
     {
         public string Nombre { get; init; }
-        public string Codigo { get; init; }              // Código interno o abreviado (Ej: "EF", "MP")
-        public TipoFormaPago Tipo { get; init; }         // Manual, Electrónica, etc.
+        public string Codigo { get; init; }             
+        public TipoFormaPago Tipo { get; init; }        
         public bool EsElectronico => Tipo == TipoFormaPago.Electronico;
 
         public override string ToString()

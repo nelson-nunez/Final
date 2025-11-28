@@ -84,24 +84,36 @@ namespace SiAP.MPP
             return LeerEntidadPorId(id, HidratarObjeto);
         }
 
-        public IList<Medico> Buscar(string campo = "", string valor = "", bool incluirInactivos = true)
+        public void AsignarDatos(DataRow dr, Medico entidad)
         {
-            var medicos = ObtenerTodos();
+            dr["PersonaId"] = entidad.PersonaId;
+            dr["Titulo"] = entidad.Titulo;
+            dr["ArancelConsulta"] = entidad.ArancelConsulta;
+            dr["EspecialidadId"] = entidad.Especialidad?.Id ?? 0;
+            dr["EspecialidadNombre"] = entidad.Especialidad?.Nombre ?? string.Empty;
+        }
 
-            if (string.IsNullOrWhiteSpace(campo) || string.IsNullOrWhiteSpace(valor))
-                return medicos;
+        public Medico HidratarObjeto(DataRow rMedico)
+        {
+            var personaId = Convert.ToInt64(rMedico["PersonaId"]);
 
-            return campo.ToLower() switch
+            var persona = _mppPersona.LeerPorId(personaId) ?? throw new Exception($"Persona con Id {personaId} no encontrada.");
+
+            var especialidadId = Convert.ToInt32(rMedico["EspecialidadId"]);
+            var especialidad = Especialidad.ObtenerTodas().FirstOrDefault(e => e.Id == especialidadId);
+
+            return new Medico
             {
-                "id" => BuscarPorCampo(medicos, campo, valor, m => m.Persona.Id),
-                "nombre" => BuscarPorCampo(medicos, campo, valor, m => m.Persona.Nombre),
-                "apellido" => BuscarPorCampo(medicos, campo, valor, m => m.Persona.Apellido),
-                "dni" => BuscarPorCampo(medicos, campo, valor, m => m.Persona.Dni),
-                "email" => BuscarPorCampo(medicos, campo, valor, m => m.Persona.Email),
-                _ => throw new ArgumentException($"Campo '{campo}' inválido.")
+                Id = Convert.ToInt64(rMedico["Id"]),
+                PersonaId = personaId,
+                Persona = persona,
+                Titulo = rMedico["Titulo"].ToString(),
+                ArancelConsulta = Convert.ToDecimal(rMedico["ArancelConsulta"]),
+                Especialidad = especialidad
             };
         }
-        
+       
+        //Otros
         public Medico LeerPorPersonId(long campo)
         {          
             var result = ObtenerTodos().FirstOrDefault(x=>x.PersonaId == campo);
@@ -121,33 +133,5 @@ namespace SiAP.MPP
             return secretarios.ToList();
         }
 
-        private void AsignarDatos(DataRow dr, Medico entidad)
-        {
-            dr["PersonaId"] = entidad.PersonaId;
-            dr["Titulo"] = entidad.Titulo;
-            dr["ArancelConsulta"] = entidad.ArancelConsulta;
-            dr["EspecialidadId"] = entidad.Especialidad?.Id ?? 0;
-            dr["EspecialidadNombre"] = entidad.Especialidad?.Nombre ?? string.Empty;
-        }
-
-        private Medico HidratarObjeto(DataRow rMedico)
-        {
-            var personaId = Convert.ToInt64(rMedico["PersonaId"]);
-
-            var persona = _mppPersona.LeerPorId(personaId) ?? throw new Exception($"Persona con Id {personaId} no encontrada.");
-
-            var especialidadId = Convert.ToInt32(rMedico["EspecialidadId"]);
-            var especialidad = Especialidad.ObtenerTodas().FirstOrDefault(e => e.Id == especialidadId);
-
-            return new Medico
-            {
-                Id = Convert.ToInt64(rMedico["Id"]),
-                PersonaId = personaId,
-                Persona = persona,
-                Titulo = rMedico["Titulo"].ToString(),
-                ArancelConsulta = Convert.ToDecimal(rMedico["ArancelConsulta"]),
-                Especialidad = especialidad
-            };
-        }
     }
 }

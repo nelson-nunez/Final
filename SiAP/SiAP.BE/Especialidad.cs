@@ -1,4 +1,5 @@
-﻿using SiAP.BE.Base;
+﻿using System;
+using SiAP.BE.Base;
 
 namespace SiAP.BE
 {

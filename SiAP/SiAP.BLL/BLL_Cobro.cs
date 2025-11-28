@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SiAP.Abstracciones;
+﻿using SiAP.Abstracciones;
 using SiAP.BE;
 using SiAP.BLL.Logs;
 using SiAP.MPP;
@@ -138,6 +131,7 @@ namespace SiAP.BLL
         public IList<Cobro> ObtenerTodos() => _mppCobro.ObtenerTodos();
 
         public Cobro Leer(long cobroId) => _mppCobro.LeerPorId(cobroId);
+        
         public Cobro LeerPorTurnoId(long id) => _mppCobro.LeerPorTurnoId(id);
 
         public bool EsValido(Cobro cobro)

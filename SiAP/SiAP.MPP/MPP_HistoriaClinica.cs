@@ -76,70 +76,14 @@ namespace SiAP.MPP
             return LeerEntidadPorId(id, HidratarObjeto);
         }
 
-        public IList<HistoriaClinica> Buscar(string campo = "", string valor = "", bool incluirInactivos = true)
-        {
-            var historias = ObtenerTodos();
-
-            if (string.IsNullOrWhiteSpace(campo) || string.IsNullOrWhiteSpace(valor))
-                return historias;
-
-            return campo.ToLower() switch
-            {
-                "pacienteid" => historias.Where(h => h.Paciente?.Id == Convert.ToInt64(valor)).ToList(),
-                "pacientenombre" => historias.Where(h => h.Paciente?.Nombre.Contains(valor, StringComparison.OrdinalIgnoreCase) ?? false).ToList(),
-                "pacienteapellido" => historias.Where(h => h.Paciente?.Apellido.Contains(valor, StringComparison.OrdinalIgnoreCase) ?? false).ToList(),
-                "pacientedni" => historias.Where(h => h.Paciente?.Dni == valor).ToList(),
-                _ => throw new ArgumentException($"Campo '{campo}' inválido.")
-            };
-        }
-
-        /// Busca la historia clínica de un paciente específico
-        public HistoriaClinica BuscarPorPacienteId(long pacienteId)
-        {
-            return ObtenerTodos().FirstOrDefault(h => h.Paciente?.Id == pacienteId);
-        }
-
-        /// Obtiene las historias clínicas de pacientes atendidos por un médico específico
-        public IList<HistoriaClinica> BuscarPorMedicoId(long medicoId)
-        {
-            var todasHistorias = ObtenerTodos();
-            var historiasDelMedico = new List<HistoriaClinica>();
-
-            foreach (var historia in todasHistorias)
-            {
-                // Verificar si alguna consulta de esta historia fue realizada por el médico
-                if (historia.Consultas != null &&
-                    historia.Consultas.Any(c => c.Medico?.Id == medicoId))
-                {
-                    historiasDelMedico.Add(historia);
-                }
-            }
-
-            return historiasDelMedico;
-        }
-
-        /// Filtra historias clínicas por múltiples criterios
-        public IList<HistoriaClinica> Filtrar(string nombrePaciente, string dniPaciente)
-        {
-            var historias = ObtenerTodos().Where(h =>
-                (!string.IsNullOrWhiteSpace(nombrePaciente) &&
-                 (h.Paciente.Nombre.Contains(nombrePaciente, StringComparison.OrdinalIgnoreCase) ||
-                  h.Paciente.Apellido.Contains(nombrePaciente, StringComparison.OrdinalIgnoreCase))) ||
-                (!string.IsNullOrWhiteSpace(dniPaciente) &&
-                 h.Paciente.Dni.Contains(dniPaciente, StringComparison.OrdinalIgnoreCase)))
-                .ToList();
-
-            return historias;
-        }
-
-        private void AsignarDatos(DataRow dr, HistoriaClinica entidad)
+        public void AsignarDatos(DataRow dr, HistoriaClinica entidad)
         {
             dr["PacienteId"] = entidad.Paciente?.Id ?? 0;
             dr["Descripcion"] = entidad.Descripcion ?? string.Empty;
             dr["FechaCreacion"] = entidad.FechaCreacion;
         }
 
-        private HistoriaClinica HidratarObjeto(DataRow rHistoria)
+        public HistoriaClinica HidratarObjeto(DataRow rHistoria)
         {
             var pacienteId = Convert.ToInt64(rHistoria["PacienteId"]);
             var paciente = _mppPaciente.LeerPorId(pacienteId)
@@ -156,6 +100,12 @@ namespace SiAP.MPP
             };
             CargarConsultas(historia);
             return historia;
+        }
+
+        //Otros
+        public HistoriaClinica BuscarPorPacienteId(long pacienteId)
+        {
+            return ObtenerTodos().FirstOrDefault(h => h.Paciente?.Id == pacienteId);
         }
 
         private void CargarConsultas(HistoriaClinica historia)

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SiAP.Abstracciones;
+﻿using SiAP.Abstracciones;
 using SiAP.BE;
 using SiAP.BLL.Logs;
 using SiAP.MPP;
@@ -60,6 +55,7 @@ namespace SiAP.BLL
         public IList<Factura> ObtenerTodos() => _mppFactura.ObtenerTodos();
 
         public Factura Leer(long facturaId) => _mppFactura.LeerPorId(facturaId);
+       
         public Factura LeerPorCobroId(long id) => _mppFactura.LeerPorCobroId(id);
 
         public bool EsValido(Factura factura)

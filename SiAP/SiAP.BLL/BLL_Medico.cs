@@ -59,15 +59,17 @@ namespace SiAP.BLL
             return _mppMedico.ObtenerTodos();
         }
 
-        public IList<Medico> Filtrar(string Nombre, string Email)
-        {
-            return _mppMedico.Filtrar(Nombre, Email);
-        }
         public Medico Leer(long medicoId)
         {
             return _mppMedico.LeerPorId(medicoId);
         }
-
+        
+        //Otros
+        public IList<Medico> Filtrar(string Nombre, string Email)
+        {
+            return _mppMedico.Filtrar(Nombre, Email);
+        }
+   
         public Medico LeerPorPersonId(long medicoId)
         {
             return _mppMedico.LeerPorPersonId(medicoId);

@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using SiAP.Abstracciones;
+﻿using SiAP.Abstracciones;
 using SiAP.BLL.Logs;
 using SiAP.MPP;
 using Policonsultorio.BE;
 using SiAP.BLL.Seguridad;
-using SiAP.BE;
 
 namespace SiAP.BLL
 {
@@ -90,124 +86,6 @@ namespace SiAP.BLL
                 throw new ArgumentException("El ID de la historia clínica debe ser válido.");
 
             return _mppConsulta.BuscarPorHistoriaClinicaId(historiaClinicaId);
-        }
-
-        public IList<Consulta> BuscarPorMedico(long medicoId)
-        {
-            if (medicoId <= 0)
-                throw new ArgumentException("El ID del médico debe ser válido.");
-
-            var consultas = _mppConsulta.BuscarPorMedicoId(medicoId);
-            _logger.GenerarLog($"Búsqueda de consultas por médico ID: {medicoId}. Resultados: {consultas.Count}");
-
-            return consultas;
-        }
-
-        public IList<Consulta> BuscarPorRangoFechas(DateTime desde, DateTime hasta)
-        {
-            if (hasta < desde)
-                throw new ArgumentException("La fecha 'hasta' debe ser posterior a la fecha 'desde'.");
-
-            return _mppConsulta.BuscarPorRangoFechas(desde, hasta);
-        }
-
-        public Consulta RegistrarConsulta(long historiaClinicaId, long medicoId, string motivo)
-        {
-            if (historiaClinicaId <= 0)
-                throw new ArgumentException("El ID de la historia clínica debe ser válido.");
-
-            if (medicoId <= 0)
-                throw new ArgumentException("El ID del médico debe ser válido.");
-
-            if (string.IsNullOrWhiteSpace(motivo))
-                throw new ArgumentException("El motivo de la consulta es obligatorio.");
-
-            var consulta = new Consulta
-            {
-                HistoriaClinica = new HistoriaClinica { Id = historiaClinicaId },
-                Medico = new SiAP.BE.Medico { Id = medicoId },
-                Fecha = DateTime.Now,
-                Motivo = motivo
-            };
-
-            Agregar(consulta);
-            _logger.GenerarLog($"Nueva consulta registrada - HC ID: {historiaClinicaId}, Médico ID: {medicoId}");
-
-            return consulta;
-        }
-
-        public Receta EmitirReceta(long consultaId, List<Medicamento> medicamentos, string profesional, bool esCronica = false)
-        {
-            var consulta = _mppConsulta.LeerPorId(consultaId);
-
-            if (consulta == null)
-                throw new InvalidOperationException("Consulta no encontrada.");
-
-            var receta = new Receta
-            {
-                Consulta = consulta,
-                Fecha = DateTime.Now,
-                Medicamentos = medicamentos,
-                Profesional = profesional,
-                EsCronica = esCronica
-            };
-
-            _bllReceta.Agregar(receta);
-            _logger.GenerarLog($"Receta emitida para consulta ID: {consultaId}");
-
-            return receta;
-        }
-
-        public Certificado EmitirCertificado(long consultaId, string tipoCertificado, string descripcion)
-        {
-            var consulta = _mppConsulta.LeerPorId(consultaId);
-
-            if (consulta == null)
-                throw new InvalidOperationException("Consulta no encontrada.");
-
-            var certificado = new Certificado
-            {
-                Consulta = consulta,
-                Fecha = DateTime.Now,
-                TipoCertificado = tipoCertificado,
-                Descripcion = descripcion
-            };
-
-            _bllCertificado.Agregar(certificado);
-            _logger.GenerarLog($"Certificado emitido para consulta ID: {consultaId}");
-
-            return certificado;
-        }
-
-        public void FinalizarConsulta(long consultaId, string diagnostico, string tratamiento, string observaciones = null)
-        {
-            var consulta = _mppConsulta.LeerPorId(consultaId);
-
-            if (consulta == null)
-                throw new InvalidOperationException("Consulta no encontrada.");
-
-            consulta.Diagnostico = diagnostico;
-            consulta.Tratamiento = tratamiento;
-            consulta.Observaciones = observaciones;
-
-            Modificar(consulta);
-            _logger.GenerarLog($"Consulta finalizada - ID: {consultaId}");
-        }
-
-
-        public Dictionary<string, int> ObtenerEstadisticasPorMedico(DateTime desde, DateTime hasta)
-        {
-            var consultas = BuscarPorRangoFechas(desde, hasta);
-
-            return consultas
-                .GroupBy(c => c.Medico?.Persona?.NombreCompleto ?? "Sin médico")
-                .ToDictionary(g => g.Key, g => g.Count());
-        }
-
-
-        public int ContarConsultas(DateTime desde, DateTime hasta)
-        {
-            return BuscarPorRangoFechas(desde, hasta).Count;
         }
 
         public bool EsValido(Consulta consulta)

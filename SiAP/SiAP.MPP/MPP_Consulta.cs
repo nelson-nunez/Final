@@ -75,54 +75,7 @@ namespace SiAP.MPP
             return LeerEntidadPorId(id, HidratarObjeto);
         }
 
-        public IList<Consulta> Buscar(string campo = "", string valor = "", bool incluirInactivos = true)
-        {
-            var consultas = ObtenerTodos();
-
-            if (string.IsNullOrWhiteSpace(campo) || string.IsNullOrWhiteSpace(valor))
-                return consultas;
-
-            return campo.ToLower() switch
-            {
-                "medicoid" => consultas.Where(c => c.Medico?.Id == Convert.ToInt64(valor)).ToList(),
-                "historiaclinicaid" => consultas.Where(c => c.HistoriaClinica?.Id == Convert.ToInt64(valor)).ToList(),
-                "diagnostico" => consultas.Where(c => c.Diagnostico?.Contains(valor, StringComparison.OrdinalIgnoreCase) ?? false).ToList(),
-                _ => throw new ArgumentException($"Campo '{campo}' inválido.")
-            };
-        }
-
-        /// Busca todas las consultas de una historia clínica específica
-        public IList<Consulta> BuscarPorHistoriaClinicaId(long historiaClinicaId)
-        {
-            var ds = _datos.ObtenerDatos_BDSiAP();
-            var consultas = ds.Tables[NombreTabla].AsEnumerable()
-                .Where(r => Convert.ToInt64(r["HistoriaClinicaId"]) == historiaClinicaId)
-                .Select(HidratarObjeto)
-                .OrderByDescending(c => c.Fecha)
-                .ToList();
-
-            return consultas;
-        }
-
-        /// Busca consultas por médico
-        public IList<Consulta> BuscarPorMedicoId(long medicoId)
-        {
-            return ObtenerTodos()
-                .Where(c => c.Medico?.Id == medicoId)
-                .OrderByDescending(c => c.Fecha)
-                .ToList();
-        }
-
-        /// Busca consultas en un rango de fechas
-        public IList<Consulta> BuscarPorRangoFechas(DateTime desde, DateTime hasta)
-        {
-            return ObtenerTodos()
-                .Where(c => c.Fecha >= desde && c.Fecha <= hasta)
-                .OrderByDescending(c => c.Fecha)
-                .ToList();
-        }
-
-        private void AsignarDatos(DataRow dr, Consulta entidad)
+        public void AsignarDatos(DataRow dr, Consulta entidad)
         {
             dr["HistoriaClinicaId"] = entidad.HistoriaClinica?.Id ?? 0;
             dr["MedicoId"] = entidad.Medico?.Id ?? 0;
@@ -133,7 +86,7 @@ namespace SiAP.MPP
             dr["Observaciones"] = entidad.Observaciones ?? string.Empty;
         }
 
-        private Consulta HidratarObjeto(DataRow rConsulta)
+        public Consulta HidratarObjeto(DataRow rConsulta)
         {
             var medicoId = Convert.ToInt64(rConsulta["MedicoId"]);
             var medico = _mppMedico.LeerPorId(medicoId);
@@ -154,6 +107,20 @@ namespace SiAP.MPP
             return consulta;
         }
 
+        //Otros
+
+        public IList<Consulta> BuscarPorHistoriaClinicaId(long historiaClinicaId)
+        {
+            var ds = _datos.ObtenerDatos_BDSiAP();
+            var consultas = ds.Tables[NombreTabla].AsEnumerable()
+                .Where(r => Convert.ToInt64(r["HistoriaClinicaId"]) == historiaClinicaId)
+                .Select(HidratarObjeto)
+                .OrderByDescending(c => c.Fecha)
+                .ToList();
+
+            return consultas;
+        }
+      
         private void CargarRecetasYCertificados(Consulta consulta)
         {
             // Cargar recetas

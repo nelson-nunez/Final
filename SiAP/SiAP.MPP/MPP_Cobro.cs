@@ -7,9 +7,7 @@ namespace SiAP.MPP
 {
     public class MPP_Cobro : MapperBase<Cobro>, IMapper<Cobro>
     {
-        private static MPP_Cobro _instancia;
-        
-       
+        private static MPP_Cobro _instancia;       
         protected override string NombreTabla => "Cobro";
 
         private MPP_Cobro() : base() 
@@ -56,16 +54,9 @@ namespace SiAP.MPP
         public Cobro LeerPorId(object id)
         {
             return LeerEntidadPorId(id, HidratarObjeto);
-        }
-        
-        public Cobro LeerPorTurnoId(long id)
-        {
-            var item = ObtenerTodos().FirstOrDefault(x=>x.TurnoId == id);
-            return item;
-        }
+        }      
 
-
-        private void AsignarDatos(DataRow dr, Cobro entidad)
+        public void AsignarDatos(DataRow dr, Cobro entidad)
         {
             dr["FechaHora"] = entidad.FechaHora;
             dr["MediodePago"] = entidad.MediodePago;
@@ -77,7 +68,7 @@ namespace SiAP.MPP
             dr["TurnoId"] = entidad.TurnoId;
         }
 
-        private Cobro HidratarObjeto(DataRow r)
+        public Cobro HidratarObjeto(DataRow r)
         {
             return new Cobro
             {
@@ -91,6 +82,13 @@ namespace SiAP.MPP
                 //FacturaId = Convert.ToInt32(r["FacturaId"]),
                 TurnoId = Convert.ToInt32(r["TurnoId"]),
             };
+        }
+        
+        //Otros
+        public Cobro LeerPorTurnoId(long id)
+        {
+            var item = ObtenerTodos().FirstOrDefault(x=>x.TurnoId == id);
+            return item;
         }
     }
 }

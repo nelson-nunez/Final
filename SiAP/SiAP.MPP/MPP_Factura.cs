@@ -76,12 +76,8 @@ namespace SiAP.MPP
         {
             return LeerEntidadPorId(id, HidratarObjeto);
         }
-        public Factura LeerPorCobroId(long id)
-        {
-            return ObtenerTodos().FirstOrDefault(x=>x.CobroId == id);
-        }
 
-        private void AsignarDatos(DataRow dr, Factura entidad)
+        public void AsignarDatos(DataRow dr, Factura entidad)
         {
             dr["RazonSocialEmisor"] = entidad.RazonSocialEmisor;
             dr["CUITEmisor"] = entidad.CUITEmisor;
@@ -97,7 +93,7 @@ namespace SiAP.MPP
             dr["CobroId"] = entidad.CobroId;
         }
 
-        private Factura HidratarObjeto(DataRow r)
+        public Factura HidratarObjeto(DataRow r)
         {
             return new Factura
             {
@@ -116,6 +112,12 @@ namespace SiAP.MPP
                 Estado = Enum.Parse<EstadoFactura>(r["Estado"].ToString()),
                 CobroId = Convert.ToInt32(r["CobroId"])
             };
+        }
+        
+        //Otros
+        public Factura LeerPorCobroId(long id)
+        {
+            return ObtenerTodos().FirstOrDefault(x=>x.CobroId == id);
         }
         
         private long ObtenerUltimoNumeroSecuencial(DataTable dt, int puntoVenta)

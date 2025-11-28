@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Data;
+using System.Drawing;
+
 
 namespace SiAP.Abstracciones
 {
@@ -14,7 +13,10 @@ namespace SiAP.Abstracciones
         bool Existe(T entidad);
         bool TieneDependencias(T entidad); 
         IList<T> ObtenerTodos();
-        T LeerPorId(object id); 
+        T LeerPorId(object id);
+
+        void AsignarDatos(DataRow dr, T entidad);
+        T HidratarObjeto(DataRow r);
     }
 
     public interface IMapperAsignar<T> : IMapper<T>

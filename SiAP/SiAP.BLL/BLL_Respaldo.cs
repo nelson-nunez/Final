@@ -98,6 +98,7 @@ namespace SiAP.BLL
             return _mppRespaldo.LeerPorId(respaldoId);
         }
 
+        //Otros
         public void RestaurarRespaldo(Respaldo respaldo)
         {
             if (respaldo == null)

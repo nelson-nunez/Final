@@ -50,28 +50,36 @@ namespace SiAP.MPP
             return ObtenerTodasEntidades(HidratarObjeto);
         }
 
-        public IList<Persona> Buscar(string campo = "", string valor = "", bool incluirInactivos = true)
-        {
-            var personas = ObtenerTodos();
-
-            if (string.IsNullOrWhiteSpace(campo) || string.IsNullOrWhiteSpace(valor))
-                return personas;
-
-            return campo.ToLower() switch
-            {
-                "nombre" => BuscarPorCampo(personas, campo, valor, p => p.Nombre),
-                "apellido" => BuscarPorCampo(personas, campo, valor, p => p.Apellido),
-                "dni" => BuscarPorCampo(personas, campo, valor, p => p.Dni),
-                "email" => BuscarPorCampo(personas, campo, valor, p => p.Email),
-                _ => throw new ArgumentException($"Campo '{campo}' inválido.")
-            };
-        }
-
         public Persona LeerPorId(object id)
         {
             return LeerEntidadPorId(id, HidratarObjeto);
         }
 
+        public void AsignarDatos(DataRow dr, Persona entidad)
+        {
+            dr["Nombre"] = entidad.Nombre;
+            dr["Apellido"] = entidad.Apellido;
+            dr["Dni"] = entidad.Dni;
+            dr["FechaNacimiento"] = entidad.FechaNacimiento;
+            dr["Email"] = entidad.Email;
+            dr["Telefono"] = entidad.Telefono;
+        }
+
+        public Persona HidratarObjeto(DataRow r)
+        {
+            return new Persona
+            {
+                Id = Convert.ToInt64(r["Id"]),
+                Nombre = r["Nombre"].ToString(),
+                Apellido = r["Apellido"].ToString(),
+                Dni = r["Dni"].ToString(),
+                FechaNacimiento = Convert.ToDateTime(r["FechaNacimiento"]),
+                Email = r["Email"].ToString(),
+                Telefono = r["Telefono"].ToString()
+            };
+        }
+        
+        //Otros 
         public Persona LeerPorIdSinUsuario(object id)
         {
             var ds = _datos.ObtenerDatos_BDSiAP();
@@ -89,30 +97,6 @@ namespace SiAP.MPP
                 FechaNacimiento = Convert.ToDateTime(row["FechaNacimiento"]),
                 Email = row["Email"].ToString(),
                 Telefono = row["Telefono"].ToString()
-            };
-        }
-
-        private void AsignarDatos(DataRow dr, Persona entidad)
-        {
-            dr["Nombre"] = entidad.Nombre;
-            dr["Apellido"] = entidad.Apellido;
-            dr["Dni"] = entidad.Dni;
-            dr["FechaNacimiento"] = entidad.FechaNacimiento;
-            dr["Email"] = entidad.Email;
-            dr["Telefono"] = entidad.Telefono;
-        }
-
-        private Persona HidratarObjeto(DataRow r)
-        {
-            return new Persona
-            {
-                Id = Convert.ToInt64(r["Id"]),
-                Nombre = r["Nombre"].ToString(),
-                Apellido = r["Apellido"].ToString(),
-                Dni = r["Dni"].ToString(),
-                FechaNacimiento = Convert.ToDateTime(r["FechaNacimiento"]),
-                Email = r["Email"].ToString(),
-                Telefono = r["Telefono"].ToString()
             };
         }
     }

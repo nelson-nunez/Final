@@ -68,22 +68,27 @@ namespace SiAP.MPP
             return LeerEntidadPorId(id, HidratarObjeto);
         }
 
-        public IList<Medicamento> Buscar(string campo = "", string valor = "", bool incluirInactivos = true)
+        public void AsignarDatos(DataRow dr, Medicamento entidad)
         {
-            var Medicamentos = ObtenerTodos();
+            dr["RecetaId"] = entidad.RecetaId;
+            dr["NombreComercial"] = entidad.NombreComercial ?? string.Empty;
+            dr["NombreMonodroga"] = entidad.NombreMonodroga ?? string.Empty;
+            dr["Cantidad"] = entidad.Cantidad;
+        }
 
-            if (string.IsNullOrWhiteSpace(campo) || string.IsNullOrWhiteSpace(valor))
-                return Medicamentos;
-
-            return campo.ToLower() switch
+        public Medicamento HidratarObjeto(DataRow r)
+        {
+            return new Medicamento
             {
-                "recetaid" => Medicamentos.Where(d => d.RecetaId == Convert.ToInt64(valor)).ToList(),
-                "nombrecomercial" => Medicamentos.Where(d => d.NombreComercial?.Contains(valor, StringComparison.OrdinalIgnoreCase) ?? false).ToList(),
-                "NombreMonodroga" => Medicamentos.Where(d => d.NombreMonodroga?.Contains(valor, StringComparison.OrdinalIgnoreCase) ?? false).ToList(),
-                _ => throw new ArgumentException($"Campo '{campo}' inválido.")
+                Id = Convert.ToInt64(r["Id"]),
+                RecetaId = r["RecetaId"] != DBNull.Value ? Convert.ToInt64(r["RecetaId"]) : 0,
+                NombreComercial = r["NombreComercial"]?.ToString() ?? string.Empty,
+                NombreMonodroga = r["NombreMonodroga"]?.ToString() ?? string.Empty,
+                Cantidad = r["Cantidad"] != DBNull.Value ? Convert.ToInt32(r["Cantidad"]) : 0
             };
         }
 
+        //Otros
         public IList<Medicamento> BuscarPorRecetaId(long recetaId)
         {
             return ObtenerTodos().Where(d => d.RecetaId == recetaId).ToList();
@@ -98,24 +103,5 @@ namespace SiAP.MPP
             }
         }
 
-        private void AsignarDatos(DataRow dr, Medicamento entidad)
-        {
-            dr["RecetaId"] = entidad.RecetaId;
-            dr["NombreComercial"] = entidad.NombreComercial ?? string.Empty;
-            dr["NombreMonodroga"] = entidad.NombreMonodroga ?? string.Empty;
-            dr["Cantidad"] = entidad.Cantidad;
-        }
-
-        private Medicamento HidratarObjeto(DataRow r)
-        {
-            return new Medicamento
-            {
-                Id = Convert.ToInt64(r["Id"]),
-                RecetaId = r["RecetaId"] != DBNull.Value ? Convert.ToInt64(r["RecetaId"]) : 0,
-                NombreComercial = r["NombreComercial"]?.ToString() ?? string.Empty,
-                NombreMonodroga = r["NombreMonodroga"]?.ToString() ?? string.Empty,
-                Cantidad = r["Cantidad"] != DBNull.Value ? Convert.ToInt32(r["Cantidad"]) : 0
-            };
-        }
     }
 }

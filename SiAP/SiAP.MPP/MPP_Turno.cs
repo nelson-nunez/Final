@@ -59,6 +59,43 @@ namespace SiAP.MPP
             return LeerEntidadPorId(id, HidratarObjeto);
         }
 
+        public void AsignarDatos(DataRow dr, Turno entidad)
+        {
+            dr["Fecha"] = entidad.Fecha;
+            dr["HoraInicio"] = entidad.HoraInicio;
+            dr["HoraFin"] = entidad.HoraFin;
+            dr["TipoAtencion"] = entidad.TipoAtencion;
+            dr["Estado"] = entidad.Estado.ToString();
+            dr["MedicoId"] = entidad.MedicoId;
+            dr["PacienteId"] = entidad.PacienteId;
+            dr["AgendaId"] = entidad.AgendaId;
+            dr["CobroId"] = entidad.CobroId ?? 0;
+        }
+
+        public Turno HidratarObjeto(DataRow r)
+        {
+            var turno =  new Turno
+            {
+                Id = Convert.ToInt64(r["Id"]),
+                Fecha = Convert.ToDateTime(r["Fecha"]),
+                HoraInicio = TimeSpan.Parse(r["HoraInicio"].ToString()),
+                HoraFin = TimeSpan.Parse(r["HoraFin"].ToString()),
+                TipoAtencion = r["TipoAtencion"].ToString(),
+                Estado = Enum.Parse<EstadoTurno>(r["Estado"].ToString()),
+                MedicoId = Convert.ToInt64(r["MedicoId"]),
+                PacienteId = Convert.ToInt64(r["PacienteId"]),
+                AgendaId = Convert.ToInt64(r["AgendaId"]),
+                CobroId = Convert.ToInt64(r["CobroId"]),
+                Cobro = new Cobro(),
+                Paciente = new Paciente()
+            };
+            turno.Cobro = _mppCobro.LeerPorId(turno.CobroId);
+            turno.Paciente = _mppPaciente.LeerPorId(turno.PacienteId);
+            turno.Medico = _mppMedico.LeerPorId(turno.MedicoId);
+            return turno;
+        }
+
+        //Otros
         public IList<Turno> BuscarTurnoPorpaciente(long pacienteId)
         {
             var lista = ObtenerTodos().Where(t => t.PacienteId == pacienteId).ToList();
@@ -95,40 +132,5 @@ namespace SiAP.MPP
             return lista;
         }
 
-        private void AsignarDatos(DataRow dr, Turno entidad)
-        {
-            dr["Fecha"] = entidad.Fecha;
-            dr["HoraInicio"] = entidad.HoraInicio;
-            dr["HoraFin"] = entidad.HoraFin;
-            dr["TipoAtencion"] = entidad.TipoAtencion;
-            dr["Estado"] = entidad.Estado.ToString();
-            dr["MedicoId"] = entidad.MedicoId;
-            dr["PacienteId"] = entidad.PacienteId;
-            dr["AgendaId"] = entidad.AgendaId;
-            dr["CobroId"] = entidad.CobroId ?? 0;
-        }
-
-        private Turno HidratarObjeto(DataRow r)
-        {
-            var turno =  new Turno
-            {
-                Id = Convert.ToInt64(r["Id"]),
-                Fecha = Convert.ToDateTime(r["Fecha"]),
-                HoraInicio = TimeSpan.Parse(r["HoraInicio"].ToString()),
-                HoraFin = TimeSpan.Parse(r["HoraFin"].ToString()),
-                TipoAtencion = r["TipoAtencion"].ToString(),
-                Estado = Enum.Parse<EstadoTurno>(r["Estado"].ToString()),
-                MedicoId = Convert.ToInt64(r["MedicoId"]),
-                PacienteId = Convert.ToInt64(r["PacienteId"]),
-                AgendaId = Convert.ToInt64(r["AgendaId"]),
-                CobroId = Convert.ToInt64(r["CobroId"]),
-                Cobro = new Cobro(),
-                Paciente = new Paciente()
-            };
-            turno.Cobro = _mppCobro.LeerPorId(turno.CobroId);
-            turno.Paciente = _mppPaciente.LeerPorId(turno.PacienteId);
-            turno.Medico = _mppMedico.LeerPorId(turno.MedicoId);
-            return turno;
-        }
     }
 }

@@ -34,7 +34,6 @@ namespace SiAP.BLL
             return _instancia ??= new BLL_Turno();
         }
 
-        #region interfaz
 
         public void Agregar(Turno turno)
         {
@@ -108,8 +107,7 @@ namespace SiAP.BLL
             return string.IsNullOrEmpty(_mensajeError);
         }
 
-        #endregion
-
+        //Otros
         public IList<Turno> BuscarTurnoPorPaciente(Paciente paciente)
         {
             return _mppTurno.BuscarTurnoPorpaciente(paciente.Id);
@@ -133,12 +131,6 @@ namespace SiAP.BLL
             var desde = fecha.Date.AddDays(-diasDesdeLunes);
             var hasta = desde.AddDays(6);
             return _mppTurno.BuscarPorMedicoyRango(medico.Id, desde, hasta);
-        }
-
-        public void CambiarEstado(Turno turno, EstadoTurno nuevoEstado)
-        {
-            turno.Estado = nuevoEstado;
-            Modificar(turno);
         }
     }
 }

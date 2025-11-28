@@ -66,46 +66,6 @@ namespace SiAP.BLL
             return _mppReceta.LeerPorId(recetaId);
         }
 
-
-
-
-        public IList<Receta> BuscarPorConsulta(long consultaId)
-        {
-            if (consultaId <= 0)
-                throw new ArgumentException("El ID de la consulta debe ser válido.");
-
-            return _mppReceta.BuscarPorConsultaId(consultaId);
-        }
-
-
-        public IList<Receta> ObtenerCronicasVigentes()
-        {
-            return _mppReceta.BuscarCronicasVigentes();
-        }
-
-        public IList<Receta> BuscarPorRangoFechas(DateTime desde, DateTime hasta)
-        {
-            if (hasta < desde)
-                throw new ArgumentException("La fecha 'hasta' debe ser posterior a la fecha 'desde'.");
-
-            return _mppReceta.BuscarPorRangoFechas(desde, hasta);
-        }
-
-        public Receta RenovarReceta(long recetaId)
-        {
-            var recetaOriginal = _mppReceta.LeerPorId(recetaId);
-
-            if (recetaOriginal == null)
-                throw new InvalidOperationException("Receta no encontrada.");
-
-            var recetaRenovada = recetaOriginal.RenovarReceta();
-            Agregar(recetaRenovada);
-
-            _logger.GenerarLog($"Receta renovada - Original ID: {recetaId}, Nueva ID: {recetaRenovada.Id}");
-
-            return recetaRenovada;
-        }
-
         public bool EsValido(Receta receta)
         {
             _mensajeError = "";

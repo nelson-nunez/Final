@@ -6,7 +6,7 @@ using SiAP.MPP.Base;
 
 namespace SiAP.MPP.Seguridad
 {
-    public class MPP_Permiso : IMapperAsignar<Permiso>
+    public class MPP_Permiso : IMapper<Permiso>
     {
         private readonly IAccesoDatos _datos;
         private static MPP_Permiso _instancia;
@@ -78,12 +78,6 @@ namespace SiAP.MPP.Seguridad
             return ds.Tables["Permiso"].AsEnumerable().Any(r => Convert.ToInt64(r["Id"]) == entidad.Id);
         }
 
-        public bool ExistePorCodigo(string codigo)
-        {
-            var ds = _datos.ObtenerDatos_BDSiAP();
-            return ds.Tables["Permiso"].AsEnumerable().Any(r => r["Codigo"].ToString() == codigo);
-        }
-
         public bool TieneDependencias(Permiso entidad)
         {
             var ds = _datos.ObtenerDatos_BDSiAP();
@@ -97,7 +91,7 @@ namespace SiAP.MPP.Seguridad
             var dt = ds.Tables["Permiso"];
 
             var permisos = dt.AsEnumerable()
-                             .Select(HidratarPermisoBasico)
+                             .Select(HidratarObjeto)
                              .ToDictionary(p => p.Id, p => p);
 
             var relaciones = ds.Tables["PermisoHijo"].AsEnumerable();
@@ -118,29 +112,33 @@ namespace SiAP.MPP.Seguridad
             return permisos.Values.ToList();
         }
 
-        public IList<Permiso> Buscar(string campo = "", string valor = "", bool incluirInactivos = true)
-        {
-            var todos = ObtenerTodos();
-
-            if (string.IsNullOrWhiteSpace(campo) || string.IsNullOrWhiteSpace(valor))
-                return todos;
-
-            valor = valor.ToLower();
-
-            return campo.ToLower() switch
-            {
-                "codigo" => todos.Where(p => p.Codigo.ToLower().Contains(valor)).ToList(),
-                "descripcion" => todos.Where(p => p.Descripcion.ToLower().Contains(valor)).ToList(),
-                _ => throw new ArgumentException($"Campo '{campo}' inválido.")
-            };
-        }
-
         public Permiso LeerPorId(object id)
         {
             long idLong = Convert.ToInt64(id);
             return ObtenerTodos().FirstOrDefault(p => p.Id == idLong);
         }
 
+        public void AsignarDatos(DataRow dr, Permiso entidad)
+        {
+            throw new NotImplementedException();
+        }
+        
+        public Permiso HidratarObjeto(DataRow row)
+        {
+            long id = Convert.ToInt64(row["Id"]);
+            string codigo = row["Codigo"].ToString();
+            string descripcion = row["Descripcion"].ToString();
+            bool esCompuesto = row.Table.Columns.Contains("EsCompuesto") && Convert.ToBoolean(row["EsCompuesto"]);
+
+            Permiso permiso = esCompuesto
+                ? (Permiso)new PermisoCompuesto(codigo, descripcion)
+                : new PermisoSimple(codigo, descripcion);
+
+            permiso.Id = id;
+            return permiso;
+        }
+        
+        //Otros
         public void Asignar(Permiso padre, Permiso hijo)
         {
             if (padre is not PermisoCompuesto)
@@ -193,19 +191,11 @@ namespace SiAP.MPP.Seguridad
                 Convert.ToInt64(r["HijoId"]) == hijo.Id);
         }
 
-        private Permiso HidratarPermisoBasico(DataRow row)
+        public bool ExistePorCodigo(string codigo)
         {
-            long id = Convert.ToInt64(row["Id"]);
-            string codigo = row["Codigo"].ToString();
-            string descripcion = row["Descripcion"].ToString();
-            bool esCompuesto = row.Table.Columns.Contains("EsCompuesto") && Convert.ToBoolean(row["EsCompuesto"]);
-
-            Permiso permiso = esCompuesto
-                ? (Permiso)new PermisoCompuesto(codigo, descripcion)
-                : new PermisoSimple(codigo, descripcion);
-
-            permiso.Id = id;
-            return permiso;
+            var ds = _datos.ObtenerDatos_BDSiAP();
+            return ds.Tables["Permiso"].AsEnumerable().Any(r => r["Codigo"].ToString() == codigo);
         }
+
     }
 }

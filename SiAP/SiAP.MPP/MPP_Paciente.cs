@@ -80,24 +80,12 @@ namespace SiAP.MPP
             return ObtenerTodasEntidades(HidratarObjeto);
         }
 
-        public IList<Paciente> Buscar(string parametro)
-        {
-            var pacientes = ObtenerTodos()
-                .Where(x => string.IsNullOrWhiteSpace(parametro)
-                         || x.Persona.Nombre.Contains(parametro, StringComparison.OrdinalIgnoreCase)
-                         || x.Persona.Apellido.Contains(parametro, StringComparison.OrdinalIgnoreCase)
-                         || x.Persona.Dni.Contains(parametro, StringComparison.OrdinalIgnoreCase)
-                      )
-                .ToList();
-            return pacientes;
-        }
-
         public Paciente LeerPorId(object id)
         {
             return LeerEntidadPorId(id, HidratarObjeto);
         }
 
-        private void AsignarDatos(DataRow dr, Paciente entidad)
+        public void AsignarDatos(DataRow dr, Paciente entidad)
         {
             dr["PersonaId"] = entidad.PersonaId;
             dr["ObraSocial"] = entidad.ObraSocial;
@@ -105,7 +93,7 @@ namespace SiAP.MPP
             dr["NumeroSocio"] = entidad.NumeroSocio;
         }
 
-        private Paciente HidratarObjeto(DataRow rPaciente)
+        public Paciente HidratarObjeto(DataRow rPaciente)
         {
             var personaId = Convert.ToInt64(rPaciente["PersonaId"]);
             var persona = _mppPersona.LeerPorId(personaId)
@@ -120,6 +108,19 @@ namespace SiAP.MPP
                 Plan = rPaciente["Plan"].ToString(),
                 NumeroSocio = Convert.ToInt32(rPaciente["NumeroSocio"])
             };
+        }
+        
+        //Otros
+        public IList<Paciente> Buscar(string parametro)
+        {
+            var pacientes = ObtenerTodos()
+                .Where(x => string.IsNullOrWhiteSpace(parametro)
+                         || x.Persona.Nombre.Contains(parametro, StringComparison.OrdinalIgnoreCase)
+                         || x.Persona.Apellido.Contains(parametro, StringComparison.OrdinalIgnoreCase)
+                         || x.Persona.Dni.Contains(parametro, StringComparison.OrdinalIgnoreCase)
+                      )
+                .ToList();
+            return pacientes;
         }
     }
 }

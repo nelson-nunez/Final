@@ -23,15 +23,13 @@ namespace SiAP.MPP.Seguridad
             return _instancia ??= new MPP_Usuario();
         }
 
-        #region ABM
-
         public void Agregar(Usuario entidad)
         {
             ArgumentNullException.ThrowIfNull(entidad);
             if (Existe(entidad)) return;
 
             // Usar método de la base para agregar
-            AgregarEntidad(entidad, AsignarDatosUsuario);
+            AgregarEntidad(entidad, AsignarDatos);
 
             // Guardar permisos después de agregar
             var ds = _datos.ObtenerDatos_BDSiAP();
@@ -42,7 +40,7 @@ namespace SiAP.MPP.Seguridad
         public void Modificar(Usuario entidad)
         {
             // Usar método de la base para modificar
-            ModificarEntidad(entidad, AsignarDatosUsuario);
+            ModificarEntidad(entidad, AsignarDatos);
 
             // Actualizar permisos
             var ds = _datos.ObtenerDatos_BDSiAP();
@@ -62,10 +60,6 @@ namespace SiAP.MPP.Seguridad
             // Usar método de la base para eliminar
             EliminarEntidad(entidad);
         }
-
-        #endregion
-
-        #region Búsquedas
 
         public bool Existe(Usuario entidad)
         {
@@ -90,6 +84,52 @@ namespace SiAP.MPP.Seguridad
             return ObtenerTodos().FirstOrDefault(u => u.Id == Convert.ToInt64(id));
         }
 
+        public void AsignarDatos(DataRow dr, Usuario entidad)
+        {
+            dr["Username"] = entidad.Username;
+            dr["Password"] = entidad.Password;
+            dr["Bloqueado"] = entidad.Bloqueado;
+            dr["Activo"] = entidad.Activo;
+            dr["FechaUltimoCambioPassword"] = entidad.FechaUltimoCambioPassword ?? (object)DBNull.Value;
+            dr["PalabraClave"] = entidad.PalabraClave ?? string.Empty;
+            dr["RespuestaClave"] = entidad.RespuestaClave ?? string.Empty;
+            dr["PersonaId"] = entidad.PersonaId;
+        }
+
+        public Usuario HidratarObjeto(DataRow r)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Usuario HidratarObjeto(DataRow r, DataSet ds)
+        {
+            try
+            {
+                var usuario = new Usuario
+                {
+                    Id = r["Id"] != DBNull.Value ? Convert.ToInt64(r["Id"]) : 0,
+                    Username = r["Username"]?.ToString() ?? string.Empty,
+                    Password = r["Password"]?.ToString() ?? string.Empty,
+                    Bloqueado = r["Bloqueado"] != DBNull.Value && Convert.ToBoolean(r["Bloqueado"]),
+                    Activo = r["Activo"] != DBNull.Value && Convert.ToBoolean(r["Activo"]),
+                    FechaUltimoCambioPassword = r["FechaUltimoCambioPassword"] != DBNull.Value ? Convert.ToDateTime(r["FechaUltimoCambioPassword"]) : null,
+                    PalabraClave = r["PalabraClave"]?.ToString() ?? string.Empty,
+                    RespuestaClave = r["RespuestaClave"]?.ToString() ?? string.Empty,
+                    PersonaId = r["PersonaId"] != DBNull.Value ? Convert.ToInt64(r["PersonaId"]) : 0,
+                    Permisos = new List<Permiso>() // Inicializar la lista
+                };
+
+                CargarPersonaCompleta(usuario);
+                CargarPermisosUsuario(usuario, ds);
+                return usuario;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error al hidratar el objeto Usuario: {ex.Message}", ex);
+            }
+        }
+
+        //OTROS ------------
         public Usuario BuscarPorIdPersona(long personId)
         {
             var result = ObtenerTodos().FirstOrDefault(u => u.PersonaId == Convert.ToInt64(personId));
@@ -103,10 +143,6 @@ namespace SiAP.MPP.Seguridad
 
             return row != null ? HidratarObjeto(row, ds) : null;
         }
-
-        #endregion
-
-        #region Permisos
 
         private void GuardarPermisosUsuario(Usuario entidad, DataSet ds)
         {
@@ -176,50 +212,6 @@ namespace SiAP.MPP.Seguridad
             _datos.Actualizar_BDSiAP(ds);
         }
 
-        #endregion
-
-        #region Auxiliares
-
-        private void AsignarDatosUsuario(DataRow dr, Usuario entidad)
-        {
-            dr["Username"] = entidad.Username;
-            dr["Password"] = entidad.Password;
-            dr["Bloqueado"] = entidad.Bloqueado;
-            dr["Activo"] = entidad.Activo;
-            dr["FechaUltimoCambioPassword"] = entidad.FechaUltimoCambioPassword ?? (object)DBNull.Value;
-            dr["PalabraClave"] = entidad.PalabraClave ?? string.Empty;
-            dr["RespuestaClave"] = entidad.RespuestaClave ?? string.Empty;
-            dr["PersonaId"] = entidad.PersonaId;
-        }
-
-        private Usuario HidratarObjeto(DataRow r, DataSet ds)
-        {
-            try
-            {
-                var usuario = new Usuario
-                {
-                    Id = r["Id"] != DBNull.Value ? Convert.ToInt64(r["Id"]) : 0,
-                    Username = r["Username"]?.ToString() ?? string.Empty,
-                    Password = r["Password"]?.ToString() ?? string.Empty,
-                    Bloqueado = r["Bloqueado"] != DBNull.Value && Convert.ToBoolean(r["Bloqueado"]),
-                    Activo = r["Activo"] != DBNull.Value && Convert.ToBoolean(r["Activo"]),
-                    FechaUltimoCambioPassword = r["FechaUltimoCambioPassword"] != DBNull.Value ? Convert.ToDateTime(r["FechaUltimoCambioPassword"]) : null,
-                    PalabraClave = r["PalabraClave"]?.ToString() ?? string.Empty,
-                    RespuestaClave = r["RespuestaClave"]?.ToString() ?? string.Empty,
-                    PersonaId = r["PersonaId"] != DBNull.Value ? Convert.ToInt64(r["PersonaId"]) : 0,
-                    Permisos = new List<Permiso>() // Inicializar la lista
-                };
-
-                CargarPersonaCompleta(usuario);
-                CargarPermisosUsuario(usuario, ds);
-                return usuario;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Error al hidratar el objeto Usuario: {ex.Message}", ex);
-            }
-        }
-
         private void CargarPersonaCompleta(Usuario usuario)
         {
             if (usuario.PersonaId.HasValue && usuario.PersonaId.Value > 0)
@@ -258,6 +250,5 @@ namespace SiAP.MPP.Seguridad
                 rel.Delete();
         }
 
-        #endregion
     }
 }

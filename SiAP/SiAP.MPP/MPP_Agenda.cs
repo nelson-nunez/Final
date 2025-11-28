@@ -92,6 +92,27 @@ namespace SiAP.MPP
             return LeerEntidadPorId(id, HidratarObjeto);
         }
 
+        public void AsignarDatos(DataRow dr, Agenda entidad)
+        {
+            dr["Fecha"] = entidad.Fecha;
+            dr["HoraInicio"] = entidad.HoraInicio.ToString(@"hh\:mm");
+            dr["HoraFin"] = entidad.HoraFin.ToString(@"hh\:mm");
+            dr["MedicoId"] = entidad.MedicoId;
+        }
+
+        public Agenda HidratarObjeto(DataRow r)
+        {
+            return new Agenda
+            {
+                Id = Convert.ToInt64(r["Id"]),
+                Fecha = Convert.ToDateTime(r["Fecha"]),
+                HoraInicio = TimeSpan.Parse(r["HoraInicio"].ToString()),
+                HoraFin = TimeSpan.Parse(r["HoraFin"].ToString()),
+                MedicoId = Convert.ToInt64(r["MedicoId"])
+            };
+        }
+
+        //Otros
         public IList<Agenda> BuscarPorMedicoyRango(long medicoId, DateTime fechadesde, DateTime fechahasta)
         {
             return ObtenerTodos()
@@ -111,34 +132,5 @@ namespace SiAP.MPP
             return lista;
         }
 
-        public IList<Agenda> BuscarAgendasdelAño(DateTime fechadesde)
-        {
-            var lista = new List<Agenda>();
-            if (fechadesde == DateTime.MinValue)
-                lista = ObtenerTodos().ToList();
-            else
-                lista = ObtenerTodos().Where(t => t.Fecha.Year == fechadesde.Year).ToList();
-            return lista;
-        }
-
-        private void AsignarDatos(DataRow dr, Agenda entidad)
-        {
-            dr["Fecha"] = entidad.Fecha;
-            dr["HoraInicio"] = entidad.HoraInicio.ToString(@"hh\:mm");
-            dr["HoraFin"] = entidad.HoraFin.ToString(@"hh\:mm");
-            dr["MedicoId"] = entidad.MedicoId;
-        }
-
-        private Agenda HidratarObjeto(DataRow r)
-        {
-            return new Agenda
-            {
-                Id = Convert.ToInt64(r["Id"]),
-                Fecha = Convert.ToDateTime(r["Fecha"]),
-                HoraInicio = TimeSpan.Parse(r["HoraInicio"].ToString()),
-                HoraFin = TimeSpan.Parse(r["HoraFin"].ToString()),
-                MedicoId = Convert.ToInt64(r["MedicoId"])
-            };
-        }
     }
 }

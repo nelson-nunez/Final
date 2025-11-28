@@ -72,49 +72,18 @@ namespace SiAP.MPP
             return ObtenerTodasEntidades(HidratarObjeto);
         }
 
-        public IList<Secretario> Buscar(string campo = "", string valor = "", bool incluirInactivos = true)
-        {
-            var secretarios = ObtenerTodos();
-
-            if (string.IsNullOrWhiteSpace(campo) || string.IsNullOrWhiteSpace(valor))
-                return secretarios;
-
-            return campo.ToLower() switch
-            {
-                "nombre" => secretarios.Where(s => s.Persona.Nombre.Contains(valor, StringComparison.OrdinalIgnoreCase)).ToList(),
-                "apellido" => secretarios.Where(s => s.Persona.Apellido.Contains(valor, StringComparison.OrdinalIgnoreCase)).ToList(),
-                "dni" => secretarios.Where(s => s.Persona.Dni == valor).ToList(),
-                "legajo" => secretarios.Where(s => s.Legajo.Contains(valor, StringComparison.OrdinalIgnoreCase)).ToList(),
-                "email" => secretarios.Where(s => s.Persona.Email.Contains(valor, StringComparison.OrdinalIgnoreCase)).ToList(),
-                _ => throw new ArgumentException($"Campo '{campo}' inválido.")
-            };
-        }
-
-        public IList<Secretario> Filtrar(string nombre, string email)
-        {
-            var secretarios = ObtenerTodos().Where(m =>
-                                                (!string.IsNullOrWhiteSpace(nombre) &&
-                                                (m.Persona.Nombre.Contains(nombre, StringComparison.OrdinalIgnoreCase) ||
-                                                m.Persona.Apellido.Contains(nombre, StringComparison.OrdinalIgnoreCase))) ||
-                                                (!string.IsNullOrWhiteSpace(email) &&
-                                                m.Persona.Email.Contains(email, StringComparison.OrdinalIgnoreCase)))
-                                            .ToList();
-
-            return secretarios.ToList();
-        }
-
         public Secretario LeerPorId(object id)
         {
             return LeerEntidadPorId(id, HidratarObjeto);
         }
-
-        private void AsignarDatos(DataRow dr, Secretario entidad)
+        
+        public void AsignarDatos(DataRow dr, Secretario entidad)
         {
             dr["PersonaId"] = entidad.PersonaId;
             dr["Legajo"] = entidad.Legajo;
         }
 
-        private Secretario HidratarObjeto(DataRow rSecretario)
+        public Secretario HidratarObjeto(DataRow rSecretario)
         {
             var personaId = Convert.ToInt64(rSecretario["PersonaId"]);
 
@@ -130,5 +99,20 @@ namespace SiAP.MPP
                 Legajo = rSecretario["Legajo"].ToString()
             };
         }
+        
+        //Otros
+        public IList<Secretario> Filtrar(string nombre, string email)
+        {
+            var secretarios = ObtenerTodos().Where(m =>
+                                                (!string.IsNullOrWhiteSpace(nombre) &&
+                                                (m.Persona.Nombre.Contains(nombre, StringComparison.OrdinalIgnoreCase) ||
+                                                m.Persona.Apellido.Contains(nombre, StringComparison.OrdinalIgnoreCase))) ||
+                                                (!string.IsNullOrWhiteSpace(email) &&
+                                                m.Persona.Email.Contains(email, StringComparison.OrdinalIgnoreCase)))
+                                            .ToList();
+
+            return secretarios.ToList();
+        }
+
     }
 }

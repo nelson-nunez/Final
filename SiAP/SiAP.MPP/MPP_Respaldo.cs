@@ -121,6 +121,12 @@ namespace SiAP.MPP
             return ds.Tables[NombreTabla].AsEnumerable().Any(r => r["Id"].ToString() == entidad.Id.ToString());
         }
 
+        public bool TieneDependencias(Respaldo entidad)
+        {
+            // respaldos no tienen dependencias
+            return false;
+        }
+
         public IList<Respaldo> ObtenerTodos()
         {
             var ds = _datos.ObtenerDatos_BDRespaldos();
@@ -128,15 +134,16 @@ namespace SiAP.MPP
             return result;
         }
 
-        public IList<Respaldo> FiltrarPorFecha(DateTime fechaDesde, DateTime fechaHasta)
+        public Respaldo LeerPorId(object id)
         {
-            return ObtenerTodos()
-                .Where(r => r.FechaCreacion.Date >= fechaDesde.Date && r.FechaCreacion.Date <= fechaHasta.Date)
-                .OrderByDescending(r => r.FechaCreacion)
-                .ToList();
+            ArgumentNullException.ThrowIfNull(id);
+            var ds = _datos.ObtenerDatos_BDRespaldos();
+            var dr = ds.Tables[NombreTabla].AsEnumerable().FirstOrDefault(r => Convert.ToInt64(r["Id"]) == Convert.ToInt64(id));
+
+            return dr != null ? HidratarObjeto(dr) : null;
         }
 
-        private void AsignarDatos(DataRow dr, Respaldo entidad)
+        public void AsignarDatos(DataRow dr, Respaldo entidad)
         {
             dr["NombreArchivo"] = entidad.NombreArchivo;
             dr["NombreBD"] = entidad.NombreBD;
@@ -147,7 +154,7 @@ namespace SiAP.MPP
             dr["Tipo"] = entidad.Tipo;
         }
 
-        private Respaldo HidratarObjeto(DataRow rRespaldo)
+        public Respaldo HidratarObjeto(DataRow rRespaldo)
         {
             return new Respaldo
             {
@@ -161,21 +168,16 @@ namespace SiAP.MPP
                 TamanioKB = Convert.ToInt64(rRespaldo["TamanioKB"])
             };
         }
+
+        //Otros
+        public IList<Respaldo> FiltrarPorFecha(DateTime fechaDesde, DateTime fechaHasta)
+        {
+            return ObtenerTodos()
+                .Where(r => r.FechaCreacion.Date >= fechaDesde.Date && r.FechaCreacion.Date <= fechaHasta.Date)
+                .OrderByDescending(r => r.FechaCreacion)
+                .ToList();
+        }
         
-        
-        //--------------------------------------------------------------
-        public bool TieneDependencias(Respaldo entidad)
-        {
-            // respaldos no tienen dependencias
-            return false;
-        }
-        public Respaldo LeerPorId(object id)
-        {
-            return  null;
-        }
-        public IList<Respaldo> Buscar(string campo = "", string valor = "", bool incluirInactivos = true)
-        {
-            throw new NotImplementedException();
-        }
+
     }
 }

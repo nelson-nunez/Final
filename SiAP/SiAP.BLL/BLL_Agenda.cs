@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SiAP.Abstracciones;
+﻿using SiAP.Abstracciones;
 using SiAP.BE;
 using SiAP.BLL.Logs;
 using SiAP.MPP;
@@ -92,7 +87,7 @@ namespace SiAP.BLL
             return string.IsNullOrEmpty(_mensajeError);
         }
 
-
+        //Otros
         public void AgregarAgendas(List<Agenda> agendas)
         {
             foreach (var agenda in agendas) 
@@ -136,9 +131,5 @@ namespace SiAP.BLL
             return _mppAgenda.BuscarAgendasdelMes(fecha);
         }
 
-        public IList<Agenda> BuscarAgendasdelAño(DateTime fecha)
-        {
-            return _mppAgenda.BuscarAgendasdelAño(fecha);
-        }
     }
 }

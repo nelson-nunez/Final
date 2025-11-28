@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System;
-using System.Collections.Generic;
-using SiAP.Abstracciones;
+﻿using SiAP.Abstracciones;
 using SiAP.BLL.Logs;
 using SiAP.MPP;
 using Policonsultorio.BE;
@@ -70,48 +64,13 @@ namespace SiAP.BLL
             return _mppHistoriaClinica.LeerPorId(historiaId);
         }
 
-
+        //Otros
         public HistoriaClinica BuscarPorPaciente(long pacienteId)
         {
             if (pacienteId <= 0)
                 throw new ArgumentException("El ID del paciente debe ser válido.");
 
             return _mppHistoriaClinica.BuscarPorPacienteId(pacienteId);
-        }
-
-        public IList<HistoriaClinica> BuscarPorMedico(long medicoId)
-        {
-            if (medicoId <= 0)
-                throw new ArgumentException("El ID del médico debe ser válido.");
-
-            var historias = _mppHistoriaClinica.BuscarPorMedicoId(medicoId);
-            _logger.GenerarLog($"Búsqueda de historias clínicas por médico ID: {medicoId}. Resultados: {historias.Count}");
-
-            return historias;
-        }
-
-        public IList<HistoriaClinica> Filtrar(string nombrePaciente, string dniPaciente)
-        {
-            return _mppHistoriaClinica.Filtrar(nombrePaciente, dniPaciente);
-        }
-
-        public HistoriaClinica CrearOObtenerHistoriaClinica(long pacienteId)
-        {
-            var historiaExistente = _mppHistoriaClinica.BuscarPorPacienteId(pacienteId);
-
-            if (historiaExistente != null)
-                return historiaExistente;
-
-            // Si no existe, crear una nueva
-            var nuevaHistoria = new HistoriaClinica
-            {
-                Paciente = new SiAP.BE.Paciente { Id = pacienteId },
-                FechaCreacion = DateTime.Now,
-                Descripcion = "Historia clínica inicial"
-            };
-
-            Agregar(nuevaHistoria);
-            return nuevaHistoria;
         }
 
         public bool EsValido(HistoriaClinica historia)
