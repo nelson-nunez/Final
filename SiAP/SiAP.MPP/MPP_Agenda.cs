@@ -132,5 +132,12 @@ namespace SiAP.MPP
             return lista;
         }
 
+        public IList<Agenda> BuscarporRangoFecha(DateTime fechaDesde, DateTime fechaHasta)
+        {
+            return ObtenerTodos()
+                .Where(t => t.Fecha.Date >= fechaDesde.Date
+                         && t.Fecha.Date <= fechaHasta.Date)
+                .ToList();
+        }
     }
 }

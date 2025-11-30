@@ -73,5 +73,11 @@ namespace SiAP.BLL
 
             return string.IsNullOrEmpty(_mensajeError);
         }
+
+        //Otros
+        public IList<Factura> BuscarporRango(DateTime desde, DateTime hasta)
+        {
+            return _mppFactura.BuscarFacturasporRangoFecha(desde, hasta);
+        }
     }
 }

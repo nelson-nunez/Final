@@ -102,24 +102,12 @@ namespace SiAP.MPP
             return lista;
         }
 
-        public IList<Turno> BuscarTurnodelMes(DateTime fechadesde)
+        public IList<Turno> BuscarporRangoFecha(DateTime fechaDesde, DateTime fechaHasta)
         {
-            var lista = new List<Turno>();
-            if (fechadesde == DateTime.MinValue)
-                lista = ObtenerTodos().ToList();
-            else
-                lista = ObtenerTodos().Where(t => t.Fecha.Month == fechadesde.Month).ToList();
-            return lista;
-        }
-        
-        public IList<Turno> BuscarTurnosdelAño(DateTime fechadesde)
-        {
-            var lista = new List<Turno>();
-            if (fechadesde == DateTime.MinValue)
-                lista = ObtenerTodos().ToList();
-            else
-                lista = ObtenerTodos().Where(t => t.Fecha.Year == fechadesde.Year).ToList();
-            return lista;
+            return ObtenerTodos()
+                .Where(t => t.Fecha.Date >= fechaDesde.Date
+                         && t.Fecha.Date <= fechaHasta.Date)
+                .ToList();
         }
 
         public IList<Turno> BuscarPorMedicoyRango(long medicoId, DateTime fechadesde, DateTime fechahasta)

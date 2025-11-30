@@ -4,7 +4,3 @@ sacar el user admin!!!!
 
 Patron Composite: Si bien la teoria menciona, ningun ejemplo tenia EliminarPermiso
 
-
-Quede revisando la capa de BLLS,
-sacar todo lo que no se use o este demas, 
-simplificar y clavar con interfaces!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

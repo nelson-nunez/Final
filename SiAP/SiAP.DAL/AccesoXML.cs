@@ -1,8 +1,6 @@
 ﻿using System.Data;
-using System.Diagnostics;
 using System.Xml;
 using SiAP.Abstracciones;
-using SiAP.BE.Seguridad;
 using SiAP.BE;
 using SiAP.UI;
 
@@ -16,12 +14,13 @@ namespace SiAP.DAL
         private DataSet _dataSet_Respaldos;
 
         #region Constructor e Instancia
-        
+
         private AccesoXML()
         {
             _dataSet_Siap = InicializarBD(ReferenciasBD.BD_Siap);
             _dataSet_Logs = InicializarBD(ReferenciasBD.BD_Log);
             _dataSet_Respaldos = InicializarBD(ReferenciasBD.BD_Respaldo);
+        
         }
 
         public static AccesoXML ObtenerInstancia()
@@ -183,7 +182,6 @@ namespace SiAP.DAL
                     { "Receta", CrearTablaReceta },
                     { "Certificado", CrearTablaCertificado },
                     { "Medicamento", CrearTablaMedicamento },
-                    { "Respaldo", CrearTablaRespaldo },
                 };
 
                 foreach (var tabla in tablas)
@@ -258,11 +256,12 @@ namespace SiAP.DAL
             // Datos iniciales
             tabla.Rows.Add(1, "Admin", "Sistema", "00000000", new DateTime(1990, 1, 1), "admin@sistema.com", "0000000000");
             tabla.Rows.Add(2, "Julio", "Losada", "12345678", new DateTime(1980, 5, 10), "julio@hospital.com", "1122334455");
-            tabla.Rows.Add(3, "Ana", "Pérez", "23456789", new DateTime(1980, 5, 10), "ana.perez@hospital.com", "1122334455");
+            tabla.Rows.Add(3, "Ana", "Pérez", "23456789", new DateTime(1980, 5, 10), "anaperez@hospital.com", "1122334455");
             tabla.Rows.Add(4, "Marcos", "Andrada", "34567890", new DateTime(1981, 8, 20), "marcos@hospital.com", "1122334466");
             tabla.Rows.Add(5, "Marcelo", "Pereira", "45678901", new DateTime(1991, 8, 20), "marcosp@hospital.com", "1122334466");
-            tabla.Rows.Add(6, "Juan", "Gómez", "87654321", new DateTime(1990, 3, 20), "juan.gomez@paciente.com", "1133445566");
-            tabla.Rows.Add(7, "Esteban", "Paciente", "47654321", new DateTime(1990, 3, 20), "Esteban@paciente.com", "1133445566");
+            tabla.Rows.Add(6, "Juan", "Gómez", "87654321", new DateTime(1990, 3, 20), "juangomez@paciente.com", "1133445566");
+            tabla.Rows.Add(7, "Esteban", "Dueñas", "47654321", new DateTime(1990, 3, 20), "esteban@paciente.com", "1133445566");
+            tabla.Rows.Add(8, "Jacinto", "Marquise", "42154321", new DateTime(1990, 3, 20), "jacinto@paciente.com", "1133445566");
 
             return tabla;
         }
@@ -275,7 +274,8 @@ namespace SiAP.DAL
             tabla.Columns.Add("Legajo", typeof(string));
             tabla.PrimaryKey = new[] { tabla.Columns["Id"] };
 
-            tabla.Rows.Add(1, 2, "0001"); // Referencia a Persona Id=2
+            tabla.Rows.Add(1, 2, "0001");   // Referencia a Persona Id=2
+            tabla.Rows.Add(2, 8, "0002");   // Referencia a Persona Id=8
             return tabla;
         }
 
@@ -290,10 +290,10 @@ namespace SiAP.DAL
             tabla.Columns.Add("ArancelConsulta", typeof(decimal));
             tabla.PrimaryKey = new[] { tabla.Columns["Id"] };
 
-            tabla.Rows.Add(1, 3, "Doctora en Medicina", 4, "Cardiología", 10000m);
-            tabla.Rows.Add(2, 4, "Doctor en Medicina", 2, "Pediatría", 12000m);
-            tabla.Rows.Add(3, 5, "Doctor en Medicina", 2, "Pediatría", 9000m);
-            tabla.Rows.Add(4, 1, "ADMIN also Doctor", 2, "Pediatría", 9000m);
+            tabla.Rows.Add(1, 3, "Médica Clinica", 4, "Cardiología", 60000m);  // Referencia a Persona Id=3
+            tabla.Rows.Add(2, 4, "Especialista", 2, "Pediatría", 50000m);     // Referencia a Persona Id=4
+            tabla.Rows.Add(3, 5, "Doctor en Neurología", 5, "Neurología", 60000m);      // Referencia a Persona Id=5
+            tabla.Rows.Add(4, 1, "ADMIN also Doctor", 2, "Pediatría", 40000m);       // Referencia a Persona Id=1
             return tabla;
         }
 
@@ -307,8 +307,8 @@ namespace SiAP.DAL
             tabla.Columns.Add("NumeroSocio", typeof(int));
             tabla.PrimaryKey = new[] { tabla.Columns["Id"] };
 
-            tabla.Rows.Add(1, 6, "OSDE", "210", 445566);
-            tabla.Rows.Add(2, 7, "SWISS", "410", 442566);
+            tabla.Rows.Add(1, 6, "OSDE", "210", 445566); // Referencia a Persona Id=6
+            tabla.Rows.Add(2, 7, "SWISS", "410", 442566); // Referencia a Persona Id=7
             return tabla;
         }
 
@@ -320,8 +320,6 @@ namespace SiAP.DAL
             tabla.Columns.Add("Username", typeof(string));
             tabla.Columns.Add("Password", typeof(string));
             tabla.Columns.Add("FechaUltimoCambioPassword", typeof(DateTime));
-            tabla.Columns.Add("PalabraClave", typeof(string));
-            tabla.Columns.Add("RespuestaClave", typeof(string));
             tabla.Columns.Add("Bloqueado", typeof(bool));
             tabla.Columns.Add("Activo", typeof(bool));
             tabla.Columns.Add("PersonaId", typeof(long));
@@ -329,7 +327,11 @@ namespace SiAP.DAL
             tabla.PrimaryKey = new[] { tabla.Columns["Id"] };
 
             // Usuario admin vinculado a Administrador (Persona Id=1)
-            tabla.Rows.Add(1, "admin", "STqG+Tki2fc=", DateTime.Now, "default", "admin", false, true, 1);
+            tabla.Rows.Add(1, "admin", "STqG+Tki2fc=", DateTime.Now,  false, true, 1);
+            //User medico
+            tabla.Rows.Add(2, "aperez", "F5k9LTPOFwA=", DateTime.Now, false, true, 3);
+            //User secretario
+            tabla.Rows.Add(3, "jlosada", "g+/OB2dMSw4=", DateTime.Now, false, true, 2);
             return tabla;
         }
 
@@ -342,8 +344,10 @@ namespace SiAP.DAL
             tabla.Columns.Add("EsCompuesto", typeof(bool));
             tabla.PrimaryKey = new[] { tabla.Columns["Id"] };
 
-            long idActual = 10;
-            tabla.Rows.Add(idActual++, "Administrador", "Permisos administrativos", true);
+            tabla.Rows.Add(10, "Administrador", "Permisos Totales", true);
+            tabla.Rows.Add(11, "Secretario", "Permisos Administrativo", true);
+            tabla.Rows.Add(12, "Medico", "Permisos Medicos", true);
+            long idActual = 13;
 
             foreach (var menu in MenusConstantes.ObtenerTodos())
             {
@@ -361,12 +365,22 @@ namespace SiAP.DAL
             tabla.PrimaryKey = new[] { tabla.Columns["PadreId"], tabla.Columns["HijoId"] };
 
             long idAdministrador = 10;
-            long idHijo = 11;
-
+            long idHijo = 13;
             foreach (var menu in MenusConstantes.ObtenerTodos())
             {
                 tabla.Rows.Add(idAdministrador, idHijo++);
             }
+
+            //Aca cargo los permisos al rol secretario
+            tabla.Rows.Add(11, 13); // micuenta-jlosada 
+            tabla.Rows.Add(11, 14); // medicos-jlosada 
+            tabla.Rows.Add(11, 16); // agenda med-jlosada 
+            tabla.Rows.Add(11, 17); // turnos pac-jlosada 
+            tabla.Rows.Add(11, 20); // cobros-jlosada 
+            //Aca cargo los permisos al rol medico
+            tabla.Rows.Add(12, 13); // micuenta-aperez
+            tabla.Rows.Add(12, 18); // altas pac-aperez
+            tabla.Rows.Add(12, 19); // historiacli-aperez
 
             return tabla;
         }
@@ -378,7 +392,10 @@ namespace SiAP.DAL
             tabla.Columns.Add("PermisoId", typeof(long));
             tabla.PrimaryKey = new[] { tabla.Columns["UsuarioId"], tabla.Columns["PermisoId"] };
 
-            tabla.Rows.Add(1, 10); // Admin tiene permiso Administrador
+            tabla.Rows.Add(1, 10); // Admin tiene rol Administrador
+            tabla.Rows.Add(2, 12); // aperez tiene rol medico
+            tabla.Rows.Add(3, 11); // jlosada tiene rol secretario
+
             return tabla;
         }
 
@@ -429,11 +446,13 @@ namespace SiAP.DAL
             
             tabla.PrimaryKey = new[] { tabla.Columns["Id"] };
 
-            tabla.Rows.Add(1, new DateTime(2025, 7, 8), new TimeSpan(9, 0, 0), new TimeSpan(10, 0, 0), "Consulta general", EstadoTurno.Asignado.ToString(),
-                1, 1, 12,1);
-            
-            tabla.Rows.Add(2, new DateTime(2025, 5, 8), new TimeSpan(9, 0, 0), new TimeSpan(10, 0, 0),  "Consulta pediátrica", EstadoTurno.Asignado.ToString(),
-                2, 1, 12,2);
+            tabla.Rows.Add(1, new DateTime(2025, 7, 8), new TimeSpan(9, 0, 0), new TimeSpan(10, 0, 0),
+                "Consulta general", EstadoTurno.Asignado.ToString(),
+                1, 1, 6, 1); // AgendaId=6 (Médico 1, día 1, 9:00)
+
+            tabla.Rows.Add(2, new DateTime(2025, 5, 8), new TimeSpan(9, 0, 0), new TimeSpan(10, 0, 0),
+                "Consulta pediátrica", EstadoTurno.Asignado.ToString(),
+                2, 1, 41, 2); // AgendaId=41 (Médico 2, día 1, 9:00)
 
             return tabla;
         }
@@ -459,20 +478,38 @@ namespace SiAP.DAL
 
             tabla.PrimaryKey = new[] { tabla.Columns["Id"] };
 
+            // Factura 1 (para Cobro 1)
             tabla.Rows.Add(
-                2,                                  
+                1,
                 ReferenciasNegocio.RazonSocialEmisor,
                 ReferenciasNegocio.CUITEmisor,
-                ReferenciasNegocio.DomicilioEmisor,                  
+                ReferenciasNegocio.DomicilioEmisor,
                 1,
-                "Juan Gómez - DNI:12345678",   
-                2, //Solo por CobroTotal
-                new DateTime(2025, 7, 9),           
-                "F0001-00000002",                   
-                120000m,                            
-                "Consulta pediátrica",              
-                EstadoFactura.Emitida.ToString()    
+                "Juan Gómez - DNI:87654321",
+                1, // CobroId=1
+                new DateTime(2025, 7, 8),
+                "F0001-00000001",
+                100000m, // Coincide con MontoTotal del Cobro 1
+                "Consulta general",
+                EstadoFactura.Emitida.ToString()
             );
+
+            // Factura 2 (para Cobro 2)
+            tabla.Rows.Add(
+                2,
+                ReferenciasNegocio.RazonSocialEmisor,
+                ReferenciasNegocio.CUITEmisor,
+                ReferenciasNegocio.DomicilioEmisor,
+                1,
+                "Juan Gómez - DNI:87654321",
+                2, // CobroId=2
+                new DateTime(2025, 7, 9),
+                "F0001-00000002",
+                12000m, // Corregido: 12000 en vez de 120000
+                "Consulta pediátrica",
+                EstadoFactura.Emitida.ToString()
+            );
+
 
             return tabla;
         }
@@ -491,8 +528,23 @@ namespace SiAP.DAL
             tabla.Columns.Add("FormaPagoId", typeof(long));
             tabla.PrimaryKey = new[] { tabla.Columns["Id"] };
 
-            tabla.Rows.Add(1, new DateTime(2025, 7, 8, 10, 1, 0), MediodePago.Efectivo, 100000,50000,0, EstadoCobro.PagoParcial.ToString(), 1, 1);
-            tabla.Rows.Add(2, new DateTime(2025, 7, 9, 12, 2, 0), MediodePago.Debito, 12000, 12000,0, EstadoCobro.PagoTotal.ToString(), 2, 4);
+            // Cobro 1 - Pago parcial de 50000 sobre total de 100000
+            tabla.Rows.Add(1, new DateTime(2025, 7, 8, 10, 1, 0),
+                MediodePago.Efectivo,
+                100000,  // MontoTotal
+                50000,   // MontoAcumulado (pagado hasta ahora)
+                50000,   // Importe (de este pago) 
+                EstadoCobro.PagoParcial.ToString(),
+                1, 1);
+
+            // Cobro 2 - Pago total
+            tabla.Rows.Add(2, new DateTime(2025, 7, 9, 12, 2, 0),
+                MediodePago.Debito,
+                12000,   // MontoTotal
+                12000,   // MontoAcumulado
+                12000,   // Importe (de este pago) 
+                EstadoCobro.PagoTotal.ToString(),
+                2, 4);
 
             return tabla;
         }
@@ -612,12 +664,12 @@ namespace SiAP.DAL
             tabla.Columns.Add("Id", typeof(long));
             tabla.Columns.Add("ConsultaId", typeof(long));
             tabla.Columns.Add("Fecha", typeof(DateTime));
-            tabla.Columns.Add("Profesional", typeof(string));
             tabla.Columns.Add("TipoCertificado", typeof(string));
             tabla.Columns.Add("Descripcion", typeof(string));
             tabla.Columns.Add("Observaciones", typeof(string));
             tabla.Columns.Add("FechaVigenciaDesde", typeof(DateTime));
             tabla.Columns.Add("FechaVigenciaHasta", typeof(DateTime));
+            tabla.Columns.Add("Profesional", typeof(string));
             tabla.PrimaryKey = new[] { tabla.Columns["Id"] };
 
             // Certificado médico de la consulta 1
@@ -625,14 +677,14 @@ namespace SiAP.DAL
                 1, // Id
                 1, // ConsultaId
                 new DateTime(2024, 6, 15), // Fecha
-                "Dra. Ana Pérez - Cardióloga",
                 "Aptitud", // TipoCertificado
                 "El paciente Juan Gómez (DNI 87654321) se encuentra bajo tratamiento por hipertensión leve. " +
                 "Se recomienda evitar actividades físicas de alta intensidad hasta nuevo control médico. " +
                 "Puede realizar actividades físicas moderadas con autorización médica.", // Descripcion
                 "Control en 30 días. Presentar certificado actualizado según evolución del cuadro", // Observaciones
                 new DateTime(2024, 6, 15), // FechaVigenciaDesde
-                new DateTime(2024, 7, 15) // FechaVigenciaHasta (30 días de vigencia)
+                new DateTime(2024, 7, 15), // FechaVigenciaHasta (30 días de vigencia)
+                "Dra. Ana Pérez - Cardióloga" // Profesional
             );
 
             return tabla;

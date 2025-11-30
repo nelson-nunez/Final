@@ -17,7 +17,8 @@ namespace SiAP.BE
         public DateTime FechaNacimiento => Persona?.FechaNacimiento ?? DateTime.MinValue;
         public string Email => Persona?.Email ?? "";
         public string Telefono => Persona?.Telefono ?? "";
-        
+        public string NombreCompleto => Persona?.NombreCompleto ?? "";
+
         public override string ToString()
         {
             return $"{Persona?.Apellido}, {Persona?.Nombre} - {Persona?.Dni}";

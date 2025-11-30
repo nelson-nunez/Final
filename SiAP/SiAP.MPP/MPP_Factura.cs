@@ -146,5 +146,13 @@ namespace SiAP.MPP
 
             return maxNumero;
         }
+
+        public IList<Factura> BuscarFacturasporRangoFecha(DateTime fechaDesde, DateTime fechaHasta)
+        {
+            return ObtenerTodos()
+                .Where(t => t.FechaEmision.Date >= fechaDesde.Date
+                         && t.FechaEmision.Date <= fechaHasta.Date)
+                .ToList();
+        }
     }
 }

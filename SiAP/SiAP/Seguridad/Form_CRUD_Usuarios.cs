@@ -133,7 +133,6 @@ namespace SiAP.UI.Forms_Seguridad
             textBox_apellido.Text = "";
             textBox_email.Text = "";
             textBox_password.Text = "";
-            textBox_palabra_clave.Text = "";
             checkBox1.Checked = false;
             dataGridView1.ClearSelection();
         }
@@ -150,7 +149,6 @@ namespace SiAP.UI.Forms_Seguridad
                 VerificarDatos();
                 usuarioSeleccionado = new Usuario();
                 usuarioSeleccionado.Activo = true;
-                usuarioSeleccionado.PalabraClave = textBox_palabra_clave.Text;
                 usuarioSeleccionado.Bloqueado = false;
                 usuarioSeleccionado.PersonaId = personaSeleccionada.Id;
                 usuarioSeleccionado.Username = textBox_username.Text;
@@ -185,7 +183,6 @@ namespace SiAP.UI.Forms_Seguridad
                 usuarioSeleccionado.Username = textBox_username.Text;
                 usuarioSeleccionado.Password = textBox_password.Text;
                 usuarioSeleccionado.Activo = checkBox1.Checked;
-                usuarioSeleccionado.PalabraClave = textBox_palabra_clave.Text;
 
                 InputsExtensions.PedirConfirmacion($"Desea editar el usuario '{usuarioSeleccionado.Username}'?");
                 _bllUsuario.Modificar(usuarioSeleccionado);
@@ -282,7 +279,6 @@ namespace SiAP.UI.Forms_Seguridad
                 groupBox3.Text = "Nuevo Usuario";
                 textBox_username.Text = ((personaSeleccionada.Nombre[0] + personaSeleccionada.Apellido).RemoveDiacritics());
                 textBox_password.Text = "Cambiar_" + textBox_username.Text;
-                textBox_palabra_clave.Text = "";
                 checkBox1.Checked = true;
 
                 button_Borrar.Visible = false;
@@ -295,7 +291,6 @@ namespace SiAP.UI.Forms_Seguridad
                 groupBox3.Text = "Usuario existente";
                 textBox_username.Text = usuarioSeleccionado.Username;
                 textBox_password.Text = usuarioSeleccionado.Password;
-                textBox_palabra_clave.Text = usuarioSeleccionado.PalabraClave;
                 checkBox1.Checked = usuarioSeleccionado.Activo;
                 button_Borrar.Visible = true;
                 button_Limpiar.Visible = true;
@@ -311,7 +306,6 @@ namespace SiAP.UI.Forms_Seguridad
             textBox_nombre.Text.ValidarSoloTexto("Nombre");
             textBox_apellido.Text.ValidarSoloTexto("Apellido");
             textBox_email.Text.ValidarEmail("Email");
-            textBox_palabra_clave.Text.Validar("Palabra clave");
             checkBox1.Checked.Validar("Activo");
         }
     }

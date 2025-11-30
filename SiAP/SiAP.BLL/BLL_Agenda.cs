@@ -126,9 +126,10 @@ namespace SiAP.BLL
             return _mppAgenda.BuscarPorMedicoyRango(medico.Id, desde, hasta);
         }
 
-        public IList<Agenda> BuscarAgendasdelMes(DateTime fecha)
+        public IList<Agenda> BuscarporRango(DateTime desde, DateTime hasta)
         {
-            return _mppAgenda.BuscarAgendasdelMes(fecha);
+            var turnos = _mppAgenda.BuscarporRangoFecha(desde, hasta);
+            return turnos;
         }
 
     }

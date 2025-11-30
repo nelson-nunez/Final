@@ -30,8 +30,6 @@
         {
             groupBox1 = new GroupBox();
             groupBox3 = new GroupBox();
-            label10 = new Label();
-            textBox_palabra_clave = new TextBox();
             textBox_ocupacion = new TextBox();
             label4 = new Label();
             label1 = new Label();
@@ -80,8 +78,6 @@
             // 
             // groupBox3
             // 
-            groupBox3.Controls.Add(label10);
-            groupBox3.Controls.Add(textBox_palabra_clave);
             groupBox3.Controls.Add(textBox_ocupacion);
             groupBox3.Controls.Add(label4);
             groupBox3.Controls.Add(label1);
@@ -104,22 +100,6 @@
             groupBox3.TabIndex = 35;
             groupBox3.TabStop = false;
             groupBox3.Text = "Usuario";
-            // 
-            // label10
-            // 
-            label10.AutoSize = true;
-            label10.Location = new Point(54, 218);
-            label10.Name = "label10";
-            label10.Size = new Size(80, 15);
-            label10.TabIndex = 35;
-            label10.Text = "Palabra Clave:";
-            // 
-            // textBox_palabra_clave
-            // 
-            textBox_palabra_clave.Location = new Point(141, 215);
-            textBox_palabra_clave.Name = "textBox_palabra_clave";
-            textBox_palabra_clave.Size = new Size(298, 23);
-            textBox_palabra_clave.TabIndex = 36;
             // 
             // textBox_ocupacion
             // 
@@ -293,7 +273,7 @@
             // checkBox1
             // 
             checkBox1.AutoSize = true;
-            checkBox1.Location = new Point(93, 287);
+            checkBox1.Location = new Point(93, 226);
             checkBox1.Name = "checkBox1";
             checkBox1.RightToLeft = RightToLeft.Yes;
             checkBox1.Size = new Size(60, 19);
@@ -454,7 +434,5 @@
         private GroupBox groupBox3;
         private Label label9;
         private TextBox textBox_email_personal;
-        private Label label10;
-        private TextBox textBox_palabra_clave;
     }
 }

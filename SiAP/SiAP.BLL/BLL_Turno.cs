@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SiAP.Abstracciones;
+﻿using SiAP.Abstracciones;
 using SiAP.BE;
+using SiAP.BE.Vistas;
 using SiAP.BLL.Logs;
 using SiAP.MPP;
 
@@ -14,6 +10,7 @@ namespace SiAP.BLL
     {
         private readonly MPP_Turno _mppTurno;
         private readonly MPP_Cobro _mppCobro;
+        private readonly MPP_Factura _mppFactura;
 
 
         private static BLL_Turno _instancia;
@@ -26,6 +23,7 @@ namespace SiAP.BLL
         {
             _mppTurno = MPP_Turno.ObtenerInstancia();
             _mppCobro = MPP_Cobro.ObtenerInstancia();
+            _mppFactura = MPP_Factura.ObtenerInstancia();
             _logger = BLLLog.ObtenerInstancia();
         }
 
@@ -113,14 +111,28 @@ namespace SiAP.BLL
             return _mppTurno.BuscarTurnoPorpaciente(paciente.Id);
         }
         
-        public IList<Turno> BuscarTurnodelMes(DateTime fecha)
+        public IList<Turno> BuscarporRango(DateTime desde, DateTime hasta)
         {
-            return _mppTurno.BuscarTurnodelMes(fecha);
+            var turnos = _mppTurno.BuscarporRangoFecha(desde, hasta);
+            return turnos;
         }
-                
-        public IList<Turno> BuscarTurnosdelAño(DateTime fecha)
+        
+        public IList<Vista_Ingresos_Esp> BuscarVistaporRango(DateTime desde, DateTime hasta)
         {
-            return _mppTurno.BuscarTurnosdelAño(fecha);
+            var turnos = _mppTurno.BuscarporRangoFecha(desde, hasta);
+            var facturas = _mppFactura.BuscarFacturasporRangoFecha(desde, hasta);
+
+            var ingresosPorEspecialidad = from turno in turnos
+                                          join factura in facturas on turno.CobroId equals factura.CobroId
+                                          group factura by turno.Medico.Especialidad.Nombre into grupo
+                                          select new Vista_Ingresos_Esp
+                                          {
+                                              Especialidad = grupo.Key,
+                                              CantidadTurnos = grupo.Count(),
+                                              TotalIngresos = grupo.Sum(f => f.Total)
+                                          };
+
+            return ingresosPorEspecialidad.ToList();
         }
 
         public IList<Turno> BuscarPorMedicoyRango(Medico medico, DateTime fecha)

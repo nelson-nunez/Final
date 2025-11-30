@@ -91,8 +91,6 @@ namespace SiAP.MPP.Seguridad
             dr["Bloqueado"] = entidad.Bloqueado;
             dr["Activo"] = entidad.Activo;
             dr["FechaUltimoCambioPassword"] = entidad.FechaUltimoCambioPassword ?? (object)DBNull.Value;
-            dr["PalabraClave"] = entidad.PalabraClave ?? string.Empty;
-            dr["RespuestaClave"] = entidad.RespuestaClave ?? string.Empty;
             dr["PersonaId"] = entidad.PersonaId;
         }
 
@@ -113,8 +111,6 @@ namespace SiAP.MPP.Seguridad
                     Bloqueado = r["Bloqueado"] != DBNull.Value && Convert.ToBoolean(r["Bloqueado"]),
                     Activo = r["Activo"] != DBNull.Value && Convert.ToBoolean(r["Activo"]),
                     FechaUltimoCambioPassword = r["FechaUltimoCambioPassword"] != DBNull.Value ? Convert.ToDateTime(r["FechaUltimoCambioPassword"]) : null,
-                    PalabraClave = r["PalabraClave"]?.ToString() ?? string.Empty,
-                    RespuestaClave = r["RespuestaClave"]?.ToString() ?? string.Empty,
                     PersonaId = r["PersonaId"] != DBNull.Value ? Convert.ToInt64(r["PersonaId"]) : 0,
                     Permisos = new List<Permiso>() // Inicializar la lista
                 };
