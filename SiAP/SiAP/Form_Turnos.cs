@@ -307,7 +307,6 @@ namespace SiAP.UI
 
         #endregion
 
-        #region Métodos Auxiliares
 
         private void LimpiarYRecargar()
         {
@@ -315,8 +314,6 @@ namespace SiAP.UI
             _userControl.itemSeleccionado = null;
             CargarAgenda();
         }
-
-        #endregion
 
         private void button_imprimir_Click(object sender, EventArgs e)
         {

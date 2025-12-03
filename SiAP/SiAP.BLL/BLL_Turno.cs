@@ -74,8 +74,8 @@ namespace SiAP.BLL
             if (_mppTurno.TieneDependencias(turno))
                 throw new InvalidOperationException("El turno tiene dependencias y no puede eliminarse.");
 
-            if (turno.Cobro.Estado != (EstadoCobro.PagoTotal | EstadoCobro.PagoTotal))
-                throw new InvalidOperationException("El turno tiene cobros y no puede eliminarse. Debe rembolsarse o completar el pago antes de eliminar");
+            if (turno.Cobro.MontoAcumulado > 0)
+                throw new InvalidOperationException("El turno tiene cobros y no puede eliminarse. Debe rembolsarse el pago antes de eliminar");
 
             if (turno.Fecha < DateTime.Now)
                 throw new InvalidOperationException("No se puede eliminar un turno con fecha anterior al corriente día."); 
@@ -83,6 +83,7 @@ namespace SiAP.BLL
             if (turno.Estado == EstadoTurno.Confirmado || turno.Estado == EstadoTurno.Atendido || turno.Estado == EstadoTurno.Ausente)
                 throw new InvalidOperationException("El turno ya no puede eliminarse.");
             _mppTurno.Eliminar(turno);
+            _mppCobro.Eliminar(turno.Cobro);
             _logger.GenerarLog($"Turno eliminado: ID {turno.Id}");
         }
 

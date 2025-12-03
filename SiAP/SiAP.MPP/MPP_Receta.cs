@@ -25,16 +25,22 @@ namespace SiAP.MPP
         {
             ArgumentNullException.ThrowIfNull(entidad);
 
-            if (Existe(entidad))
-                return;
+            var ds = _datos.ObtenerDatos_BDSiAP();
+            var dt = ds.Tables[NombreTabla];
+            var dr = dt.NewRow();
 
-            AgregarEntidad(entidad, AsignarDatos);
+            long nuevoId = DataRowHelper.ObtenerSiguienteId(dt, "Id");
+            dr["Id"] = nuevoId;
+            AsignarDatos(dr, entidad);
+
+            dt.Rows.Add(dr);
+            _datos.Actualizar_BDSiAP(ds);
 
             if (entidad.Medicamentos != null && entidad.Medicamentos.Any())
             {
                 foreach (var droga in entidad.Medicamentos)
                 {
-                    droga.RecetaId = entidad.Id;
+                    droga.RecetaId = nuevoId;
                     _mppMedicamento.Agregar(droga);
                 }
             }
@@ -77,12 +83,6 @@ namespace SiAP.MPP
         public IList<Receta> ObtenerTodos()
         {
             var recetas = ObtenerTodasEntidades(HidratarObjeto);
-
-            foreach (var receta in recetas)
-            {
-                receta.Medicamentos = _mppMedicamento.BuscarPorRecetaId(receta.Id).ToList();
-            }
-
             return recetas;
         }
 
@@ -112,7 +112,7 @@ namespace SiAP.MPP
 
         public Receta HidratarObjeto(DataRow r)
         {
-            return new Receta
+            var item = new Receta
             {
                 Id = Convert.ToInt64(r["Id"]),
                 ConsultaId = Convert.ToInt64(r["ConsultaId"]),
@@ -124,15 +124,14 @@ namespace SiAP.MPP
                 Observaciones = r["Observaciones"]?.ToString() ?? string.Empty,
                 EsCronica = r["EsCronica"] != DBNull.Value && Convert.ToBoolean(r["EsCronica"])
             };
+            item.Medicamentos = _mppMedicamento.BuscarPorRecetaId(item.Id).ToList();
+            return item;
         }
 
         //Otros
         public IList<Receta> BuscarPorConsultaId(long consultaId)
         {
-            var recetas = ObtenerTodos().Where(r => r.ConsultaId == consultaId)
-                .OrderByDescending(r => r.Fecha)
-                .ToList();
-
+            var recetas = ObtenerTodos().Where(r => r.ConsultaId == consultaId).OrderByDescending(r => r.Fecha).ToList();
             return recetas;
         }
 

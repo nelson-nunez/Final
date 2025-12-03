@@ -103,7 +103,9 @@ namespace SiAP.MPP
                 Tratamiento = rConsulta["Tratamiento"]?.ToString() ?? string.Empty,
                 Observaciones = rConsulta["Observaciones"]?.ToString() ?? string.Empty
             };
-            CargarRecetasYCertificados(consulta);
+            //CargarRecetasYCertificados(consulta);
+            consulta.Recetas = _mppReceta.BuscarPorConsultaId(consulta.Id).ToList();
+            consulta.Certificados = _mppCertificado.BuscarPorConsultaId(consulta.Id).ToList(); 
             return consulta;
         }
 
@@ -119,23 +121,6 @@ namespace SiAP.MPP
                 .ToList();
 
             return consultas;
-        }
-      
-        private void CargarRecetasYCertificados(Consulta consulta)
-        {
-            // Cargar recetas
-            var recetas = _mppReceta.BuscarPorConsultaId(consulta.Id);
-            if (recetas != null && recetas.Any())
-            {
-                consulta.Recetas = recetas.ToList();
-            }
-
-            // Cargar certificados
-            var certificados = _mppCertificado.BuscarPorConsultaId(consulta.Id);
-            if (certificados != null && certificados.Any())
-            {
-                consulta.Certificados = certificados.ToList();
-            }
         }
     }
 }

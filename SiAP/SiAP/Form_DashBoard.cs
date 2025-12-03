@@ -223,7 +223,7 @@ namespace SiAP.UI
             {
                 double monto = valores[i];
                 double porcentaje = totalIngresos > 0 ? monto / totalIngresos * 100.0 : 0.0;
-                pie.Slices[i].Label = $"{etiquetas[i]}\n{cantidades[i]} turnos\n${monto:N0} ({porcentaje:F1}%)";
+                pie.Slices[i].Label = $"{etiquetas[i]} ({porcentaje:F1}%)";
                 pie.Slices[i].FillColor = palette[i % palette.Length];
                 pie.Slices[i].LabelStyle.FontSize = 11;
                 pie.Slices[i].LabelStyle.Bold = true;
@@ -352,11 +352,11 @@ namespace SiAP.UI
 
 
             // Configurar etiquetas de las porciones
-            pie.Slices[0].Label = $"Disponibles\n{disponibles} ({porcentaje:F1}%)";
+            pie.Slices[0].Label = $"Disponibles\n ({100-porcentaje:F1}%)";
             pie.Slices[0].FillColor = ScottPlot.Colors.LightGreen;
             pie.Slices[0].LabelStyle.FontSize = 12;
             pie.Slices[0].LabelStyle.Bold = true;
-            pie.Slices[1].Label = $"Ocupados\n{turnosOcupados} ({porcentaje:F1}%)";
+            pie.Slices[1].Label = $"Ocupados\n ({porcentaje:F1}%)";
             pie.Slices[1].FillColor = ScottPlot.Colors.Orange;
             pie.Slices[1].LabelStyle.FontSize = 12;
             pie.Slices[1].LabelStyle.Bold = true;
