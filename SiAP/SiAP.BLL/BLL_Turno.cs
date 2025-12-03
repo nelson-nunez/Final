@@ -42,16 +42,21 @@ namespace SiAP.BLL
 
             if (_mppTurno.Existe(turno))
                 throw new InvalidOperationException("El turno ya existe.");
+            //Validar que no tenga otro turno
+            if(_mppTurno.BuscarTurnoPorpacienteyFecha(turno))
+                throw new InvalidOperationException("El paciente ya registra otro turno en la misma fecha y hora.");
 
-            turno.Cobro = new Cobro();
-            turno.Cobro.MontoTotal = turno.Medico.ArancelConsulta;
-            turno.Cobro.Estado = EstadoCobro.PagoParcial;
-            turno.Cobro.TurnoId = turno.Id;
-            _mppCobro.Agregar(turno.Cobro);
-            //poco elegante, veeer
-            var item = _mppCobro.LeerPorTurnoId(turno.Id);
-            turno.CobroId = item.Id;
-            turno.Cobro = item;
+            //Creo el cobro
+            turno.Cobro = new Cobro
+            {
+                FechaHora = turno.Fecha,
+                MediodePago = MediodePago.sinInformar,
+                MontoTotal = turno.Medico.ArancelConsulta,
+                MontoAcumulado = 0,
+                Importe = 0,
+                Estado = EstadoCobro.PagoParcial
+            };
+            //Creo el turno junto al cobro
             _mppTurno.Agregar(turno);
             _logger.GenerarLog($"Turno agregado: Médico ID {turno.MedicoId}, Paciente ID {turno.PacienteId}, Fecha {turno.Fecha:dd/MM/yyyy}");
         }
@@ -68,10 +73,14 @@ namespace SiAP.BLL
         {
             if (_mppTurno.TieneDependencias(turno))
                 throw new InvalidOperationException("El turno tiene dependencias y no puede eliminarse.");
+
+            if (turno.Cobro.Estado != (EstadoCobro.PagoTotal | EstadoCobro.PagoTotal))
+                throw new InvalidOperationException("El turno tiene cobros y no puede eliminarse. Debe rembolsarse o completar el pago antes de eliminar");
+
             if (turno.Fecha < DateTime.Now)
                 throw new InvalidOperationException("No se puede eliminar un turno con fecha anterior al corriente día."); 
             
-            if (turno.Estado == EstadoTurno.Atendido || turno.Estado == EstadoTurno.Ausente)
+            if (turno.Estado == EstadoTurno.Confirmado || turno.Estado == EstadoTurno.Atendido || turno.Estado == EstadoTurno.Ausente)
                 throw new InvalidOperationException("El turno ya no puede eliminarse.");
             _mppTurno.Eliminar(turno);
             _logger.GenerarLog($"Turno eliminado: ID {turno.Id}");

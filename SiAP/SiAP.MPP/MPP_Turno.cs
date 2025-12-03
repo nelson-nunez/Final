@@ -28,8 +28,40 @@ namespace SiAP.MPP
         public void Agregar(Turno entidad)
         {
             ArgumentNullException.ThrowIfNull(entidad);
-            if (Existe(entidad)) return;
-            AgregarEntidad(entidad, AsignarDatos);
+            ArgumentNullException.ThrowIfNull(entidad.Cobro);
+            if (Existe(entidad)) 
+                return;
+
+            //turno
+            var ds = _datos.ObtenerDatos_BDSiAP();
+            var dt_turno = ds.Tables["Turno"];
+            var dr_turno = dt_turno.NewRow();
+            long nuevoId_turno = DataRowHelper.ObtenerSiguienteId(dt_turno, "Id");
+            
+            //Cobro
+            var dt_cobro = ds.Tables["Cobro"];
+            var dr_cobro = dt_cobro.NewRow();
+            long nuevoId_cobro = DataRowHelper.ObtenerSiguienteId(dt_cobro, "Id");
+            
+            //Cargo datos nuevos
+            dr_turno["Id"] = nuevoId_turno;
+            entidad.CobroId= nuevoId_cobro;
+            AsignarDatos(dr_turno, entidad);
+            //Cargo datos nuevos
+            dr_cobro["Id"] = nuevoId_cobro;
+            dr_cobro["FechaHora"] = entidad.Cobro.FechaHora;
+            dr_cobro["MontoTotal"] = entidad.MontoTotal;
+            dr_cobro["MontoAcumulado"] = entidad.Cobro.MontoAcumulado;
+            dr_cobro["MediodePago"] = entidad.Cobro.MediodePago;
+            dr_cobro["Importe"] = entidad.Cobro.Importe;
+            dr_cobro["Estado"] = entidad.Cobro.Estado.ToString();
+            dr_cobro["TurnoId"] = nuevoId_turno;
+
+            //Cre4o en bd turno
+            dt_turno.Rows.Add(dr_turno);
+            //Cre4o en bd cobro
+            dt_cobro.Rows.Add(dr_cobro);
+            _datos.Actualizar_BDSiAP(ds);
         }
 
         public void Modificar(Turno entidad)
@@ -98,8 +130,16 @@ namespace SiAP.MPP
         //Otros
         public IList<Turno> BuscarTurnoPorpaciente(long pacienteId)
         {
-            var lista = ObtenerTodos().Where(t => t.PacienteId == pacienteId).ToList();
+            var lista = ObtenerTodos().Where(t => t.PacienteId == pacienteId).OrderByDescending(x=>x.Fecha).OrderByDescending(x=>x.HoraInicio).ToList();
             return lista;
+        }
+        
+        public bool BuscarTurnoPorpacienteyFecha(Turno item)
+        {
+
+            var result = ObtenerTodos().Any(t => t.PacienteId == item.PacienteId && t.Fecha.Date == item.Fecha.Date &
+                                           (t.HoraInicio == item.HoraInicio | t.HoraFin == item.HoraFin));
+            return result;
         }
 
         public IList<Turno> BuscarporRangoFecha(DateTime fechaDesde, DateTime fechaHasta)

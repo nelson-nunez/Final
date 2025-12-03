@@ -148,7 +148,7 @@ namespace SiAP.UI.Forms_Seguridad
 
                 VerificarDatos();
                 usuarioSeleccionado = new Usuario();
-                usuarioSeleccionado.Activo = true;
+                usuarioSeleccionado.Activo = checkBox1.Checked;
                 usuarioSeleccionado.Bloqueado = false;
                 usuarioSeleccionado.PersonaId = personaSeleccionada.Id;
                 usuarioSeleccionado.Username = textBox_username.Text;
@@ -306,7 +306,6 @@ namespace SiAP.UI.Forms_Seguridad
             textBox_nombre.Text.ValidarSoloTexto("Nombre");
             textBox_apellido.Text.ValidarSoloTexto("Apellido");
             textBox_email.Text.ValidarEmail("Email");
-            checkBox1.Checked.Validar("Activo");
         }
     }
 }

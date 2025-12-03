@@ -25,7 +25,7 @@ namespace SiAP.MPP
             if (Existe(entidad)) return;
             AgregarEntidad(entidad, AsignarDatos);
         }
-
+        
         public void Modificar(Cobro entidad)
         {
             ModificarEntidad(entidad, AsignarDatos);
@@ -70,18 +70,26 @@ namespace SiAP.MPP
 
         public Cobro HidratarObjeto(DataRow r)
         {
-            return new Cobro
+            try
             {
-                Id = Convert.ToInt32(r["Id"]),
-                FechaHora = Convert.ToDateTime(r["FechaHora"]),
-                MediodePago = Enum.Parse <MediodePago> (r["MediodePago"].ToString()),
-                MontoTotal = Convert.ToDecimal(r["MontoTotal"]),
-                MontoAcumulado = Convert.ToDecimal(r["MontoAcumulado"]),
-                Importe = Convert.ToDecimal(r["Importe"]),
-                Estado = Enum.Parse<EstadoCobro>(r["Estado"].ToString()),
-                //FacturaId = Convert.ToInt32(r["FacturaId"]),
-                TurnoId = Convert.ToInt32(r["TurnoId"]),
-            };
+                return new Cobro
+                {
+                    Id = Convert.ToInt32(r["Id"]),
+                    FechaHora = Convert.ToDateTime(r["FechaHora"]),
+                    MediodePago = Enum.Parse<MediodePago> (r["MediodePago"].ToString()),
+                    MontoTotal = Convert.ToDecimal(r["MontoTotal"]),
+                    MontoAcumulado = Convert.ToDecimal(r["MontoAcumulado"]),
+                    Importe = Convert.ToDecimal(r["Importe"]),
+                    Estado = Enum.Parse<EstadoCobro>(r["Estado"].ToString()),
+                    TurnoId = Convert.ToInt32(r["TurnoId"]),
+                };
+
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
         }
         
         //Otros

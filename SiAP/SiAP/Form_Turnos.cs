@@ -199,18 +199,21 @@ namespace SiAP.UI
         {
             _fechaSeleccionada = _fechaSeleccionada.AddDays(-7);
             CargarAgenda();
+            //comboBox1.CargarMesesRelativos(_fechaSeleccionada);
         }
 
         private void button_mes_actual_Click(object sender, EventArgs e)
         {
             _fechaSeleccionada = DateTime.Now;
             CargarAgenda();
+            //comboBox1.CargarMesesRelativos(_fechaSeleccionada);
         }
 
         private void button_sem_siguiente_Click(object sender, EventArgs e)
         {
             _fechaSeleccionada = _fechaSeleccionada.AddDays(7);
             CargarAgenda();
+            //comboBox1.CargarMesesRelativos(_fechaSeleccionada);
         }
 
         #endregion
@@ -341,15 +344,15 @@ namespace SiAP.UI
             {
                 var celda = dataGridView1.ObtenerCeldaSeleccionada();
                 if (celda == null || !celda.TieneTurno)
-                    throw new Exception("Debe seleccionar un turno para eliminar.");
+                    throw new Exception("Debe seleccionar un turno agendado.");
                 if (celda.Turno.Estado != EstadoTurno.Asignado)
                     throw new Exception($"No se puede marcar asistencia a un turno con estado: {celda.Turno.Estado}");
 
                 InputsExtensions.PedirConfirmacion("¿Desea marcar la asistencia?");
-                
+
                 celda.Turno.Estado = EstadoTurno.Confirmado;
                 _bllTurnos.Modificar(celda.Turno);
-                
+
                 MessageBox.Show("Se marcó la asistencia con éxito", "✔ Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 CargarAgenda();
             }
@@ -365,7 +368,7 @@ namespace SiAP.UI
             {
                 var celda = dataGridView1.ObtenerCeldaSeleccionada();
                 if (celda == null || !celda.TieneTurno)
-                    throw new InvalidOperationException("Debe seleccionar un turno para eliminar.");
+                    throw new Exception("Debe seleccionar un turno agendado.");
                 if (celda.Turno.Estado != EstadoTurno.Asignado)
                     throw new Exception($"No se puede marcar inasistencia a un turno con estado: {celda.Turno.Estado}");
                 InputsExtensions.PedirConfirmacion("¿Desea marcar la inasistencia?");
@@ -374,6 +377,29 @@ namespace SiAP.UI
                 _bllTurnos.Modificar(celda.Turno);
 
                 MessageBox.Show("Se marcó la inasistencia con éxito", "✔ Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                CargarAgenda();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "⛔ Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void button_cancelar_turno_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var celda = dataGridView1.ObtenerCeldaSeleccionada();
+                if (celda == null || !celda.TieneTurno)
+                    throw new Exception("Debe seleccionar un turno agendado.");
+                if (celda.Turno.Estado != EstadoTurno.Asignado)
+                    throw new Exception($"No se puede cancelar a un turno con estado: {celda.Turno.Estado}");
+                InputsExtensions.PedirConfirmacion("¿Desea cancelar el turno?");
+
+                celda.Turno.Estado = EstadoTurno.Cancelado;
+                _bllTurnos.Modificar(celda.Turno);
+
+                MessageBox.Show("Se registró la cancelación con éxito", "✔ Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 CargarAgenda();
             }
             catch (Exception ex)

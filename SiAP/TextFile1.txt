@@ -1,6 +1,2 @@
-filtrar con fecha desde y hasta
-agregar solo facturacion al dashboard
-sacar el user admin!!!!
 
-Patron Composite: Si bien la teoria menciona, ningun ejemplo tenia EliminarPermiso
 

@@ -6,7 +6,7 @@ namespace SiAP.BE
     public class Cobro: ClaseBase
     {
         public DateTime FechaHora { get; set; }
-        public MediodePago MediodePago { get; set; }
+        public MediodePago? MediodePago { get; set; }
         public decimal MontoTotal { get; set; }
         public decimal MontoAcumulado { get; set; }
         public decimal Importe { get; set; }
@@ -30,6 +30,7 @@ namespace SiAP.BE
         Credito,
         Debito,
         BilleteraVirtual,
+        sinInformar
     }
     public static class MediodePagoHelper
     {

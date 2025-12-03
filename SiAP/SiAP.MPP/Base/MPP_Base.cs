@@ -24,7 +24,7 @@ namespace SiAP.MPP.Base
 
         #region Operaciones CRUD centralizadas
 
-        protected void AgregarEntidad(T entidad, Action<DataRow, T> asignarDatos)
+        protected long AgregarEntidad(T entidad, Action<DataRow, T> asignarDatos)
         {
             ArgumentNullException.ThrowIfNull(entidad);
 
@@ -39,7 +39,7 @@ namespace SiAP.MPP.Base
             dt.Rows.Add(dr);
             _datos.Actualizar_BDSiAP(ds);
 
-            entidad.Id = nuevoId;
+            return nuevoId;
         }
 
         protected void ModificarEntidad(T entidad, Action<DataRow, T> asignarDatos)

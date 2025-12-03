@@ -19,6 +19,7 @@ namespace SiAP.BE
         public Cobro Cobro { get; set; }
 
         public decimal MontoTotal => (decimal)(Cobro?.MontoTotal ?? 0);
+        public MediodePago MediodePago => (MediodePago)(Cobro?.MediodePago);
         public decimal MontoRestante => (decimal)(Cobro?.MontoRestante ?? 0);
         public EstadoCobro EstadoCobro => (EstadoCobro)(Cobro?.Estado ?? 0);
         public string NombrePaciente => Paciente?.ToString();

@@ -26,7 +26,7 @@ namespace SiAP.UI
         BLL_Turno _bllTurno;
         BLL_Factura _bllFactura;
         Turno itemSeleccionado;
-        private List<string> campos = new List<string> { "Fecha", "HoraInicio", "Estado", "TipoAtencion", "MediodePago", "MontoTotal", "MontoRestante", "EstadoCobro" };
+        private List<string> campos = new List<string> { "Id", "CobroId", "Fecha", "HoraInicio", "Estado", "TipoAtencion", "MediodePago", "MontoTotal", "MontoRestante", "EstadoCobro" };
         //Control
         private UC_Mostrar_Paciente _userControl;
         private Paciente pacienteSeleccionado;
@@ -57,10 +57,7 @@ namespace SiAP.UI
         {
             try
             {
-                pacienteSeleccionado = _userControl.pacienteSeleccionado;
-                if (pacienteSeleccionado != null)
-                    dataGrid_cobros.CargarGrid(campos, _bllTurno.BuscarTurnoPorPaciente(pacienteSeleccionado).ToList());
-                
+                pacienteSeleccionado = _userControl.pacienteSeleccionado;              
                 LimpiarSeleccion();
             }
             catch (Exception ex)
@@ -71,7 +68,10 @@ namespace SiAP.UI
 
         private void LimpiarSeleccion()
         {
-            dataGrid_cobros.CargarGrid(campos, _bllTurno.ObtenerTodos().ToList());
+            if (pacienteSeleccionado != null)
+                dataGrid_cobros.CargarGrid(campos, _bllTurno.BuscarTurnoPorPaciente(pacienteSeleccionado).ToList());
+            else
+                dataGrid_cobros.DataSource = null;
             itemSeleccionado = null;
             textBox_fecha_turno.Text = "";
             textBox_hora_turno.Text = "";
@@ -102,8 +102,9 @@ namespace SiAP.UI
                     textBox_monto_total.Text = itemSeleccionado.MontoTotal.ToString();
                     textBox_pendiente.Text = itemSeleccionado.MontoRestante.ToString();
                     comboBox_tipo_pago.SelectedItem = itemSeleccionado.Cobro.MediodePago;                    
-                    if (itemSeleccionado.EstadoCobro != (EstadoCobro.PagoParcial))
-                        comboBox_tipo_pago.Enabled = false;
+                    
+                    comboBox_tipo_pago.Enabled = itemSeleccionado.EstadoCobro == (EstadoCobro.PagoParcial);
+
                 }
             }
         }
@@ -112,7 +113,6 @@ namespace SiAP.UI
 
         #region Buttons
 
-        #endregion
         private void button_reembolsar_Click(object sender, EventArgs e)
         {
             try
@@ -200,5 +200,7 @@ namespace SiAP.UI
 
             CargarDatos();
         }
+        
+        #endregion
     }
 }

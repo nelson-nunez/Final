@@ -48,7 +48,10 @@ namespace SiAP.BLL
 
         public void Pagar(Turno itemSeleccionado)
         {
-            //Validar
+            //Validar Turno
+            if (itemSeleccionado.Estado == EstadoTurno.Cancelado || itemSeleccionado.Estado == EstadoTurno.Ausente)
+                throw new Exception("No puede realizar un pago de un turno ausente o cancelado.");
+            //Validar Cbro
             if (itemSeleccionado.Cobro.Estado == EstadoCobro.Reembolsado)
                 throw new Exception("El cobro ya fué reembolsado, no puede realizar otro pago.");
             if (itemSeleccionado?.Fecha.Date < DateTime.Now.Date)
@@ -107,8 +110,9 @@ namespace SiAP.BLL
                 throw new Exception("El cobro ya se facturó y no se puede reembolsar.");
             if (itemSeleccionado?.Fecha.Date < DateTime.Now.Date)
                 throw new Exception("El plazo máximo para reembolso ya expiró.");
-            if (itemSeleccionado?.Estado != EstadoTurno.Asignado && itemSeleccionado?.Estado != EstadoTurno.Confirmado)
-                throw new Exception("El turno ya fue cancelado o atendido y no se puede reembolsar.");
+            //Validar Turno
+            if (itemSeleccionado.Estado == EstadoTurno.Atendido || itemSeleccionado.Estado == EstadoTurno.Cancelado || itemSeleccionado.Estado == EstadoTurno.Ausente)
+                throw new Exception("No se puede realizar un reembolso de un turno atendido, ausente o cancelado.");
 
             // Guardar valores para el log
             var montoReembolsado = itemSeleccionado.Cobro.MontoAcumulado;

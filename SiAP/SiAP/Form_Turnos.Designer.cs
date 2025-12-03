@@ -57,6 +57,7 @@
             button_eliminar_turno = new Button();
             button_asignar_turno = new Button();
             button_seleccionar_paciente = new Button();
+            button_cancelar_turno = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
@@ -184,6 +185,7 @@
             // 
             // groupBox_turno
             // 
+            groupBox_turno.Controls.Add(button_cancelar_turno);
             groupBox_turno.Controls.Add(button_marcar_ausencia);
             groupBox_turno.Controls.Add(button_marcar_asistencia);
             groupBox_turno.Controls.Add(button_imprimir);
@@ -212,7 +214,7 @@
             // 
             button_marcar_ausencia.BackColor = Color.IndianRed;
             button_marcar_ausencia.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            button_marcar_ausencia.Location = new Point(878, 49);
+            button_marcar_ausencia.Location = new Point(738, 25);
             button_marcar_ausencia.Name = "button_marcar_ausencia";
             button_marcar_ausencia.Size = new Size(140, 30);
             button_marcar_ausencia.TabIndex = 29;
@@ -224,7 +226,7 @@
             // 
             button_marcar_asistencia.BackColor = Color.DarkSeaGreen;
             button_marcar_asistencia.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            button_marcar_asistencia.Location = new Point(732, 49);
+            button_marcar_asistencia.Location = new Point(571, 71);
             button_marcar_asistencia.Name = "button_marcar_asistencia";
             button_marcar_asistencia.Size = new Size(140, 30);
             button_marcar_asistencia.TabIndex = 28;
@@ -238,7 +240,7 @@
             button_imprimir.Font = new Font("Calibri", 9.75F, FontStyle.Bold);
             button_imprimir.Image = Properties.Resources.printer;
             button_imprimir.ImageAlign = ContentAlignment.MiddleLeft;
-            button_imprimir.Location = new Point(584, 48);
+            button_imprimir.Location = new Point(571, 24);
             button_imprimir.Margin = new Padding(5);
             button_imprimir.Name = "button_imprimir";
             button_imprimir.Size = new Size(140, 30);
@@ -387,6 +389,18 @@
             button_seleccionar_paciente.UseVisualStyleBackColor = false;
             button_seleccionar_paciente.Click += button_seleccionar_paciente_Click;
             // 
+            // button_cancelar_turno
+            // 
+            button_cancelar_turno.BackColor = Color.LightSalmon;
+            button_cancelar_turno.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            button_cancelar_turno.Location = new Point(738, 70);
+            button_cancelar_turno.Name = "button_cancelar_turno";
+            button_cancelar_turno.Size = new Size(140, 30);
+            button_cancelar_turno.TabIndex = 30;
+            button_cancelar_turno.Text = "Cancelar Turno";
+            button_cancelar_turno.UseVisualStyleBackColor = false;
+            button_cancelar_turno.Click += button_cancelar_turno_Click;
+            // 
             // Form_Turnos
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -434,5 +448,6 @@
         private Button button_imprimir;
         private Button button_marcar_ausencia;
         private Button button_marcar_asistencia;
+        private Button button_cancelar_turno;
     }
 }

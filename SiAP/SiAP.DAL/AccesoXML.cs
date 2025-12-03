@@ -290,9 +290,9 @@ namespace SiAP.DAL
             tabla.Columns.Add("ArancelConsulta", typeof(decimal));
             tabla.PrimaryKey = new[] { tabla.Columns["Id"] };
 
-            tabla.Rows.Add(1, 3, "Médica Clinica", 4, "Cardiología", 60000m);  // Referencia a Persona Id=3
+            tabla.Rows.Add(1, 3, "Médica Clinica", 1, "Médica Clinica", 60000m);  // Referencia a Persona Id=3
             tabla.Rows.Add(2, 4, "Especialista", 2, "Pediatría", 50000m);     // Referencia a Persona Id=4
-            tabla.Rows.Add(3, 5, "Doctor en Neurología", 5, "Neurología", 60000m);      // Referencia a Persona Id=5
+            tabla.Rows.Add(3, 5, "Doctor en Neurología", 6, "Neurología", 60000m);      // Referencia a Persona Id=5
             tabla.Rows.Add(4, 1, "ADMIN also Doctor", 2, "Pediatría", 40000m);       // Referencia a Persona Id=1
             return tabla;
         }
