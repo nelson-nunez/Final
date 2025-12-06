@@ -412,20 +412,33 @@ namespace SiAP.DAL
             var fechaBase = DateTime.Today.Date;
             long idAgenda = 1;
 
+            // Intervalos de 30 minutos
+            var intervalo = TimeSpan.FromMinutes(30);
+
+            // Horario: 08:00 a 13:00
+            var horaInicioDia = new TimeSpan(8, 0, 0);
+            var horaFinDia = new TimeSpan(13, 0, 0);
+
             // Crear agenda para los 3 médicos
             for (int medicoId = 1; medicoId <= 3; medicoId++)
             {
                 for (int dia = 0; dia < 7; dia++)
                 {
                     var fecha = fechaBase.AddDays(dia);
-                    for (int hora = 8; hora < 13; hora++)
+
+                    // Generar bloques de 30 min
+                    for (var hora = horaInicioDia; hora < horaFinDia; hora += intervalo)
                     {
-                        tabla.Rows.Add(idAgenda++, fecha, new TimeSpan(hora, 0, 0),
-                            new TimeSpan(hora + 1, 0, 0), medicoId);
+                        tabla.Rows.Add(
+                            idAgenda++,
+                            fecha,
+                            hora,
+                            hora + intervalo,
+                            medicoId
+                        );
                     }
                 }
             }
-
             return tabla;
         }
 
@@ -445,14 +458,6 @@ namespace SiAP.DAL
             tabla.Columns.Add("CobroId", typeof(long));
             
             tabla.PrimaryKey = new[] { tabla.Columns["Id"] };
-
-            tabla.Rows.Add(1, new DateTime(2025, 7, 8), new TimeSpan(9, 0, 0), new TimeSpan(10, 0, 0),
-                "Consulta general", EstadoTurno.Asignado.ToString(),
-                1, 1, 6, 1); // AgendaId=6 (Médico 1, día 1, 9:00)
-
-            tabla.Rows.Add(2, new DateTime(2025, 5, 8), new TimeSpan(9, 0, 0), new TimeSpan(10, 0, 0),
-                "Consulta pediátrica", EstadoTurno.Asignado.ToString(),
-                2, 1, 41, 2); // AgendaId=41 (Médico 2, día 1, 9:00)
 
             return tabla;
         }
@@ -478,39 +483,6 @@ namespace SiAP.DAL
 
             tabla.PrimaryKey = new[] { tabla.Columns["Id"] };
 
-            // Factura 1 (para Cobro 1)
-            tabla.Rows.Add(
-                1,
-                ReferenciasNegocio.RazonSocialEmisor,
-                ReferenciasNegocio.CUITEmisor,
-                ReferenciasNegocio.DomicilioEmisor,
-                1,
-                "Juan Gómez - DNI:87654321",
-                1, // CobroId=1
-                new DateTime(2025, 7, 8),
-                "F0001-00000001",
-                100000m, // Coincide con MontoTotal del Cobro 1
-                "Consulta general",
-                EstadoFactura.Emitida.ToString()
-            );
-
-            // Factura 2 (para Cobro 2)
-            tabla.Rows.Add(
-                2,
-                ReferenciasNegocio.RazonSocialEmisor,
-                ReferenciasNegocio.CUITEmisor,
-                ReferenciasNegocio.DomicilioEmisor,
-                1,
-                "Juan Gómez - DNI:87654321",
-                2, // CobroId=2
-                new DateTime(2025, 7, 9),
-                "F0001-00000002",
-                12000m, // Corregido: 12000 en vez de 120000
-                "Consulta pediátrica",
-                EstadoFactura.Emitida.ToString()
-            );
-
-
             return tabla;
         }
 
@@ -527,24 +499,6 @@ namespace SiAP.DAL
             tabla.Columns.Add("TurnoId", typeof(long));
             tabla.Columns.Add("FormaPagoId", typeof(long));
             tabla.PrimaryKey = new[] { tabla.Columns["Id"] };
-
-            // Cobro 1 - Pago parcial de 50000 sobre total de 100000
-            tabla.Rows.Add(1, new DateTime(2025, 7, 8, 10, 1, 0),
-                MediodePago.Efectivo,
-                100000,  // MontoTotal
-                50000,   // MontoAcumulado (pagado hasta ahora)
-                50000,   // Importe (de este pago) 
-                EstadoCobro.PagoParcial.ToString(),
-                1, 1);
-
-            // Cobro 2 - Pago total
-            tabla.Rows.Add(2, new DateTime(2025, 7, 9, 12, 2, 0),
-                MediodePago.Debito,
-                12000,   // MontoTotal
-                12000,   // MontoAcumulado
-                12000,   // Importe (de este pago) 
-                EstadoCobro.PagoTotal.ToString(),
-                2, 4);
 
             return tabla;
         }

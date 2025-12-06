@@ -120,7 +120,7 @@
             uC_Mostrar_Paciente1.BackColor = Color.WhiteSmoke;
             uC_Mostrar_Paciente1.Location = new Point(6, 22);
             uC_Mostrar_Paciente1.Name = "uC_Mostrar_Paciente1";
-            uC_Mostrar_Paciente1.Size = new Size(900, 110);
+            uC_Mostrar_Paciente1.Size = new Size(715, 110);
             uC_Mostrar_Paciente1.TabIndex = 57;
             // 
             // tabControl1
@@ -755,6 +755,7 @@
             // 
             // uC_Buscar_Paciente1
             // 
+            uC_Buscar_Paciente1.BackColor = Color.DarkGray;
             uC_Buscar_Paciente1.Location = new Point(383, 244);
             uC_Buscar_Paciente1.Name = "uC_Buscar_Paciente1";
             uC_Buscar_Paciente1.Size = new Size(444, 226);

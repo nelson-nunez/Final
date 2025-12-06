@@ -121,9 +121,11 @@ namespace SiAP.BLL
             return _mppTurno.BuscarTurnoPorpaciente(paciente.Id);
         }
         
-        public IList<Turno> BuscarporRango(DateTime desde, DateTime hasta)
+        public IList<Turno> BuscarporRango(DateTime desde, DateTime hasta, Medico medico = null)
         {
             var turnos = _mppTurno.BuscarporRangoFecha(desde, hasta);
+            if (medico != null)
+                turnos = turnos.Where(x=>x.MedicoId == medico.Id).ToList();
             return turnos;
         }
         

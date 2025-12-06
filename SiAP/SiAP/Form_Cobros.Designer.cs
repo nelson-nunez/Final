@@ -85,7 +85,7 @@
             uC_Mostrar_Paciente1.BackColor = Color.Transparent;
             uC_Mostrar_Paciente1.Location = new Point(6, 22);
             uC_Mostrar_Paciente1.Name = "uC_Mostrar_Paciente1";
-            uC_Mostrar_Paciente1.Size = new Size(900, 109);
+            uC_Mostrar_Paciente1.Size = new Size(754, 109);
             uC_Mostrar_Paciente1.TabIndex = 141;
             // 
             // dataGrid_cobros

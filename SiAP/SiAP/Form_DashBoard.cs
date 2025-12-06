@@ -378,3 +378,5 @@ namespace SiAP.UI
         #endregion
     }
 }
+
+aca quede los reportes no salen bien.

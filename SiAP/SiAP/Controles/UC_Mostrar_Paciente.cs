@@ -57,9 +57,12 @@ namespace SiAP.UI.Forms_Seguridad
             }
         }
 
-        private void CargarDatosPaciente()
+        public void CargarDatosPaciente(Paciente item = null)
         {
-            if (pacienteSeleccionado == null) return;
+            if (item != null)
+                pacienteSeleccionado = item;
+            if (pacienteSeleccionado == null) 
+                return;
 
             textBox_nombre_completo.Text = pacienteSeleccionado.ToString();
             textBox_DNI.Text = pacienteSeleccionado.Dni.ToString();

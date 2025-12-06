@@ -130,12 +130,17 @@ namespace SiAP.MPP
         //Otros
         public IList<Turno> BuscarTurnoPorpaciente(long pacienteId)
         {
-            var lista = ObtenerTodos().Where(t => t.PacienteId == pacienteId).OrderByDescending(x=>x.Fecha).OrderByDescending(x=>x.HoraInicio).ToList();
-            return lista;
+            return ObtenerTodos()
+                .Where(t => t.PacienteId == pacienteId)
+                .OrderByDescending(t => t.Fecha)
+                .ThenByDescending(t => t.HoraInicio)
+                .ToList();
         }
         
         public bool BuscarTurnoPorpacienteyFecha(Turno item)
         {
+            var tt = ObtenerTodos().FirstOrDefault(t => t.PacienteId == item.PacienteId && t.Fecha.Date == item.Fecha.Date &
+                                           (t.HoraInicio == item.HoraInicio | t.HoraFin == item.HoraFin));
 
             var result = ObtenerTodos().Any(t => t.PacienteId == item.PacienteId && t.Fecha.Date == item.Fecha.Date &
                                            (t.HoraInicio == item.HoraInicio | t.HoraFin == item.HoraFin));

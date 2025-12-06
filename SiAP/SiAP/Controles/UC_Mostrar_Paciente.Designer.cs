@@ -62,7 +62,7 @@
             groupBox1.Controls.Add(label31);
             groupBox1.Location = new Point(3, 0);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(894, 107);
+            groupBox1.Size = new Size(702, 107);
             groupBox1.TabIndex = 2;
             groupBox1.TabStop = false;
             groupBox1.Text = "Paciente";
@@ -85,24 +85,24 @@
             // textBox_nombre_completo
             // 
             textBox_nombre_completo.Enabled = false;
-            textBox_nombre_completo.Location = new Point(274, 16);
+            textBox_nombre_completo.Location = new Point(211, 16);
             textBox_nombre_completo.Name = "textBox_nombre_completo";
-            textBox_nombre_completo.Size = new Size(359, 23);
+            textBox_nombre_completo.Size = new Size(295, 23);
             textBox_nombre_completo.TabIndex = 123;
             // 
             // textBox_DNI
             // 
             textBox_DNI.Enabled = false;
-            textBox_DNI.Location = new Point(675, 16);
+            textBox_DNI.Location = new Point(550, 16);
             textBox_DNI.Name = "textBox_DNI";
-            textBox_DNI.Size = new Size(203, 23);
+            textBox_DNI.Size = new Size(142, 23);
             textBox_DNI.TabIndex = 122;
             // 
             // label26
             // 
             label26.AutoSize = true;
             label26.Enabled = false;
-            label26.Location = new Point(639, 19);
+            label26.Location = new Point(514, 19);
             label26.Name = "label26";
             label26.Size = new Size(30, 15);
             label26.TabIndex = 121;
@@ -111,15 +111,15 @@
             // textBox_plan
             // 
             textBox_plan.Enabled = false;
-            textBox_plan.Location = new Point(485, 74);
+            textBox_plan.Location = new Point(422, 74);
             textBox_plan.Name = "textBox_plan";
-            textBox_plan.Size = new Size(393, 23);
+            textBox_plan.Size = new Size(270, 23);
             textBox_plan.TabIndex = 120;
             // 
             // textBox_nro_socio
             // 
             textBox_nro_socio.Enabled = false;
-            textBox_nro_socio.Location = new Point(274, 74);
+            textBox_nro_socio.Location = new Point(211, 74);
             textBox_nro_socio.Name = "textBox_nro_socio";
             textBox_nro_socio.Size = new Size(163, 23);
             textBox_nro_socio.TabIndex = 119;
@@ -127,9 +127,9 @@
             // textBox_ooss
             // 
             textBox_ooss.Enabled = false;
-            textBox_ooss.Location = new Point(274, 45);
+            textBox_ooss.Location = new Point(211, 45);
             textBox_ooss.Name = "textBox_ooss";
-            textBox_ooss.Size = new Size(604, 23);
+            textBox_ooss.Size = new Size(481, 23);
             textBox_ooss.TabIndex = 118;
             // 
             // button2
@@ -151,7 +151,7 @@
             // 
             label28.AutoSize = true;
             label28.Enabled = false;
-            label28.Location = new Point(217, 19);
+            label28.Location = new Point(154, 19);
             label28.Name = "label28";
             label28.Size = new Size(51, 15);
             label28.TabIndex = 115;
@@ -161,7 +161,7 @@
             // 
             label29.AutoSize = true;
             label29.Enabled = false;
-            label29.Location = new Point(211, 77);
+            label29.Location = new Point(148, 77);
             label29.Name = "label29";
             label29.Size = new Size(56, 15);
             label29.TabIndex = 113;
@@ -171,7 +171,7 @@
             // 
             label30.AutoSize = true;
             label30.Enabled = false;
-            label30.Location = new Point(223, 48);
+            label30.Location = new Point(160, 48);
             label30.Name = "label30";
             label30.Size = new Size(43, 15);
             label30.TabIndex = 116;
@@ -181,7 +181,7 @@
             // 
             label31.AutoSize = true;
             label31.Enabled = false;
-            label31.Location = new Point(443, 77);
+            label31.Location = new Point(380, 77);
             label31.Name = "label31";
             label31.Size = new Size(36, 15);
             label31.TabIndex = 117;
@@ -189,6 +189,7 @@
             // 
             // uC_Buscar_Paciente1
             // 
+            uC_Buscar_Paciente1.BackColor = Color.DarkGray;
             uC_Buscar_Paciente1.Location = new Point(226, 45);
             uC_Buscar_Paciente1.Name = "uC_Buscar_Paciente1";
             uC_Buscar_Paciente1.Size = new Size(444, 226);

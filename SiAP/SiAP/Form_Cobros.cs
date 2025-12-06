@@ -26,7 +26,7 @@ namespace SiAP.UI
         BLL_Turno _bllTurno;
         BLL_Factura _bllFactura;
         Turno itemSeleccionado;
-        private List<string> campos = new List<string> { "Id", "CobroId", "Fecha", "HoraInicio", "Estado", "TipoAtencion", "MediodePago", "MontoTotal", "MontoRestante", "EstadoCobro" };
+        private List<string> campos = new List<string> { "Fecha", "HoraInicio", "Estado", "TipoAtencion", "MediodePago", "MontoTotal", "MontoRestante", "EstadoCobro" };
         //Control
         private UC_Mostrar_Paciente _userControl;
         private Paciente pacienteSeleccionado;

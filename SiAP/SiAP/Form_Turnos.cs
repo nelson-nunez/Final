@@ -1,5 +1,6 @@
 ﻿using SiAP.BE;
 using SiAP.BLL;
+using SiAP.BLL.Seguridad;
 using SiAP.Services.PDF;
 using SiAP.UI.Extensiones;
 using SiAP.UI.Forms_Seguridad;
@@ -15,12 +16,13 @@ namespace SiAP.UI
         private readonly BLL_Agenda _bllAgenda;
         private readonly BLL_Turno _bllTurnos;
         private readonly BLL_Paciente _bllPaciente;
-        private readonly UC_Buscar_Paciente _userControl;
 
         private Medico _medicoSeleccionado;
         private Paciente _pacienteSeleccionado;
         private DateTime _fechaSeleccionada;
 
+        //Control
+        private UC_Mostrar_Paciente _userControl;
         #endregion
 
         #region Constructor
@@ -34,9 +36,11 @@ namespace SiAP.UI
             _bllTurnos = BLL_Turno.ObtenerInstancia();
             _bllPaciente = BLL_Paciente.ObtenerInstancia();
 
-            _userControl = this.FindUserControl<UC_Buscar_Paciente>("uC_Buscar_Paciente1");
-            _userControl.Visible = false;
-            _userControl.ShouldUpdate += OnPacienteSeleccionado;
+            //Componentes
+            var useractual = GestionUsuario.UsuarioLogueado;
+            _userControl = this.FindUserControl<UC_Mostrar_Paciente>("uC_Mostrar_Paciente1");
+            if (_userControl != null)
+                _userControl.ShouldUpdate += OnPacienteSeleccionado;
 
             InicializarControles();
         }
@@ -63,8 +67,7 @@ namespace SiAP.UI
                 }
 
                 _medicoSeleccionado = e.Node?.Tag as Medico;
-                label_titular_agenda.Text = $"Agenda: {_medicoSeleccionado}";
-                _pacienteSeleccionado = null;
+                label10_prop_agenda.Text = $"Agenda: {_medicoSeleccionado}";
                 CargarAgenda();
             }
             catch (Exception ex)
@@ -149,12 +152,13 @@ namespace SiAP.UI
             if (celda.TieneTurno)
             {
                 var paciente = _bllPaciente.Leer(celda.Turno.PacienteId);
-                textBox_paciente.Text = paciente?.ToString() ?? "Paciente no encontrado";
                 textBox_estado.Text = celda.Turno.Estado.ToString();
+                //actualizo el UC
+                if (_pacienteSeleccionado == null || paciente.Id != _pacienteSeleccionado.Id)
+                    _userControl.CargarDatosPaciente(paciente);
             }
             else
             {
-                textBox_paciente.Text = _pacienteSeleccionado?.ToString() ?? string.Empty;
                 textBox_estado.Text = celda.TieneAgenda ? "Disponible" : "Sin agenda";
             }
         }
@@ -164,12 +168,12 @@ namespace SiAP.UI
             bool esDisponible = celda.TieneAgenda && !celda.TieneTurno;
             bool hayPaciente = _pacienteSeleccionado != null;
 
-            button_seleccionar_paciente.Visible = esDisponible;
             button_asignar_turno.Visible = esDisponible && hayPaciente;
             button_eliminar_turno.Visible = celda.TieneTurno;
-            //button_cobrar.Visible = celda.TieneTurno &&
-            //    (celda.Turno.Estado == EstadoTurno.Asignado ||
-            //     celda.Turno.Estado == EstadoTurno.Confirmado);
+
+            button_marcar_asistencia.Visible = celda.TieneTurno;
+            button_marcar_ausencia.Visible = celda.TieneTurno;
+            button_cancelar_turno.Visible = celda.TieneTurno;
         }
 
         private void LimpiarFormulario()
@@ -178,7 +182,6 @@ namespace SiAP.UI
             textBox_fecha.Clear();
             textBox_hora_inicio.Clear();
             textBox_hora_fin.Clear();
-            textBox_paciente.Clear();
             textBox_estado.Clear();
         }
 
@@ -220,15 +223,9 @@ namespace SiAP.UI
 
         #region Gestión de Turnos
 
-        private void button_seleccionar_paciente_Click(object sender, EventArgs e)
-        {
-            _userControl.Visible = true;
-        }
-
         private void OnPacienteSeleccionado(object sender, EventArgs e)
         {
-            _userControl.Visible = false;
-            _pacienteSeleccionado = _userControl.itemSeleccionado;
+            _pacienteSeleccionado = _userControl.pacienteSeleccionado;
             ActualizarVistaSegunSeleccion();
         }
 
@@ -305,27 +302,23 @@ namespace SiAP.UI
             }
         }
 
-        #endregion
-
-
-        private void LimpiarYRecargar()
-        {
-            _pacienteSeleccionado = null;
-            _userControl.itemSeleccionado = null;
-            CargarAgenda();
-        }
-
         private void button_imprimir_Click(object sender, EventArgs e)
         {
-
             try
             {
-                // Validar
+                // Validaciones
                 if (_medicoSeleccionado == null)
                     throw new InvalidOperationException("Debe seleccionar un médico.");
 
-                var lista = _bllTurnos.BuscarPorMedicoyRango(_medicoSeleccionado, _fechaSeleccionada).ToList();
+                if (dateTimePicker_desde.Value.Date > dateTimePicker_hasta.Value.Date)
+                    throw new InvalidOperationException("La fecha 'Desde' no puede ser mayor que la fecha 'Hasta'.");
 
+                double dias = (dateTimePicker_hasta.Value.Date - dateTimePicker_desde.Value.Date).TotalDays;
+                if (dias > 30)
+                    throw new InvalidOperationException("El rango seleccionado no debe superar los 30 días.");
+
+                // Cargar datos y generar PDF
+                var lista = _bllTurnos.BuscarporRango(dateTimePicker_desde.Value, dateTimePicker_hasta.Value, _medicoSeleccionado).ToList();
                 var generator = new TurnosPDFGenerator(lista);
                 generator.GenerarYAbrirPDF();
             }
@@ -403,6 +396,14 @@ namespace SiAP.UI
             {
                 MessageBox.Show(ex.Message, "⛔ Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        #endregion
+
+
+        private void LimpiarYRecargar()
+        {
+            CargarAgenda();
         }
     }
 }
