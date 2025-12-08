@@ -85,21 +85,21 @@ namespace SiAP.MPP
 
         public HistoriaClinica HidratarObjeto(DataRow rHistoria)
         {
-            var pacienteId = Convert.ToInt64(rHistoria["PacienteId"]);
-            var paciente = _mppPaciente.LeerPorId(pacienteId)
-                ?? throw new Exception($"Paciente con Id {pacienteId} no encontrado.");
+                var pacienteId = Convert.ToInt64(rHistoria["PacienteId"]);
+                var paciente = _mppPaciente.LeerPorId(pacienteId)
+                    ?? throw new Exception($"Paciente con Id {pacienteId} no encontrado.");
 
-            var historiaId = Convert.ToInt64(rHistoria["Id"]);
+                var historiaId = Convert.ToInt64(rHistoria["Id"]);
 
-            var historia = new HistoriaClinica
-            {
-                Id = historiaId,
-                Paciente = paciente,
-                Descripcion = rHistoria["Descripcion"]?.ToString() ?? string.Empty,
-                FechaCreacion = Convert.ToDateTime(rHistoria["FechaCreacion"])
-            };
-            CargarConsultas(historia);
-            return historia;
+                var historia = new HistoriaClinica
+                {
+                    Id = historiaId,
+                    Paciente = paciente,
+                    Descripcion = rHistoria["Descripcion"]?.ToString() ?? string.Empty,
+                    FechaCreacion = Convert.ToDateTime(rHistoria["FechaCreacion"])
+                };
+                CargarConsultas(historia);
+                return historia;
         }
 
         //Otros

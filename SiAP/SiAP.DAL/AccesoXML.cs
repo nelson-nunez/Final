@@ -371,12 +371,15 @@ namespace SiAP.DAL
                 tabla.Rows.Add(idAdministrador, idHijo++);
             }
 
+            var tt = MenusConstantes.ObtenerTodos();
+
             //Aca cargo los permisos al rol secretario
             tabla.Rows.Add(11, 13); // micuenta-jlosada 
             tabla.Rows.Add(11, 14); // medicos-jlosada 
             tabla.Rows.Add(11, 16); // agenda med-jlosada 
             tabla.Rows.Add(11, 17); // turnos pac-jlosada 
             tabla.Rows.Add(11, 20); // cobros-jlosada 
+            tabla.Rows.Add(11, 25); // cobros-jlosada 
             //Aca cargo los permisos al rol medico
             tabla.Rows.Add(12, 13); // micuenta-aperez
             tabla.Rows.Add(12, 18); // altas pac-aperez

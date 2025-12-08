@@ -32,11 +32,16 @@
             treeView1 = new TreeView();
             groupBox1 = new GroupBox();
             groupBox3 = new GroupBox();
-            label8 = new Label();
-            label9 = new Label();
-            dateTimePicker_desde = new DateTimePicker();
-            dateTimePicker_hasta = new DateTimePicker();
-            button_imprimir = new Button();
+            textBox_medico = new TextBox();
+            label7 = new Label();
+            textBox_estado = new TextBox();
+            label3 = new Label();
+            textBox_fecha = new TextBox();
+            label6 = new Label();
+            textBox_hora_inicio = new TextBox();
+            textBox_hora_fin = new TextBox();
+            label5 = new Label();
+            label4 = new Label();
             uC_Mostrar_Paciente1 = new Forms_Seguridad.UC_Mostrar_Paciente();
             groupBox2 = new GroupBox();
             label10_prop_agenda = new Label();
@@ -46,19 +51,14 @@
             button_sem_actual = new Button();
             button_sem_anterior = new Button();
             groupBox_turno = new GroupBox();
+            label8 = new Label();
             button_cancelar_turno = new Button();
+            label9 = new Label();
             button_marcar_ausencia = new Button();
+            dateTimePicker_desde = new DateTimePicker();
+            dateTimePicker_hasta = new DateTimePicker();
             button_marcar_asistencia = new Button();
-            textBox_hora_fin = new TextBox();
-            textBox_hora_inicio = new TextBox();
-            textBox_fecha = new TextBox();
-            textBox_estado = new TextBox();
-            textBox_medico = new TextBox();
-            label5 = new Label();
-            label6 = new Label();
-            label7 = new Label();
-            label3 = new Label();
-            label4 = new Label();
+            button_imprimir = new Button();
             button_eliminar_turno = new Button();
             button_asignar_turno = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
@@ -120,57 +120,100 @@
             groupBox3.TabStop = false;
             groupBox3.Text = "Turno Seleccionado";
             // 
-            // label8
+            // textBox_medico
             // 
-            label8.AutoSize = true;
-            label8.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            label8.Location = new Point(11, 28);
-            label8.Name = "label8";
-            label8.Size = new Size(43, 15);
-            label8.TabIndex = 128;
-            label8.Text = "Desde:";
+            textBox_medico.BackColor = Color.WhiteSmoke;
+            textBox_medico.Enabled = false;
+            textBox_medico.Location = new Point(84, 19);
+            textBox_medico.Name = "textBox_medico";
+            textBox_medico.Size = new Size(387, 23);
+            textBox_medico.TabIndex = 21;
             // 
-            // label9
+            // label7
             // 
-            label9.AutoSize = true;
-            label9.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            label9.Location = new Point(14, 57);
-            label9.Name = "label9";
-            label9.Size = new Size(40, 15);
-            label9.TabIndex = 129;
-            label9.Text = "Hasta:";
+            label7.AutoSize = true;
+            label7.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            label7.Location = new Point(25, 22);
+            label7.Name = "label7";
+            label7.Size = new Size(53, 15);
+            label7.TabIndex = 17;
+            label7.Text = "Médico: ";
             // 
-            // dateTimePicker_desde
+            // textBox_estado
             // 
-            dateTimePicker_desde.Format = DateTimePickerFormat.Short;
-            dateTimePicker_desde.Location = new Point(60, 22);
-            dateTimePicker_desde.Name = "dateTimePicker_desde";
-            dateTimePicker_desde.Size = new Size(90, 23);
-            dateTimePicker_desde.TabIndex = 130;
+            textBox_estado.BackColor = Color.WhiteSmoke;
+            textBox_estado.Enabled = false;
+            textBox_estado.Location = new Point(314, 48);
+            textBox_estado.Name = "textBox_estado";
+            textBox_estado.Size = new Size(157, 23);
+            textBox_estado.TabIndex = 23;
             // 
-            // dateTimePicker_hasta
+            // label3
             // 
-            dateTimePicker_hasta.Format = DateTimePickerFormat.Short;
-            dateTimePicker_hasta.Location = new Point(60, 51);
-            dateTimePicker_hasta.Name = "dateTimePicker_hasta";
-            dateTimePicker_hasta.Size = new Size(90, 23);
-            dateTimePicker_hasta.TabIndex = 131;
+            label3.AutoSize = true;
+            label3.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            label3.Location = new Point(209, 51);
+            label3.Name = "label3";
+            label3.Size = new Size(99, 15);
+            label3.TabIndex = 15;
+            label3.Text = "Estado del turno: ";
             // 
-            // button_imprimir
+            // textBox_fecha
             // 
-            button_imprimir.BackColor = SystemColors.ActiveCaption;
-            button_imprimir.Font = new Font("Calibri", 9.75F, FontStyle.Bold);
-            button_imprimir.Image = Properties.Resources.printer;
-            button_imprimir.ImageAlign = ContentAlignment.MiddleLeft;
-            button_imprimir.Location = new Point(158, 22);
-            button_imprimir.Margin = new Padding(5);
-            button_imprimir.Name = "button_imprimir";
-            button_imprimir.Size = new Size(119, 52);
-            button_imprimir.TabIndex = 27;
-            button_imprimir.Text = "Imprimir Turnos";
-            button_imprimir.TextAlign = ContentAlignment.MiddleRight;
-            button_imprimir.UseVisualStyleBackColor = false;
-            button_imprimir.Click += button_imprimir_Click;
+            textBox_fecha.BackColor = Color.WhiteSmoke;
+            textBox_fecha.Enabled = false;
+            textBox_fecha.Location = new Point(84, 48);
+            textBox_fecha.Name = "textBox_fecha";
+            textBox_fecha.Size = new Size(119, 23);
+            textBox_fecha.TabIndex = 24;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            label6.Location = new Point(34, 51);
+            label6.Name = "label6";
+            label6.Size = new Size(44, 15);
+            label6.TabIndex = 18;
+            label6.Text = "Fecha: ";
+            // 
+            // textBox_hora_inicio
+            // 
+            textBox_hora_inicio.BackColor = Color.WhiteSmoke;
+            textBox_hora_inicio.Enabled = false;
+            textBox_hora_inicio.Location = new Point(84, 77);
+            textBox_hora_inicio.Name = "textBox_hora_inicio";
+            textBox_hora_inicio.Size = new Size(119, 23);
+            textBox_hora_inicio.TabIndex = 25;
+            // 
+            // textBox_hora_fin
+            // 
+            textBox_hora_fin.BackColor = Color.WhiteSmoke;
+            textBox_hora_fin.Enabled = false;
+            textBox_hora_fin.Location = new Point(314, 75);
+            textBox_hora_fin.Name = "textBox_hora_fin";
+            textBox_hora_fin.Size = new Size(157, 23);
+            textBox_hora_fin.TabIndex = 26;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            label5.Location = new Point(6, 80);
+            label5.Name = "label5";
+            label5.Size = new Size(72, 15);
+            label5.TabIndex = 19;
+            label5.Text = "Hora Inicio: ";
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            label4.Location = new Point(250, 78);
+            label4.Name = "label4";
+            label4.Size = new Size(58, 15);
+            label4.TabIndex = 14;
+            label4.Text = "Hora Fin: ";
             // 
             // uC_Mostrar_Paciente1
             // 
@@ -277,6 +320,16 @@
             groupBox_turno.TabStop = false;
             groupBox_turno.Text = "Acciones";
             // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            label8.Location = new Point(11, 28);
+            label8.Name = "label8";
+            label8.Size = new Size(43, 15);
+            label8.TabIndex = 128;
+            label8.Text = "Desde:";
+            // 
             // button_cancelar_turno
             // 
             button_cancelar_turno.BackColor = Color.LightSalmon;
@@ -288,6 +341,16 @@
             button_cancelar_turno.Text = "Cancelar Turno";
             button_cancelar_turno.UseVisualStyleBackColor = false;
             button_cancelar_turno.Click += button_cancelar_turno_Click;
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            label9.Location = new Point(14, 57);
+            label9.Name = "label9";
+            label9.Size = new Size(40, 15);
+            label9.TabIndex = 129;
+            label9.Text = "Hasta:";
             // 
             // button_marcar_ausencia
             // 
@@ -301,6 +364,22 @@
             button_marcar_ausencia.UseVisualStyleBackColor = false;
             button_marcar_ausencia.Click += button_marcar_ausencia_Click;
             // 
+            // dateTimePicker_desde
+            // 
+            dateTimePicker_desde.Format = DateTimePickerFormat.Short;
+            dateTimePicker_desde.Location = new Point(60, 22);
+            dateTimePicker_desde.Name = "dateTimePicker_desde";
+            dateTimePicker_desde.Size = new Size(90, 23);
+            dateTimePicker_desde.TabIndex = 130;
+            // 
+            // dateTimePicker_hasta
+            // 
+            dateTimePicker_hasta.Format = DateTimePickerFormat.Short;
+            dateTimePicker_hasta.Location = new Point(60, 51);
+            dateTimePicker_hasta.Name = "dateTimePicker_hasta";
+            dateTimePicker_hasta.Size = new Size(90, 23);
+            dateTimePicker_hasta.TabIndex = 131;
+            // 
             // button_marcar_asistencia
             // 
             button_marcar_asistencia.BackColor = SystemColors.ActiveCaption;
@@ -313,100 +392,21 @@
             button_marcar_asistencia.UseVisualStyleBackColor = false;
             button_marcar_asistencia.Click += button_marcar_asistencia_Click;
             // 
-            // textBox_hora_fin
+            // button_imprimir
             // 
-            textBox_hora_fin.BackColor = Color.WhiteSmoke;
-            textBox_hora_fin.Enabled = false;
-            textBox_hora_fin.Location = new Point(314, 75);
-            textBox_hora_fin.Name = "textBox_hora_fin";
-            textBox_hora_fin.Size = new Size(157, 23);
-            textBox_hora_fin.TabIndex = 26;
-            // 
-            // textBox_hora_inicio
-            // 
-            textBox_hora_inicio.BackColor = Color.WhiteSmoke;
-            textBox_hora_inicio.Enabled = false;
-            textBox_hora_inicio.Location = new Point(84, 77);
-            textBox_hora_inicio.Name = "textBox_hora_inicio";
-            textBox_hora_inicio.Size = new Size(119, 23);
-            textBox_hora_inicio.TabIndex = 25;
-            // 
-            // textBox_fecha
-            // 
-            textBox_fecha.BackColor = Color.WhiteSmoke;
-            textBox_fecha.Enabled = false;
-            textBox_fecha.Location = new Point(84, 48);
-            textBox_fecha.Name = "textBox_fecha";
-            textBox_fecha.Size = new Size(119, 23);
-            textBox_fecha.TabIndex = 24;
-            // 
-            // textBox_estado
-            // 
-            textBox_estado.BackColor = Color.WhiteSmoke;
-            textBox_estado.Enabled = false;
-            textBox_estado.Location = new Point(314, 48);
-            textBox_estado.Name = "textBox_estado";
-            textBox_estado.Size = new Size(157, 23);
-            textBox_estado.TabIndex = 23;
-            // 
-            // textBox_medico
-            // 
-            textBox_medico.BackColor = Color.WhiteSmoke;
-            textBox_medico.Enabled = false;
-            textBox_medico.Location = new Point(84, 19);
-            textBox_medico.Name = "textBox_medico";
-            textBox_medico.Size = new Size(387, 23);
-            textBox_medico.TabIndex = 21;
-            // 
-            // label5
-            // 
-            label5.AutoSize = true;
-            label5.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            label5.Location = new Point(6, 80);
-            label5.Name = "label5";
-            label5.Size = new Size(72, 15);
-            label5.TabIndex = 19;
-            label5.Text = "Hora Inicio: ";
-            // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            label6.Location = new Point(34, 51);
-            label6.Name = "label6";
-            label6.Size = new Size(44, 15);
-            label6.TabIndex = 18;
-            label6.Text = "Fecha: ";
-            // 
-            // label7
-            // 
-            label7.AutoSize = true;
-            label7.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            label7.Location = new Point(25, 22);
-            label7.Name = "label7";
-            label7.Size = new Size(53, 15);
-            label7.TabIndex = 17;
-            label7.Text = "Médico: ";
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            label3.Location = new Point(209, 51);
-            label3.Name = "label3";
-            label3.Size = new Size(99, 15);
-            label3.TabIndex = 15;
-            label3.Text = "Estado del turno: ";
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            label4.Location = new Point(250, 78);
-            label4.Name = "label4";
-            label4.Size = new Size(58, 15);
-            label4.TabIndex = 14;
-            label4.Text = "Hora Fin: ";
+            button_imprimir.BackColor = SystemColors.ActiveCaption;
+            button_imprimir.Font = new Font("Calibri", 9.75F, FontStyle.Bold);
+            button_imprimir.Image = Properties.Resources.printer;
+            button_imprimir.ImageAlign = ContentAlignment.MiddleLeft;
+            button_imprimir.Location = new Point(158, 22);
+            button_imprimir.Margin = new Padding(5);
+            button_imprimir.Name = "button_imprimir";
+            button_imprimir.Size = new Size(119, 52);
+            button_imprimir.TabIndex = 27;
+            button_imprimir.Text = "Imprimir Turnos del Médico";
+            button_imprimir.TextAlign = ContentAlignment.MiddleRight;
+            button_imprimir.UseVisualStyleBackColor = false;
+            button_imprimir.Click += button_imprimir_Click;
             // 
             // button_eliminar_turno
             // 

@@ -3,6 +3,7 @@ using System.Reflection.Emit;
 using System.Text.Json;
 using SiAP.BE.Seguridad;
 using SiAP.BLL.Seguridad;
+using SiAP.MPP;
 using SiAP.UI.Controles;
 using SiAP.UI.Forms_Seguridad;
 
@@ -25,12 +26,15 @@ namespace SiAP.UI
         private Form_Agenda form_Agenda;
         private Form_DashBoard form_reportes;
         private Form_Respaldos form_respaldos;
+        private Form_RenovarReceta form_renovarrecetas;
         //Componentes
         private UC_Login UC_Login;
 
         private string jsonMenus;
         #endregion
 
+        #region Constructor
+        
         public Form_Menu()
         {
             InitializeComponent();
@@ -47,6 +51,8 @@ namespace SiAP.UI
 
             MostrarLogin();
         }
+
+        #endregion
 
         #region Login
 
@@ -236,6 +242,16 @@ namespace SiAP.UI
         {
             AbrirFormGeneral(ref form_respaldos);
         }
+        
+        private void renovarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AbrirFormGeneral(ref form_renovarrecetas);
+        }
+
+        public void AbrirPacientes()
+        {
+            AbrirFormGeneral(ref form_paciente);
+        }
 
         #endregion
 
@@ -302,7 +318,8 @@ namespace SiAP.UI
                 new[]
                 {
                     new { Item = new ToolStripMenuItem("Alta Pacientes"), Name = "pacientesToolStripMenuItem", Tag = "TAG10", Handler = (EventHandler)pacientesToolStripMenuItem_Click_1, Image = Properties.Resources.paciente },
-                    new { Item = new ToolStripMenuItem("Historial y Consultas"), Name = "historialMédicoToolStripMenuItem1", Tag = "TAG11", Handler = (EventHandler)historialMédicoToolStripMenuItem1_Click, Image = Properties.Resources.reporte }
+                    new { Item = new ToolStripMenuItem("Historial y Consultas"), Name = "historialMédicoToolStripMenuItem1", Tag = "TAG11", Handler = (EventHandler)historialMédicoToolStripMenuItem1_Click, Image = Properties.Resources.reporte },
+                    new { Item = new ToolStripMenuItem("Renovar Recetas"), Name = "renovarRecetasCrónicasToolStripMenuItem", Tag = "TAG18", Handler = (EventHandler)renovarToolStripMenuItem_Click, Image = Properties.Resources.reporte }
                 },
                 Array.Empty<dynamic>(), // Cobros (sin subitems)
                 Array.Empty<dynamic>(), // Reportes (sin subitems)

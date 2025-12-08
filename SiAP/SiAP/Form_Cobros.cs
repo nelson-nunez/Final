@@ -119,6 +119,8 @@ namespace SiAP.UI
             {
                 if (itemSeleccionado == null)
                     throw new Exception("Seleccione un Turno para continuar.");
+                if (String.IsNullOrEmpty(pacienteSeleccionado.ObraSocial))
+                    throw new Exception("Solo se pueden reembolsar pagos a pacientes con OOSS.");
 
                 InputsExtensions.PedirConfirmacion($"Desea generar el reembolso?");
                 _bllCobro.Reembolsar(itemSeleccionado);
@@ -155,6 +157,14 @@ namespace SiAP.UI
                 itemSeleccionado.Cobro ??= new Cobro();
                 itemSeleccionado.Cobro.MediodePago = (MediodePago)comboBox_tipo_pago.SelectedItem;
                 itemSeleccionado.Cobro.Importe = numeric_importe_pago.Value;
+
+                if (!String.IsNullOrEmpty(pacienteSeleccionado.ObraSocial) && itemSeleccionado.Cobro.MediodePago != MediodePago.Efectivo)
+                    throw new Exception("Los pacientes con OOSS, solo pueden realizar pagos en efectivo para su posterior reintegro.");
+
+                if (String.IsNullOrEmpty(pacienteSeleccionado.ObraSocial) && itemSeleccionado.Cobro.MontoRestante > numeric_importe_pago.Value)
+                    throw new Exception("Los pacientes sin OOSS, solo pueden realizar pagos totales.");
+
+
                 _bllCobro.Pagar(itemSeleccionado);
 
                 MessageBox.Show("Se guardaron los cambios con éxito");

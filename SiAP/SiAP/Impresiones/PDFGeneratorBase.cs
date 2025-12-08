@@ -151,14 +151,9 @@ namespace SiAP.UI.Impresiones
         protected void DibujarDatosMedico(XGraphics gfx, Medico medico, double x, double y)
         {
             XFont f = new XFont(FamiliaFuente, TamañoNormal, XFontStyleEx.Regular);
-
-            gfx.DrawString($"Médico/a: {medico.NombreCompleto}", f, XBrushes.Black, x, y);
-
-            if (medico.Especialidad != null)
-                gfx.DrawString($"Especialidad: {medico.Especialidad.Nombre}", f, XBrushes.Black, x, y + 15);
-
-            if (medico.Persona?.Dni != null)
-                gfx.DrawString($"Matrícula: {medico.Persona.Dni}", f, XBrushes.Black, x, y + 30);
+            gfx.DrawString($"Médico/a: {medico?.NombreCompleto}", f, XBrushes.Black, x, y);
+            gfx.DrawString($"Especialidad: {medico?.Especialidad?.Nombre}", f, XBrushes.Black, x, y + 15);
+            gfx.DrawString($"Matrícula: {medico?.Persona?.Dni}", f, XBrushes.Black, x, y + 30);
         }
 
         protected void DibujarFecha(XGraphics gfx, DateTime fecha, double x, double y)

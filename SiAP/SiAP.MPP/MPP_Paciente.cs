@@ -31,9 +31,26 @@ namespace SiAP.MPP
             ArgumentNullException.ThrowIfNull(entidad.Persona, "El paciente debe tener una persona asociada");
 
             if (Existe(entidad)) return;
-            _mppPersona.Agregar(entidad.Persona);
-            entidad.PersonaId = entidad.Persona.Id;
-            AgregarEntidad(entidad, AsignarDatos);
+            var ds = _datos.ObtenerDatos_BDSiAP();
+            //Persona
+            var dt = ds.Tables["Persona"];
+            var dr = dt.NewRow();
+            long nuevoPersonaId = DataRowHelper.ObtenerSiguienteId(dt, "Id");
+            dr["Id"] = nuevoPersonaId;
+            _mppPersona.AsignarDatos(dr, entidad.Persona);
+            dt.Rows.Add(dr);
+            //Paciente
+            var dtPac = ds.Tables["Paciente"];
+            var drPac = dtPac.NewRow();
+            long nuevoPacId = DataRowHelper.ObtenerSiguienteId(dtPac, "Id");
+            drPac["Id"] = nuevoPacId;           
+            drPac["PersonaId"] = nuevoPersonaId;
+            drPac["ObraSocial"] = entidad.ObraSocial;
+            drPac["Plan"] = entidad.Plan;
+            drPac["NumeroSocio"] = entidad.NumeroSocio;
+            dtPac.Rows.Add(drPac);
+
+            _datos.Actualizar_BDSiAP(ds);
         }
 
         public void Modificar(Paciente entidad)

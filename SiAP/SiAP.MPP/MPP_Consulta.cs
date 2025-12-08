@@ -88,6 +88,7 @@ namespace SiAP.MPP
 
         public Consulta HidratarObjeto(DataRow rConsulta)
         {
+
             var medicoId = Convert.ToInt64(rConsulta["MedicoId"]);
             var medico = _mppMedico.LeerPorId(medicoId);
 
@@ -107,20 +108,21 @@ namespace SiAP.MPP
             consulta.Recetas = _mppReceta.BuscarPorConsultaId(consulta.Id).ToList();
             consulta.Certificados = _mppCertificado.BuscarPorConsultaId(consulta.Id).ToList(); 
             return consulta;
+
         }
 
         //Otros
 
         public IList<Consulta> BuscarPorHistoriaClinicaId(long historiaClinicaId)
         {
-            var ds = _datos.ObtenerDatos_BDSiAP();
-            var consultas = ds.Tables[NombreTabla].AsEnumerable()
-                .Where(r => Convert.ToInt64(r["HistoriaClinicaId"]) == historiaClinicaId)
-                .Select(HidratarObjeto)
-                .OrderByDescending(c => c.Fecha)
-                .ToList();
+                var ds = _datos.ObtenerDatos_BDSiAP();
+                var consultas = ds.Tables[NombreTabla].AsEnumerable()
+                    .Where(r => Convert.ToInt64(r["HistoriaClinicaId"]) == historiaClinicaId)
+                    .Select(HidratarObjeto)
+                    .OrderByDescending(c => c.Fecha)
+                    .ToList();
 
-            return consultas;
+                return consultas;
         }
     }
 }

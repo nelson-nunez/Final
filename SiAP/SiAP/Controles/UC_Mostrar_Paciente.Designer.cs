@@ -75,34 +75,33 @@
             button1.ImageAlign = ContentAlignment.MiddleLeft;
             button1.Location = new Point(16, 22);
             button1.Name = "button1";
-            button1.Size = new Size(116, 27);
+            button1.Size = new Size(144, 27);
             button1.TabIndex = 124;
             button1.Text = "Buscar Paciente";
-            button1.TextAlign = ContentAlignment.MiddleRight;
             button1.UseVisualStyleBackColor = false;
             button1.Click += button_Buscar_Click;
             // 
             // textBox_nombre_completo
             // 
             textBox_nombre_completo.Enabled = false;
-            textBox_nombre_completo.Location = new Point(211, 16);
+            textBox_nombre_completo.Location = new Point(260, 16);
             textBox_nombre_completo.Name = "textBox_nombre_completo";
-            textBox_nombre_completo.Size = new Size(295, 23);
+            textBox_nombre_completo.Size = new Size(432, 23);
             textBox_nombre_completo.TabIndex = 123;
             // 
             // textBox_DNI
             // 
             textBox_DNI.Enabled = false;
-            textBox_DNI.Location = new Point(550, 16);
+            textBox_DNI.Location = new Point(260, 45);
             textBox_DNI.Name = "textBox_DNI";
-            textBox_DNI.Size = new Size(142, 23);
+            textBox_DNI.Size = new Size(130, 23);
             textBox_DNI.TabIndex = 122;
             // 
             // label26
             // 
             label26.AutoSize = true;
             label26.Enabled = false;
-            label26.Location = new Point(514, 19);
+            label26.Location = new Point(224, 48);
             label26.Name = "label26";
             label26.Size = new Size(30, 15);
             label26.TabIndex = 121;
@@ -111,25 +110,25 @@
             // textBox_plan
             // 
             textBox_plan.Enabled = false;
-            textBox_plan.Location = new Point(422, 74);
+            textBox_plan.Location = new Point(445, 74);
             textBox_plan.Name = "textBox_plan";
-            textBox_plan.Size = new Size(270, 23);
+            textBox_plan.Size = new Size(247, 23);
             textBox_plan.TabIndex = 120;
             // 
             // textBox_nro_socio
             // 
             textBox_nro_socio.Enabled = false;
-            textBox_nro_socio.Location = new Point(211, 74);
+            textBox_nro_socio.Location = new Point(260, 74);
             textBox_nro_socio.Name = "textBox_nro_socio";
-            textBox_nro_socio.Size = new Size(163, 23);
+            textBox_nro_socio.Size = new Size(130, 23);
             textBox_nro_socio.TabIndex = 119;
             // 
             // textBox_ooss
             // 
             textBox_ooss.Enabled = false;
-            textBox_ooss.Location = new Point(211, 45);
+            textBox_ooss.Location = new Point(445, 45);
             textBox_ooss.Name = "textBox_ooss";
-            textBox_ooss.Size = new Size(481, 23);
+            textBox_ooss.Size = new Size(247, 23);
             textBox_ooss.TabIndex = 118;
             // 
             // button2
@@ -140,9 +139,9 @@
             button2.ImageAlign = ContentAlignment.MiddleLeft;
             button2.Location = new Point(16, 65);
             button2.Name = "button2";
-            button2.Size = new Size(116, 27);
+            button2.Size = new Size(144, 27);
             button2.TabIndex = 114;
-            button2.Text = "Editar Paciente";
+            button2.Text = "Crear/Editar Paciente";
             button2.TextAlign = ContentAlignment.MiddleRight;
             button2.UseVisualStyleBackColor = false;
             button2.Click += button_MostrarEditar_Click;
@@ -151,7 +150,7 @@
             // 
             label28.AutoSize = true;
             label28.Enabled = false;
-            label28.Location = new Point(154, 19);
+            label28.Location = new Point(203, 19);
             label28.Name = "label28";
             label28.Size = new Size(51, 15);
             label28.TabIndex = 115;
@@ -161,7 +160,7 @@
             // 
             label29.AutoSize = true;
             label29.Enabled = false;
-            label29.Location = new Point(148, 77);
+            label29.Location = new Point(198, 77);
             label29.Name = "label29";
             label29.Size = new Size(56, 15);
             label29.TabIndex = 113;
@@ -171,7 +170,7 @@
             // 
             label30.AutoSize = true;
             label30.Enabled = false;
-            label30.Location = new Point(160, 48);
+            label30.Location = new Point(396, 48);
             label30.Name = "label30";
             label30.Size = new Size(43, 15);
             label30.TabIndex = 116;
@@ -181,7 +180,7 @@
             // 
             label31.AutoSize = true;
             label31.Enabled = false;
-            label31.Location = new Point(380, 77);
+            label31.Location = new Point(396, 77);
             label31.Name = "label31";
             label31.Size = new Size(36, 15);
             label31.TabIndex = 117;

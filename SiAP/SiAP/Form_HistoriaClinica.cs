@@ -1,8 +1,4 @@
 ﻿using System.ComponentModel;
-using PdfSharp.Drawing;
-using PdfSharp.Pdf;
-using PdfSharp;
-using System.Diagnostics;
 using Policonsultorio.BE;
 using SiAP.BE;
 using SiAP.BLL;
@@ -62,15 +58,22 @@ namespace SiAP.UI
             CargarTiposenCombo();
         }
 
-        #region Sseleccion Paciente
+        #region Seleccion Paciente
 
         private void OnPacienteSeleccionado(object sender, EventArgs e)
         {
             try
             {
                 pacienteSeleccionado = _userControl.pacienteSeleccionado;
+                historiaClinicaSeleccionada = null;
+                consultaSeleccionada = null;
+                recetaSeleccionada = null;
+                certificadoSeleccionada = null;
                 CargarHistoria();
+                
                 CargarConsultas();
+                CargarDatosConsulta();
+
                 CargarArbolRecetas();
                 CargarReceta();
 
@@ -91,6 +94,7 @@ namespace SiAP.UI
         {
             try
             {
+                richText_historia_Clinica.Clear();
                 historiaClinicaSeleccionada = _bllHistoriaClinica.BuscarPorPaciente(pacienteSeleccionado.Id);
                 if (historiaClinicaSeleccionada != null)
                     richText_historia_Clinica.Text = historiaClinicaSeleccionada.Descripcion;
@@ -158,8 +162,9 @@ namespace SiAP.UI
         {
             try
             {
-                if (historiaClinicaSeleccionada == null) return;
-
+                treeView_historia_cli.Nodes.Clear();
+                if (historiaClinicaSeleccionada == null) 
+                    return;
                 var lista = _bllConsulta.BuscarPorHistoriaClinica(historiaClinicaSeleccionada.Id);
                 treeView_historia_cli.ArmarArbolConsultas(lista.ToList());
             }
@@ -184,9 +189,15 @@ namespace SiAP.UI
 
         private void CargarDatosConsulta()
         {
-            richTextBox_motivo_consulta.Text = consultaSeleccionada?.Motivo ?? "";
-            richTextBox_observaciones_consulta.Text = consultaSeleccionada?.Observaciones ?? "";
-            richTextBox_tratamiento_consulta.Text = consultaSeleccionada?.Tratamiento ?? "";
+            richTextBox_motivo_consulta.Clear();
+            richTextBox_observaciones_consulta.Clear();
+            richTextBox_tratamiento_consulta.Clear();
+            if (consultaSeleccionada != null)
+            {
+                richTextBox_motivo_consulta.Text = consultaSeleccionada?.Motivo;
+                richTextBox_observaciones_consulta.Text = consultaSeleccionada?.Observaciones;
+                richTextBox_tratamiento_consulta.Text = consultaSeleccionada?.Tratamiento;
+            }    
         }
 
         private void button_Limpiar_Click(object sender, EventArgs e)
@@ -302,6 +313,7 @@ namespace SiAP.UI
         {
             try
             {
+                treeView_recetas.Nodes.Clear();
                 if (historiaClinicaSeleccionada == null) return;
 
                 var lista = _bllConsulta.BuscarPorHistoriaClinica(historiaClinicaSeleccionada.Id);
@@ -317,9 +329,14 @@ namespace SiAP.UI
         {
             try
             {
+                //Limpio
                 medicamentosSeleccionados.Clear();
-                richTextBox_observ_receta.Text = recetaSeleccionada?.Observaciones ?? string.Empty;
-                textBox_fecha_receta.Text = recetaSeleccionada?.Fecha.ToShortDateString() ?? string.Empty;
+                richTextBox_observ_receta.Clear();
+                textBox_fecha_receta.Clear();
+                checkBox_cronico_receta.Checked = false;
+                //Cargo
+                richTextBox_observ_receta.Text = recetaSeleccionada?.Observaciones;
+                textBox_fecha_receta.Text = recetaSeleccionada?.Fecha.ToShortDateString();
                 checkBox_cronico_receta.Checked = recetaSeleccionada?.EsCronica ?? false;
 
                 if (recetaSeleccionada?.Medicamentos != null)
@@ -503,7 +520,8 @@ namespace SiAP.UI
         {
             try
             {
-                if (historiaClinicaSeleccionada == null) return;
+                treeView_certificados.Nodes.Clear();
+                if(historiaClinicaSeleccionada == null) return;
 
                 var lista = _bllConsulta.BuscarPorHistoriaClinica(historiaClinicaSeleccionada.Id);
                 treeView_certificados.ArmarArbolCertificados(lista.ToList());
@@ -518,6 +536,14 @@ namespace SiAP.UI
         {
             try
             {
+                //Limpio
+                comboBox_tipo_certificado.SelectedItem = TipoCertificados.ObtenerTodos().FirstOrDefault();
+                textBox_fecha_certif.Clear();
+                richTextBox_observaciones_certif.Clear();
+                richTextBox_descrip_certificado.Clear();
+                dateTimePicker_desde.Value = DateTime.Now;
+                dateTimePicker_hasta.Value = DateTime.Now;
+                //Cargo
                 if (certificadoSeleccionada != null)
                 {
                     textBox_fecha_certif.Text = certificadoSeleccionada?.Fecha.ToShortDateString();
@@ -527,15 +553,6 @@ namespace SiAP.UI
                     comboBox_tipo_certificado.SelectedItem = tiposelecc;
                     dateTimePicker_desde.Value = certificadoSeleccionada.FechaVigenciaDesde;
                     dateTimePicker_hasta.Value = certificadoSeleccionada.FechaVigenciaHasta;
-                }
-                else
-                {
-                    comboBox_tipo_certificado.SelectedItem = TipoCertificados.ObtenerTodos().FirstOrDefault();
-                    textBox_fecha_certif.Text = string.Empty;
-                    richTextBox_observaciones_certif.Text = string.Empty;
-                    richTextBox_descrip_certificado.Text = string.Empty;
-                    dateTimePicker_desde.Value = DateTime.Now;
-                    dateTimePicker_hasta.Value = DateTime.Now;
                 }
             }
             catch (Exception ex)

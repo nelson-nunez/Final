@@ -92,15 +92,6 @@ namespace SiAP.BLL
             if (string.IsNullOrWhiteSpace(paciente.Persona.Email))
                 _mensajeError += "El email es obligatorio. ";
 
-            if (string.IsNullOrWhiteSpace(paciente.ObraSocial))
-                _mensajeError += "La obra social es obligatoria. ";
-
-            if (string.IsNullOrWhiteSpace(paciente.Plan))
-                _mensajeError += "El plan es obligatorio. ";
-
-            if (paciente.NumeroSocio <= 0)
-                _mensajeError += "El número de socio debe ser mayor a cero. ";
-
             return string.IsNullOrEmpty(_mensajeError);
         }
     }

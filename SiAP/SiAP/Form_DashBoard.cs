@@ -233,11 +233,15 @@ namespace SiAP.UI
             // Estética del pie
             pie.ExplodeFraction = 0.05;
             pie.SliceLabelDistance = 1.2;
+            // Opción 3: Ajustar límites dinámicamente según el tamaño
+            formsPlot_ingresos_especialidad.Plot.Axes.SetLimitsX(-1.3, 1.3);
+            formsPlot_ingresos_especialidad.Plot.Axes.SetLimitsY(-1.3, 1.3);
 
             // Layout limpio
             formsPlot_ingresos_especialidad.Plot.Axes.Frameless();
             formsPlot_ingresos_especialidad.Plot.Layout.Frameless();
             formsPlot_ingresos_especialidad.Plot.Grid.IsVisible = false;
+
 
             // Título con total
             formsPlot_ingresos_especialidad.Plot.Title($"Ingresos por Especialidad — Total: ${totalIngresos:N0}");
@@ -352,11 +356,11 @@ namespace SiAP.UI
 
 
             // Configurar etiquetas de las porciones
-            pie.Slices[0].Label = $"Disponibles\n ({100-porcentaje:F1}%)";
+            pie.Slices[0].Label = $"Disponibles\n ({porcentaje:F1}%)";
             pie.Slices[0].FillColor = ScottPlot.Colors.LightGreen;
             pie.Slices[0].LabelStyle.FontSize = 12;
             pie.Slices[0].LabelStyle.Bold = true;
-            pie.Slices[1].Label = $"Ocupados\n ({porcentaje:F1}%)";
+            pie.Slices[1].Label = $"Ocupados\n ({100 - porcentaje:F1}%)";
             pie.Slices[1].FillColor = ScottPlot.Colors.Orange;
             pie.Slices[1].LabelStyle.FontSize = 12;
             pie.Slices[1].LabelStyle.Bold = true;
@@ -375,8 +379,7 @@ namespace SiAP.UI
             // Renderizar
             formsPlot_disponibilidad.Refresh();
         }
+       
         #endregion
     }
 }
-
-aca quede los reportes no salen bien.

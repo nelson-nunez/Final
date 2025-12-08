@@ -48,6 +48,7 @@ namespace SiAP.UI
             new Menu(15, "Usuarios", "TAG15"),
             new Menu(16, "Permisos", "TAG16"),
             new Menu(17, "Respaldos", "TAG17"),
+            new Menu(18, "Renovar Recetas", "TAG18"),
         };
 
         public static IReadOnlyList<Menu> ObtenerTodos() => _menus;

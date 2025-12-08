@@ -95,7 +95,16 @@ namespace SiAP.UI.Forms_Seguridad
         {
             try
             {
-                MostrarFormPacientesEnFormPadre();
+                var formMenu = Application.OpenForms.OfType<Form_Menu>().FirstOrDefault();
+
+                if (formMenu != null)
+                {
+                    formMenu.AbrirPacientes();
+                }
+                else
+                {
+                    MessageBox.Show("No se pudo acceder al menú principal.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
             }
             catch (Exception ex)
             {
@@ -103,7 +112,7 @@ namespace SiAP.UI.Forms_Seguridad
             }
         }
 
-        #region Métodos Auxiliares
+        #region Métodos Auxiliares de BUSCAR
 
         private Form ObtenerFormPadre()
         {
@@ -132,30 +141,6 @@ namespace SiAP.UI.Forms_Seguridad
         {
             _userControl.Visible = false;
             _userControl.Parent = this;
-        }
-
-        private void MostrarFormPacientesEnFormPadre()
-        {
-            var formPadre = ObtenerFormPadre();
-            if (formPadre == null) return;
-
-            if (form_paciente == null || form_paciente.IsDisposed)
-            {
-                form_paciente = new Form_CRUD_Pacientes
-                {
-                    TopLevel = false,
-                    FormBorderStyle = FormBorderStyle.FixedSingle,
-                    StartPosition = FormStartPosition.Manual,
-                    ControlBox = true
-                };
-
-                form_paciente.FormClosed += (s, e) => form_paciente = null;
-                formPadre.Controls.Add(form_paciente);
-            }
-
-            CentrarControl(form_paciente, formPadre);
-            form_paciente.Show();
-            form_paciente.BringToFront();
         }
 
         private void CentrarControl(Control control, Form formPadre)

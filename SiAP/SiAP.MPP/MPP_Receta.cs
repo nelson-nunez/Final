@@ -40,6 +40,7 @@ namespace SiAP.MPP
             {
                 foreach (var droga in entidad.Medicamentos)
                 {
+                    droga.Id = 0;
                     droga.RecetaId = nuevoId;
                     _mppMedicamento.Agregar(droga);
                 }
@@ -100,7 +101,7 @@ namespace SiAP.MPP
 
         public void AsignarDatos(DataRow dr, Receta entidad)
         {
-            dr["ConsultaId"] = entidad.Consulta?.Id ?? (object)DBNull.Value;
+            dr["ConsultaId"] = entidad.ConsultaId;
             dr["Fecha"] = entidad.Fecha;
             dr["Profesional"] = entidad.Profesional ?? string.Empty;
             dr["Nro_Socio"] = entidad.Nro_Socio;

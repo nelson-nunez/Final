@@ -133,9 +133,10 @@ namespace SiAP.UI
             dateTime_feccha_nac.Value.ValidarMayorEdad("Fecha Nac.");
             textBox_email.Text.ValidarEmail("Email");
             textBox_telefono.Text.ValidarSoloNumeros("Teléfono");
-            textBox_ooss.Text.ValidarSoloTexto("Obra Social");
-            textBox_plan.Text.Validar("Plan");
-            numeric_nro_socio.Value.ValidarSoloNumeros("Número de Socio");
+            if (!string.IsNullOrEmpty(textBox_ooss.Text))
+                textBox_ooss.Text.ValidarSoloTexto("Obra Social");
+            if (!string.IsNullOrEmpty(textBox_plan.Text))
+                textBox_plan.Text.Validar("Plan");
         }
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)

@@ -1,0 +1,5 @@
+﻿
+
+* En la parte de cobros dirferecniar a los que tiuenen OOSS - LISTO
+* FALTA Renovar recetas crónicas por secretarios
+* Abrir el de editar o crear paciente en un form como los otros, cambiar el texto del boton

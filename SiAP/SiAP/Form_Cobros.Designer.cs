@@ -52,7 +52,6 @@
             label30 = new Label();
             textBox_hora_turno = new TextBox();
             label28 = new Label();
-            flowLayoutPanel2 = new FlowLayoutPanel();
             button_reembolsar = new Button();
             button_limpiar = new Button();
             button_guardar_pago = new Button();
@@ -63,7 +62,6 @@
             groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)numeric_importe_pago).BeginInit();
             groupBox2.SuspendLayout();
-            flowLayoutPanel2.SuspendLayout();
             SuspendLayout();
             // 
             // groupBox4
@@ -99,9 +97,12 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(button_imprimir);
+            groupBox1.Controls.Add(button_limpiar);
+            groupBox1.Controls.Add(button_reembolsar);
+            groupBox1.Controls.Add(button_guardar_pago);
             groupBox1.Controls.Add(groupBox3);
             groupBox1.Controls.Add(groupBox2);
-            groupBox1.Controls.Add(flowLayoutPanel2);
             groupBox1.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
             groupBox1.Location = new Point(766, 143);
             groupBox1.Name = "groupBox1";
@@ -303,25 +304,13 @@
             label28.TabIndex = 142;
             label28.Text = "Fecha Turno:";
             // 
-            // flowLayoutPanel2
-            // 
-            flowLayoutPanel2.Controls.Add(button_reembolsar);
-            flowLayoutPanel2.Controls.Add(button_limpiar);
-            flowLayoutPanel2.Controls.Add(button_guardar_pago);
-            flowLayoutPanel2.Controls.Add(button_imprimir);
-            flowLayoutPanel2.Location = new Point(8, 469);
-            flowLayoutPanel2.Margin = new Padding(5);
-            flowLayoutPanel2.Name = "flowLayoutPanel2";
-            flowLayoutPanel2.Size = new Size(422, 87);
-            flowLayoutPanel2.TabIndex = 129;
-            // 
             // button_reembolsar
             // 
             button_reembolsar.BackColor = Color.IndianRed;
             button_reembolsar.Font = new Font("Calibri", 9.75F, FontStyle.Bold);
             button_reembolsar.Image = Properties.Resources.reembolso;
             button_reembolsar.ImageAlign = ContentAlignment.MiddleLeft;
-            button_reembolsar.Location = new Point(5, 5);
+            button_reembolsar.Location = new Point(230, 454);
             button_reembolsar.Margin = new Padding(5);
             button_reembolsar.Name = "button_reembolsar";
             button_reembolsar.Size = new Size(125, 30);
@@ -337,7 +326,7 @@
             button_limpiar.Font = new Font("Calibri", 9.75F, FontStyle.Bold);
             button_limpiar.Image = Properties.Resources.clear;
             button_limpiar.ImageAlign = ContentAlignment.MiddleLeft;
-            button_limpiar.Location = new Point(140, 5);
+            button_limpiar.Location = new Point(74, 514);
             button_limpiar.Margin = new Padding(5);
             button_limpiar.Name = "button_limpiar";
             button_limpiar.Size = new Size(125, 30);
@@ -353,7 +342,7 @@
             button_guardar_pago.Font = new Font("Calibri", 9.75F, FontStyle.Bold);
             button_guardar_pago.Image = Properties.Resources.pagar;
             button_guardar_pago.ImageAlign = ContentAlignment.MiddleLeft;
-            button_guardar_pago.Location = new Point(275, 5);
+            button_guardar_pago.Location = new Point(74, 454);
             button_guardar_pago.Margin = new Padding(5);
             button_guardar_pago.Name = "button_guardar_pago";
             button_guardar_pago.Size = new Size(125, 30);
@@ -369,7 +358,7 @@
             button_imprimir.Font = new Font("Calibri", 9.75F, FontStyle.Bold);
             button_imprimir.Image = Properties.Resources.printer;
             button_imprimir.ImageAlign = ContentAlignment.MiddleLeft;
-            button_imprimir.Location = new Point(5, 45);
+            button_imprimir.Location = new Point(230, 514);
             button_imprimir.Margin = new Padding(5);
             button_imprimir.Name = "button_imprimir";
             button_imprimir.Size = new Size(125, 30);
@@ -395,7 +384,6 @@
             ((System.ComponentModel.ISupportInitialize)numeric_importe_pago).EndInit();
             groupBox2.ResumeLayout(false);
             groupBox2.PerformLayout();
-            flowLayoutPanel2.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -404,7 +392,6 @@
         private GroupBox groupBox4;
         private DataGridView dataGrid_cobros;
         private GroupBox groupBox1;
-        private FlowLayoutPanel flowLayoutPanel2;
         private Button button_reembolsar;
         private Button button_limpiar;
         private Button button_guardar_pago;

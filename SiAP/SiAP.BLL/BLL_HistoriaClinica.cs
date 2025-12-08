@@ -94,5 +94,6 @@ namespace SiAP.BLL
 
             return string.IsNullOrEmpty(_mensajeError);
         }
+
     }
 }
