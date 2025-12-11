@@ -337,6 +337,8 @@ namespace SiAP.UI
                     throw new Exception("Debe seleccionar un turno agendado.");
                 if (celda.Turno.Estado != EstadoTurno.Asignado)
                     throw new Exception($"No se puede marcar asistencia a un turno con estado: {celda.Turno.Estado}");
+                if (string.IsNullOrEmpty(celda.Turno.Paciente.ObraSocial) && celda.Turno.EstadoCobro != EstadoCobro.PagoTotal)
+                    throw new Exception($"No se puede marcar asistencia a un turno con estado: {celda.Turno.EstadoCobro}");
 
                 InputsExtensions.PedirConfirmacion("¿Desea marcar la asistencia?");
 

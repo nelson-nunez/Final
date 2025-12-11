@@ -21,9 +21,11 @@ namespace SiAP.MPP
             return _instancia ??= new MPP_Receta();
         }
 
-        public void Agregar(Receta entidad)
+        public long Agregar(Receta entidad)
         {
             ArgumentNullException.ThrowIfNull(entidad);
+            if (Existe(entidad))
+                throw new Exception($"Ya existe el registro con id:{entidad.Id}");
 
             var ds = _datos.ObtenerDatos_BDSiAP();
             var dt = ds.Tables[NombreTabla];
@@ -45,6 +47,7 @@ namespace SiAP.MPP
                     _mppMedicamento.Agregar(droga);
                 }
             }
+            return nuevoId;
         }
 
         public void Modificar(Receta entidad)

@@ -78,7 +78,7 @@
             // 
             miCuentaToolStripMenuItem.Image = Properties.Resources.usuario;
             miCuentaToolStripMenuItem.Name = "miCuentaToolStripMenuItem";
-            miCuentaToolStripMenuItem.Size = new Size(140, 22);
+            miCuentaToolStripMenuItem.Size = new Size(180, 22);
             miCuentaToolStripMenuItem.Tag = "TAG02";
             miCuentaToolStripMenuItem.Text = "Mi Cuenta";
             miCuentaToolStripMenuItem.Click += miCuentaToolStripMenuItem_Click;
@@ -98,7 +98,7 @@
             // 
             médicosToolStripMenuItem.Image = Properties.Resources.medica;
             médicosToolStripMenuItem.Name = "médicosToolStripMenuItem";
-            médicosToolStripMenuItem.Size = new Size(145, 22);
+            médicosToolStripMenuItem.Size = new Size(180, 22);
             médicosToolStripMenuItem.Tag = "TAG04";
             médicosToolStripMenuItem.Text = "Médicos";
             médicosToolStripMenuItem.Click += médicosToolStripMenuItem_Click;
@@ -107,7 +107,7 @@
             // 
             secretariosToolStripMenuItem.Image = Properties.Resources.calendario;
             secretariosToolStripMenuItem.Name = "secretariosToolStripMenuItem";
-            secretariosToolStripMenuItem.Size = new Size(145, 22);
+            secretariosToolStripMenuItem.Size = new Size(180, 22);
             secretariosToolStripMenuItem.Tag = "TAG05";
             secretariosToolStripMenuItem.Text = "Secretarios";
             secretariosToolStripMenuItem.Click += secretariosToolStripMenuItem_Click;

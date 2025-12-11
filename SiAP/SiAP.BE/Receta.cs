@@ -35,30 +35,6 @@ namespace Policonsultorio.BE
             return true;
         }
 
-        public Receta RenovarReceta()
-        {
-            if (!EsCronica)
-                throw new InvalidOperationException("Solo se pueden renovar recetas crónicas");
-
-            var recetaRenovada = new Receta
-            {
-                Medicamentos = new List<Medicamento>(this.Medicamentos.Select(m => new Medicamento
-                {
-                    NombreComercial = m.NombreComercial,
-                    NombreMonodroga = m.NombreMonodroga,
-                    Cantidad = m.Cantidad
-                })),
-                Profesional = this.Profesional,
-                Obra_social = this.Obra_social,
-                Nro_Socio = this.Nro_Socio,
-                Plan = this.Plan,
-                Observaciones = "Renovación de receta crónica",
-                EsCronica = true,
-                Fecha = DateTime.Now
-            };
-            return recetaRenovada;
-        }
-
         public bool ValidarVigencia()
         {
             int diasVigencia = EsCronica ? 180 : 30;

@@ -25,12 +25,14 @@ namespace SiAP.MPP
             return _instancia ??= new MPP_Paciente();
         }
 
-        public void Agregar(Paciente entidad)
+        public long Agregar(Paciente entidad)
         {
             ArgumentNullException.ThrowIfNull(entidad);
             ArgumentNullException.ThrowIfNull(entidad.Persona, "El paciente debe tener una persona asociada");
 
-            if (Existe(entidad)) return;
+            if (Existe(entidad))
+                throw new Exception($"Ya existe el registro con id:{entidad.Id}");
+
             var ds = _datos.ObtenerDatos_BDSiAP();
             //Persona
             var dt = ds.Tables["Persona"];
@@ -51,6 +53,7 @@ namespace SiAP.MPP
             dtPac.Rows.Add(drPac);
 
             _datos.Actualizar_BDSiAP(ds);
+            return nuevoPacId;
         }
 
         public void Modificar(Paciente entidad)
@@ -88,8 +91,8 @@ namespace SiAP.MPP
 
         public bool TieneDependencias(Paciente entidad)
         {
-            return TieneDependenciasEnTabla(entidad.Id, "Turno", "PacienteId") ||
-                   TieneDependenciasEnTabla(entidad.Id, "Factura", "PacienteId");
+            return TieneDependenciasEnTabla(entidad.Id, "Turno", "PacienteId") || 
+                   TieneDependenciasEnTabla(entidad.Id, "HistoriaClinica", "PacienteId");
         }
 
         public IList<Paciente> ObtenerTodos()

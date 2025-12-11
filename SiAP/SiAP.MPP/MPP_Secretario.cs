@@ -21,16 +21,16 @@ namespace SiAP.MPP
             return _instancia ??= new MPP_Secretario();
         }
 
-        public void Agregar(Secretario entidad)
+        public long Agregar(Secretario entidad)
         {
             ArgumentNullException.ThrowIfNull(entidad);
             ArgumentNullException.ThrowIfNull(entidad.Persona, "El secretario debe tener una persona asociada");
+            if (Existe(entidad))
+                throw new Exception($"Ya existe el registro con id:{entidad.Id}");
 
-            if (Existe(entidad)) return;
-
-            _mppPersona.Agregar(entidad.Persona);
-            entidad.PersonaId = entidad.Persona.Id;
-            AgregarEntidad(entidad, AsignarDatos);
+            var personId = _mppPersona.Agregar(entidad.Persona);
+            entidad.PersonaId = personId;
+            return AgregarEntidad(entidad, AsignarDatos);
         }
 
         public void Modificar(Secretario entidad)

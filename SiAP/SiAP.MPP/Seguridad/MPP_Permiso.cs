@@ -21,22 +21,24 @@ namespace SiAP.MPP.Seguridad
             return _instancia ??= new MPP_Permiso();
         }
 
-        public void Agregar(Permiso entidad)
+        public long Agregar(Permiso entidad)
         {
             var ds = _datos.ObtenerDatos_BDSiAP();
             var dt = ds.Tables["Permiso"];
 
-            //if (Existe(entidad) || ExistePorCodigo(entidad.Codigo)) throw new Exception("El permiso ya existe");
-            if (Existe(entidad)) throw new Exception("El permiso ya existe");
+            if (Existe(entidad)) 
+                throw new Exception("El permiso ya existe");
             
             var dr = dt.NewRow();
-            dr["Id"] = DataRowHelper.ObtenerSiguienteId(dt, "Id");
+            var nuevaid= DataRowHelper.ObtenerSiguienteId(dt, "Id");
+            dr["Id"] = nuevaid;
             dr["Codigo"] = entidad.Codigo;
             dr["Descripcion"] = entidad.Descripcion;
             dr["EsCompuesto"] = entidad is PermisoCompuesto;
             dt.Rows.Add(dr);
 
             _datos.Actualizar_BDSiAP(ds);
+            return nuevaid;
         }
 
         public void Modificar(Permiso entidad)

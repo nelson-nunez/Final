@@ -88,9 +88,6 @@ namespace SiAP.BLL
             if (receta.Fecha > DateTime.Now)
                 _mensajeError += "La fecha no puede ser futura. ";
 
-            if (receta.EsCronica && receta.Nro_Socio <= 0)
-                _mensajeError += "Las recetas crónicas requieren número de socio. ";
-
             return string.IsNullOrEmpty(_mensajeError);
         }
     }

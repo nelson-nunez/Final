@@ -20,14 +20,14 @@ namespace SiAP.MPP
             return _instancia ??= new MPP_Certificado();
         }
 
-        public void Agregar(Certificado entidad)
+        public long Agregar(Certificado entidad)
         {
             ArgumentNullException.ThrowIfNull(entidad);
 
             if (Existe(entidad))
-                return;
+                throw new Exception($"Ya existe el registro con id:{entidad.Id}");
 
-            AgregarEntidad(entidad, AsignarDatos);
+            return AgregarEntidad(entidad, AsignarDatos);
         }
 
         public void Modificar(Certificado entidad)

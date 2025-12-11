@@ -120,6 +120,8 @@ namespace SiAP.UI
                 _bllHistoriaClinica.Modificar(historiaClinicaSeleccionada);
 
                 MessageBox.Show("Se guardaron los cambios con éxito", "✔ Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                CargarHistoria();
             }
             catch (Exception ex)
             {
@@ -145,7 +147,7 @@ namespace SiAP.UI
                     Descripcion = richText_historia_Clinica.Text
                 };
 
-                _bllHistoriaClinica.Agregar(historiaClinicaSeleccionada);
+                historiaClinicaSeleccionada.Id = _bllHistoriaClinica.AgregarCustom(historiaClinicaSeleccionada);
                 MessageBox.Show("Se guardó la historia clínica con éxito", "✔ Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
@@ -178,6 +180,12 @@ namespace SiAP.UI
         {
             try
             {
+                if (e.Node.ForeColor != Color.DarkGreen)
+                {
+                    treeView_historia_cli.SelectedNode = null;
+                    return;
+                }
+
                 consultaSeleccionada = e.Node?.Tag as Consulta;
                 CargarDatosConsulta();
             }
@@ -255,6 +263,7 @@ namespace SiAP.UI
                 _bllConsulta.Agregar(consultaSeleccionada);
                 MessageBox.Show("Se guardaron los cambios con éxito", "✔ Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
+                consultaSeleccionada = null;
                 CargarConsultas();
             }
             catch (Exception ex)
@@ -266,6 +275,7 @@ namespace SiAP.UI
         #endregion
 
         #region Recetas
+   
         private void ConfigurarDataGridMedicamentos()
         {
             // Inicializamos la lista enlazable si aún no existe
@@ -445,6 +455,7 @@ namespace SiAP.UI
                     Profesional = medicoLoggeado.NombreCompleto,
                     EsCronica = checkBox_cronico_receta.Checked,
                     Consulta = consultaSeleccionada,
+                    ConsultaId = consultaSeleccionada.Id,
                     Medicamentos = medicamentosSeleccionados.ToList(),
 
                     Obra_social = pacienteSeleccionado.ObraSocial,

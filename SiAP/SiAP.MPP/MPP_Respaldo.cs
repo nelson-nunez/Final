@@ -27,11 +27,11 @@ namespace SiAP.MPP
             return _instancia ??= new MPP_Respaldo();
         }
 
-        public void Agregar(Respaldo entidad)
+        public long Agregar(Respaldo entidad)
         {
             ArgumentNullException.ThrowIfNull(entidad);
             if (Existe(entidad))
-                return;
+                throw new Exception($"Ya existe el registro con id:{entidad.Id}");
 
             try
             {
@@ -50,6 +50,8 @@ namespace SiAP.MPP
                 dt.Rows.Add(dr);
                 _datos.Actualizar_BDRespaldos(ds);
                 entidad.Id = nuevoId;
+
+                return nuevoId;
             }
             catch (Exception ex)
             {

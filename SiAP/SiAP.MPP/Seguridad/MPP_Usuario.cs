@@ -23,18 +23,20 @@ namespace SiAP.MPP.Seguridad
             return _instancia ??= new MPP_Usuario();
         }
 
-        public void Agregar(Usuario entidad)
+        public long Agregar(Usuario entidad)
         {
             ArgumentNullException.ThrowIfNull(entidad);
-            if (Existe(entidad)) return;
-
+            if (Existe(entidad))
+                throw new Exception($"Ya existe el registro con id:{entidad.Id}");
             // Usar método de la base para agregar
-            AgregarEntidad(entidad, AsignarDatos);
+            var id = AgregarEntidad(entidad, AsignarDatos);
 
             // Guardar permisos después de agregar
             var ds = _datos.ObtenerDatos_BDSiAP();
             GuardarPermisosUsuario(entidad, ds);
             _datos.Actualizar_BDSiAP(ds);
+
+            return id;
         }
 
         public void Modificar(Usuario entidad)

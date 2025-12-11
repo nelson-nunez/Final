@@ -29,15 +29,15 @@ namespace SiAP.MPP
             return _instancia ??= new MPP_Consulta();
         }
 
-        public void Agregar(Consulta entidad)
+        public long Agregar(Consulta entidad)
         {
             ArgumentNullException.ThrowIfNull(entidad);
             ArgumentNullException.ThrowIfNull(entidad.Medico, "La consulta debe tener un médico asociado");
 
             if (Existe(entidad))
-                return;
+                throw new Exception($"Ya existe el registro con id:{entidad.Id}");
 
-            AgregarEntidad(entidad, AsignarDatos);
+           return AgregarEntidad(entidad, AsignarDatos);
         }
 
         public void Modificar(Consulta entidad)

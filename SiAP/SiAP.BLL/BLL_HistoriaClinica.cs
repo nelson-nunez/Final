@@ -36,6 +36,20 @@ namespace SiAP.BLL
             _logger.GenerarLog($"Historia clínica agregada para paciente: {historia.Paciente?.Apellido}, {historia.Paciente?.Nombre}");
         }
 
+        public long AgregarCustom(HistoriaClinica historia)
+        {
+            if (!EsValido(historia))
+                throw new ArgumentException(MensajeError);
+
+            if (_mppHistoriaClinica.Existe(historia))
+                throw new InvalidOperationException("La historia clínica ya existe.");
+
+            var id = _mppHistoriaClinica.Agregar(historia);
+            _logger.GenerarLog($"Historia clínica agregada para paciente: {historia.Paciente?.Apellido}, {historia.Paciente?.Nombre}");
+
+            return id;
+        }
+
         public void Modificar(HistoriaClinica historia)
         {
             if (!EsValido(historia))

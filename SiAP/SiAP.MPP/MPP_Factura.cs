@@ -18,10 +18,11 @@ namespace SiAP.MPP
             return _instancia ??= new MPP_Factura();
         }
 
-        public void Agregar(Factura entidad)
+        public long Agregar(Factura entidad)
         {
-            if (Existe(entidad)) return;
             ArgumentNullException.ThrowIfNull(entidad);
+            if (Existe(entidad))
+                throw new Exception($"Ya existe el registro con id:{entidad.Id}");
 
             var ds = _datos.ObtenerDatos_BDSiAP();
             var dt = ds.Tables[NombreTabla];
@@ -44,6 +45,8 @@ namespace SiAP.MPP
             dt.Rows.Add(dr);
             _datos.Actualizar_BDSiAP(ds);
             entidad.Id = nuevoId;
+
+            return nuevoId;
         }
 
         public void Modificar(Factura entidad)

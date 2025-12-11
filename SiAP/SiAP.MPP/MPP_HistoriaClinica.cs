@@ -27,15 +27,15 @@ namespace SiAP.MPP
             return _instancia ??= new MPP_HistoriaClinica();
         }
 
-        public void Agregar(HistoriaClinica entidad)
+        public long Agregar(HistoriaClinica entidad)
         {
             ArgumentNullException.ThrowIfNull(entidad);
             ArgumentNullException.ThrowIfNull(entidad.Paciente, "La historia clínica debe tener un paciente asociado");
 
             if (Existe(entidad))
-                return;
+                throw new Exception($"Ya existe el registro con id:{entidad.Id}");
 
-            AgregarEntidad(entidad, AsignarDatos);
+           return AgregarEntidad(entidad, AsignarDatos);
         }
 
         public void Modificar(HistoriaClinica entidad)
@@ -105,7 +105,8 @@ namespace SiAP.MPP
         //Otros
         public HistoriaClinica BuscarPorPacienteId(long pacienteId)
         {
-            return ObtenerTodos().FirstOrDefault(h => h.Paciente?.Id == pacienteId);
+            var lista = ObtenerTodos().FirstOrDefault(h => h.Paciente?.Id == pacienteId);
+            return lista;
         }
 
         private void CargarConsultas(HistoriaClinica historia)

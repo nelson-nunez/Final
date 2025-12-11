@@ -36,65 +36,6 @@ namespace Policonsultorio.BE
 
         #region Métodos Principales
 
-        public void RegistrarConsulta()
-        {
-            if (!ValidarDatos())
-                throw new InvalidOperationException("Datos de consulta incompletos");
-
-            Fecha = DateTime.Now;
-        }
-
-        public Receta EmitirReceta()
-        {
-            var receta = new Receta
-            {
-                Fecha = DateTime.Now,
-                Profesional = this.Medico?.Titulo
-            };
-
-            if (Recetas == null)
-                Recetas = new List<Receta>();
-
-            Recetas.Add(receta);
-            return receta;
-        }
-
-        public Certificado EmitirCertificado()
-        {
-            var certificado = new Certificado
-            {
-                Fecha = DateTime.Now
-            };
-
-            if (Certificados == null)
-                Certificados = new List<Certificado>();
-
-            Certificados.Add(certificado);
-            return certificado;
-        }
-
-        public void AgregarReceta(Receta receta)
-        {
-            if (receta == null)
-                throw new ArgumentNullException(nameof(receta));
-
-            if (Recetas == null)
-                Recetas = new List<Receta>();
-
-            Recetas.Add(receta);
-        }
-
-        public void AgregarCertificado(Certificado certificado)
-        {
-            if (certificado == null)
-                throw new ArgumentNullException(nameof(certificado));
-
-            if (Certificados == null)
-                Certificados = new List<Certificado>();
-
-            Certificados.Add(certificado);
-        }
-
         public bool ValidarDatos()
         {
             if (Medico == null)
@@ -108,21 +49,6 @@ namespace Policonsultorio.BE
 
             return true;
         }
-
-        public string ObtenerDetalles()
-        {
-            return $"Consulta del {Fecha.ToShortDateString()}\n" +
-                   $"Médico: {Medico?.Titulo}\n" +
-                   $"Motivo: {Motivo}\n" +
-                   $"Diagnóstico: {Diagnostico ?? "Sin diagnóstico"}\n" +
-                   $"Tratamiento: {Tratamiento ?? "Sin tratamiento"}\n" +
-                   $"Recetas emitidas: {Recetas?.Count ?? 0}\n" +
-                   $"Certificados emitidos: {Certificados?.Count ?? 0}";
-        }
-
-        #endregion
-
-        #region Métodos Override
 
         public override string ToString()
         {

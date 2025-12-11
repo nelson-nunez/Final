@@ -37,9 +37,10 @@ namespace SiAP.BLL
             consulta.Medico = _bllMedico.LeerPorPersonId((long)GestionUsuario.UsuarioLogueado.PersonaId);
             if (!EsValido(consulta))
                 throw new ArgumentException(MensajeError);
-
             if (_mppConsulta.Existe(consulta))
                 throw new InvalidOperationException("La consulta ya existe.");
+
+
             _mppConsulta.Agregar(consulta);
             _logger.GenerarLog($"Consulta agregada - Médico: {consulta.Medico?.Persona?.NombreCompleto}, Fecha: {consulta.Fecha.ToShortDateString()}");
         }

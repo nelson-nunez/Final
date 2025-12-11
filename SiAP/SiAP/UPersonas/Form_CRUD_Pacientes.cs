@@ -9,7 +9,7 @@ namespace SiAP.UI
 
         Paciente itemSeleccionado = new Paciente();
         BLL_Paciente _bllPaciente;
-        private List<string> campos = new List<string> { "Dni", "NombreCompleto", "Telefono", "ObraSocial", "NumeroSocio", "Plan" };
+        private List<string> campos = new List<string> {"Dni", "NombreCompleto", "Telefono", "ObraSocial", "NumeroSocio", "Plan" };
 
         #endregion
 

@@ -11,6 +11,10 @@ namespace Policonsultorio.BE
         public Paciente Paciente { get; set; }
         public List<Consulta> Consultas { get; set; }
 
+
+        public long PacienteId => Paciente?.Id ?? 0;
+
+
         public HistoriaClinica()
         {
             Consultas = new List<Consulta>();

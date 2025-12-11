@@ -17,10 +17,11 @@ namespace SiAP.MPP
             return _instancia ??= new MPP_Agenda();
         }
 
-        public void Agregar(Agenda entidad)
+        public long Agregar(Agenda entidad)
         {
-            if (Existe(entidad)) return;
-            AgregarEntidad(entidad, AsignarDatos);
+            if (Existe(entidad)) 
+                throw new InvalidOperationException("La agenda ya existe.");
+            return AgregarEntidad(entidad, AsignarDatos);
         }
 
         public void AgregarAgendas(List<Agenda> entidades)

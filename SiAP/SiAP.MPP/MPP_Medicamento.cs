@@ -26,14 +26,14 @@ namespace SiAP.MPP
             return _instancia ??= new MPP_Medicamento();
         }
 
-        public void Agregar(Medicamento entidad)
+        public long Agregar(Medicamento entidad)
         {
             ArgumentNullException.ThrowIfNull(entidad);
 
             if (Existe(entidad))
-                return;
+                throw new Exception($"Ya existe el registro con id:{entidad.Id}");
 
-            AgregarEntidad(entidad, AsignarDatos);
+            return AgregarEntidad(entidad, AsignarDatos);
         }
 
         public void Modificar(Medicamento entidad)

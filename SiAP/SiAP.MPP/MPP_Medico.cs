@@ -22,17 +22,17 @@ namespace SiAP.MPP
             return _instancia ??= new MPP_Medico();
         }
 
-        public void Agregar(Medico entidad)
+        public long Agregar(Medico entidad)
         {
             ArgumentNullException.ThrowIfNull(entidad);
             ArgumentNullException.ThrowIfNull(entidad.Persona, "El médico debe tener una persona asociada");
 
-            if (Existe(entidad)) 
-                return;
+            if (Existe(entidad))
+                throw new Exception($"Ya existe el registro con id:{entidad.Id}");
 
-            _mppPersona.Agregar(entidad.Persona);
-            entidad.PersonaId = entidad.Persona.Id;
-            AgregarEntidad(entidad, AsignarDatos);
+            var personId = _mppPersona.Agregar(entidad.Persona);
+            entidad.PersonaId = personId;
+            return AgregarEntidad(entidad, AsignarDatos);
         }
 
         public void Modificar(Medico entidad)

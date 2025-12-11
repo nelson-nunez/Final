@@ -25,12 +25,12 @@ namespace SiAP.MPP
             return _instancia ??= new MPP_Turno();
         }
 
-        public void Agregar(Turno entidad)
+        public long Agregar(Turno entidad)
         {
             ArgumentNullException.ThrowIfNull(entidad);
             ArgumentNullException.ThrowIfNull(entidad.Cobro);
-            if (Existe(entidad)) 
-                return;
+            if (Existe(entidad))
+                throw new Exception($"Ya existe el registro con id:{entidad.Id}");
 
             //turno
             var ds = _datos.ObtenerDatos_BDSiAP();
@@ -62,6 +62,8 @@ namespace SiAP.MPP
             //Cre4o en bd cobro
             dt_cobro.Rows.Add(dr_cobro);
             _datos.Actualizar_BDSiAP(ds);
+
+            return nuevoId_turno;
         }
 
         public void Modificar(Turno entidad)

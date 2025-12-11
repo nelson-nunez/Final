@@ -20,10 +20,12 @@ namespace SiAP.MPP
             return _instancia ??= new MPP_Cobro();
         }
 
-        public void Agregar(Cobro entidad)
+        public long Agregar(Cobro entidad)
         {
-            if (Existe(entidad)) return;
-            AgregarEntidad(entidad, AsignarDatos);
+            if (Existe(entidad))
+                throw new Exception($"Ya existe el registro con id:{entidad.Id}");
+
+            return AgregarEntidad(entidad, AsignarDatos);
         }
         
         public void Modificar(Cobro entidad)

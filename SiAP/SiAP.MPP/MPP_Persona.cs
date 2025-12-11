@@ -17,10 +17,11 @@ namespace SiAP.MPP
             return _instancia ??= new MPP_Persona();
         }
 
-        public void Agregar(Persona entidad)
+        public long Agregar(Persona entidad)
         {
-            if (Existe(entidad)) return;
-            AgregarEntidad(entidad, AsignarDatos);
+            if (Existe(entidad)) 
+                throw new Exception($"Ya existe el registro con id:{entidad.Id}");
+            return AgregarEntidad(entidad, AsignarDatos);
         }
 
         public void Modificar(Persona entidad)
