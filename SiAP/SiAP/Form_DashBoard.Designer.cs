@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            formsPlot_especialidades = new ScottPlot.WinForms.FormsPlot();
+            formsPlot_especialidades = new ScottPlot.FormsPlot();
             groupBox1 = new GroupBox();
             groupBox100 = new GroupBox();
             label8 = new Label();
@@ -37,11 +37,11 @@
             button_filtrar = new Button();
             dateTimePicker_hasta = new DateTimePicker();
             groupBox5 = new GroupBox();
-            formsPlot_ingresos_especialidad = new ScottPlot.WinForms.FormsPlot();
+            formsPlot_ingresos_especialidad = new ScottPlot.FormsPlot();
             groupBox4 = new GroupBox();
-            formsPlot_disponibilidad = new ScottPlot.WinForms.FormsPlot();
+            formsPlot_disponibilidad = new ScottPlot.FormsPlot();
             groupBox3 = new GroupBox();
-            formsPlot_ingresos = new ScottPlot.WinForms.FormsPlot();
+            formsPlot_ingresos = new ScottPlot.FormsPlot();
             groupBox2 = new GroupBox();
             textBox_total_turnos_ingresos = new TextBox();
             label3 = new Label();
@@ -57,7 +57,7 @@
             // 
             // formsPlot_especialidades
             // 
-            formsPlot_especialidades.DisplayScale = 1F;
+            formsPlot_especialidades.Margin = new Padding(4, 3, 4, 3);
             formsPlot_especialidades.Location = new Point(204, 15);
             formsPlot_especialidades.Name = "formsPlot_especialidades";
             formsPlot_especialidades.Size = new Size(472, 239);
@@ -153,7 +153,7 @@
             // 
             // formsPlot_ingresos_especialidad
             // 
-            formsPlot_ingresos_especialidad.DisplayScale = 1F;
+            formsPlot_especialidades.Margin = new Padding(4, 3, 4, 3);
             formsPlot_ingresos_especialidad.Location = new Point(6, 20);
             formsPlot_ingresos_especialidad.Name = "formsPlot_ingresos_especialidad";
             formsPlot_ingresos_especialidad.Size = new Size(498, 275);
@@ -172,7 +172,7 @@
             // 
             // formsPlot_disponibilidad
             // 
-            formsPlot_disponibilidad.DisplayScale = 1F;
+            formsPlot_especialidades.Margin = new Padding(4, 3, 4, 3);
             formsPlot_disponibilidad.Location = new Point(6, 20);
             formsPlot_disponibilidad.Name = "formsPlot_disponibilidad";
             formsPlot_disponibilidad.Size = new Size(498, 278);
@@ -191,7 +191,7 @@
             // 
             // formsPlot_ingresos
             // 
-            formsPlot_ingresos.DisplayScale = 1F;
+            formsPlot_especialidades.Margin = new Padding(4, 3, 4, 3);
             formsPlot_ingresos.Location = new Point(10, 22);
             formsPlot_ingresos.Name = "formsPlot_ingresos";
             formsPlot_ingresos.Size = new Size(666, 273);
@@ -267,19 +267,19 @@
 
         #endregion
 
-        private ScottPlot.WinForms.FormsPlot formsPlot_especialidades;
+        private ScottPlot.FormsPlot formsPlot_especialidades;
         private GroupBox groupBox1;
         private GroupBox groupBox2;
         private GroupBox groupBox3;
-        private ScottPlot.WinForms.FormsPlot formsPlot_ingresos;
+        private ScottPlot.FormsPlot formsPlot_ingresos;
         private TextBox textBox_total_turnos_ingresos;
         private Label label3;
         private TextBox textBox_total_turnos;
         private Label label2;
         private GroupBox groupBox4;
-        private ScottPlot.WinForms.FormsPlot formsPlot_disponibilidad;
+        private ScottPlot.FormsPlot formsPlot_disponibilidad;
         private GroupBox groupBox5;
-        private ScottPlot.WinForms.FormsPlot formsPlot_ingresos_especialidad;
+        private ScottPlot.FormsPlot formsPlot_ingresos_especialidad;
         private GroupBox groupBox100;
         private Label label8;
         private Label label9;

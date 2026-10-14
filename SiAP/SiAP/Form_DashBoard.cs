@@ -1,20 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
+﻿using System.Data;
 using System.Globalization;
-using System.Linq;
-using System.Security.Policy;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using ScottPlot;
-using ScottPlot.Colormaps;
 using SiAP.BE;
 using SiAP.BE.Vistas;
 using SiAP.BLL;
-using SiAP.UI.Extensiones;
 
 namespace SiAP.UI
 {
@@ -28,6 +17,7 @@ namespace SiAP.UI
 
         #endregion
 
+        #region Constructor
         public Form_DashBoard()
         {
             InitializeComponent();
@@ -36,9 +26,12 @@ namespace SiAP.UI
             _bllFactura = BLL_Factura.ObtenerInstancia();
 
             //Por default para ver algo lindo
-            dateTimePicker_desde.Value = DateTime.Now.AddYears(-1);
+            dateTimePicker_desde.Value = DateTime.Now.AddMonths(-5);
+            dateTimePicker_hasta.Value = DateTime.Now.AddMonths(1);
             CargarTodo(dateTimePicker_desde.Value.Date, dateTimePicker_hasta.Value.Date);
         }
+
+        #endregion
 
         #region Methods
 
@@ -81,7 +74,6 @@ namespace SiAP.UI
             CargarGrafico_DisponibilidadOcupacion(turnos_disp, agendas_disp);
         }
 
-
         public void CargarGrafico_Ingresos(List<Factura> turnosAnio, DateTime fecha_Desde, DateTime fecha_Hasta)
         {
             var desde = fecha_Desde.Date;
@@ -123,72 +115,65 @@ namespace SiAP.UI
             int n = mesesLista.Count;
             double[] valores = new double[n];
             string[] etiquetas = new string[n];
-            double[] posiciones = new double[n]; 
+            double[] posiciones = new double[n];
             var cultura = new CultureInfo("es-ES");
 
             for (int i = 0; i < n; i++)
             {
                 var m = mesesLista[i];
-                etiquetas[i] = m.ToString("MMM", cultura); 
+                etiquetas[i] = m.ToString("MMM", cultura);
                 ingresosPorMes.TryGetValue((m.Year, m.Month), out double monto);
                 valores[i] = monto;
-                posiciones[i] = i; 
+                posiciones[i] = i;
             }
 
             // Limpiar gráfico
             formsPlot_ingresos.Plot.Clear();
 
-            // Añadir barras usando (positions, values)
-            var barPlot = formsPlot_ingresos.Plot.Add.Bars(posiciones, valores);
+            // Añadir barras usando ScottPlot 4.1.74
+            var barPlot = formsPlot_ingresos.Plot.AddBar(valores, posiciones);
+            barPlot.FillColor = System.Drawing.Color.Green;
+            barPlot.BorderColor = System.Drawing.Color.DarkGreen;
 
-            // Si querés colorear todas igual (o individualmente)
-            for (int i = 0; i < barPlot.Bars.Count; i++)
-                barPlot.Bars[i].FillColor = ScottPlot.Colors.Green;
+            // Configurar los ticks del eje X
+            formsPlot_ingresos.Plot.XTicks(posiciones, etiquetas);
 
-            // Quitar padding inferior si querés que ocupen todo el área
-            formsPlot_ingresos.Plot.Axes.Margins(bottom: 0);
-
-            // Ticks del eje X en las mismas posiciones que las barras
-            Tick[] ticks = new Tick[n];
-            for (int i = 0; i < n; i++)
-                ticks[i] = new Tick(posiciones[i], etiquetas[i]);
-
-            formsPlot_ingresos.Plot.Axes.Bottom.TickGenerator = new ScottPlot.TickGenerators.NumericManual(ticks);
-
+            // Configurar límites
             double xMin = posiciones.First() - 0.5;
             double xMax = posiciones.Last() + 0.5;
-
             double maxVal = valores.Length > 0 ? valores.Max() : 0;
-            double yMax = Math.Max(maxVal * 1.1, 1.0); // 10% de margen, mínimo 1
+            double yMax = Math.Max(maxVal * 1.1, 1.0);
 
-            formsPlot_ingresos.Plot.Axes.SetLimits(xMin, xMax, 0, yMax);
+            formsPlot_ingresos.Plot.SetAxisLimits(xMin, xMax, 0, yMax);
 
             // Etiquetas y título
             formsPlot_ingresos.Plot.Title($"Ingresos Mensuales - Periodo: {desde:MMM yyyy} a {hasta:MMM yyyy}");
-            formsPlot_ingresos.Plot.Axes.Left.Label.Text = "Monto Total ($)";
-            formsPlot_ingresos.Plot.Axes.Bottom.Label.Text = "Mes";
+            formsPlot_ingresos.Plot.YLabel("Monto Total ($)");
+            formsPlot_ingresos.Plot.XLabel("Mes");
 
             // Renderizar
             formsPlot_ingresos.Refresh();
         }
+
         public void CargarGrafico_IngresosEspecialidad(List<Vista_Ingresos_Esp> ingresosPorEspecialidad)
         {
             // Validaciones básicas
             if (ingresosPorEspecialidad == null || ingresosPorEspecialidad.Count == 0)
             {
                 formsPlot_ingresos_especialidad.Plot.Clear();
-                formsPlot_ingresos_especialidad.Plot.Title("Sin datos disponibles");
                 formsPlot_ingresos_especialidad.Refresh();
                 return;
             }
 
             // Filtrar items con monto positivo
-            var items = ingresosPorEspecialidad.Where(x => x.TotalIngresos > 0).OrderByDescending(x => x.TotalIngresos).ToList();
+            var items = ingresosPorEspecialidad
+                .Where(x => x.TotalIngresos > 0)
+                .OrderByDescending(x => x.TotalIngresos)
+                .ToList();
 
             if (items.Count == 0)
             {
                 formsPlot_ingresos_especialidad.Plot.Clear();
-                formsPlot_ingresos_especialidad.Plot.Title("Sin ingresos registrados");
                 formsPlot_ingresos_especialidad.Refresh();
                 return;
             }
@@ -196,59 +181,75 @@ namespace SiAP.UI
             // Preparar datos
             double[] valores = items.Select(x => (double)x.TotalIngresos).ToArray();
             string[] etiquetas = items.Select(x => x.Especialidad ?? "Sin especialidad").ToArray();
-            int[] cantidades = items.Select(x => x.CantidadTurnos).ToArray();
             double totalIngresos = valores.Sum();
 
             // Limpiar y crear pie
             formsPlot_ingresos_especialidad.Plot.Clear();
-            var pie = formsPlot_ingresos_especialidad.Plot.Add.Pie(valores);
 
-            // Colores reutilizables (se repiten si hay más categorías)
-            var palette = new[]
+            // Crear etiquetas más cortas con porcentajes
+            string[] etiquetasConPorcentaje = new string[valores.Length];
+            for (int i = 0; i < valores.Length; i++)
             {
-                ScottPlot.Colors.DodgerBlue,
-                ScottPlot.Colors.Green,
-                ScottPlot.Colors.Orange,
-                ScottPlot.Colors.Purple,
-                ScottPlot.Colors.Red,
-                ScottPlot.Colors.Teal,
-                ScottPlot.Colors.Gold,
-                ScottPlot.Colors.Pink,
-                ScottPlot.Colors.Brown,
-                ScottPlot.Colors.Gray
-            };
-
-            // Etiquetas y estilo de slices
-            for (int i = 0; i < pie.Slices.Count && i < valores.Length; i++)
-            {
-                double monto = valores[i];
-                double porcentaje = totalIngresos > 0 ? monto / totalIngresos * 100.0 : 0.0;
-                pie.Slices[i].Label = $"{etiquetas[i]} ({porcentaje:F1}%)";
-                pie.Slices[i].FillColor = palette[i % palette.Length];
-                pie.Slices[i].LabelStyle.FontSize = 11;
-                pie.Slices[i].LabelStyle.Bold = true;
-                pie.Slices[i].LabelStyle.ForeColor = ScottPlot.Colors.Black;
+                double porcentaje = totalIngresos > 0 ? valores[i] / totalIngresos * 100.0 : 0.0;
+                string etiquetaCorta = etiquetas[i].Length > 15 ? etiquetas[i].Substring(0, 12) + "..." : etiquetas[i];
+                etiquetasConPorcentaje[i] = $"{etiquetaCorta}\n({porcentaje:F1}%)";
             }
 
-            // Estética del pie
-            pie.ExplodeFraction = 0.05;
-            pie.SliceLabelDistance = 1.2;
-            // Opción 3: Ajustar límites dinámicamente según el tamaño
-            formsPlot_ingresos_especialidad.Plot.Axes.SetLimitsX(-1.3, 1.3);
-            formsPlot_ingresos_especialidad.Plot.Axes.SetLimitsY(-1.3, 1.3);
+            // Añadir gráfico de torta (PIE, sin donut)
+            var pie = formsPlot_ingresos_especialidad.Plot.AddPie(valores);
+            pie.SliceLabels = etiquetasConPorcentaje;
+            pie.ShowLabels = true;
+            pie.Explode = true;
 
-            // Layout limpio
-            formsPlot_ingresos_especialidad.Plot.Axes.Frameless();
-            formsPlot_ingresos_especialidad.Plot.Layout.Frameless();
-            formsPlot_ingresos_especialidad.Plot.Grid.IsVisible = false;
+            // Asegurar que sea un PIE (no donut)
+            pie.DonutSize = 0.0;
+            pie.OutlineSize = 0;
+
+            // Reducir tamaño de las fuentes de las etiquetas
+            pie.SliceFont.Size = 12; // tamaño más pequeño
 
 
-            // Título con total
-            formsPlot_ingresos_especialidad.Plot.Title($"Ingresos por Especialidad — Total: ${totalIngresos:N0}");
+            // Colores base (se repetirán si hay más categorías)
+            var baseColors = new System.Drawing.Color[]
+            {
+                System.Drawing.Color.DodgerBlue,
+                System.Drawing.Color.Green,
+                System.Drawing.Color.Orange,
+                System.Drawing.Color.Purple,
+                System.Drawing.Color.Red,
+                System.Drawing.Color.Teal,
+                System.Drawing.Color.Gold,
+                System.Drawing.Color.Pink,
+                System.Drawing.Color.Brown,
+                System.Drawing.Color.Gray
+            };
+
+            // Repetir/reciclar colores según la cantidad de slices
+            var fillColors = Enumerable.Range(0, valores.Length)
+                .Select(i => baseColors[i % baseColors.Length])
+                .ToArray();
+            pie.SliceFillColors = fillColors;
+
+            // Colores de etiquetas (negro para legibilidad)
+            pie.SliceLabelColors = Enumerable.Repeat(System.Drawing.Color.Black, valores.Length).ToArray();
+
+            // Ocultar ejes y grid
+            formsPlot_ingresos_especialidad.Plot.Frameless();
+            formsPlot_ingresos_especialidad.Plot.Grid(false);
+
+            // Reducir tamaño visual del pie dentro del contenedor:
+            // agrandar límites del eje hace que el pie ocupe menos espacio visual
+            formsPlot_ingresos_especialidad.Plot.SetAxisLimits(-2.5, 2.5, -2.5, 2.5);
+
+            // Ajustar márgenes internos para "achicar" contenido
+            formsPlot_ingresos_especialidad.Plot.Layout(padding: 15);
+
+            // SIN título (removido según lo pedido)
 
             // Renderizar
             formsPlot_ingresos_especialidad.Refresh();
         }
+
         public void CargarGrafico_Especialidades(List<Vista_Ingresos_Esp> ingresosPorEspecialidad)
         {
             // Totales en los textboxes
@@ -267,7 +268,7 @@ namespace SiAP.UI
                 return;
             }
 
-            // Filtrar y ordenar (evitar nulos en la etiqueta)
+            // Filtrar y ordenar
             var items = ingresosPorEspecialidad
                 .Where(x => x.CantidadTurnos > 0)
                 .OrderBy(x => string.IsNullOrWhiteSpace(x.Especialidad) ? "" : x.Especialidad)
@@ -283,103 +284,108 @@ namespace SiAP.UI
 
             int n = items.Count;
             double[] valores = items.Select(x => (double)x.CantidadTurnos).ToArray();
-            string[] etiquetas = items.Select(x => string.IsNullOrWhiteSpace(x.Especialidad) ? "Sin especialidad" : x.Especialidad).ToArray();
+            string[] etiquetas = items
+                .Select(x => string.IsNullOrWhiteSpace(x.Especialidad) ? "Sin especialidad" : x.Especialidad)
+                .ToArray();
             double[] posiciones = Enumerable.Range(0, n).Select(i => (double)i).ToArray();
 
             // Limpiar gráfico
             formsPlot_especialidades.Plot.Clear();
 
-            // Añadir barras (positions, values)
-            var bar = formsPlot_especialidades.Plot.Add.Bars(posiciones, valores);
+            // Añadir barras
+            var bar = formsPlot_especialidades.Plot.AddBar(valores, posiciones);
+            bar.FillColor = System.Drawing.Color.DodgerBlue;
+            bar.BorderColor = System.Drawing.Color.DarkBlue;
 
-            // Opcional: colorear todas las barras (o personalizar)
-            for (int i = 0; i < bar.Bars.Count; i++)
-                bar.Bars[i].FillColor = ScottPlot.Colors.DodgerBlue;
+            // Configurar ticks del eje X
+            formsPlot_especialidades.Plot.XTicks(posiciones, etiquetas);
 
-            // Ticks en las mismas posiciones
-            Tick[] ticks = new Tick[n];
-            for (int i = 0; i < n; i++)
-                ticks[i] = new Tick(posiciones[i], etiquetas[i]);
+            // Rotar etiquetas si son muchas
+            if (n > 6)
+            {
+                formsPlot_especialidades.Plot.XAxis.TickLabelStyle(rotation: 25);
+            }
 
-            formsPlot_especialidades.Plot.Axes.Bottom.TickGenerator = new ScottPlot.TickGenerators.NumericManual(ticks);
-
-            // Rotar etiquetas si son muchas o largas
-            formsPlot_especialidades.Plot.Axes.Bottom.TickLabelStyle.Rotation = n > 6 ? 25 : 0;
-            formsPlot_especialidades.Plot.Axes.Bottom.TickLabelStyle.Alignment = Alignment.MiddleLeft;
-
-            // Forzar límites X para que las barras ocupen todo el ancho
+            // Configurar límites
             double xMin = posiciones.First() - 0.5;
             double xMax = posiciones.Last() + 0.5;
-
-            // Calcular límite Y con margen
             double maxVal = valores.Length > 0 ? valores.Max() : 0;
             double yMax = Math.Max(maxVal * 1.1, 1.0);
 
-            formsPlot_especialidades.Plot.Axes.SetLimits(xMin, xMax, 0, yMax);
-            formsPlot_especialidades.Plot.Axes.Margins(bottom: 0.05);
+            formsPlot_especialidades.Plot.SetAxisLimits(xMin, xMax, 0, yMax);
 
             // Etiquetas y título
-            formsPlot_especialidades.Plot.Axes.Left.Label.Text = "Cantidad de Turnos";
+            formsPlot_especialidades.Plot.YLabel("Cantidad de Turnos");
             formsPlot_especialidades.Plot.Title($"Especialidades ({n}) - Total turnos: {totalTurnos}");
 
             // Renderizar
             formsPlot_especialidades.Refresh();
         }
+
         public void CargarGrafico_DisponibilidadOcupacion(List<Turno> turnos, List<Agenda> agendas)
         {
-            // Control vacío
             if (agendas is null || agendas.Count == 0)
             {
                 formsPlot_disponibilidad.Plot.Clear();
-                formsPlot_disponibilidad.Plot.Title("Sin datos disponibles");
                 formsPlot_disponibilidad.Refresh();
                 return;
             }
-            // Calcular totales
+
             int totalAgendas = agendas.Count;
-            int turnosOcupados = (turnos != null) ? turnos.Count : 0;
-            int disponibles = totalAgendas - turnosOcupados;
-            if (disponibles < 0) disponibles = 0;
+            int turnosOcupados = turnos?.Count ?? 0;
+            int disponibles = Math.Max(0, totalAgendas - turnosOcupados);
 
             double[] valores = new double[] { disponibles, turnosOcupados };
-            string[] etiquetas = new string[] { "Disponibles", "Ocupados" };
-            // Limpiar gráfico
+
+            double porcentaje = totalAgendas == 0 ? 0 : (disponibles * 100.0) / totalAgendas;
+
+            string[] etiquetas = new string[]
+            {
+                $"Disponibles\n({porcentaje:F1}%)",
+                $"Ocupados\n({(100 - porcentaje):F1}%)"
+            };
+
             formsPlot_disponibilidad.Plot.Clear();
-            // Crear gráfico de torta
-            var pie = formsPlot_disponibilidad.Plot.Add.Pie(valores);
 
-            double porcentaje = 0;
-            if (totalAgendas == 0)
-                porcentaje = 0;
-            else
-                porcentaje = (disponibles * 100.0) / totalAgendas;
+            // PIE completo (sin donut)
+            var pie = formsPlot_disponibilidad.Plot.AddPie(valores);
+            pie.SliceLabels = etiquetas;
+            pie.ShowLabels = true;
 
+            // Reducir tamaño de fuente
+            pie.SliceFont.Size = 14;
 
-            // Configurar etiquetas de las porciones
-            pie.Slices[0].Label = $"Disponibles\n ({porcentaje:F1}%)";
-            pie.Slices[0].FillColor = ScottPlot.Colors.LightGreen;
-            pie.Slices[0].LabelStyle.FontSize = 12;
-            pie.Slices[0].LabelStyle.Bold = true;
-            pie.Slices[1].Label = $"Ocupados\n ({100 - porcentaje:F1}%)";
-            pie.Slices[1].FillColor = ScottPlot.Colors.Orange;
-            pie.Slices[1].LabelStyle.FontSize = 12;
-            pie.Slices[1].LabelStyle.Bold = true;
+            // Mantener gráfico pequeño
+            pie.DonutSize = 0.0;                // 0 = pie normal
+            pie.OutlineSize = 0;
 
-            // Configurar el estilo del pie
-            pie.ExplodeFraction = 0.05;
-            pie.SliceLabelDistance = 1.3;
-            // Configurar título
-            //formsPlot_disponibilidad.Plot.Title($"Disponibilidad vs Ocupación - {_fechaSeleccionada:MMMM yyyy}");
+            // Colores
+            pie.SliceLabelColors = new[]
+            {
+                System.Drawing.Color.Black,
+                System.Drawing.Color.Black
+            };
+
+            pie.SliceFillColors = new[]
+            {
+                System.Drawing.Color.LightGreen,
+                System.Drawing.Color.Orange
+            };
+
             // Ocultar ejes
-            formsPlot_disponibilidad.Plot.Axes.Frameless();
-            // Ajustar layout para centrar el gráfico
-            formsPlot_disponibilidad.Plot.Layout.Frameless();
-            // Ocultar cuadrícula
-            formsPlot_disponibilidad.Plot.Grid.IsVisible = false;
-            // Renderizar
+            formsPlot_disponibilidad.Plot.Frameless();
+            formsPlot_disponibilidad.Plot.Grid(false);
+
+            // Reducir tamaño visual del pie
+            formsPlot_disponibilidad.Plot.SetAxisLimits(-1.8, 1.8, -1.8, 1.8);
+
+            // Ajustar área del gráfico para que quede más chico
+            formsPlot_disponibilidad.Plot.Layout(padding: 15);
+
+            // Sin título (removido)
             formsPlot_disponibilidad.Refresh();
         }
-       
+
         #endregion
     }
 }
