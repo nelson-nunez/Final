@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 380" role="img" aria-labelledby="t d">
+  <title id="t">Arquitectura por capas de SiAP</title>
+  <desc id="d">La interfaz SiAP.UI llama a SiAP.BLL, que usa SiAP.MPP para mapear entidades de SiAP.BE y SiAP.DAL para leer y escribir archivos XML. SiAP.Abstracciones define las interfaces.</desc>
+  <style>
+    :root { --bg:#f3faf9; --card:#ffffff; --ink:#0b2b33; --muted:#4b6a70; --primary:#0f766e; --accent:#e11d48; --line:#b7dcd8; }
+    @media (prefers-color-scheme: dark) {
+      :root { --bg:#0b1f24; --card:#12313a; --ink:#e6f6f4; --muted:#8fb3b8; --primary:#2dd4bf; --accent:#fb7185; --line:#1f4a50; }
+    }
+    .bg { fill: var(--bg); }
+    .box { fill: var(--card); stroke: var(--primary); stroke-width:2.5; }
+    .boxA { fill: var(--card); stroke: var(--accent); stroke-width:2.5; stroke-dasharray:8 6; }
+    .name { fill: var(--ink); font: 700 26px 'Segoe UI', system-ui, sans-serif; }
+    .desc { fill: var(--muted); font: 500 20px 'Segoe UI', system-ui, sans-serif; }
+    .arrow { stroke: var(--primary); stroke-width:3; fill:none; marker-end:url(#h); }
+    .side { stroke: var(--accent); stroke-width:2; fill:none; stroke-dasharray:6 6; }
+    .head { fill: var(--primary); }
+    .cap { fill: var(--muted); font: 600 20px 'Segoe UI', system-ui, sans-serif; }
+  </style>
+  <defs><marker id="h" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path class="head" d="M0 0L10 5L0 10z"/></marker></defs>
+  <rect class="bg" width="1200" height="380" rx="20"/>
+
+  <rect class="box" x="30" y="110" width="200" height="110" rx="14"/>
+  <text class="name" x="130" y="153" text-anchor="middle">SiAP.UI</text>
+  <text class="desc" x="130" y="187" text-anchor="middle">Formularios</text>
+
+  <rect class="box" x="280" y="110" width="200" height="110" rx="14"/>
+  <text class="name" x="380" y="153" text-anchor="middle">SiAP.BLL</text>
+  <text class="desc" x="380" y="187" text-anchor="middle">Reglas de negocio</text>
+
+  <rect class="box" x="530" y="110" width="200" height="110" rx="14"/>
+  <text class="name" x="630" y="153" text-anchor="middle">SiAP.MPP</text>
+  <text class="desc" x="630" y="187" text-anchor="middle">Mappers</text>
+
+  <rect class="box" x="780" y="110" width="200" height="110" rx="14"/>
+  <text class="name" x="880" y="153" text-anchor="middle">SiAP.DAL</text>
+  <text class="desc" x="880" y="187" text-anchor="middle">Acceso a datos</text>
+
+  <rect class="box" x="1030" y="110" width="140" height="110" rx="14"/>
+  <text class="name" x="1100" y="153" text-anchor="middle">XML</text>
+  <text class="desc" x="1100" y="187" text-anchor="middle">DataSet</text>
+
+  <path class="arrow" d="M232 165H276"/>
+  <path class="arrow" d="M482 165H526"/>
+  <path class="arrow" d="M732 165H776"/>
+  <path class="arrow" d="M982 165H1026"/>
+
+  <rect class="boxA" x="280" y="280" width="320" height="70" rx="14"/>
+  <text class="name" x="440" y="322" text-anchor="middle">SiAP.BE · Entidades</text>
+  <rect class="boxA" x="650" y="280" width="400" height="70" rx="14"/>
+  <text class="name" x="850" y="322" text-anchor="middle">SiAP.Abstracciones · Interfaces</text>
+  <path class="side" d="M380 222V278M630 222V278M850 222V278"/>
+
+  <text class="cap" x="30" y="60">Flujo de una petición: pantalla → regla → mapeo → archivo</text>
+</svg>

@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 340" role="img" aria-labelledby="t d">
+  <title id="t">SiAP</title>
+  <desc id="d">SiAP: sistema de gestión de consultorio médico en C# y .NET 8 con turnos, historias clínicas, recetas, cobros y respaldos.</desc>
+  <style>
+    :root { --bg:#f3faf9; --ink:#0b2b33; --muted:#4b6a70; --primary:#0f766e; --accent:#e11d48; --line:#b7dcd8; }
+    @media (prefers-color-scheme: dark) {
+      :root { --bg:#0b1f24; --ink:#e6f6f4; --muted:#8fb3b8; --primary:#2dd4bf; --accent:#fb7185; --line:#1f4a50; }
+    }
+    .bg { fill: var(--bg); }
+    .grid { stroke: var(--line); stroke-width:1; opacity:.55; }
+    .title { fill: var(--ink); font: 800 96px 'Segoe UI', system-ui, -apple-system, sans-serif; letter-spacing:4px; }
+    .sub { fill: var(--ink); font: 600 30px 'Segoe UI', system-ui, sans-serif; }
+    .tag { fill: var(--muted); font: 500 22px 'Segoe UI', system-ui, sans-serif; }
+    .pulse { fill:none; stroke: var(--primary); stroke-width:6; stroke-linecap:round; stroke-linejoin:round; }
+    .dot { fill: var(--accent); }
+    .pill { fill:none; stroke: var(--primary); stroke-width:2; }
+    .pilltxt { fill: var(--primary); font: 600 20px 'Segoe UI', system-ui, sans-serif; }
+  </style>
+  <rect class="bg" width="1200" height="340" rx="20"/>
+  <g class="grid">
+    <path d="M0 85H1200M0 170H1200M0 255H1200"/>
+    <path d="M300 0V340M600 0V340M900 0V340"/>
+  </g>
+  <text class="title" x="70" y="150">SiAP</text>
+  <text class="sub" x="74" y="200">Gestión de consultorio médico</text>
+  <text class="tag" x="74" y="238">Turnos · Historias clínicas · Recetas · Cobros · Respaldos</text>
+  <path class="pulse" d="M60 300H420L450 262L490 322L530 240L565 300H1140"/>
+  <circle class="dot" cx="1140" cy="300" r="9"/>
+  <g transform="translate(74 262)"></g>
+  <g transform="translate(790 60)">
+    <rect class="pill" x="0" y="0" width="150" height="40" rx="20"/>
+    <text class="pilltxt" x="75" y="27" text-anchor="middle">C# · .NET 8</text>
+    <rect class="pill" x="165" y="0" width="150" height="40" rx="20"/>
+    <text class="pilltxt" x="240" y="27" text-anchor="middle">WinForms</text>
+    <rect class="pill" x="0" y="56" width="150" height="40" rx="20"/>
+    <text class="pilltxt" x="75" y="83" text-anchor="middle">XML</text>
+    <rect class="pill" x="165" y="56" width="150" height="40" rx="20"/>
+    <text class="pilltxt" x="240" y="83" text-anchor="middle">PDF · Gráficos</text>
+  </g>
+</svg>
