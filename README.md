@@ -43,20 +43,6 @@ La solución `SiAP/SiAP.sln` está organizada en capas:
 | `SiAP.BE` | Entidades: `Paciente`, `Medico`, `Turno`, `Receta`, `Factura`, `Usuario`, `Permiso`, etc. |
 | `SiAP.Abstracciones` | Interfaces compartidas (`IBLL`, `IMapper`, `ILogger`, `IEncriptacion`). |
 
-## Instalación
-
-**Opción 1: instalador.** Ejecutá `SiAP3.msi`, que está en la raíz del repositorio.
-
-**Opción 2: desde el código.** Necesitás Windows y el [SDK de .NET 8](https://dotnet.microsoft.com/download/dotnet/8.0).
-
-```bash
-git clone https://github.com/nelson-nunez/Final.git
-cd Final/SiAP
-dotnet run --project SiAP/SiAP.UI.csproj
-```
-
-También podés abrir `SiAP/SiAP.sln` en Visual Studio 2022 y ejecutar `SiAP.UI`.
-
 > [!WARNING]
 > La carpeta `SiAP/BaseDatos/` (datos en XML) está excluida por `.gitignore`. Una copia nueva del repositorio no trae datos de ejemplo. TODO: documentar cómo generar la base inicial y las credenciales de prueba.
 
@@ -68,29 +54,4 @@ También podés abrir `SiAP/SiAP.sln` en Visual Studio 2022 y ejecutar `SiAP.UI`
 - XML (DataSet) como almacenamiento
 - Triple DES y HMAC-SHA1 para la protección de datos sensibles
 
-<details>
-<summary><strong>Estructura del repositorio</strong></summary>
 
-```text
-.
-├── SiAP3.msi            # instalador
-├── assets/readme/       # imágenes del README
-└── SiAP/
-    ├── SiAP.sln
-    ├── SiAP/            # UI (WinForms)
-    ├── SiAP.BLL/        # reglas de negocio
-    ├── SiAP.MPP/        # mapeo
-    ├── SiAP.DAL/        # acceso a XML
-    ├── SiAP.BE/         # entidades
-    └── SiAP.Abstracciones/
-```
-
-</details>
-
-## Autor
-
-Nelson Núñez, Trabajo Final, UAI.
-
-## Licencia
-
-TODO: el repositorio no incluye un archivo de licencia. Agregá uno (por ejemplo MIT) si querés definir cómo se puede reutilizar el código.
